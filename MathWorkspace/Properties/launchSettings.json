@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MathWorkspace (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MathWorkspace (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
