@@ -8,16 +8,16 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="837a4586-6790-4d2e-b338-fd7503cb7004"
+    Name="aaf27d69-4150-4b4c-bc3c-0403bede6522"
     Publisher="CN=daohu"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="837a4586-6790-4d2e-b338-fd7503cb7004" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="aaf27d69-4150-4b4c-bc3c-0403bede6522" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>MathWorkspace</DisplayName>
+    <DisplayName>MathWorkspace (Package)</DisplayName>
     <PublisherDisplayName>daohu</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -34,13 +34,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MathWorkspace"
-        Description="MathWorkspace"
+        DisplayName="MathWorkspace (Package)"
+        Description="MathWorkspace (Package)"
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
