@@ -4,9 +4,320 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MathUI.Presenters"
+             xmlns:converters="clr-namespace:MathUI.Converters"
+             xmlns:mainwindow="clr-namespace:MathUI.ViewModels.MainWindow"
+             d:DataContext="{d:DesignInstance Type=mainwindow:MainWindowViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="150" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:FileItemToVis x:Key="FileItemToVis" />
+        <Style x:Key="NeonTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#1e2023"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#1e2023" BlurRadius="10" ShadowDepth="0" Opacity="1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="HasLalaStyle" TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <StackPanel Name="Panel" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock x:Name="TextBlockContent" 
+                                      Text="{TemplateBinding Header}" 
+                                      VerticalAlignment="Center" 
+                                      HorizontalAlignment="Center"
+                                      Margin="10 2 10 0"
+                                      Height="20"
+                                      Foreground="White"/>
+                            <Button
+                               Background="Transparent"
+                               Foreground="White"
+                               BorderThickness="1 0 0 0"
+                               Content="X"
+                               Width="20"
+                               Height="20"
+                               Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
+                               CommandParameter="{Binding}" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="#4c4f54" />
+                                <Setter TargetName="TextBlockContent" Property="Foreground" Value="White"/>
+                                <Setter TargetName="TextBlockContent" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" BlurRadius="10" ShadowDepth="0" Opacity="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="#1e2023" />
+                                <Setter TargetName="TextBlockContent" Property="Foreground" Value="White"/>
+                                <Setter TargetName="TextBlockContent" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Transparent" BlurRadius="0" ShadowDepth="0" Opacity="0"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="LiliStyle" TargetType="TabControl">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource HasLalaStyle}"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <StackPanel Name="Panel" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock x:Name="TextBlockContent" 
+                                       Text="{TemplateBinding Header}" 
+                                       VerticalAlignment="Center" 
+                                       HorizontalAlignment="Center"
+                                       Margin="10 2 10 0"
+                                       Height="20"
+                                       Foreground="White"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="#4c4f54" />
+                                <Setter TargetName="TextBlockContent" Property="Foreground" Value="White"/>
+                                <Setter TargetName="TextBlockContent" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" BlurRadius="10" ShadowDepth="0" Opacity="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="#1e2023" />
+                                <Setter TargetName="TextBlockContent" Property="Foreground" Value="White"/>
+                                <Setter TargetName="TextBlockContent" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Transparent" BlurRadius="0" ShadowDepth="0" Opacity="0"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="#1e2023">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#1e2023">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button BorderThickness="0" Background="#1e2023" Foreground="White" Width="40" Content="Min" Margin="0 0 10 0" />
+                <Button BorderThickness="0" Background="#1e2023" Foreground="White" Width="40" Content="Max" Margin="0 0 10 0" />
+                <Button BorderThickness="0" Background="#1e2023" Foreground="White" Width="40" Content="X" Click="CloseApp_Click" />
+            </StackPanel>
+        </Grid>
+        <TabControl Grid.Row="1" Margin="0" BorderThickness="0" Background="#333538">
+            <TabItem Header="Home">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Border BorderThickness="0 0 1 0" BorderBrush="Black">
+                        <Grid Width="auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="18" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Black">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Border  BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="New" FontSize="10" Click="New_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/open.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Open" FontSize="10" Click="Open_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/save.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Save" FontSize="10" Click="Save_Click" />
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Grid.Row="1" Foreground="White" Text="File" FontSize="10" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <Border BorderThickness="0 0 1 0" BorderBrush="Black">
+                        <Grid Width="auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="18" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Black">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Border  BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/select.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Select" FontSize="10" Click="Select_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border  BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/undo.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Undo" FontSize="10" Click="Undo_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/redo.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Redo" FontSize="10" Click="Redo_Click" />
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Grid.Row="1" Foreground="White" Text="Progress" FontSize="10" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Insert">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Border BorderThickness="0 0 1 0" BorderBrush="Black">
+                        <Grid Width="auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="18" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Black">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Border  BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/line.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Line" FontSize="10" Click="DrawLine_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/circle.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Circle" FontSize="10" Click="DrawCircle_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/rect.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Rectangle" FontSize="10" Click="DrawRect_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderBrush="Black">
+                                        <Grid Width="40">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/square.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Square" FontSize="10" Click="DrawSquare_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Grid Width="50">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="33" />
+                                            <RowDefinition Height="18" />
+                                        </Grid.RowDefinitions>
+                                        <Image Grid.Row="0" Height="33" Source="../Icons/poly.png" />
+                                        <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Polyline" FontSize="10" Click="DrawPoly_Click" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Grid.Row="1" Foreground="White" Text="Drawing" FontSize="10" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <Border BorderThickness="0 0 1 0" BorderBrush="Black">
+                        <Grid Width="auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="18" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Black">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Distance" FontSize="10" Click="Dist_Click" />
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Grid.Row="1" Foreground="White" FontSize="10" Text="Utilities" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <TabControl
+            x:Name="FileTabControl"
+            Style="{StaticResource ResourceKey=LiliStyle}"
+            Width="auto"
+            Grid.Row="2" Margin="0" BorderThickness="0"
+            Background="#2c2d2f"
+            ItemsSource="{Binding FileItems}" 
+            SelectedItem="{Binding FileSelected}" 
+            Visibility="{Binding FileItems, Converter={StaticResource FileItemToVis}}"
+            SelectionChanged="FileTabControl_SelectionChanged"
+            >
+        </TabControl>
     </Grid>
 </UserControl>

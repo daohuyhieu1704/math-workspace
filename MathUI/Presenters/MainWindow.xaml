@@ -7,9 +7,6 @@
         d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Background="Transparent"
-        WindowStyle="None"
-        ResizeMode="NoResize"
         Name="MainView"
         Title="MathUI" Height="960" Width="1400">
     <Window.Resources>
@@ -39,7 +36,6 @@
                 <RowDefinition Height="28"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Black" Background="Transparent" Grid.RowSpan="2">
                 <local:TopPanel x:Name="TopPanelElm" ViewModel="{Binding}" />
@@ -126,29 +122,6 @@
                             <Button Grid.Column="2" Grid.Row="2" BorderBrush="White" Background="Transparent" Foreground="White" x:Name="BR" Content="" Click="BR_click" />
                         </Grid>
                     </Border>
-                </Grid>
-            </Border>
-            <Border Grid.Row="4" BorderThickness="0 1 0 0" BorderBrush="Black">
-                <Grid Margin="0 0 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="200"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <Button BorderBrush="White" Background="Transparent" Foreground="White" x:Name="btnOrthor" Content="Orthor" Width="80" Margin="10" />
-                        <Button BorderBrush="White" Background="Transparent" Foreground="White" x:Name="btnStop" Content="Stop" Width="80" Margin="10" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 7 0">
-                        <Border BorderThickness="1 0 0 0" Width="50" Height="30" BorderBrush="White" Margin="0 0 3 0">
-                            <TextBlock Foreground="White" Text="{Binding EngineName}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" />
-                        </Border>
-                        <Border BorderThickness="1 0 0 0" Width="50" Height="30" BorderBrush="White" Margin="0 0 3 0">
-                            <TextBlock Foreground="White" Text="{Binding MouseX}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" />
-                        </Border>
-                        <Border BorderThickness="1 0 0 0" Width="50" Height="30" BorderBrush="White">
-                            <TextBlock Foreground="White" Text="{Binding MouseY}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" />
-                        </Border>
-                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>

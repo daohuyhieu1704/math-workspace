@@ -3,10 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MathUI.Presenters"
+             xmlns:local="clr-namespace:MathUI.Presenters" 
+             xmlns:mainwindow="clr-namespace:MathUI.ViewModels.MainWindow" 
+             d:DataContext="{d:DesignInstance Type=mainwindow:MainWindowViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             d:DesignHeight="450" d:DesignWidth="200">
+    <Grid Background="Transparent" Grid.IsSharedSizeScope="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Properties" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" Foreground="White" HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Expander Header="General" Foreground="White" Background="#444444" Margin="0,0,0,10" IsExpanded="True" >
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Column1"/>
+                        <ColumnDefinition Width="*" SharedSizeGroup="Column2"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Shape:" Grid.Row="0" Grid.Column="0" Margin="5" Foreground="White"/>
+                    <TextBlock Text="{Binding Shape}" Grid.Row="0" Grid.Column="1" Margin="5" Foreground="White"/>
+                    <TextBlock Text="Position X:" Grid.Row="1" Grid.Column="0" Margin="5" Foreground="White"/>
+                    <TextBlock Text="{Binding PositionX}" Grid.Row="1" Grid.Column="1" Margin="5" Foreground="White"/>
+                    <TextBlock Text="Position Y:" Grid.Row="2" Grid.Column="0" Margin="5" Foreground="White"/>
+                    <TextBlock Text="{Binding PositionY}" Grid.Row="2" Grid.Column="1" Margin="5" Foreground="White"/>
+                    <TextBlock Text="Position Z:" Grid.Row="3" Grid.Column="0" Margin="5" Foreground="White"/>
+                    <TextBlock Text="{Binding PositionZ}" Grid.Row="3" Grid.Column="1" Margin="5" Foreground="White"/>
+                </Grid>
+            </Expander>
+
+        </StackPanel>
     </Grid>
 </UserControl>

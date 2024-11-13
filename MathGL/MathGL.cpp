@@ -1,12 +1,18 @@
 #include "pch.h"
 #include <stdio.h>
-#include <string.h>
 #include <math.h>
 #include <GL/freeglut.h>
 #include "MathGL.h"
+#include <string>
+#include <map>
+#include <iostream>
+
+std::map<int, std::string> objectMap;
 
 int argc = 1;
 char* argv[] = { (char*)"MathGL" };
+
+int selectedObjectID = -1; // -1 means no object is selected
 
 #ifndef M_PI
 #define M_PI	3.14159265358979323846
@@ -30,12 +36,15 @@ static const char* helptext[] = {
 
 void idle(void);
 void display(void);
+void drawScene(bool picking = false);
 void print_help(void);
 void reshape(int x, int y);
 void keypress(unsigned char key, int x, int y);
 void skeypress(int key, int x, int y);
 void mouse(int bn, int st, int x, int y);
 void motion(int x, int y);
+void pickObject(int x, int y);
+void setColorID(int id);
 
 int win_width, win_height;
 float cam_theta, cam_phi = 25, cam_dist = 8;
@@ -54,6 +63,16 @@ long nframes;
 #define GL_MULTISAMPLE 0x809d
 #endif
 
+// Define object IDs
+#define OBJ_TORUS 1
+#define OBJ_SPHERE 2
+#define OBJ_CUBE 3
+#define OBJ_CONE 4
+#define OBJ_TEAPOT 5
+#define OBJ_PLANE 6
+#define OBJ_AXIS 7
+#define OBJ_GRID 8
+
 HWND GetGLUTWindowHandle()
 {
 	// Get the title of the current GLUT window
@@ -69,7 +88,6 @@ HWND GetGLUTWindowHandle()
 HWND MathGL::GLEngineNative::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
-	glutInitWindowSize(800, 600);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutCreateWindow("freeglut 3D view demo");
 
@@ -94,7 +112,106 @@ HWND MathGL::GLEngineNative::InitializeWindow(HINSTANCE hInstance, int nCmdShow,
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+
+	// Initialize object map
+	objectMap[OBJ_TORUS] = "Torus";
+	objectMap[OBJ_SPHERE] = "Sphere";
+	objectMap[OBJ_CUBE] = "Cube";
+	objectMap[OBJ_CONE] = "Cone";
+	objectMap[OBJ_TEAPOT] = "Teapot";
+	objectMap[OBJ_PLANE] = "Plane";
+	objectMap[OBJ_AXIS] = "Axis";
+	objectMap[OBJ_GRID] = "Grid";
+
 	return hwnd;
+}
+
+void drawGridXY(bool picking = false, float size = 10.0f, float step = 1.0f)
+{
+	if (picking)
+	{
+		setColorID(OBJ_GRID);
+	}
+	else
+	{
+		glDisable(GL_LIGHTING);
+	}
+
+	glBegin(GL_LINES);
+
+	if (!picking)
+		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
+
+	glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
+	for (float i = step; i <= size; i += step)
+	{
+		glVertex3f(-size, i, 0);
+		glVertex3f(size, i, 0);
+		glVertex3f(-size, -i, 0);
+		glVertex3f(size, -i, 0);
+
+		glVertex3f(i, -size, 0);
+		glVertex3f(i, size, 0);
+		glVertex3f(-i, -size, 0);
+		glVertex3f(-i, size, 0);
+	}
+	if (!picking)
+	{
+		glColor3f(1, 0, 0);
+		glVertex3f(-size, 0, 0);
+		glVertex3f(size, 0, 0);
+
+		glColor3f(0, 1, 0);
+		glVertex3f(0, -size, 0);
+		glVertex3f(0, size, 0);
+	}
+
+	glEnd();
+
+	if (!picking)
+		glEnable(GL_LIGHTING);
+}
+
+
+void drawAxis(bool picking = false, float size = 2.5f)
+{
+	glLineWidth(2.0f);
+
+	if (picking)
+	{
+		setColorID(OBJ_AXIS);
+		glBegin(GL_LINES);
+		// Draw X-axis
+		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
+		glVertex3f(10.0f, 0.0f, 0.0f); // Point on X-axis
+		// Draw Y-axis
+		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
+		glVertex3f(0.0f, 10.0f, 0.0f); // Point on Y-axis
+		glEnd();
+	}
+	else
+	{
+		// Draw X-axis in red
+		glBegin(GL_LINES);
+		glColor3f(1.0f, 0.0f, 0.0f); // Red
+		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
+		glVertex3f(10.0f, 0.0f, 0.0f); // Point on X-axis
+		glEnd();
+
+		// Draw Y-axis in green
+		glBegin(GL_LINES);
+		glColor3f(0.0f, 1.0f, 0.0f); // Green
+		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
+		glVertex3f(0.0f, 10.0f, 0.0f); // Point on Y-axis
+		glEnd();
+
+		// Draw the origin point
+		glPointSize(5.0f);
+		glBegin(GL_POINTS);
+		glColor3f(0.0f, 0.0f, 1.0f); // Blue
+		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
+		glEnd();
+	}
 }
 
 int MathGL::GLEngineNative::ProcessGLUTEvents()
@@ -110,11 +227,15 @@ void idle(void)
 
 void display(void)
 {
+	drawScene(false); // Regular rendering
+}
+
+void drawScene(bool picking)
+{
 	long tm;
 	float lpos[] = { -1, 2, 3, 0 };
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0, 0, -cam_dist);
@@ -122,37 +243,86 @@ void display(void)
 	glRotatef(cam_theta, 0, 1, 0);
 	glTranslatef(cam_pan[0], cam_pan[1], cam_pan[2]);
 
-	glLightfv(GL_LIGHT0, GL_POSITION, lpos);
+	if (!picking)
+	{
+		glLightfv(GL_LIGHT0, GL_POSITION, lpos);
+	}
+	else
+	{
+		glDisable(GL_LIGHTING);
+	}
 
+	// Draw Torus
 	glPushMatrix();
 	if (anim) {
 		tm = glutGet(GLUT_ELAPSED_TIME) - anim_start;
 		glRotatef(tm / 10.0f, 1, 0, 0);
 		glRotatef(tm / 10.0f, 0, 1, 0);
 	}
+	if (picking) {
+		setColorID(OBJ_TORUS);
+	}
+	else {
+		glColor3f(selectedObjectID == OBJ_TORUS ? 1.0f : 1.0f, selectedObjectID == OBJ_TORUS ? 0.0f : 1.0f, selectedObjectID == OBJ_TORUS ? 0.0f : 1.0f);
+	}
 	glutSolidTorus(0.3, 1, 16, 24);
 	glPopMatrix();
 
+	// Draw Sphere
+	if (picking) {
+		setColorID(OBJ_SPHERE);
+	}
+	else {
+		glColor3f(selectedObjectID == OBJ_SPHERE ? 1.0f : 1.0f, selectedObjectID == OBJ_SPHERE ? 0.0f : 1.0f, selectedObjectID == OBJ_SPHERE ? 0.0f : 1.0f);
+	}
 	glutSolidSphere(0.4, 16, 8);
 
+	// Draw Cube
 	glPushMatrix();
 	glTranslatef(-2.5, 0, 0);
+	if (picking) {
+		setColorID(OBJ_CUBE);
+	}
+	else {
+		glColor3f(selectedObjectID == OBJ_CUBE ? 1.0f : 1.0f, selectedObjectID == OBJ_CUBE ? 0.0f : 1.0f, selectedObjectID == OBJ_CUBE ? 0.0f : 1.0f);
+	}
 	glutSolidCube(1.5);
 	glPopMatrix();
 
+	// Draw Cone
 	glPushMatrix();
 	glTranslatef(2.5, -1, 0);
 	glRotatef(-90, 1, 0, 0);
+	if (picking) {
+		setColorID(OBJ_CONE);
+	}
+	else {
+		glColor3f(selectedObjectID == OBJ_CONE ? 1.0f : 1.0f, selectedObjectID == OBJ_CONE ? 0.0f : 1.0f, selectedObjectID == OBJ_CONE ? 0.0f : 1.0f);
+	}
 	glutSolidCone(1.1, 2, 16, 2);
 	glPopMatrix();
 
+	// Draw Teapot
 	glPushMatrix();
 	glTranslatef(0, -0.5, 2.5);
 	glFrontFace(GL_CW);
+	if (picking) {
+		setColorID(OBJ_TEAPOT);
+	}
+	else {
+		glColor3f(selectedObjectID == OBJ_TEAPOT ? 1.0f : 1.0f, selectedObjectID == OBJ_TEAPOT ? 0.0f : 1.0f, selectedObjectID == OBJ_TEAPOT ? 0.0f : 1.0f);
+	}
 	glutSolidTeapot(1.0);
 	glFrontFace(GL_CCW);
 	glPopMatrix();
 
+	// Draw Plane
+	if (picking) {
+		setColorID(OBJ_PLANE);
+	}
+	else {
+		glColor3f(selectedObjectID == OBJ_PLANE ? 1.0f : 0.5f, selectedObjectID == OBJ_PLANE ? 0.0f : 0.5f, selectedObjectID == OBJ_PLANE ? 0.0f : 0.5f);
+	}
 	glBegin(GL_QUADS);
 	glNormal3f(0, 1, 0);
 	glVertex3f(-5, -1.3, 5);
@@ -161,10 +331,16 @@ void display(void)
 	glVertex3f(-5, -1.3, -5);
 	glEnd();
 
-	print_help();
+	// Draw Axis and Grid
+	drawAxis(picking);
+	drawGridXY(picking);
 
-	glutSwapBuffers();
-	nframes++;
+	if (!picking)
+	{
+		print_help();
+		glutSwapBuffers();
+		nframes++;
+	}
 }
 
 void print_help(void)
@@ -285,6 +461,11 @@ void mouse(int bn, int st, int x, int y)
 	bnstate[bidx] = st == GLUT_DOWN;
 	mouse_x = x;
 	mouse_y = y;
+
+	if (bn == GLUT_LEFT_BUTTON && st == GLUT_DOWN)
+	{
+		pickObject(x, y);
+	}
 }
 
 void motion(int x, int y)
@@ -327,6 +508,46 @@ void motion(int x, int y)
 	}
 }
 
+// Function to set unique color ID
+void setColorID(int id)
+{
+	GLubyte r = id & 0xFF;
+	GLubyte g = (id >> 8) & 0xFF;
+	GLubyte b = (id >> 16) & 0xFF;
+	glColor3ub(r, g, b);
+}
+
+// Picking function
+void pickObject(int x, int y)
+{
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	// Set up off-screen rendering for picking
+	glReadBuffer(GL_BACK);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	drawScene(true); // Render with unique colors for picking
+
+	// Read the color at the clicked position
+	GLubyte pixel[3];
+	glReadPixels(x, viewport[3] - y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
+
+	int colorID = (pixel[0]) | (pixel[1] << 8) | (pixel[2] << 16);
+	auto it = objectMap.find(colorID);
+	if (it != objectMap.end())
+	{
+		selectedObjectID = colorID; // Set selected object ID
+		std::cout << "Selected object: " << it->second << std::endl;
+	}
+	else
+	{
+		selectedObjectID = -1; // No object selected
+		std::cout << "No object selected." << std::endl;
+	}
+
+	// Restore normal rendering
+	glutPostRedisplay();
+}
 
 IntPtr MathGL::GLEngineNative::InitializeWindow(IntPtr parentHandle)
 {
