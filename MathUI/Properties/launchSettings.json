@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MathUI": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
