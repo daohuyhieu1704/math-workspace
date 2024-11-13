@@ -94,8 +94,6 @@ HWND MathGL::GLEngineNative::InitializeWindow(HINSTANCE hInstance, int nCmdShow,
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-
-	// glutMainLoop();
 	return hwnd;
 }
 
