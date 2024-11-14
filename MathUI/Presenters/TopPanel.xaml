@@ -110,24 +110,10 @@
     </UserControl.Resources>
     <Grid Background="#1e2023">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#1e2023">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-            </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button BorderThickness="0" Background="#1e2023" Foreground="White" Width="40" Content="Min" Margin="0 0 10 0" />
-                <Button BorderThickness="0" Background="#1e2023" Foreground="White" Width="40" Content="Max" Margin="0 0 10 0" />
-                <Button BorderThickness="0" Background="#1e2023" Foreground="White" Width="40" Content="X" Click="CloseApp_Click" />
-            </StackPanel>
-        </Grid>
-        <TabControl Grid.Row="1" Margin="0" BorderThickness="0" Background="#333538">
+        <TabControl Grid.Row="0" Margin="0" BorderThickness="0" Background="#333538">
             <TabItem Header="Home">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border BorderThickness="0 0 1 0" BorderBrush="Black">
@@ -311,7 +297,7 @@
             x:Name="FileTabControl"
             Style="{StaticResource ResourceKey=LiliStyle}"
             Width="auto"
-            Grid.Row="2" Margin="0" BorderThickness="0"
+            Grid.Row="1" Margin="0" BorderThickness="0"
             Background="#2c2d2f"
             ItemsSource="{Binding FileItems}" 
             SelectedItem="{Binding FileSelected}" 

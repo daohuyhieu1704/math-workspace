@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Point">
+      <UniqueIdentifier>{02b7bcef-7796-476e-afc9-c79522697dc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Point3d">
+      <UniqueIdentifier>{2b2e98a2-5dbf-4ee7-9524-404fa97f25a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Point2d">
+      <UniqueIdentifier>{85f200a3-d858-42a1-85e8-5dbc81306303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector">
+      <UniqueIdentifier>{5d8dce8d-8b39-44bb-b23c-95d6c615404b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector\Vector2d">
+      <UniqueIdentifier>{05667884-5f76-4c3d-8526-ae040782c748}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector\Vector3d">
+      <UniqueIdentifier>{1348579f-6b73-47e4-895c-ada64836c2ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extend">
+      <UniqueIdentifier>{ecfe3eee-b5bf-42ac-9e7e-3bec4e0c0f91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix">
+      <UniqueIdentifier>{6449fb17-ce78-4e25-843c-5639f79c4749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scale">
+      <UniqueIdentifier>{b751598c-568e-4f27-8b46-2f5a16108f68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extend\Extend2d">
+      <UniqueIdentifier>{c1b62943-dd86-47f6-b17f-38718974e600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extend\Extend3d">
+      <UniqueIdentifier>{7682a168-8044-4268-9d1d-aa018585508e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix\Matrix2d">
+      <UniqueIdentifier>{757a8b2a-a471-42f8-b9e2-2868b59e00d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix\Matrix3d">
+      <UniqueIdentifier>{e2fc27ca-711c-412d-bd12-063523861f08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scale\Scale2d">
+      <UniqueIdentifier>{898e8ae8-763e-4518-88bc-86ca560277c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scale\Scale3d">
+      <UniqueIdentifier>{d4305109-0a80-4b56-8c55-658ea43d6462}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGePoint2d.h">
+      <Filter>Point\Point2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGePoint3d.h">
+      <Filter>Point\Point3d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeVector2d.h">
+      <Filter>Vector\Vector2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeVector3d.h">
+      <Filter>Vector\Vector3d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeMatrix2d.h">
+      <Filter>Matrix\Matrix2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeMatrix3d.h">
+      <Filter>Matrix\Matrix3d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeExtend2d.h">
+      <Filter>Extend\Extend2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeExtents3d.h">
+      <Filter>Extend\Extend3d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeScale2d.h">
+      <Filter>Scale\Scale2d</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGeScale3d.h">
+      <Filter>Scale\Scale3d</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeometryNative.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGePoint2d.cpp">
+      <Filter>Point\Point2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGePoint3d.cpp">
+      <Filter>Point\Point3d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeVector2d.cpp">
+      <Filter>Vector\Vector2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeVector3d.cpp">
+      <Filter>Vector\Vector3d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeMatrix2d.cpp">
+      <Filter>Matrix\Matrix2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeMatrix3d.cpp">
+      <Filter>Matrix\Matrix3d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeExtend2d.cpp">
+      <Filter>Extend\Extend2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeExtents3d.cpp">
+      <Filter>Extend\Extend3d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeScale2d.cpp">
+      <Filter>Scale\Scale2d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGeScale3d.cpp">
+      <Filter>Scale\Scale3d</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
