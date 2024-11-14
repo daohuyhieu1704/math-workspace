@@ -1,18 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Commons">
       <UniqueIdentifier>{9429c376-9449-4632-b5ca-8cd89cd93e77}</UniqueIdentifier>
     </Filter>
     <Filter Include="Commons\ObjectBase">
       <UniqueIdentifier>{3f227ee3-b1c6-4dae-8a19-c0c0a3f71755}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\Drawable">
-      <UniqueIdentifier>{9b98b2f3-6e7b-40b1-b1b9-46c340a891d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Commons\ResultPresenter">
       <UniqueIdentifier>{43d0cae5-4615-4f54-a22d-f3558eae50c6}</UniqueIdentifier>
@@ -29,13 +22,22 @@
     <Filter Include="Commons\Database\DbObject">
       <UniqueIdentifier>{50c2c0dc-9609-4100-8037-ec1afef71e8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commons\Drawing">
+      <UniqueIdentifier>{9b98b2f3-6e7b-40b1-b1b9-46c340a891d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Drawing\Jig">
+      <UniqueIdentifier>{7880b74a-bb30-4f66-98e6-c8c7997b084f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Drawing\Drawable">
+      <UniqueIdentifier>{e19e9921-9ccb-430d-9deb-33a3ce2a8626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Database\Entity">
+      <UniqueIdentifier>{254d7047-c47b-4854-9ca2-fe910448a928}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdBaseObject.h">
       <Filter>Commons\ObjectBase</Filter>
-    </ClInclude>
-    <ClInclude Include="OdGiDrawable.h">
-      <Filter>Commons\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="OdError.h">
       <Filter>Commons\ResultPresenter</Filter>
@@ -61,13 +63,16 @@
     <ClInclude Include="pch.h">
       <Filter>Commons\PlatformSettings</Filter>
     </ClInclude>
+    <ClInclude Include="OdGiDrawable.h">
+      <Filter>Commons\Drawing\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDbEntity.h">
+      <Filter>Commons\Database\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OdBaseObject.cpp">
       <Filter>Commons\ObjectBase</Filter>
-    </ClCompile>
-    <ClCompile Include="OdGiDrawable.cpp">
-      <Filter>Commons\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="OdError.cpp">
       <Filter>Commons\ResultPresenter</Filter>
@@ -83,6 +88,12 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Commons\PlatformSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGiDrawable.cpp">
+      <Filter>Commons\Drawing\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDbEntity.cpp">
+      <Filter>Commons\Database\Entity</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

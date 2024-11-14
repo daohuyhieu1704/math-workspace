@@ -105,6 +105,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OdDbEntityTest.cpp" />
     <ClCompile Include="OdGeMatrix3dTest.cpp" />
     <ClCompile Include="OdGePoint2dTest.cpp" />
     <ClCompile Include="OdGeScale3dTest.cpp" />

@@ -47,7 +47,7 @@ namespace GeometryNative
     /// </summary>
     TEST_F(OdGeVector3dTest, Length)
     {
-        float length = vector1.Length();
+        double length = vector1.Length();
         EXPECT_NEAR(length, sqrt(50.0f), 1e-6);  // Expected length of (3, 4, 5) is sqrt(3^2 + 4^2 + 5^2) = sqrt(50)
     }
 
@@ -76,7 +76,7 @@ namespace GeometryNative
     /// </summary>
     TEST_F(OdGeVector3dTest, DotProduct)
     {
-        float dotProduct = vector1.DotProduct(vector2);
+        double dotProduct = vector1.DotProduct(vector2);
         EXPECT_NEAR(dotProduct, 26.0f, 1e-6);  // Dot product of (3,4,5) and (1,2,3) is 3*1 + 4*2 + 5*3 = 26
     }
 

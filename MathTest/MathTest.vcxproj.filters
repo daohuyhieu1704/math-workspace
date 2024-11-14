@@ -23,6 +23,9 @@
     <ClCompile Include="OdSmartPtrTest.cpp">
       <Filter>CoreNative</Filter>
     </ClCompile>
+    <ClCompile Include="OdDbEntityTest.cpp">
+      <Filter>CoreNative</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

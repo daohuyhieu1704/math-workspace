@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="OdBaseObject.h" />
+    <ClInclude Include="OdDbEntity.h" />
     <ClInclude Include="OdDbObject.h" />
     <ClInclude Include="OdDbObjectId.h" />
     <ClInclude Include="OdError.h" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OdBaseObject.cpp" />
+    <ClCompile Include="OdDbEntity.cpp" />
     <ClCompile Include="OdDbObject.cpp" />
     <ClCompile Include="OdDbObjectId.cpp" />
     <ClCompile Include="OdError.cpp" />

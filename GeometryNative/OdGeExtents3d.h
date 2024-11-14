@@ -11,7 +11,7 @@ namespace GeometryNative
         OdGePoint3d m_max;
 
     public:
-        __declspec(dllimport) static const OdGeExtents3d kInvalid;
+        static const OdGeExtents3d kInvalid;
         OdGeExtents3d(OdGePoint3d minPnt, OdGePoint3d maxPnt)
             : m_min(minPnt), m_max(maxPnt) {}
 

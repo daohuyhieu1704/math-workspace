@@ -10,7 +10,7 @@ namespace GeometryNative
 		y = 0;
 	}
 
-	OdGePoint2d::OdGePoint2d(float x, float y)
+	OdGePoint2d::OdGePoint2d(double x, double y)
 	{
 		this->x = x;
 		this->y = y;

@@ -39,10 +39,9 @@ namespace OdDb
 /// </summary>
 class OdDbObjectId
 {
-
-    std::string GetObjectId() const;
-
+	OdDbObjectId(int i) : m_Id(std::to_string(i)) {}
 public:
+    std::string GetObjectId() const;
     /// <summary>
     /// 
     /// </summary>
@@ -86,7 +85,10 @@ public:
     bool operator<(const OdDbObjectId& other) const {
         return std::stoll(this->GetObjectId()) < std::stoll(other.GetObjectId());
     }
+	std::string toString() const {
+		return m_Id;
+	}
 protected:
-    std::string m_Id;
+	std::string m_Id = "0";
 };
 

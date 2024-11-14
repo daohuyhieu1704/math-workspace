@@ -7,6 +7,8 @@
 #include <ctime>
 #include <string>
 
+const OdDbObjectId OdDbObjectId::kNull = OdDbObjectId(0);
+
 std::string OdDbObjectId::GetObjectId() const
 {
 	return m_Id;

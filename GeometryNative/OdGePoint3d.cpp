@@ -11,7 +11,7 @@ namespace GeometryNative
 		z = 0;
 	}
 
-	OdGePoint3d::OdGePoint3d(float x, float y, float z)
+	OdGePoint3d::OdGePoint3d(double x, double y, double z)
 	{
 		this->x = x;
 		this->y = y;
@@ -22,11 +22,11 @@ namespace GeometryNative
 	{
 	}
 
-	float OdGePoint3d::DistanceTo(OdGePoint3d other) const
+	double OdGePoint3d::DistanceTo(OdGePoint3d other) const
 	{
-		float dx = x - other.x;
-		float dy = y - other.y;
-		float dz = z - other.z;
+		double dx = x - other.x;
+		double dy = y - other.y;
+		double dz = z - other.z;
 		return sqrt(dx * dx + dy * dy + dz * dz);
 	}
 
@@ -59,7 +59,7 @@ namespace GeometryNative
 		return x == other.x && y == other.y && z == other.z;
 	}
 
-	OdGePoint3d OdGePoint3d::operator*(float scalar) const
+	OdGePoint3d OdGePoint3d::operator*(double scalar) const
 	{
 		return OdGePoint3d(x * scalar, y * scalar, z * scalar);
 	}
@@ -81,7 +81,7 @@ namespace GeometryNative
 
 	bool OdGePoint3d::IsEqual(const OdGePoint3d& other) const
 	{
-		const float EPSILON = 0.00001f;
+		const double EPSILON = 0.00001f;
 		return fabs(x - other.x) < EPSILON && fabs(y - other.y) < EPSILON && fabs(z - other.z) < EPSILON;
 	}
 }

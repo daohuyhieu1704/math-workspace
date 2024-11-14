@@ -1,9 +1,12 @@
 #include "pch.h"
 #include "OdGeVector3d.h"
-#include <cfloat>
 
 namespace GeometryNative
 {
+	const OdGeVector3d OdGeVector3d::kXAxis = OdGeVector3d(1.0f, 0.0f, 0.0f);
+	const OdGeVector3d OdGeVector3d::kYAxis = OdGeVector3d(0.0f, 1.0f, 0.0f);
+	const OdGeVector3d OdGeVector3d::kZAxis = OdGeVector3d(0.0f, 0.0f, 1.0f);
+
 	OdGeVector3d::OdGeVector3d()
 	{
 		x = 0;
@@ -11,7 +14,7 @@ namespace GeometryNative
 		z = 0;
 	}
 
-	OdGeVector3d::OdGeVector3d(float x, float y, float z)
+	OdGeVector3d::OdGeVector3d(double x, double y, double z)
 	{
 		this->x = x;
 		this->y = y;
@@ -22,14 +25,14 @@ namespace GeometryNative
 	{
 	}
 
-	float OdGeVector3d::Length() const
+	double OdGeVector3d::Length() const
 	{
 		return sqrt(x * x + y * y + z * z);
 	}
 
 	OdGeVector3d OdGeVector3d::Normalize() const
 	{
-		float length = Length();
+		double length = Length();
 		return OdGeVector3d(x / length, y / length, z / length);
 	}
 
@@ -42,7 +45,7 @@ namespace GeometryNative
 		);
 	}
 
-	float OdGeVector3d::DotProduct(const OdGeVector3d& other) const
+	double OdGeVector3d::DotProduct(const OdGeVector3d& other) const
 	{
 		return x * other.x + y * other.y + z * other.z;
 	}
@@ -76,12 +79,12 @@ namespace GeometryNative
 		return OdGeVector3d(x - other.x, y - other.y, z - other.z);
 	}
 
-	OdGeVector3d OdGeVector3d::operator*(float scalar) const
+	OdGeVector3d OdGeVector3d::operator*(double scalar) const
 	{
 		return OdGeVector3d(x * scalar, y * scalar, z * scalar);
 	}
 
-	OdGeVector3d OdGeVector3d::operator/=(const float scale)
+	OdGeVector3d OdGeVector3d::operator/=(const double scale)
 	{
 		x /= scale;
 		y /= scale;

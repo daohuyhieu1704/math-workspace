@@ -1,35 +1,34 @@
 #pragma once
-#include "pch.h"
-#include "OdGeVector3d.h"
-#include "OdGePoint2d.h"
-
 namespace GeometryNative
 {
 	class OdGeVector3d
 	{
 	public:
+		static const OdGeVector3d kXAxis;
+		static const OdGeVector3d kYAxis;
+		static const OdGeVector3d kZAxis;
+
 		OdGeVector3d();
-		OdGeVector3d(float x, float y, float z);
+		OdGeVector3d(double x, double y, double z);
 		~OdGeVector3d();
 
-		float Length() const;
+		double Length() const;
 		OdGeVector3d Normalize() const;
 		OdGeVector3d CrossProduct(const OdGeVector3d& other) const;
-		float DotProduct(const OdGeVector3d& other) const;
+		double DotProduct(const OdGeVector3d& other) const;
 
 		OdGeVector3d operator-() const;
 		void operator+=(const OdGeVector3d& other);
 		void operator-=(const OdGeVector3d& other);
 		OdGeVector3d operator+(const OdGeVector3d& other) const;
 		OdGeVector3d operator-(const OdGeVector3d& other) const;
-		OdGeVector3d operator*(float scalar) const;
-		OdGeVector3d operator/=(const float scale);
+		OdGeVector3d operator*(double scalar) const;
+		OdGeVector3d operator/=(const double scale);
 
 		bool IsEqual(const OdGeVector3d& other) const;
 
-		float x;
-		float y;
-		float z;
+		double x;
+		double y;
+		double z;
 	};
 }
-

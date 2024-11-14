@@ -3,15 +3,11 @@
 #include "OdResult.h"
 
 class OdGiDrawable : public OdBaseObject {
+    OD_RTTI_DECLARE_ABSTRACT(OdGiDrawable, OdBaseObject)
 public:
-	OdGiDrawable() = default;
     virtual ~OdGiDrawable() = default;
-    virtual OdResult draw() const = 0;
-    // virtual GeometryNative::OdGeScale3d boundingBox() const = 0;
-    std::string getClassName() const override {
-        return "OdGiDrawable";
-    }
 
-    // Inherited via OdBaseObject
-    bool isKindOf(const std::string desc) const override;
+    virtual OdResult draw() const = 0;
 };
+
+OD_RTTI_DEFINE_ABSTRACT(OdGiDrawable, OdBaseObject)

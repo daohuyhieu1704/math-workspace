@@ -113,29 +113,49 @@ protected:
 
 class OdBaseObject {
 protected:
-	OdDbObjectId m_id;
+    OdDbObjectId m_id = OdDbObjectId::kNull;
+
 public:
-	OdBaseObject() : m_id(OdDbObjectId()) {}
+    OdBaseObject() : m_id(OdDbObjectId()) {}
     OdDbObjectId getObjectId() const;
     virtual ~OdBaseObject() = default;
 
-    virtual OdBaseObjectPtr Clone() const = 0;
-
     virtual std::string getClassName() const = 0;
-    virtual bool isKindOf(const std::string className) const = 0;
+    virtual bool isKindOf(const std::string& className) const = 0;
+
+    virtual OdBaseObjectPtr Clone() const = 0;
 };
+
+#define OD_RTTI_DECLARE_ABSTRACT(ClassName, BaseClassName) \
+public: \
+    static std::string desc() { return #ClassName; } \
+    static std::string baseClassName() { return #BaseClassName; } \
+    virtual std::string getClassName() const override { return ClassName::desc(); } \
+    inline virtual bool isKindOf(const std::string& desc) const override; \
 
 #define OD_RTTI_DECLARE(ClassName, BaseClassName) \
 public: \
     static std::string desc() { return #ClassName; } \
     static std::string baseClassName() { return #BaseClassName; } \
     virtual std::string getClassName() const override { return ClassName::desc(); } \
-    virtual bool isKindOf(const std::string desc) const override; \
+    inline virtual bool isKindOf(const std::string& desc) const override; \
     static OdSmartPtr<ClassName> createObject(); \
     static OdSmartPtr<ClassName> cast(const OdSmartPtr<BaseClassName>& obj);
 
+#define OD_RTTI_DEFINE_ABSTRACT(ClassName, BaseClassName) \
+    inline bool ClassName::isKindOf(const std::string& desc) const { \
+        const OdBaseObject* current = this; \
+        while (current) { \
+            if (desc == current->getClassName()) { \
+                return true; \
+            } \
+            current = dynamic_cast<const BaseClassName*>(current); \
+        } \
+        return false; \
+    }
+
 #define OD_RTTI_DEFINE(ClassName, BaseClassName) \
-    bool ClassName::isKindOf(const std::string desc) const { \
+    inline bool ClassName::isKindOf(const std::string& desc) const { \
         const OdBaseObject* current = this; \
         while (current) { \
             if (desc == current->getClassName()) { \
@@ -145,8 +165,10 @@ public: \
         } \
         return false; \
     } \
-    OdSmartPtr<ClassName> ClassName::createObject() { return OdSmartPtr<ClassName>(new ClassName()); } \
-    OdSmartPtr<ClassName> ClassName::cast(const OdSmartPtr<BaseClassName>& obj) { \
+    inline OdSmartPtr<ClassName> ClassName::createObject() { \
+        return OdSmartPtr<ClassName>(new ClassName()); \
+    } \
+    inline OdSmartPtr<ClassName> ClassName::cast(const OdSmartPtr<BaseClassName>& obj) { \
         if (!obj.isNull() && obj->isKindOf(ClassName::desc())) { \
             return OdSmartPtr<ClassName>(dynamic_cast<ClassName*>(obj.get())); \
         } \

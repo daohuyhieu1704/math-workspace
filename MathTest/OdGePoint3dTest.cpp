@@ -54,7 +54,7 @@ namespace GeometryNative
     /// <param name="point2">Second point to calculate distance to.</param>
     TEST_F(OdGePoint3dTest, DistanceTo)
     {
-        float distance = point1.DistanceTo(point2);
+        double distance = point1.DistanceTo(point2);
         EXPECT_NEAR(distance, sqrt(27.0f), 1e-6);
     }
 

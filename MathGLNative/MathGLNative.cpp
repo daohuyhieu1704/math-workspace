@@ -52,8 +52,8 @@ void mouse(int bn, int st, int x, int y);
 void motion(int x, int y);
 
 int win_width, win_height;
-float cam_theta, cam_phi = 25, cam_dist = 8;
-float cam_pan[3];
+double cam_theta, cam_phi = 25, cam_dist = 8;
+double cam_pan[3];
 int mouse_x, mouse_y;
 int bnstate[8];
 int anim, help;
@@ -108,7 +108,7 @@ void initializeOpenGL()
 	glEnable(GL_LIGHT0);
 
 	// Set up lighting parameters
-	GLfloat lightPos[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+	GLdouble lightPos[] = { 0.0f, 0.0f, 1.0f, 0.0f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 
 	// Additional OpenGL initialization as needed
@@ -304,7 +304,7 @@ void idle(void)
 void display(void)
 {
 	long tm;
-	float lpos[] = { -1, 2, 3, 0 };
+	double lpos[] = { -1, 2, 3, 0 };
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -402,7 +402,7 @@ void print_help(void)
 #define ZNEAR	0.5f
 void reshape(int x, int y)
 {
-	float vsz, aspect = (float)x / (float)y;
+	double vsz, aspect = (double)x / (double)y;
 	win_width = x;
 	win_height = y;
 
@@ -497,9 +497,9 @@ void motion(int x, int y)
 		glutPostRedisplay();
 	}
 	if (bnstate[1]) {
-		float up[3], right[3];
-		float theta = cam_theta * M_PI / 180.0f;
-		float phi = cam_phi * M_PI / 180.0f;
+		double up[3], right[3];
+		double theta = cam_theta * M_PI / 180.0f;
+		double phi = cam_phi * M_PI / 180.0f;
 
 		up[0] = -sin(theta) * sin(phi);
 		up[1] = -cos(phi);

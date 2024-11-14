@@ -47,7 +47,7 @@ namespace GeometryNative
     /// <param name="vector1">Vector for length calculation.</param>
     TEST_F(OdGeVector2dTest, Length)
     {
-        float length = vector1.Length();
+        double length = vector1.Length();
         EXPECT_NEAR(length, 5.0f, 1e-6);  // Expected length of (3, 4) is 5
     }
 
@@ -70,7 +70,7 @@ namespace GeometryNative
     /// <param name="vector2">Second vector for dot product calculation.</param>
     TEST_F(OdGeVector2dTest, DotProduct)
     {
-        float dotProduct = vector1.DotProduct(vector2);
+        double dotProduct = vector1.DotProduct(vector2);
         EXPECT_NEAR(dotProduct, 11.0f, 1e-6);  // Dot product of (3,4) and (1,2) is 3*1 + 4*2 = 11
     }
 

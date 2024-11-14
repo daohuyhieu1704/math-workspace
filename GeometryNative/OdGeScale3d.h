@@ -188,9 +188,9 @@ namespace GeometryNative
 		/// <returns></returns>
 		bool isValid() const;
 
-	private:
 		double sx; // X scale factor.
 		double sy; // Y scale factor.
 		double sz; // Z scale factor.
+	private:
 	};
 }

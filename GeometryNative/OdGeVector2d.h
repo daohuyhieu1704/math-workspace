@@ -8,20 +8,20 @@ namespace GeometryNative
     {
     public:
         OdGeVector2d();
-        OdGeVector2d(float x, float y);
+        OdGeVector2d(double x, double y);
         ~OdGeVector2d();
 
-        float Length() const;
+        double Length() const;
         OdGeVector2d Normalize() const;
-        float DotProduct(const OdGeVector2d& other) const;
+        double DotProduct(const OdGeVector2d& other) const;
 
         void operator+=(const OdGeVector2d& other);
         void operator-=(const OdGeVector2d& other);
         OdGeVector2d operator+(const OdGeVector2d& other) const;
         OdGeVector2d operator-(const OdGeVector2d& other) const;
-        OdGeVector2d operator*(float scalar) const;
+        OdGeVector2d operator*(double scalar) const;
 
-        float x;
-        float y;
+        double x;
+        double y;
     };
 }
