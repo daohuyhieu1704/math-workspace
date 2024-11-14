@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OdGeVector2d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
     OdGeVector2d::OdGeVector2d() : x(0), y(0) {}
     OdGeVector2d::OdGeVector2d(float x, float y) : x(x), y(y) {}

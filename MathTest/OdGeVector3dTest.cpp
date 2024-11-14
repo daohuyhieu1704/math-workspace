@@ -2,7 +2,7 @@
 #include "OdGeVector3d.h"
 #include <cmath>
 
-namespace Geometry
+namespace GeometryNative
 {
     /// <summary>
     /// Test suite for the OdGeVector3d class, verifying constructors, vector operations, and properties.

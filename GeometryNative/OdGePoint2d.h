@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Geometry
+namespace GeometryNative
 {
 	class OdGePoint2d
 	{

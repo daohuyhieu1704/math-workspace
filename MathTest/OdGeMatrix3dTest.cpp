@@ -4,7 +4,7 @@
 #include "OdGePoint3d.h"
 #include <cmath>
 
-namespace Geometry
+namespace GeometryNative
 {
     /// <summary>
     /// Test suite for the OdGeMatrix3d class, verifying constructors, matrix operations, and properties.

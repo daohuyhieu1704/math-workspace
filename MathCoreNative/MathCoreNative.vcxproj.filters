@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -16,18 +8,81 @@
     <Filter Include="Commons">
       <UniqueIdentifier>{9429c376-9449-4632-b5ca-8cd89cd93e77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commons\ObjectBase">
+      <UniqueIdentifier>{3f227ee3-b1c6-4dae-8a19-c0c0a3f71755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Drawable">
+      <UniqueIdentifier>{9b98b2f3-6e7b-40b1-b1b9-46c340a891d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\ResultPresenter">
+      <UniqueIdentifier>{43d0cae5-4615-4f54-a22d-f3558eae50c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\PlatformSettings">
+      <UniqueIdentifier>{168a8732-0786-4f5f-a4c6-d7631a9343ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Database">
+      <UniqueIdentifier>{a8703679-18f0-4141-af9c-e65e5d92b9f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Database\ObjectId">
+      <UniqueIdentifier>{1fddc45a-a126-4d7b-be57-e569126b6d72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Database\DbObject">
+      <UniqueIdentifier>{50c2c0dc-9609-4100-8037-ec1afef71e8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="OdBaseObject.h">
+      <Filter>Commons\ObjectBase</Filter>
+    </ClInclude>
+    <ClInclude Include="OdGiDrawable.h">
+      <Filter>Commons\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="OdError.h">
+      <Filter>Commons\ResultPresenter</Filter>
+    </ClInclude>
+    <ClInclude Include="OdError_NotThatKindOfClass.h">
+      <Filter>Commons\ResultPresenter</Filter>
+    </ClInclude>
+    <ClInclude Include="OdResult.h">
+      <Filter>Commons\ResultPresenter</Filter>
+    </ClInclude>
+    <ClInclude Include="OdPlatformSettings.h">
+      <Filter>Commons\PlatformSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDbObjectId.h">
+      <Filter>Commons\Database\ObjectId</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDbObject.h">
+      <Filter>Commons\Database\DbObject</Filter>
+    </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
+      <Filter>Commons\PlatformSettings</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+      <Filter>Commons\PlatformSettings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OdBaseObject.cpp">
+      <Filter>Commons\ObjectBase</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGiDrawable.cpp">
+      <Filter>Commons\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="OdError.cpp">
+      <Filter>Commons\ResultPresenter</Filter>
+    </ClCompile>
+    <ClCompile Include="OdError_NotThatKindOfClass.cpp">
+      <Filter>Commons\ResultPresenter</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDbObjectId.cpp">
+      <Filter>Commons\Database\ObjectId</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDbObject.cpp">
+      <Filter>Commons\Database\DbObject</Filter>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Commons\PlatformSettings</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OdGeExtend2d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	OdGePoint2d OdGeExtend2d::GetMinPnt() const
 	{

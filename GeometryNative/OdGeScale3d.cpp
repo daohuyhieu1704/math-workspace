@@ -2,7 +2,7 @@
 #include "OdGeScale3d.h"
 #include <vector>
 
-namespace Geometry
+namespace GeometryNative
 {
 	const OdGeScale3d OdGeScale3d::kIdentity = OdGeScale3d(1.0, 1.0, 1.0);
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OdGeMatrix3d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	const OdGeMatrix3d OdGeMatrix3d::kIdentity = OdGeMatrix3d().setToIdentity();
 

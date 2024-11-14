@@ -2,7 +2,7 @@
 #include "OdGePoint2d.h"
 #include <cmath>
 
-namespace Geometry
+namespace GeometryNative
 {
     /// <summary>
     /// Test suite for the OdGePoint2d class, verifying its constructors, methods, and properties.

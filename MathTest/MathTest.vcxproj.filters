@@ -3,22 +3,25 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="OdGePoint3dTest.cpp">
-      <Filter>MathCore</Filter>
+      <Filter>GeometryNative</Filter>
     </ClCompile>
     <ClCompile Include="OdGePoint2dTest.cpp">
-      <Filter>MathCore</Filter>
+      <Filter>GeometryNative</Filter>
     </ClCompile>
     <ClCompile Include="OdGeVector2dTest.cpp">
-      <Filter>MathCore</Filter>
+      <Filter>GeometryNative</Filter>
     </ClCompile>
     <ClCompile Include="OdGeVector3dTest.cpp">
-      <Filter>MathCore</Filter>
+      <Filter>GeometryNative</Filter>
     </ClCompile>
     <ClCompile Include="OdGeScale3dTest.cpp">
-      <Filter>MathCore</Filter>
+      <Filter>GeometryNative</Filter>
     </ClCompile>
     <ClCompile Include="OdGeMatrix3dTest.cpp">
-      <Filter>MathCore</Filter>
+      <Filter>GeometryNative</Filter>
+    </ClCompile>
+    <ClCompile Include="OdSmartPtrTest.cpp">
+      <Filter>CoreNative</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,8 +31,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="MathCore">
+    <Filter Include="GeometryNative">
       <UniqueIdentifier>{95f495d3-2384-4f33-ada9-d26dd12fb5eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CoreNative">
+      <UniqueIdentifier>{4a256089-a6ac-480e-aef0-ed1effcbfbff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

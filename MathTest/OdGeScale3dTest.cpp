@@ -2,7 +2,7 @@
 #include "OdGeScale3d.h"
 #include <cmath>
 
-namespace Geometry
+namespace GeometryNative
 {
     /// <summary>
     /// Test suite for the OdGeScale3d class, verifying constructors, operators, and transformations.

@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "OdGePoint2d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
     class OdGeVector2d
     {

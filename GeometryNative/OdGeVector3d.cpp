@@ -2,7 +2,7 @@
 #include "OdGeVector3d.h"
 #include <cfloat>
 
-namespace Geometry
+namespace GeometryNative
 {
 	OdGeVector3d::OdGeVector3d()
 	{

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OdGeExtents3d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	void OdGeExtents3d::set(const OdGePoint3d& min, const OdGePoint3d& max)
 	{

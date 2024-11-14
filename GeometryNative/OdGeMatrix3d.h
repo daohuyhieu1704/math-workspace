@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include "OdGePoint3d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	class OdGeVector3d;
 	class OdGeMatrix3d

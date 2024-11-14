@@ -3,7 +3,7 @@
 #include "OdGeVector3d.h"
 #include "OdGePoint2d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	class OdGePoint3d
 	{

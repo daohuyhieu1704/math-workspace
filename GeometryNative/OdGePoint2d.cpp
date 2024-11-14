@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OdGePoint2d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	const OdGePoint2d OdGePoint2d::kOrigin = OdGePoint2d();
 	OdGePoint2d::OdGePoint2d()

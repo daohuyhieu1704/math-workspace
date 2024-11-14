@@ -3,7 +3,7 @@
 #include "OdGeVector2d.h"
 #include <algorithm>
 
-namespace Geometry
+namespace GeometryNative
 {
     class OdGeMatrix2d
     {

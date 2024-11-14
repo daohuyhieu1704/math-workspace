@@ -2,7 +2,7 @@
 #include "OdGeMatrix3d.h"
 #include <cmath> 
 
-namespace Geometry
+namespace GeometryNative
 {
 	class OdGeScale3d
 	{

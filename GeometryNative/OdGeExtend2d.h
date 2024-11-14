@@ -1,7 +1,7 @@
 #pragma once
 #include "OdGePoint2d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	class OdGeExtend2d
 	{

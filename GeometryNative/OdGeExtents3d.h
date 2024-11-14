@@ -1,7 +1,7 @@
 #pragma once
 #include "OdGePoint3d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 #define INVALIDEXTENTS 1e20
     class OdGeExtents3d

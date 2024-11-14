@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "OdGePoint3d.h"
 
-namespace Geometry
+namespace GeometryNative
 {
 	const OdGePoint3d OdGePoint3d::kOrigin = OdGePoint3d();
 	OdGePoint3d::OdGePoint3d()
