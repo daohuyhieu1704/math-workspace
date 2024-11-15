@@ -16,10 +16,10 @@ public:
 	void setWidth(int width) { win_width = width; }
 	int getHeight() const { return win_height; }
 	void setHeight(int height) { win_height = height; }
-	float getTheta() const { return cam_theta; }
-	void setTheta(float theta) { cam_theta = theta; }
-	float getPhi() const { return cam_phi; }
-	void setPhi(float phi) { cam_phi = phi; }
+	float getTheta() const { return rotateY; }
+	void setTheta(float theta) { rotateY = theta; }
+	float getPhi() const { return rotateX; }
+	void setPhi(float phi) { rotateX = phi; }
 	float getDistance() const { return cam_dist; }
 	void setDistance(float distance) { cam_dist = distance; }
 	float* getPan() { return cam_pan; }
@@ -36,7 +36,7 @@ public:
 	void motion(int x, int y);
 private:
 	int win_width, win_height;
-	float cam_theta, cam_phi = 25, cam_dist = 8;
+	float rotateY, rotateX = 25, cam_dist = 8;
 	float cam_pan[3];
 	int mouse_x, mouse_y;
 	int bnstate[8];

@@ -1,13 +1,17 @@
 #include "pch.h"
 #include "MathViewport.h"
 
-MathViewport::MathViewport() :
-	cam_dist(10),
-	cam_phi(0),
-	cam_theta(0),
-	cam_pan{ 0, 0, 0 }
+MathViewport::MathViewport()
+	: win_width(800), win_height(600),
+	rotateX(-45.0f),
+	rotateY(0),
+	cam_dist(10.0f)
 {
+	cam_pan[0] = 0.0f;
+	cam_pan[1] = 0.0f;
+	cam_pan[2] = 0.0f;
 }
+
 
 OdBaseObjectPtr MathViewport::Clone()
 {
@@ -18,9 +22,10 @@ OdResult MathViewport::draw() const
 {
     try
     {
+		glLoadIdentity();
         glTranslatef(0, 0, -cam_dist);
-        glRotatef(cam_phi, 1, 0, 0);
-        glRotatef(cam_theta, 0, 1, 0);
+        glRotatef(rotateX, 1, 0, 0);
+        glRotatef(rotateY, 0, 1, 0);
         glTranslatef(cam_pan[0], cam_pan[1], cam_pan[2]);
         return eOk;
     }
@@ -40,16 +45,16 @@ void MathViewport::motion(int x, int y)
 	if (!(dx | dy)) return;
 
 	if (bnstate[0]) {
-		cam_theta += dx * 0.5;
-		cam_phi += dy * 0.5;
-		if (cam_phi < -90) cam_phi = -90;
-		if (cam_phi > 90) cam_phi = 90;
+		rotateY += dx * 0.5;
+		rotateX += dy * 0.5;
+		if (rotateX < -90) rotateX = -90;
+		if (rotateX > 90) rotateX = 90;
 		glutPostRedisplay();
 	}
 	if (bnstate[1]) {
 		float up[3], right[3];
-		float theta = cam_theta * OdPI / 180.0f;
-		float phi = cam_phi * OdPI / 180.0f;
+		float theta = rotateY * OdPI / 180.0f;
+		float phi = rotateX * OdPI / 180.0f;
 
 		up[0] = -sin(theta) * sin(phi);
 		up[1] = -cos(phi);

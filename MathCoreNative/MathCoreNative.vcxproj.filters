@@ -105,6 +105,7 @@
     <ClInclude Include="IEngine.h">
       <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
     </ClInclude>
+    <ClInclude Include="OdJig.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OdBaseObject.cpp">
@@ -146,5 +147,6 @@
     <ClCompile Include="IEngine.cpp">
       <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
     </ClCompile>
+    <ClCompile Include="OdJig.cpp" />
   </ItemGroup>
 </Project>

@@ -286,6 +286,8 @@ namespace MathUI.ViewModels.MainWindow
 
         internal void AppendCommand()
         {
+            CommandWindow = "";
+            HistoryWindow += CommandWindow + "\n";
         }
 
         internal void Undo()

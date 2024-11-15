@@ -28,28 +28,22 @@
     <Filter Include="Commons">
       <UniqueIdentifier>{7113a82e-16a2-4ed2-aeb6-074d2a04dac1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commands\DrawingManager">
-      <UniqueIdentifier>{d68c594f-3916-4c2d-a28a-cd7c20a92eed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\Viewport">
       <UniqueIdentifier>{e661d067-33d8-4d59-a612-b261d103f252}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commons\DrawingManager">
+      <UniqueIdentifier>{bccdd7ad-7ccf-4132-a88b-7c2e56360804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\DisposableWrapper">
+      <UniqueIdentifier>{aa172782-99d9-4145-a549-c7b732548dba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MathGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawingManager.h">
-      <Filter>Commands\DrawingManager</Filter>
-    </ClInclude>
-    <ClInclude Include="OdDrawingManager.h">
-      <Filter>Commands\DrawingManager</Filter>
     </ClInclude>
     <ClInclude Include="MathCircle.h">
       <Filter>Header Files</Filter>
@@ -57,28 +51,34 @@
     <ClInclude Include="MathViewport.h">
       <Filter>Graphics\Viewport</Filter>
     </ClInclude>
+    <ClInclude Include="DrawingManager.h">
+      <Filter>Commons\DrawingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDrawingManager.h">
+      <Filter>Commons\DrawingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DisposableWrapper.h">
+      <Filter>Commons\DisposableWrapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MathGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingManager.cpp">
-      <Filter>Commands\DrawingManager</Filter>
-    </ClCompile>
-    <ClCompile Include="OdDrawingManager.cpp">
-      <Filter>Commands\DrawingManager</Filter>
-    </ClCompile>
     <ClCompile Include="MathCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MathViewport.cpp">
       <Filter>Graphics\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingManager.cpp">
+      <Filter>Commons\DrawingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDrawingManager.cpp">
+      <Filter>Commons\DrawingManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

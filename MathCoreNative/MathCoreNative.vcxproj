@@ -160,6 +160,7 @@
     <ClInclude Include="OdError_NotThatKindOfClass.h" />
     <ClInclude Include="OdGiDrawable.h" />
     <ClInclude Include="OdHostAppService.h" />
+    <ClInclude Include="OdJig.h" />
     <ClInclude Include="OdMathSession.h" />
     <ClInclude Include="OdPlatformSettings.h" />
     <ClInclude Include="OdResult.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="OdError_NotThatKindOfClass.cpp" />
     <ClCompile Include="OdGiDrawable.cpp" />
     <ClCompile Include="OdHostAppService.cpp" />
+    <ClCompile Include="OdJig.cpp" />
     <ClCompile Include="OdMathSession.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
