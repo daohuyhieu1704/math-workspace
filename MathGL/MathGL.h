@@ -4,20 +4,20 @@
 using namespace System;
 
 namespace MathGL {
-	public ref class GLEngineNative
+	public ref class GLEngineController
 	{
-		static GLEngineNative^ m_instance;
-		GLEngineNative()
+		static GLEngineController^ m_instance;
+		GLEngineController()
 		{
 		}
 		HWND InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd);
 	public:
-		property static GLEngineNative^ Instance
+		property static GLEngineController^ Instance
 		{
-			GLEngineNative^ get()
+			GLEngineController^ get()
 			{
 				if (m_instance == nullptr)
-					m_instance = gcnew GLEngineNative();
+					m_instance = gcnew GLEngineController();
 				return m_instance;
 			}
 		}

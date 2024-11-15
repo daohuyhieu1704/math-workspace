@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "OdDbEntity.h"
+#include "OdError.h"
 
 json OdDbEntity::toJson() const
 {
@@ -65,5 +66,29 @@ void OdDbEntity::fromJson(const json& j)
         }
 
 		m_extents.set(minPnt, maxPnt);
+    }
+}
+
+OdResult OdDbEntity::transformBy(const OdGeMatrix3d xform)
+{
+    try {
+        //m_position = xform * m_position;
+
+        //m_xDir = xform * m_xDir;
+        //m_yDir = xform * m_yDir;
+        //m_zDir = xform * m_zDir;
+
+        //m_xDir.Normalize();
+        //m_yDir.Normalize();
+        //m_zDir.Normalize();
+
+        //OdGePoint3d minPnt = m_extents.GetMinPnt();
+        //OdGePoint3d maxPnt = m_extents.GetMaxPnt();
+        //m_extents.set(xform * minPnt, xform * maxPnt);
+        m_transform = xform * m_transform;
+        return OdResult::eOk;
+    }
+    catch (...) {
+		return OdResult::eInvalidInput;
     }
 }

@@ -37,7 +37,7 @@ namespace MathUI.Commons
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
-            hwndHost = GLEngineNative.Instance.InitializeWindow(hwndParent.Handle);
+            hwndHost = GLEngineController.Instance.InitializeWindow(hwndParent.Handle);
             if (hwndHost == IntPtr.Zero)
             {
                 throw new InvalidOperationException("Failed to create OpenGL window.");

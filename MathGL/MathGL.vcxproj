@@ -85,11 +85,11 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\math-workspace\Libraries\freeglut-3.6.0\src;D:\math-workspace\Libraries\freeglut-3.6.0\include;D:\math-workspace\Libraries\glut-lib;$(SolutionDir)GeometryNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\math-workspace\Libraries\freeglut-3.6.0\src;D:\math-workspace\Libraries\freeglut-3.6.0\include;D:\math-workspace\Libraries\glut-lib;$(SolutionDir)GeometryNative;$(SolutionDir)MathCoreNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;winmm.lib;gdi32.lib;glu32.lib;lib\Debug\freeglutd.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;GeometryNative.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;winmm.lib;gdi32.lib;glu32.lib;lib\Debug\freeglutd.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;GeometryNative.lib;MathCoreNative.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>D:\math-workspace\Libraries\glut-lib;$(SolutionDir)Build\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -128,13 +128,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DrawingManager.h" />
+    <ClInclude Include="MathCircle.h" />
     <ClInclude Include="MathGL.h" />
+    <ClInclude Include="MathViewport.h" />
+    <ClInclude Include="OdDrawingManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="DrawingManager.cpp" />
+    <ClCompile Include="MathCircle.cpp" />
     <ClCompile Include="MathGL.cpp" />
+    <ClCompile Include="MathViewport.cpp" />
+    <ClCompile Include="OdDrawingManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

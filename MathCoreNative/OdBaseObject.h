@@ -123,7 +123,7 @@ public:
     virtual std::string getClassName() const = 0;
     virtual bool isKindOf(const std::string& className) const = 0;
 
-    virtual OdBaseObjectPtr Clone() const = 0;
+    virtual OdBaseObjectPtr Clone() = 0;
 };
 
 #define OD_RTTI_DECLARE_ABSTRACT(ClassName, BaseClassName) \

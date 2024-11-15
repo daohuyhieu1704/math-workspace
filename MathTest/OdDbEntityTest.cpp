@@ -91,10 +91,8 @@ TEST_F(OdDbEntityTest, fromJson) {
         }}
     };
 
-    // Deserialize the JSON data into the entity object
     entity->fromJson(jsonData);
 
-    // Validate the deserialized values using getters
     EXPECT_EQ(entity->getScale().sx, 2.0);
 	EXPECT_EQ(entity->getScale().sy, 4.0);
 	EXPECT_EQ(entity->getScale().sz, 6.0);

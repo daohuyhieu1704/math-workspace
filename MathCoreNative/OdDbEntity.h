@@ -15,6 +15,7 @@ class OdDbEntity : public OdDbObject
 	OdGeVector3d m_yDir = OdGeVector3d::kYAxis;
 	OdGeVector3d m_zDir = OdGeVector3d::kZAxis;
 	OdGeExtents3d m_extents = OdGeExtents3d(OdGePoint3d::kOrigin, OdGePoint3d::kOrigin);
+	OdGeMatrix3d m_transform;
 public:
 #pragma region Properties
 	OdGeScale3d getScale() const { return m_scale; }
@@ -35,6 +36,7 @@ public:
 	virtual OdResult worldDraw() const = 0;
 	virtual json toJson() const;
 	virtual void fromJson(const json& j);
+	OdResult transformBy(const OdGeMatrix3d xform);
 };
 
 OD_RTTI_DEFINE_ABSTRACT(OdDbEntity, OdDbObject)

@@ -13,26 +13,47 @@
     <Filter Include="Commons\PlatformSettings">
       <UniqueIdentifier>{168a8732-0786-4f5f-a4c6-d7631a9343ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commons\Database">
-      <UniqueIdentifier>{a8703679-18f0-4141-af9c-e65e5d92b9f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\Database\ObjectId">
-      <UniqueIdentifier>{1fddc45a-a126-4d7b-be57-e569126b6d72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\Database\DbObject">
-      <UniqueIdentifier>{50c2c0dc-9609-4100-8037-ec1afef71e8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\Drawing">
+    <Filter Include="Drawing">
       <UniqueIdentifier>{9b98b2f3-6e7b-40b1-b1b9-46c340a891d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commons\Drawing\Jig">
+    <Filter Include="Drawing\Jig">
       <UniqueIdentifier>{7880b74a-bb30-4f66-98e6-c8c7997b084f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commons\Drawing\Drawable">
+    <Filter Include="Drawing\Drawable">
       <UniqueIdentifier>{e19e9921-9ccb-430d-9deb-33a3ce2a8626}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commons\Database\Entity">
+    <Filter Include="Database">
+      <UniqueIdentifier>{a8703679-18f0-4141-af9c-e65e5d92b9f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\ObjectId">
+      <UniqueIdentifier>{1fddc45a-a126-4d7b-be57-e569126b6d72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\DbObject">
+      <UniqueIdentifier>{50c2c0dc-9609-4100-8037-ec1afef71e8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\Entity">
       <UniqueIdentifier>{254d7047-c47b-4854-9ca2-fe910448a928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{3c3aafc7-2cd4-4f7a-b833-c84fd0233b53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Circle">
+      <UniqueIdentifier>{6c0ea26e-c1f3-433f-b19e-9c49161aca23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\ObjectBase\AbstractEngine">
+      <UniqueIdentifier>{ac2cea56-e654-4615-afac-6c491683a8cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\ObjectBase\AbstractEngine\Session">
+      <UniqueIdentifier>{a8bdd297-6900-4221-a778-858d0aff69c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\ObjectBase\AbstractEngine\HostAppService">
+      <UniqueIdentifier>{ca6aa1b2-c14d-4199-bdca-1692bdaf872a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\ObjectBase\AbstractEngine\Command">
+      <UniqueIdentifier>{90292e40-3fce-4c8a-a918-dcffda46ffe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\ObjectBase\AbstractEngine\GraphicEngine">
+      <UniqueIdentifier>{ac0bbf78-8723-4ae4-9d1c-d8371e75220a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,10 +73,10 @@
       <Filter>Commons\PlatformSettings</Filter>
     </ClInclude>
     <ClInclude Include="OdDbObjectId.h">
-      <Filter>Commons\Database\ObjectId</Filter>
+      <Filter>Database\ObjectId</Filter>
     </ClInclude>
     <ClInclude Include="OdDbObject.h">
-      <Filter>Commons\Database\DbObject</Filter>
+      <Filter>Database\DbObject</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>Commons\PlatformSettings</Filter>
@@ -64,10 +85,25 @@
       <Filter>Commons\PlatformSettings</Filter>
     </ClInclude>
     <ClInclude Include="OdGiDrawable.h">
-      <Filter>Commons\Drawing\Drawable</Filter>
+      <Filter>Drawing\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="OdDbEntity.h">
-      <Filter>Commons\Database\Entity</Filter>
+      <Filter>Database\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDbCircle.h">
+      <Filter>Entities\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="OdHostAppService.h">
+      <Filter>Commons\ObjectBase\AbstractEngine\HostAppService</Filter>
+    </ClInclude>
+    <ClInclude Include="IActionCmd.h">
+      <Filter>Commons\ObjectBase\AbstractEngine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="OdMathSession.h">
+      <Filter>Commons\ObjectBase\AbstractEngine\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="IEngine.h">
+      <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,19 +117,34 @@
       <Filter>Commons\ResultPresenter</Filter>
     </ClCompile>
     <ClCompile Include="OdDbObjectId.cpp">
-      <Filter>Commons\Database\ObjectId</Filter>
+      <Filter>Database\ObjectId</Filter>
     </ClCompile>
     <ClCompile Include="OdDbObject.cpp">
-      <Filter>Commons\Database\DbObject</Filter>
+      <Filter>Database\DbObject</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Commons\PlatformSettings</Filter>
     </ClCompile>
     <ClCompile Include="OdGiDrawable.cpp">
-      <Filter>Commons\Drawing\Drawable</Filter>
+      <Filter>Drawing\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="OdDbEntity.cpp">
-      <Filter>Commons\Database\Entity</Filter>
+      <Filter>Database\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDbCircle.cpp">
+      <Filter>Entities\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="OdHostAppService.cpp">
+      <Filter>Commons\ObjectBase\AbstractEngine\HostAppService</Filter>
+    </ClCompile>
+    <ClCompile Include="IActionCmd.cpp">
+      <Filter>Commons\ObjectBase\AbstractEngine\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMathSession.cpp">
+      <Filter>Commons\ObjectBase\AbstractEngine\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="IEngine.cpp">
+      <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

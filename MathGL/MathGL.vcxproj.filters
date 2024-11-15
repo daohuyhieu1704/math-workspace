@@ -16,6 +16,24 @@
     <Filter Include="Base">
       <UniqueIdentifier>{aae1df52-cbce-438f-a032-c7c450a208bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{d65545e8-829e-4b4b-9197-2400f8949171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{5f4a38f3-095d-45c9-8c35-c81767d109b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Line">
+      <UniqueIdentifier>{164f9eae-c806-466c-b817-d42850ba7793}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons">
+      <UniqueIdentifier>{7113a82e-16a2-4ed2-aeb6-074d2a04dac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\DrawingManager">
+      <UniqueIdentifier>{d68c594f-3916-4c2d-a28a-cd7c20a92eed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Viewport">
+      <UniqueIdentifier>{e661d067-33d8-4d59-a612-b261d103f252}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathGL.h">
@@ -27,6 +45,18 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DrawingManager.h">
+      <Filter>Commands\DrawingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDrawingManager.h">
+      <Filter>Commands\DrawingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCircle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathViewport.h">
+      <Filter>Graphics\Viewport</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MathGL.cpp">
@@ -37,6 +67,18 @@
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawingManager.cpp">
+      <Filter>Commands\DrawingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDrawingManager.cpp">
+      <Filter>Commands\DrawingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCircle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MathViewport.cpp">
+      <Filter>Graphics\Viewport</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,19 +6,17 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include "MathCircle.h"
+#include "MathViewport.h"
 
 std::map<int, std::string> objectMap;
 
 int argc = 1;
-char* argv[] = { (char*)"MathGL" };
+char* argv[] = { (char*)"MathWorkspace" };
 
 int selectedObjectID = -1; // -1 means no object is selected
-
-#ifndef M_PI
-#define M_PI	3.14159265358979323846
-#endif
-
 #ifdef _MSC_VER
+
 #pragma warning (disable: 4305 4244)
 #endif
 
@@ -46,11 +44,6 @@ void motion(int x, int y);
 void pickObject(int x, int y);
 void setColorID(int id);
 
-int win_width, win_height;
-double cam_theta, cam_phi = 25, cam_dist = 8;
-double cam_pan[3];
-int mouse_x, mouse_y;
-int bnstate[8];
 int anim, help;
 long anim_start;
 long nframes;
@@ -73,6 +66,8 @@ long nframes;
 #define OBJ_AXIS 7
 #define OBJ_GRID 8
 
+MathViewportPtr viewport;
+
 HWND GetGLUTWindowHandle()
 {
 	// Get the title of the current GLUT window
@@ -85,7 +80,7 @@ HWND GetGLUTWindowHandle()
 	return hwnd;
 }
 
-HWND MathGL::GLEngineNative::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
+HWND MathGL::GLEngineController::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
@@ -113,20 +108,10 @@ HWND MathGL::GLEngineNative::InitializeWindow(HINSTANCE hInstance, int nCmdShow,
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
-	// Initialize object map
-	objectMap[OBJ_TORUS] = "Torus";
-	objectMap[OBJ_SPHERE] = "Sphere";
-	objectMap[OBJ_CUBE] = "Cube";
-	objectMap[OBJ_CONE] = "Cone";
-	objectMap[OBJ_TEAPOT] = "Teapot";
-	objectMap[OBJ_PLANE] = "Plane";
-	objectMap[OBJ_AXIS] = "Axis";
-	objectMap[OBJ_GRID] = "Grid";
-
 	return hwnd;
 }
 
-void drawGridXY(bool picking = false, double size = 10.0f, double step = 1.0f)
+void drawGridXY(bool picking = false, float size = 10.0f, float step = 1.0f)
 {
 	if (picking)
 	{
@@ -143,7 +128,7 @@ void drawGridXY(bool picking = false, double size = 10.0f, double step = 1.0f)
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 
 	glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-	for (double i = step; i <= size; i += step)
+	for (float i = step; i <= size; i += step)
 	{
 		glVertex3f(-size, i, 0);
 		glVertex3f(size, i, 0);
@@ -173,7 +158,7 @@ void drawGridXY(bool picking = false, double size = 10.0f, double step = 1.0f)
 }
 
 
-void drawAxis(bool picking = false, double size = 2.5f)
+void drawAxis(bool picking = false, float size = 2.5f)
 {
 	glLineWidth(2.0f);
 
@@ -214,7 +199,7 @@ void drawAxis(bool picking = false, double size = 2.5f)
 	}
 }
 
-int MathGL::GLEngineNative::ProcessGLUTEvents()
+int MathGL::GLEngineController::ProcessGLUTEvents()
 {
 	glutMainLoop();
 	return 0;
@@ -233,15 +218,13 @@ void display(void)
 void drawScene(bool picking)
 {
 	long tm;
-	double lpos[] = { -1, 2, 3, 0 };
+	float lpos[] = { -1, 2, 3, 0 };
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glTranslatef(0, 0, -cam_dist);
-	glRotatef(cam_phi, 1, 0, 0);
-	glRotatef(cam_theta, 0, 1, 0);
-	glTranslatef(cam_pan[0], cam_pan[1], cam_pan[2]);
+
+	viewport->draw();
 
 	if (!picking)
 	{
@@ -252,84 +235,10 @@ void drawScene(bool picking)
 		glDisable(GL_LIGHTING);
 	}
 
-	// Draw Torus
-	glPushMatrix();
-	if (anim) {
-		tm = glutGet(GLUT_ELAPSED_TIME) - anim_start;
-		glRotatef(tm / 10.0f, 1, 0, 0);
-		glRotatef(tm / 10.0f, 0, 1, 0);
-	}
-	if (picking) {
-		setColorID(OBJ_TORUS);
-	}
-	else {
-		glColor3f(selectedObjectID == OBJ_TORUS ? 1.0f : 1.0f, selectedObjectID == OBJ_TORUS ? 0.0f : 1.0f, selectedObjectID == OBJ_TORUS ? 0.0f : 1.0f);
-	}
-	glutSolidTorus(0.3, 1, 16, 24);
-	glPopMatrix();
-
-	// Draw Sphere
-	if (picking) {
-		setColorID(OBJ_SPHERE);
-	}
-	else {
-		glColor3f(selectedObjectID == OBJ_SPHERE ? 1.0f : 1.0f, selectedObjectID == OBJ_SPHERE ? 0.0f : 1.0f, selectedObjectID == OBJ_SPHERE ? 0.0f : 1.0f);
-	}
-	glutSolidSphere(0.4, 16, 8);
-
-	// Draw Cube
-	glPushMatrix();
-	glTranslatef(-2.5, 0, 0);
-	if (picking) {
-		setColorID(OBJ_CUBE);
-	}
-	else {
-		glColor3f(selectedObjectID == OBJ_CUBE ? 1.0f : 1.0f, selectedObjectID == OBJ_CUBE ? 0.0f : 1.0f, selectedObjectID == OBJ_CUBE ? 0.0f : 1.0f);
-	}
-	glutSolidCube(1.5);
-	glPopMatrix();
-
-	// Draw Cone
-	glPushMatrix();
-	glTranslatef(2.5, -1, 0);
-	glRotatef(-90, 1, 0, 0);
-	if (picking) {
-		setColorID(OBJ_CONE);
-	}
-	else {
-		glColor3f(selectedObjectID == OBJ_CONE ? 1.0f : 1.0f, selectedObjectID == OBJ_CONE ? 0.0f : 1.0f, selectedObjectID == OBJ_CONE ? 0.0f : 1.0f);
-	}
-	glutSolidCone(1.1, 2, 16, 2);
-	glPopMatrix();
-
-	// Draw Teapot
-	glPushMatrix();
-	glTranslatef(0, -0.5, 2.5);
-	glFrontFace(GL_CW);
-	if (picking) {
-		setColorID(OBJ_TEAPOT);
-	}
-	else {
-		glColor3f(selectedObjectID == OBJ_TEAPOT ? 1.0f : 1.0f, selectedObjectID == OBJ_TEAPOT ? 0.0f : 1.0f, selectedObjectID == OBJ_TEAPOT ? 0.0f : 1.0f);
-	}
-	glutSolidTeapot(1.0);
-	glFrontFace(GL_CCW);
-	glPopMatrix();
-
-	// Draw Plane
-	if (picking) {
-		setColorID(OBJ_PLANE);
-	}
-	else {
-		glColor3f(selectedObjectID == OBJ_PLANE ? 1.0f : 0.5f, selectedObjectID == OBJ_PLANE ? 0.0f : 0.5f, selectedObjectID == OBJ_PLANE ? 0.0f : 0.5f);
-	}
-	glBegin(GL_QUADS);
-	glNormal3f(0, 1, 0);
-	glVertex3f(-5, -1.3, 5);
-	glVertex3f(5, -1.3, 5);
-	glVertex3f(5, -1.3, -5);
-	glVertex3f(-5, -1.3, -5);
-	glEnd();
+	MathCirclePtr circle = MathCircle::createObject();
+	circle->setCenter(OdGePoint3d(0, 0, 0));
+	circle->setRadius(50.0);
+	circle->draw();
 
 	// Draw Axis and Grid
 	drawAxis(picking);
@@ -357,19 +266,19 @@ void print_help(void)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glOrtho(0, win_width, 0, win_height, -1, 1);
+	glOrtho(0, viewport->getWidth(), 0, viewport->getHeight(), -1, 1);
 
 	text = help ? helptext : helpprompt;
 
 	for (i = 0; text[i]; i++) {
 		glColor3f(0, 0.1, 0);
-		glRasterPos2f(7, win_height - (i + 1) * 20 - 2);
+		glRasterPos2f(7, viewport->getHeight() - (i + 1) * 20 - 2);
 		s = text[i];
 		while (*s) {
 			glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *s++);
 		}
 		glColor3f(0, 0.9, 0);
-		glRasterPos2f(5, win_height - (i + 1) * 20);
+		glRasterPos2f(5, viewport->getHeight() - (i + 1) * 20);
 		s = text[i];
 		while (*s) {
 			glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *s++);
@@ -385,12 +294,10 @@ void print_help(void)
 #define ZNEAR	0.5f
 void reshape(int x, int y)
 {
-	double vsz, aspect = (double)x / (double)y;
-	win_width = x;
-	win_height = y;
-
+	float vsz, aspect = (float)x / (float)y;
+	viewport->setWidth(x);
+	viewport->setHeight(y);
 	glViewport(0, 0, x, y);
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	vsz = 0.4663f * ZNEAR;
@@ -458,10 +365,9 @@ void skeypress(int key, int x, int y)
 void mouse(int bn, int st, int x, int y)
 {
 	int bidx = bn - GLUT_LEFT_BUTTON;
-	bnstate[bidx] = st == GLUT_DOWN;
-	mouse_x = x;
-	mouse_y = y;
-
+	viewport->setButtonState(bidx, st == GLUT_DOWN);
+	viewport->setMouseX(x);
+	viewport->setMouseY(y);
 	if (bn == GLUT_LEFT_BUTTON && st == GLUT_DOWN)
 	{
 		pickObject(x, y);
@@ -470,42 +376,7 @@ void mouse(int bn, int st, int x, int y)
 
 void motion(int x, int y)
 {
-	int dx = x - mouse_x;
-	int dy = y - mouse_y;
-	mouse_x = x;
-	mouse_y = y;
-
-	if (!(dx | dy)) return;
-
-	if (bnstate[0]) {
-		cam_theta += dx * 0.5;
-		cam_phi += dy * 0.5;
-		if (cam_phi < -90) cam_phi = -90;
-		if (cam_phi > 90) cam_phi = 90;
-		glutPostRedisplay();
-	}
-	if (bnstate[1]) {
-		double up[3], right[3];
-		double theta = cam_theta * M_PI / 180.0f;
-		double phi = cam_phi * M_PI / 180.0f;
-
-		up[0] = -sin(theta) * sin(phi);
-		up[1] = -cos(phi);
-		up[2] = cos(theta) * sin(phi);
-		right[0] = cos(theta);
-		right[1] = 0;
-		right[2] = sin(theta);
-
-		cam_pan[0] += (right[0] * dx + up[0] * dy) * 0.01;
-		cam_pan[1] += up[1] * dy * 0.01;
-		cam_pan[2] += (right[2] * dx + up[2] * dy) * 0.01;
-		glutPostRedisplay();
-	}
-	if (bnstate[2]) {
-		cam_dist += dy * 0.1;
-		if (cam_dist < 0) cam_dist = 0;
-		glutPostRedisplay();
-	}
+	viewport->motion(x, y);
 }
 
 // Function to set unique color ID
@@ -549,7 +420,7 @@ void pickObject(int x, int y)
 	glutPostRedisplay();
 }
 
-IntPtr MathGL::GLEngineNative::InitializeWindow(IntPtr parentHandle)
+IntPtr MathGL::GLEngineController::InitializeWindow(IntPtr parentHandle)
 {
 	return IntPtr(InitializeWindow(GetModuleHandle(nullptr), SW_SHOW, static_cast<HWND>(parentHandle.ToPointer())));
 }

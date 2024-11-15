@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathGL", "MathGL\MathGL.vcxproj", "{0083506C-BBD5-4429-9C97-E51C4E1191D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6504E9E5-702E-432D-9E3E-5F4497C23661} = {6504E9E5-702E-432D-9E3E-5F4497C23661}
+		{91300D2F-50F4-415E-9130-43351D2F0087} = {91300D2F-50F4-415E-9130-43351D2F0087}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathUI", "MathUI\MathUI.csproj", "{07E6A901-C310-49F4-A123-4AA856CA7CB8}"
 EndProject
@@ -20,8 +24,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathTest", "MathTest\MathTe
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathCoreNative", "MathCoreNative\MathCoreNative.vcxproj", "{6504E9E5-702E-432D-9E3E-5F4497C23661}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathGLNative", "MathGLNative\MathGLNative.vcxproj", "{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,18 +113,6 @@ Global
 		{6504E9E5-702E-432D-9E3E-5F4497C23661}.Release|x64.Build.0 = Release|x64
 		{6504E9E5-702E-432D-9E3E-5F4497C23661}.Release|x86.ActiveCfg = Release|Win32
 		{6504E9E5-702E-432D-9E3E-5F4497C23661}.Release|x86.Build.0 = Release|Win32
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Debug|Any CPU.Build.0 = Debug|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Debug|x64.ActiveCfg = Debug|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Debug|x64.Build.0 = Debug|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Debug|x86.ActiveCfg = Debug|Win32
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Debug|x86.Build.0 = Debug|Win32
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Release|Any CPU.ActiveCfg = Release|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Release|Any CPU.Build.0 = Release|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Release|x64.ActiveCfg = Release|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Release|x64.Build.0 = Release|x64
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Release|x86.ActiveCfg = Release|Win32
-		{0E066DC4-BBCA-4AF1-B4B4-6C7C29B01929}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

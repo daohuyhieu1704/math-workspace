@@ -33,7 +33,7 @@ namespace MathUI.Presenters
             if (grid is Grid engineContainer)
             {
                 engineContainer.Children.Add(new EngineHost());
-                GLEngineNative.Instance.ProcessGLUTEvents();
+                GLEngineController.Instance.ProcessGLUTEvents();
                 //_glutTimer = new DispatcherTimer
                 //{
                 //    Interval = TimeSpan.FromMilliseconds(16)

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <stddef.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -23,3 +22,7 @@ inline bool OdNonZero(double x, double tol = 1.e-10)
 {
 	return OdPositive(x, tol) || OdNegative(x, tol);
 }
+
+#ifndef OdPI
+#define OdPI	3.14159265358979323846
+#endif
