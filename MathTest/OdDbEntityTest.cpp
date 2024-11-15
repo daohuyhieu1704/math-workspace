@@ -14,7 +14,7 @@ public:
     OdGeExtents3d boundingBox() const override { return getExtents(); }
     OdResult worldDraw() const override { return eOk; }
 
-    OdBaseObjectPtr Clone() const override {
+    OdBaseObjectPtr Clone() override {
         OdDbEntityDerivedPtr pClone = OdDbEntityDerived::createObject();
         pClone->setScale(getScale());
         pClone->setPosition(getPosition());

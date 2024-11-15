@@ -58,6 +58,12 @@
     <Filter Include="Scale\Scale3d">
       <UniqueIdentifier>{d4305109-0a80-4b56-8c55-658ea43d6462}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Plane">
+      <UniqueIdentifier>{78635586-f274-4b3b-9e8d-0070eeebc1ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Line">
+      <UniqueIdentifier>{663a0fba-2371-444b-952c-db8178955a58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -96,6 +102,9 @@
     <ClInclude Include="OdGeScale3d.h">
       <Filter>Scale\Scale3d</Filter>
     </ClInclude>
+    <ClInclude Include="OdGePlane.h">
+      <Filter>Plane</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeometryNative.cpp">
@@ -133,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="OdGeScale3d.cpp">
       <Filter>Scale\Scale3d</Filter>
+    </ClCompile>
+    <ClCompile Include="OdGePlane.cpp">
+      <Filter>Plane</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

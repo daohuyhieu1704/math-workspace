@@ -8,6 +8,7 @@ namespace GeometryNative
     class OdGeMatrix2d
     {
     public:
+		static const OdGeMatrix2d kIdentity;
         OdGeMatrix2d()
         {
             setToIdentity();
@@ -227,4 +228,5 @@ namespace GeometryNative
 
         double entry[3][3];
     };
+	const OdGeMatrix2d OdGeMatrix2d::kIdentity = OdGeMatrix2d().setToIdentity();
 }

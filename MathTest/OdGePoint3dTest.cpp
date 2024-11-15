@@ -176,16 +176,16 @@ namespace GeometryNative
     }
 
     /// <summary>
-    /// IsEqual test confirms IsEqual method returns true if two points are nearly equal, false otherwise.
+    /// isEqual test confirms isEqual method returns true if two points are nearly equal, false otherwise.
     /// </summary>
     /// <param name="point11">First point for comparison.</param>
     /// <param name="point12">Second point close to point11 for equality check.</param>
-    TEST_F(OdGePoint3dTest, IsEqual)
+    TEST_F(OdGePoint3dTest, isEqual)
     {
         OdGePoint3d point11(1.000001f, 2.000001f, 3.000001f);
         OdGePoint3d point12(1.0f, 2.0f, 3.0f);
-        EXPECT_TRUE(point11.IsEqual(point12));
-        EXPECT_FALSE(point11.IsEqual(point2));
+        EXPECT_TRUE(point11.isEqual(point12));
+        EXPECT_FALSE(point11.isEqual(point2));
     }
 
     /// <summary>

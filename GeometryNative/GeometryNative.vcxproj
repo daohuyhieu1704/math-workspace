@@ -149,6 +149,7 @@
     <ClInclude Include="OdGeExtents3d.h" />
     <ClInclude Include="OdGeMatrix2d.h" />
     <ClInclude Include="OdGeMatrix3d.h" />
+    <ClInclude Include="OdGePlane.h" />
     <ClInclude Include="OdGePoint2d.h" />
     <ClInclude Include="OdGePoint3d.h" />
     <ClInclude Include="OdGeScale2d.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="OdGeExtents3d.cpp" />
     <ClCompile Include="OdGeMatrix2d.cpp" />
     <ClCompile Include="OdGeMatrix3d.cpp" />
+    <ClCompile Include="OdGePlane.cpp" />
     <ClCompile Include="OdGePoint2d.cpp" />
     <ClCompile Include="OdGePoint3d.cpp" />
     <ClCompile Include="OdGeScale2d.cpp" />

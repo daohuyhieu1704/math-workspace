@@ -12,13 +12,13 @@ namespace GeometryNative
         return sqrt(x * x + y * y);
     }
 
-    OdGeVector2d OdGeVector2d::Normalize() const
+    OdGeVector2d OdGeVector2d::normalize() const
     {
         double length = Length();
         return OdGeVector2d(x / length, y / length);
     }
 
-    double OdGeVector2d::DotProduct(const OdGeVector2d& other) const
+    double OdGeVector2d::dotProduct(const OdGeVector2d& other) const
     {
         return x * other.x + y * other.y;
     }

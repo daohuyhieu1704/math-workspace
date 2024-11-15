@@ -78,9 +78,9 @@ OdResult OdDbEntity::transformBy(const OdGeMatrix3d xform)
         //m_yDir = xform * m_yDir;
         //m_zDir = xform * m_zDir;
 
-        //m_xDir.Normalize();
-        //m_yDir.Normalize();
-        //m_zDir.Normalize();
+        //m_xDir.normalize();
+        //m_yDir.normalize();
+        //m_zDir.normalize();
 
         //OdGePoint3d minPnt = m_extents.GetMinPnt();
         //OdGePoint3d maxPnt = m_extents.GetMaxPnt();

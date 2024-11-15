@@ -52,31 +52,31 @@ namespace GeometryNative
     }
 
     /// <summary>
-    /// Normalize test checks if the Normalize method returns a unit vector with a magnitude of 1.
+    /// normalize test checks if the normalize method returns a unit vector with a magnitude of 1.
     /// </summary>
-    TEST_F(OdGeVector3dTest, Normalize)
+    TEST_F(OdGeVector3dTest, normalize)
     {
-        OdGeVector3d normalized = vector1.Normalize();
+        OdGeVector3d normalized = vector1.normalize();
         EXPECT_NEAR(normalized.Length(), 1.0f, 1e-6);
     }
 
     /// <summary>
-    /// CrossProduct test verifies the calculation of the cross product between two vectors.
+    /// crossProduct test verifies the calculation of the cross product between two vectors.
     /// </summary>
-    TEST_F(OdGeVector3dTest, CrossProduct)
+    TEST_F(OdGeVector3dTest, crossProduct)
     {
-        OdGeVector3d crossProduct = vector1.CrossProduct(vector2);
+        OdGeVector3d crossProduct = vector1.crossProduct(vector2);
         EXPECT_NEAR(crossProduct.x, 2.0f, 1e-6);
         EXPECT_NEAR(crossProduct.y, -4.0f, 1e-6);
         EXPECT_NEAR(crossProduct.z, 2.0f, 1e-6);
     }
 
     /// <summary>
-    /// DotProduct test verifies the dot product calculation between two vectors.
+    /// dotProduct test verifies the dot product calculation between two vectors.
     /// </summary>
-    TEST_F(OdGeVector3dTest, DotProduct)
+    TEST_F(OdGeVector3dTest, dotProduct)
     {
-        double dotProduct = vector1.DotProduct(vector2);
+        double dotProduct = vector1.dotProduct(vector2);
         EXPECT_NEAR(dotProduct, 26.0f, 1e-6);  // Dot product of (3,4,5) and (1,2,3) is 3*1 + 4*2 + 5*3 = 26
     }
 
@@ -158,12 +158,12 @@ namespace GeometryNative
     }
 
     /// <summary>
-    /// IsEqual test confirms that IsEqual method returns true if two vectors are nearly equal within a tolerance.
+    /// isEqual test confirms that isEqual method returns true if two vectors are nearly equal within a tolerance.
     /// </summary>
-    TEST_F(OdGeVector3dTest, IsEqual)
+    TEST_F(OdGeVector3dTest, isEqual)
     {
         OdGeVector3d vector3(3.0f, 4.0f, 5.0f);
-        EXPECT_TRUE(vector1.IsEqual(vector3));
-        EXPECT_FALSE(vector1.IsEqual(vector2));
+        EXPECT_TRUE(vector1.isEqual(vector3));
+        EXPECT_FALSE(vector1.isEqual(vector2));
     }
 }

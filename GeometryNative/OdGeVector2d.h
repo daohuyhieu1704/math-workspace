@@ -12,8 +12,8 @@ namespace GeometryNative
         ~OdGeVector2d();
 
         double Length() const;
-        OdGeVector2d Normalize() const;
-        double DotProduct(const OdGeVector2d& other) const;
+        OdGeVector2d normalize() const;
+        double dotProduct(const OdGeVector2d& other) const;
 
         void operator+=(const OdGeVector2d& other);
         void operator-=(const OdGeVector2d& other);

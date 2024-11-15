@@ -13,9 +13,9 @@ namespace GeometryNative
 		~OdGeVector3d();
 
 		double Length() const;
-		OdGeVector3d Normalize() const;
-		OdGeVector3d CrossProduct(const OdGeVector3d& other) const;
-		double DotProduct(const OdGeVector3d& other) const;
+		OdGeVector3d normalize() const;
+		OdGeVector3d crossProduct(const OdGeVector3d& other) const;
+		double dotProduct(const OdGeVector3d& other) const;
 
 		OdGeVector3d operator-() const;
 		void operator+=(const OdGeVector3d& other);
@@ -24,9 +24,11 @@ namespace GeometryNative
 		OdGeVector3d operator-(const OdGeVector3d& other) const;
 		OdGeVector3d operator*(double scalar) const;
 		OdGeVector3d operator/=(const double scale);
-
-		bool IsEqual(const OdGeVector3d& other) const;
-
+		friend OdGeVector3d operator*(double scalar, const OdGeVector3d& vector);
+		OdGeVector3d operator/(double scalar) const {
+			return OdGeVector3d(x / scalar, y / scalar, z / scalar);
+		}
+		bool isEqual(const OdGeVector3d& other) const;
 		double x;
 		double y;
 		double z;

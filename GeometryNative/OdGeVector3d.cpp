@@ -30,13 +30,13 @@ namespace GeometryNative
 		return sqrt(x * x + y * y + z * z);
 	}
 
-	OdGeVector3d OdGeVector3d::Normalize() const
+	OdGeVector3d OdGeVector3d::normalize() const
 	{
 		double length = Length();
 		return OdGeVector3d(x / length, y / length, z / length);
 	}
 
-	OdGeVector3d OdGeVector3d::CrossProduct(const OdGeVector3d& other) const
+	OdGeVector3d OdGeVector3d::crossProduct(const OdGeVector3d& other) const
 	{
 		return OdGeVector3d(
 			y * other.z - z * other.y,
@@ -45,7 +45,7 @@ namespace GeometryNative
 		);
 	}
 
-	double OdGeVector3d::DotProduct(const OdGeVector3d& other) const
+	double OdGeVector3d::dotProduct(const OdGeVector3d& other) const
 	{
 		return x * other.x + y * other.y + z * other.z;
 	}
@@ -92,9 +92,13 @@ namespace GeometryNative
 		return *this;
 	}
 
-	bool OdGeVector3d::IsEqual(const OdGeVector3d& other) const
+	bool OdGeVector3d::isEqual(const OdGeVector3d& other) const
 	{
 		return (fabs(x - other.x) < FLT_EPSILON) && (fabs(y - other.y) < FLT_EPSILON) && (fabs(z - other.z) < FLT_EPSILON);
+	}
+	OdGeVector3d operator*(double scalar, const OdGeVector3d& vector)
+	{
+		return OdGeVector3d(scalar * vector.x, scalar * vector.y, scalar * vector.z);
 	}
 }
 

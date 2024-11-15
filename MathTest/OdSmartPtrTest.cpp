@@ -11,7 +11,7 @@ public:
     TestObject() : value(0) {}
     TestObject(int v) : value(v) {}
 
-    OdBaseObjectPtr Clone() const override
+    OdBaseObjectPtr Clone() override
     {
 		TestObjectPtr clone = TestObject::createObject();
 		clone->value = value;

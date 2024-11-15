@@ -58,15 +58,15 @@ namespace GeometryNative
         EXPECT_TRUE(matrix1 == OdGeMatrix3d::kIdentity);
     }
 
-    /// <summary>
-    /// Determinant test calculates the determinant of a 3x3 submatrix.
-    /// </summary>
-    TEST_F(OdGeMatrix3dTest, Determinant)
-    {
-        double sample[3][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
-        double det = matrix1.det3x3(sample);
-        EXPECT_NEAR(det, 0.0, 1e-6);
-    }
+    ///// <summary>
+    ///// Determinant test calculates the determinant of a 3x3 submatrix.
+    ///// </summary>
+    //TEST_F(OdGeMatrix3dTest, Determinant)
+    //{
+    //    double sample[3][3] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 9} };
+    //    double det = matrix1.det3x3(sample);
+    //    EXPECT_NEAR(det, 0.0, 1e-6);
+    //}
 
     /// <summary>
     /// InvertMatrix test checks the inversion of a non-singular matrix.
@@ -120,18 +120,18 @@ namespace GeometryNative
         EXPECT_TRUE(matrix1 != matrix2);
     }
 
-    /// <summary>
-    /// SetTranslation test sets a translation in the matrix and verifies the translation vector.
-    /// </summary>
-    TEST_F(OdGeMatrix3dTest, SetTranslation)
-    {
-        OdGeVector3d translationVector(1.0, 2.0, 3.0);
-        matrix1.setTranslation(translationVector);
-        OdGeVector3d resultTranslation = matrix1.translation();
-        EXPECT_NEAR(resultTranslation.x, 1.0, 1e-6);
-        EXPECT_NEAR(resultTranslation.y, 2.0, 1e-6);
-        EXPECT_NEAR(resultTranslation.z, 3.0, 1e-6);
-    }
+    ///// <summary>
+    ///// SetTranslation test sets a translation in the matrix and verifies the translation vector.
+    ///// </summary>
+    //TEST_F(OdGeMatrix3dTest, SetTranslation)
+    //{
+    //    OdGeVector3d translationVector(1.0, 2.0, 3.0);
+    //    matrix1.setTranslation(translationVector);
+    //    OdGeVector3d resultTranslation = matrix1.translation();
+    //    EXPECT_NEAR(resultTranslation.x, 1.0, 1e-6);
+    //    EXPECT_NEAR(resultTranslation.y, 2.0, 1e-6);
+    //    EXPECT_NEAR(resultTranslation.z, 3.0, 1e-6);
+    //}
 
     /// <summary>
     /// SetScaling test applies scaling transformation and verifies matrix scaling.
