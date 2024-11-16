@@ -55,6 +55,12 @@
     <Filter Include="Commons\ObjectBase\AbstractEngine\GraphicEngine">
       <UniqueIdentifier>{ac0bbf78-8723-4ae4-9d1c-d8371e75220a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Line">
+      <UniqueIdentifier>{cc5c197b-3767-44d1-87e9-de7e18c2296f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\ObjectBase\AbstractEngine\CommandPrompt">
+      <UniqueIdentifier>{480d7bc0-944a-43f6-bf99-10d885c5a214}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdBaseObject.h">
@@ -105,7 +111,15 @@
     <ClInclude Include="IEngine.h">
       <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
     </ClInclude>
-    <ClInclude Include="OdJig.h" />
+    <ClInclude Include="OdDbLine.h">
+      <Filter>Entities\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandPrompt.h">
+      <Filter>Commons\ObjectBase\AbstractEngine\CommandPrompt</Filter>
+    </ClInclude>
+    <ClInclude Include="OdJig.h">
+      <Filter>Drawing\Jig</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OdBaseObject.cpp">
@@ -147,6 +161,14 @@
     <ClCompile Include="IEngine.cpp">
       <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
     </ClCompile>
-    <ClCompile Include="OdJig.cpp" />
+    <ClCompile Include="OdDbLine.cpp">
+      <Filter>Entities\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandPrompt.cpp">
+      <Filter>Commons\ObjectBase\AbstractEngine\CommandPrompt</Filter>
+    </ClCompile>
+    <ClCompile Include="OdJig.cpp">
+      <Filter>Drawing\Jig</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

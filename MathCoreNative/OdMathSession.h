@@ -1,10 +1,10 @@
 #pragma once
-#include "OdBaseObject.h"
 #include <chrono>
 #include <queue>
 #include <set>
 #include <any>
 #include <unordered_map>
+#include "CommandPrompt.h"
 
 typedef OdSmartPtr<class OdMathSession> OdMathSessionPtr;
 class OdMathSession :
@@ -14,18 +14,16 @@ class OdMathSession :
 public:
     OdBaseObjectPtr Clone() override;
     OdMathSession();
-    // Getters and setters for session attributes
-    void setLastAccessTime() { lastAccessTime = std::chrono::system_clock::now(); }
-    void addCommand(const std::string& command) { commands.push(command); }
-    bool getIsModified() const { return isModified; }
-    void setIsModified(bool modified) { isModified = modified; }
+	std::string getFileName() { return fileName; }
+	void setFileName(std::string name) { fileName = name; }
+	void undo();
+	void redo();
+	CommandPromptPtr getPrompts() { return mathPrompt; }
+	void ExecuteAllPrompts()
+	{
+		mathPrompt->executeAllPrompts();
+	}
+	CommandPromptPtr mathPrompt;
 private:
-    std::chrono::time_point<std::chrono::system_clock> creationTime;
-    std::chrono::time_point<std::chrono::system_clock> lastAccessTime;
-    enum class SessionState { ACTIVE, INACTIVE, CLOSED } sessionState;
-    std::queue<std::string> commands;
-    std::unordered_map<std::string, OdBaseObjectPtr> contextData;
-    std::set<std::string> permissions;
-    bool isModified;
-	std::string m_fileName = "Untitled";
+	std::string fileName = "";
 };

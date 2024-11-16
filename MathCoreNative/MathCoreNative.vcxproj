@@ -148,12 +148,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommandPrompt.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IActionCmd.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="OdBaseObject.h" />
     <ClInclude Include="OdDbCircle.h" />
     <ClInclude Include="OdDbEntity.h" />
+    <ClInclude Include="OdDbLine.h" />
     <ClInclude Include="OdDbObject.h" />
     <ClInclude Include="OdDbObjectId.h" />
     <ClInclude Include="OdError.h" />
@@ -167,11 +169,13 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CommandPrompt.cpp" />
     <ClCompile Include="IActionCmd.cpp" />
     <ClCompile Include="IEngine.cpp" />
     <ClCompile Include="OdBaseObject.cpp" />
     <ClCompile Include="OdDbCircle.cpp" />
     <ClCompile Include="OdDbEntity.cpp" />
+    <ClCompile Include="OdDbLine.cpp" />
     <ClCompile Include="OdDbObject.cpp" />
     <ClCompile Include="OdDbObjectId.cpp" />
     <ClCompile Include="OdError.cpp" />

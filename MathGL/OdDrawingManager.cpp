@@ -10,6 +10,9 @@
 #include <iostream>
 #include "MathCircle.h"
 #include "MathViewport.h"
+#include "LineCmd.h"
+
+OdSmartPtr<OdDrawingManager> OdDrawingManager::m_instance;
 
 std::map<int, std::string> objectMap;
 
@@ -391,6 +394,15 @@ void pickObject(int x, int y)
 	glutPostRedisplay();
 }
 
+OdDrawingManagerPtr OdDrawingManager::R()
+{
+	if (m_instance.isNull())
+	{
+		m_instance = OdDrawingManager::createObject();
+	}
+	return m_instance;
+}
+
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
@@ -425,4 +437,34 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 OdBaseObjectPtr OdDrawingManager::Clone()
 {
 	return OdDrawingManagerPtr();
+}
+
+void OdDrawingManager::CreateSession(std::string fileName)
+{
+	m_appServices->createSession(fileName);
+	RegisterCommandPattern();
+}
+
+void OdDrawingManager::ChangeSession(std::string filePath)
+{
+	m_appServices->ChangeCurrSession(filePath);
+	m_entities.clear();
+	m_appServices->getCurrentSession()->ExecuteAllPrompts();
+}
+
+void OdDrawingManager::AppendCommand(const std::string command)
+{
+	m_appServices->getCurrentSession()->getPrompts()->appendCommand(command);
+}
+
+void OdDrawingManager::AppendPrompt(const std::string prompt)
+{
+	m_appServices->getCurrentSession()->getPrompts()->appendPrompt(prompt);
+}
+
+void OdDrawingManager::RegisterCommandPattern()
+{
+	m_appServices = OdHostAppService::getInstance();
+	LineCmdPtr lineCmd = LineCmd::createObject();
+	m_appServices->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
 }

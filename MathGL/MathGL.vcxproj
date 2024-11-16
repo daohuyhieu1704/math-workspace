@@ -129,8 +129,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DisposableWrapper.h" />
+    <ClInclude Include="LineCmd.h" />
     <ClInclude Include="MathCircle.h" />
     <ClInclude Include="DrawingManager.h" />
+    <ClInclude Include="MathLine.h" />
     <ClInclude Include="MathViewport.h" />
     <ClInclude Include="OdDrawingManager.h" />
     <ClInclude Include="pch.h" />
@@ -138,8 +140,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="LineCmd.cpp" />
     <ClCompile Include="MathCircle.cpp" />
     <ClCompile Include="DrawingManager.cpp" />
+    <ClCompile Include="MathLine.cpp" />
     <ClCompile Include="MathViewport.cpp" />
     <ClCompile Include="OdDrawingManager.cpp" />
     <ClCompile Include="pch.cpp">

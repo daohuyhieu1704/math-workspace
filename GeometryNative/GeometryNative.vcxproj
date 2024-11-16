@@ -159,7 +159,6 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeometryNative.cpp" />
     <ClCompile Include="OdGeExtend2d.cpp" />
     <ClCompile Include="OdGeExtents3d.cpp" />
     <ClCompile Include="OdGeMatrix2d.cpp" />

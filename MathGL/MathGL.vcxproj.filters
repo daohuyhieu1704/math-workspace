@@ -37,15 +37,18 @@
     <Filter Include="Commons\DisposableWrapper">
       <UniqueIdentifier>{aa172782-99d9-4145-a549-c7b732548dba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\LineCmd">
+      <UniqueIdentifier>{2fa4a00b-8f7c-4949-80eb-aac7846b7a86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Circle">
+      <UniqueIdentifier>{d3126ae0-66f9-444a-9d31-d634488c045a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MathCircle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MathViewport.h">
@@ -60,15 +63,21 @@
     <ClInclude Include="DisposableWrapper.h">
       <Filter>Commons\DisposableWrapper</Filter>
     </ClInclude>
+    <ClInclude Include="LineCmd.h">
+      <Filter>Commands\LineCmd</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCircle.h">
+      <Filter>Graphics\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MathCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MathViewport.cpp">
@@ -79,6 +88,15 @@
     </ClCompile>
     <ClCompile Include="OdDrawingManager.cpp">
       <Filter>Commons\DrawingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCircle.cpp">
+      <Filter>Graphics\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="LineCmd.cpp">
+      <Filter>Commands\LineCmd</Filter>
+    </ClCompile>
+    <ClCompile Include="MathLine.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

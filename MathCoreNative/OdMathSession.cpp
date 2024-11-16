@@ -10,5 +10,15 @@ OdBaseObjectPtr OdMathSession::Clone()
 
 OdMathSession::OdMathSession()
 {
-    //// mathPrompt = CommandPrompt::createObject();
+    mathPrompt = CommandPrompt::createObject();
+}
+
+void OdMathSession::undo()
+{
+	mathPrompt->undo();
+}
+
+void OdMathSession::redo()
+{
+	mathPrompt->redo();
 }
