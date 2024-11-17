@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "OdHostAppService.h"
 
+OdHostAppServicePtr OdHostAppService::m_instance;
+
 OD_RTTI_DEFINE(OdHostAppService, OdBaseObject)
 OdHostAppService::OdHostAppService()
 {
@@ -10,8 +12,11 @@ OdHostAppService::OdHostAppService()
 
 OdHostAppServicePtr OdHostAppService::getInstance()
 {
-	static OdHostAppServicePtr instance = OdHostAppService::createObject();
-	return instance;
+	if (m_instance.isNull())
+	{
+		m_instance = OdHostAppService::createObject();
+	}
+	return m_instance;
 }
 
 OdBaseObjectPtr OdHostAppService::Clone()

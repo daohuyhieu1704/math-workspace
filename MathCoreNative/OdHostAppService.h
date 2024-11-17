@@ -7,6 +7,7 @@ class OdHostAppService :
 {
 	OD_RTTI_DECLARE(OdHostAppService, OdBaseObject)
 public:
+	
 	static OdHostAppServicePtr getInstance();
 	OdMathSessionPtr createSession(const std::string& sessionId) {
 		if (m_sessions.find(sessionId) != m_sessions.end()) {
@@ -45,6 +46,7 @@ public:
 	OdBaseObjectPtr Clone() override;
 	OdHostAppService();
 private:
+	static OdHostAppServicePtr m_instance;
 	~OdHostAppService() = default;
 	OdHostAppService(const OdHostAppService&) = delete;
 	OdHostAppService& operator=(const OdHostAppService&) = delete;

@@ -464,7 +464,7 @@ void OdDrawingManager::AppendPrompt(const std::string prompt)
 
 void OdDrawingManager::RegisterCommandPattern()
 {
-	m_appServices = OdHostAppService::getInstance();
-	LineCmdPtr lineCmd = LineCmd::createObject();
-	m_appServices->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
+	// m_appServices = OdHostAppService::getInstance();
+	// LineCmdPtr lineCmd = LineCmd::createObject();
+	// m_appServices->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
 }
