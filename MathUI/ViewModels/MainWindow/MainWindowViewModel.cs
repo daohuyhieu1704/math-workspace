@@ -223,42 +223,52 @@ namespace MathUI.ViewModels.MainWindow
 
         public void TL()
         {
+            // GLEngine.Instance.TLViewport();
         }
 
         public void TM()
         {
+            // GLEngine.Instance.TMViewport();
         }
 
         public void TR()
         {
+            // GLEngine.Instance.TRViewport();
         }
 
         public void ML()
         {
+            // GLEngine.Instance.MLViewport();
         }
 
         public void TMM()
         {
+            // GLEngine.Instance.TMMViewport();
         }
 
         public void BMM()
         {
+            // GLEngine.Instance.BMMViewport();
         }
 
         public void MR()
         {
+            // GLEngine.Instance.MRViewport();
         }
 
         public void BL()
         {
+            // GLEngine.Instance.BLViewport();
         }
 
         public void BM()
         {
+            // GLEngine.Instance.BMViewport();
         }
 
         public void BR()
         {
+            // GLEngine.Instance.BRViewport();
         }
 
         public void RealtimeHandle()
@@ -271,21 +281,73 @@ namespace MathUI.ViewModels.MainWindow
 
         public async void DrawLine()
         {
+            //PointSelection pointSelection = new();
+            //HistoryWindow += "Pick 2 points:" + "\n";
+            //List<Point3d> pnt1 = await pointSelection.getPoints(1);
+            //LineJig lineJig = new(pnt1[0]);
+            //lineJig.Commit();
+            //List<Point3d> pnt2 = await pointSelection.getPoints(1);
+            //Line line = new(pnt1[0], pnt2[0]);
+            //line.Draw();
+            //HistoryWindow += line.GetCommand() + "\n";
         }
 
         public async void DrawCircle()
         {
+            //PointSelection pointSelection = new();
+            //HistoryWindow += "Pick 2 center:" + "\n";
+            //List<Point3d> pnt1 = await pointSelection.getPoints(1);
+            //using LineJig lineJig = new(pnt1[0]);
+            //using CircleJig circleJig = new(pnt1[0]);
+            //lineJig.Commit();
+            //circleJig.Commit();
+            //List<Point3d> pnt2 = await pointSelection.getPoints(1);
+            //Circle circle = new(pnt1[0], pnt1[0].DistanceTo(pnt2[0]));
+            //circle.Draw();
+            //HistoryWindow += circle.GetCommand() + "\n";
         }
+
         internal async void DrawRect()
         {
+            //PointSelection pointSelection = new();
+            //HistoryWindow += "Pick 2 points:" + "\n";
+            //List<Point3d> pnt = await pointSelection.getPoints(2);
+            //Line line1 = new(new Point3d(pnt[0].X, pnt[1].Y, 0), pnt[1]);
+            //line1.Draw();
+
+            //Line line2 = new(pnt[1], new Point3d(pnt[1].X, pnt[0].Y, 0));
+            //line2.Draw();
+
+            //Line line3 = new(new Point3d(pnt[1].X, pnt[0].Y, 0), pnt[0]);
+            //line3.Draw();
+
+            //Line line4 = new(pnt[0], new Point3d(pnt[0].X, pnt[1].Y, 0));
+            //line4.Draw();
+
+            //HistoryWindow += line1.GetCommand() + "\n";
+            //HistoryWindow += line2.GetCommand() + "\n";
+            //HistoryWindow += line3.GetCommand() + "\n";
+            //HistoryWindow += line4.GetCommand() + "\n";
         }
 
         public async void DrawSquare()
         {
+            //PointSelection pointSelection = new();
+            //HistoryWindow += "Pick 2 points:" + "\n";
+            //List<Point3d> pnt = await pointSelection.getPoints(2);
+            //TextInput textInp = new(this);
+            //string text = await textInp.GetText();
+            //if (double.TryParse(text, out var z))
+            //{
+            //    Square square = new(pnt[0].ConvertTo2d(), pnt[1].ConvertTo2d(), z);
+            //    square.Draw();
+            //    HistoryWindow += square.GetCommand() + "\n";
+            //}
         }
 
         internal void AppendCommand()
         {
+            // DrawingManager.Instance.AppendCommand(CommandWindow);
             CommandWindow = "";
             HistoryWindow += CommandWindow + "\n";
         }
@@ -300,6 +362,11 @@ namespace MathUI.ViewModels.MainWindow
 
         internal void NewFile()
         {
+            FileItems.Add("Untitled");
+            FileSelected = FileItems.Last();
+            FilePaths.Add("");
+            PathSelected = FilePaths.Last();
+            IsNewFile = true;
         }
 
         internal void OpenFile()
