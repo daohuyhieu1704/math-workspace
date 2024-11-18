@@ -12,7 +12,7 @@
 #include "MathViewport.h"
 #include "LineCmd.h"
 
-OdSmartPtr<OdDrawingManager> OdDrawingManager::m_instance;
+OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
 
 std::map<int, std::string> objectMap;
 
@@ -394,15 +394,6 @@ void pickObject(int x, int y)
 	glutPostRedisplay();
 }
 
-OdDrawingManagerPtr OdDrawingManager::R()
-{
-	if (m_instance.isNull())
-	{
-		m_instance = OdDrawingManager::createObject();
-	}
-	return m_instance;
-}
-
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
@@ -441,30 +432,29 @@ OdBaseObjectPtr OdDrawingManager::Clone()
 
 void OdDrawingManager::CreateSession(std::string fileName)
 {
-	m_appServices->createSession(fileName);
+	OdHostAppService::R()->createSession(fileName);
 	RegisterCommandPattern();
 }
 
 void OdDrawingManager::ChangeSession(std::string filePath)
 {
-	m_appServices->ChangeCurrSession(filePath);
+	OdHostAppService::R()->ChangeCurrSession(filePath);
 	m_entities.clear();
-	m_appServices->getCurrentSession()->ExecuteAllPrompts();
+	OdHostAppService::R()->getCurrentSession()->ExecuteAllPrompts();
 }
 
 void OdDrawingManager::AppendCommand(const std::string command)
 {
-	m_appServices->getCurrentSession()->getPrompts()->appendCommand(command);
+	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendCommand(command);
 }
 
 void OdDrawingManager::AppendPrompt(const std::string prompt)
 {
-	m_appServices->getCurrentSession()->getPrompts()->appendPrompt(prompt);
+	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendPrompt(prompt);
 }
 
 void OdDrawingManager::RegisterCommandPattern()
 {
-	// m_appServices = OdHostAppService::getInstance();
-	// LineCmdPtr lineCmd = LineCmd::createObject();
-	// m_appServices->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
+	LineCmdPtr lineCmd = LineCmd::createObject();
+	OdHostAppService::R()->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
 }

@@ -43,6 +43,9 @@
     <Filter Include="Graphics\Circle">
       <UniqueIdentifier>{d3126ae0-66f9-444a-9d31-d634488c045a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Arc">
+      <UniqueIdentifier>{66b8c43a-67f2-44e0-b48a-94b5a927aba9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -70,7 +73,10 @@
       <Filter>Graphics\Circle</Filter>
     </ClInclude>
     <ClInclude Include="MathLine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Graphics\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="MathArc.h">
+      <Filter>Graphics\Arc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +102,10 @@
       <Filter>Commands\LineCmd</Filter>
     </ClCompile>
     <ClCompile Include="MathLine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Graphics\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="MathArc.cpp">
+      <Filter>Graphics\Arc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

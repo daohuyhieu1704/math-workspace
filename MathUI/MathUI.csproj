@@ -67,6 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.vcxproj" />
     <ProjectReference Include="..\MathGL\MathGL.vcxproj" />
   </ItemGroup>
 

@@ -6,6 +6,9 @@
 #include <chrono>
 #include <string>
 #include "OdGePoint3d.h"
+#include "OdGePoint2d.h"
+#include "OdGePlane.h"
+#include "OdGeVector3d.h"
 
 #define COMMA_SPACE ", "
 #define OP_SHARP_BRACKET "{"
@@ -48,6 +51,30 @@ private:
         std::string ret = IndentStr + "OdGePoint2d: { " + std::to_string(point2d.x) + COMMA_SPACE + std::to_string(point2d.y) + " }";
         return ret;
     }
+
+    static std::string GetStringValue(const OdGePlane& plane, int IndentLevel)
+    {
+        std::string IndentStr = CreateIndent(IndentLevel);
+        IndentLevel++;
+
+        // Format the string with the plane's origin and normal
+        std::string ret = IndentStr + "OdGePlane: \n" + OP_SHARP_BRACKET + "\n";
+        ret += IndentStr + "\tOrigin: " + GetStringValue(plane.origin, IndentLevel) + "\n";
+        ret += IndentStr + "\tNormal: " + GetStringValue(plane.normal, IndentLevel) + "\n";
+        ret += IndentStr + ED_SHARP_BRACKET;
+        return ret;
+    }
+
+    static std::string GetStringValue(const OdGeVector3d& vector3d, int IndentLevel)
+    {
+        std::string IndentStr = CreateIndent(IndentLevel);
+        std::string ret = IndentStr + "OdGeVector3d: { " +
+            std::to_string(vector3d.x) + COMMA_SPACE +
+            std::to_string(vector3d.y) + COMMA_SPACE +
+            std::to_string(vector3d.z) + " }";
+        return ret;
+    }
+
     static std::string GetStringValue(const double num, int IndentLevel)
     {
         std::string IndentStr = CreateIndent(IndentLevel);

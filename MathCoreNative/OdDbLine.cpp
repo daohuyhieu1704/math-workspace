@@ -28,7 +28,7 @@ OdGeExtents3d OdDbLine::boundingBox() const
 
 OdResult OdDbLine::worldDraw() const
 {
-	return OdResult();
+	return OdResult::eNotImplementedYet;
 }
 
 json OdDbLine::toJson() const

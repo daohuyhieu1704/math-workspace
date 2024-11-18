@@ -7,8 +7,7 @@ class OdHostAppService :
 {
 	OD_RTTI_DECLARE(OdHostAppService, OdBaseObject)
 public:
-	
-	static OdHostAppServicePtr getInstance();
+	OD_RTTI_SINGLETON_DECLARE(OdHostAppService)
 	OdMathSessionPtr createSession(const std::string& sessionId) {
 		if (m_sessions.find(sessionId) != m_sessions.end()) {
 			return m_sessions[sessionId];

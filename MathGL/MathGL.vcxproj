@@ -87,6 +87,7 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\freeglut-3.6.0\src;$(SolutionDir)Libraries\freeglut-3.6.0\include;D$(SolutionDir)Libraries\glut-lib;$(SolutionDir)GeometryNative;$(SolutionDir)MathCoreNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;winmm.lib;gdi32.lib;glu32.lib;lib\Debug\freeglutd.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;GeometryNative.lib;MathCoreNative.lib</AdditionalDependencies>
@@ -130,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="DisposableWrapper.h" />
     <ClInclude Include="LineCmd.h" />
+    <ClInclude Include="MathArc.h" />
     <ClInclude Include="MathCircle.h" />
     <ClInclude Include="DrawingManager.h" />
     <ClInclude Include="MathLine.h" />
@@ -141,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="LineCmd.cpp" />
+    <ClCompile Include="MathArc.cpp" />
     <ClCompile Include="MathCircle.cpp" />
     <ClCompile Include="DrawingManager.cpp" />
     <ClCompile Include="MathLine.cpp" />

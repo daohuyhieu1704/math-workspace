@@ -9,7 +9,7 @@ class OdDrawingManager : public OdBaseObject
 {
 	OD_RTTI_DECLARE(OdDrawingManager, OdBaseObject)
 public:
-	static OdDrawingManagerPtr R();
+	OD_RTTI_SINGLETON_DECLARE(OdDrawingManager)
 	HWND InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd);
 	// Inherited via OdBaseObject
 	OdBaseObjectPtr Clone() override;
@@ -38,6 +38,5 @@ private:
 	std::vector<const OdBaseObject*> m_jigs;
 	std::vector<const OdBaseObject*> m_tempRenders;
 	static OdDrawingManagerPtr m_instance;
-	OdHostAppServicePtr m_appServices;
 };
 OD_RTTI_DEFINE(OdDrawingManager, OdBaseObject)

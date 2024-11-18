@@ -107,10 +107,12 @@
   <ItemGroup>
     <ClCompile Include="OdDbEntityTest.cpp" />
     <ClCompile Include="OdGeMatrix3dTest.cpp" />
+    <ClCompile Include="OdGePlaneTest.cpp" />
     <ClCompile Include="OdGePoint2dTest.cpp" />
     <ClCompile Include="OdGeScale3dTest.cpp" />
     <ClCompile Include="OdGeVector2dTest.cpp" />
     <ClCompile Include="OdGeVector3dTest.cpp" />
+    <ClCompile Include="OdHostAppServiceTest.cpp" />
     <ClCompile Include="OdSmartPtrTest.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

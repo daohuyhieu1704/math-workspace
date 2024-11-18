@@ -1,0 +1,23 @@
+#pragma once
+#include "OdDbEntity.h"
+
+typedef OdSmartPtr<class OdDbPolyline> OdDbPolylinePtr;
+class OdDbPolyline :
+    public OdDbEntity
+{
+	OD_RTTI_DECLARE(OdDbPolyline, OdDbEntity);
+public:
+	void addVertex(const OdGePoint2d& vertex, double bulge = 0);
+	OdGePoint3d getVertexAt(int index) const;
+	double getBulgeAt(int index) const;
+	int numVertices() const;
+	// Inherited via OdDbEntity
+	OdBaseObjectPtr Clone() override;
+	OdResult draw() const override;
+	OdGeExtents3d boundingBox() const override;
+	OdResult worldDraw() const override;
+private:
+	std::vector<std::pair<OdGePoint2d, double>> m_vertices;
+};
+
+OD_RTTI_DEFINE(OdDbPolyline, OdDbEntity)

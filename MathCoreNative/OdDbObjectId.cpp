@@ -7,6 +7,10 @@
 #include <ctime>
 #include <string>
 
+
+std::set<std::string> OdDbObjectId::allocatedIds;
+std::mutex OdDbObjectId::mutex;
+
 const OdDbObjectId OdDbObjectId::kNull = OdDbObjectId(0);
 
 std::string OdDbObjectId::GetObjectId() const
@@ -27,6 +31,19 @@ std::string OdDbObjectId::GenerateShortId()
     }
 
     return ss.str().substr(0, 8);
+}
+
+std::string OdDbObjectId::GenerateUniqueId()
+{
+    std::lock_guard<std::mutex> lock(mutex);
+    std::string newId;
+    do
+    {
+        newId = GenerateShortId(); // Use any unique ID generator
+    } while (allocatedIds.find(newId) != allocatedIds.end());
+
+    allocatedIds.insert(newId);
+    return newId;
 }
 
 bool OdDbObjectId::isNull() const

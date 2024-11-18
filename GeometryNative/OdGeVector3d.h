@@ -29,6 +29,7 @@ namespace GeometryNative
 			return OdGeVector3d(x / scalar, y / scalar, z / scalar);
 		}
 		bool isEqual(const OdGeVector3d& other) const;
+		bool isParallelTo(const OdGeVector3d& vector) const;
 		double x;
 		double y;
 		double z;
