@@ -85,7 +85,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\math-workspace\Libraries\freeglut-3.6.0\src;D:\math-workspace\Libraries\freeglut-3.6.0\include;D:\math-workspace\Libraries\glut-lib;$(SolutionDir)GeometryNative;$(SolutionDir)MathCoreNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\freeglut-3.6.0\src;$(SolutionDir)Libraries\freeglut-3.6.0\include;D$(SolutionDir)Libraries\glut-lib;$(SolutionDir)GeometryNative;$(SolutionDir)MathCoreNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
