@@ -152,6 +152,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="IActionCmd.h" />
     <ClInclude Include="IEngine.h" />
+    <ClInclude Include="MathLog.h" />
     <ClInclude Include="OdBaseObject.h" />
     <ClInclude Include="OdDbCircle.h" />
     <ClInclude Include="OdDbEntity.h" />

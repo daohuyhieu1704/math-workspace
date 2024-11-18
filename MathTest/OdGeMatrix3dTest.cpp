@@ -120,18 +120,25 @@ namespace GeometryNative
         EXPECT_TRUE(matrix1 != matrix2);
     }
 
-    ///// <summary>
-    ///// SetTranslation test sets a translation in the matrix and verifies the translation vector.
-    ///// </summary>
-    //TEST_F(OdGeMatrix3dTest, SetTranslation)
-    //{
-    //    OdGeVector3d translationVector(1.0, 2.0, 3.0);
-    //    matrix1.setTranslation(translationVector);
-    //    OdGeVector3d resultTranslation = matrix1.translation();
-    //    EXPECT_NEAR(resultTranslation.x, 1.0, 1e-6);
-    //    EXPECT_NEAR(resultTranslation.y, 2.0, 1e-6);
-    //    EXPECT_NEAR(resultTranslation.z, 3.0, 1e-6);
-    //}
+    /// <summary>
+    /// SetTranslation test sets a translation in the matrix and verifies the translation vector.
+    /// </summary>
+    TEST_F(OdGeMatrix3dTest, SetTranslation)
+    {
+        OdGeVector3d translation(5.0, -3.0, 10.0);
+
+        OdGeMatrix3d translationMatrix = OdGeMatrix3d::translation(translation);
+
+        EXPECT_EQ(translationMatrix[0][3], 5.0) << "X translation mismatch";
+        EXPECT_EQ(translationMatrix[1][3], -3.0) << "Y translation mismatch";
+        EXPECT_EQ(translationMatrix[2][3], 10.0) << "Z translation mismatch";
+
+        EXPECT_EQ(translationMatrix[0][0], 1.0);
+        EXPECT_EQ(translationMatrix[1][1], 1.0);
+        EXPECT_EQ(translationMatrix[2][2], 1.0);
+        EXPECT_EQ(translationMatrix[3][3], 1.0);
+        EXPECT_EQ(translationMatrix[3][0], 0.0);
+    }
 
     /// <summary>
     /// SetScaling test applies scaling transformation and verifies matrix scaling.

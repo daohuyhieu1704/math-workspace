@@ -120,6 +120,9 @@
     <ClInclude Include="OdJig.h">
       <Filter>Drawing\Jig</Filter>
     </ClInclude>
+    <ClInclude Include="MathLog.h">
+      <Filter>Commons\ResultPresenter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OdBaseObject.cpp">

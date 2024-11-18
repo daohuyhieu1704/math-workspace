@@ -15,8 +15,8 @@
         </Style>
     </Window.Resources>
     <Border 
-        CornerRadius="2"
-        BorderThickness="1">
+        CornerRadius="0 0 2 2"
+        BorderThickness="0 0 1 1">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#1e2023" Offset="0"/>

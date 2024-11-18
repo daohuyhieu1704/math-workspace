@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OdGePoint2d.h"
 #include <cmath>
+#include <MathLog.h>
 
 namespace GeometryNative
 {
@@ -30,6 +31,7 @@ namespace GeometryNative
         OdGePoint2d point;
         EXPECT_NEAR(point.x, 0.0f, 1e-6);
         EXPECT_NEAR(point.y, 0.0f, 1e-6);
+		MathLog::LogFunction("DefaultConstructor", point);
     }
 
     /// <summary>

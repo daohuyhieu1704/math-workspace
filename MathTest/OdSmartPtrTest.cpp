@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OdBaseObject.h"
 #include <gtest/gtest.h>
+#include <map>
 
 typedef OdSmartPtr<class TestObject> TestObjectPtr;
 class TestObject : public OdBaseObject {
@@ -129,3 +130,20 @@ TEST_F(OdSmartPtrTest, ArrowOperator) {
     ptr1->value = 60;
     EXPECT_EQ(ptr1->value, 60);
 }
+
+/// <summary>
+/// Test dictionary object.
+/// </summary>
+/// <param name="ptr1">OdSmartPtr instance accessed with the arrow operator.</param>
+TEST_F(OdSmartPtrTest, MapInsert) {
+    
+	OdSmartPtr<TestObject> ptr1 = TestObject::createObject();
+	ptr1->value = 60;
+    EXPECT_EQ(ptr1.getRefCount(), 1);
+	std::map<int, TestObjectPtr> map;
+	map.insert(std::make_pair(1, ptr1));
+    EXPECT_EQ(ptr1.getRefCount(), 2);
+	map.clear();
+    EXPECT_EQ(ptr1.getRefCount(), 1);
+}
+
