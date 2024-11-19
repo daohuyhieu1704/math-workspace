@@ -52,7 +52,7 @@ public:
     /// <summary>
     /// This function guarantees that isNull() will, return true if it is the first operation applied to this instance.
     /// </summary>
-    OdDbObjectId() : m_Id(GenerateUniqueId()) { }
+    OdDbObjectId() : m_Id(GenerateShortId()) { }
 
     static const OdDbObjectId kNull;
 

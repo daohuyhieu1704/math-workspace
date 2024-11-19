@@ -46,6 +46,15 @@
     <Filter Include="Graphics\Arc">
       <UniqueIdentifier>{66b8c43a-67f2-44e0-b48a-94b5a927aba9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\CircleCmd">
+      <UniqueIdentifier>{915fa56c-85f3-436d-9103-cd12612ca931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\ArcCmd">
+      <UniqueIdentifier>{4bca7f38-7a9d-42c5-88f9-2ab15887f0af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\PolylineCmd">
+      <UniqueIdentifier>{7270e7b2-55e8-48e8-bc3a-2c2bd13faa75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">

@@ -11,6 +11,7 @@
 #include "MathCircle.h"
 #include "MathViewport.h"
 #include "LineCmd.h"
+#include "MathArc.h"
 
 OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
 
@@ -211,8 +212,14 @@ void drawScene(bool picking)
 
 	MathCirclePtr circle = MathCircle::createObject();
 	circle->setCenter(OdGePoint3d(0, 0, 0));
-	circle->setRadius(50.0);
+	circle->setRadius(10.0);
 	circle->draw();
+
+	MathArcPtr arc = MathArc::createObject();
+	arc->setStartPoint(OdGePoint3d(0, 0, 0));
+	arc->setEndPoint(OdGePoint3d(10, 10, 0));
+	arc->setBulge(0.8);
+	arc->draw();
 
 	// Draw Axis and Grid
 	drawAxis(picking);

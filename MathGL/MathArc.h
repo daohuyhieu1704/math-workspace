@@ -8,7 +8,7 @@ class MathArc :
 	OD_RTTI_DECLARE(MathArc, OdDbArc)
 public:
 	MathArc();
-	MathArc(OdGePoint3d startPnt, double bulge);
+	MathArc(OdGePoint3d startPnt, OdGePoint3d endPnt, double bulge);
 	OdResult draw() const override;
 private:
 	int m_segments = 50;

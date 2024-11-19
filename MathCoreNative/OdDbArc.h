@@ -16,6 +16,9 @@ public:
 		m_startPnt = point;
 		setPosition(m_startPnt);
 	}
+
+	OdGePoint3d getEndPoint() const { return m_endPnt; }
+	void setEndPoint(const OdGePoint3d& point) { m_endPnt = point; }
 #pragma endregion
 
 	// Inherited via OdDbEntity
@@ -30,6 +33,7 @@ public:
 private:
 	double m_bulge;
 	OdGePoint3d m_startPnt;
+	OdGePoint3d m_endPnt;
 };
 
 OD_RTTI_DEFINE(OdDbArc, OdDbEntity)
