@@ -11,7 +11,7 @@ namespace MathGL {
 	{
 		static DrawingManager^ m_instance;
 		DrawingManager()
-			: DisposableWrapper(IntPtr(OdDrawingManager::createObject().get()), true)
+			: DisposableWrapper(IntPtr(OdDrawingManager::R().get()), true)
 		{
 		}
 		

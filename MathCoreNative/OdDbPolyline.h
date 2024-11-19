@@ -16,6 +16,10 @@ public:
 	OdResult draw() const override;
 	OdGeExtents3d boundingBox() const override;
 	OdResult worldDraw() const override;
+
+	// Inherited via OdDbObject
+	virtual json toJson() const override;
+	virtual void fromJson(const json& j) override;
 private:
 	std::vector<std::pair<OdGePoint2d, double>> m_vertices;
 };
