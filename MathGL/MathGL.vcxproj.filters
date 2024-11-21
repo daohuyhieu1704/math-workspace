@@ -55,6 +55,9 @@
     <Filter Include="Commands\PolylineCmd">
       <UniqueIdentifier>{7270e7b2-55e8-48e8-bc3a-2c2bd13faa75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Polyline">
+      <UniqueIdentifier>{d340f1f0-f961-41a7-8451-4dccded737a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -87,6 +90,9 @@
     <ClInclude Include="MathArc.h">
       <Filter>Graphics\Arc</Filter>
     </ClInclude>
+    <ClInclude Include="MathPolyline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -115,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="MathArc.cpp">
       <Filter>Graphics\Arc</Filter>
+    </ClCompile>
+    <ClCompile Include="MathPolyline.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
