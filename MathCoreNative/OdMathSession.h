@@ -18,6 +18,14 @@ public:
 	void setFileName(std::string name) { fileName = name; }
 	void undo();
 	void redo();
+	void appendEntity(const OdBaseObjectPtr& entity) {
+		m_entities.push_back(entity);
+	}
+	std::vector<OdBaseObjectPtr> getEntities() { return m_entities; }
+
+	void removeEntity(const OdBaseObjectPtr& entity) {
+		m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end());
+	}
 	CommandPromptPtr getPrompts() { return mathPrompt; }
 	void ExecuteAllPrompts()
 	{
@@ -25,5 +33,8 @@ public:
 	}
 	CommandPromptPtr mathPrompt;
 private:
+	std::vector<OdBaseObjectPtr> m_entities;
 	std::string fileName = "";
 };
+
+OD_RTTI_DEFINE(OdMathSession, OdBaseObject)

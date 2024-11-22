@@ -7,26 +7,49 @@
 
 class OdBaseObject;
 
-class OdBaseObjectPtr
-{
+class OdBaseObjectPtr {
 protected:
     OdBaseObject* m_pObject = nullptr;
 
-    OdBaseObjectPtr() : m_pObject(0) {}
-    explicit OdBaseObjectPtr(const OdBaseObject* pSource) : m_pObject(const_cast<OdBaseObject*>(pSource)) {}
-public:
-    OdBaseObjectPtr(OdBaseObjectPtr&& pObject) noexcept : m_pObject(pObject.m_pObject)
-    {
-        pObject.m_pObject = nullptr;
+    OdBaseObjectPtr() : m_pObject(nullptr) {}
+    explicit OdBaseObjectPtr(const OdBaseObject* pSource)
+        : m_pObject(const_cast<OdBaseObject*>(pSource)) {
     }
 
-    OdBaseObjectPtr& operator = (OdBaseObjectPtr&& pObject) noexcept
-    {
-        std::swap(m_pObject, pObject.m_pObject);
+public:
+    // Copy constructor
+    OdBaseObjectPtr(const OdBaseObjectPtr& other)
+        : m_pObject(other.m_pObject) {
+    }
+
+    // Move constructor
+    OdBaseObjectPtr(OdBaseObjectPtr&& other) noexcept
+        : m_pObject(other.m_pObject) {
+        other.m_pObject = nullptr;
+    }
+
+    // Copy assignment operator
+    OdBaseObjectPtr& operator=(const OdBaseObjectPtr& other) {
+        if (this != &other) {
+            m_pObject = other.m_pObject;
+        }
         return *this;
     }
+
+    // Move assignment operator
+    OdBaseObjectPtr& operator=(OdBaseObjectPtr&& other) noexcept {
+        if (this != &other) {
+            std::swap(m_pObject, other.m_pObject);
+        }
+        return *this;
+    }
+
+	bool operator==(const OdBaseObjectPtr& other) const {
+		return m_pObject == other.m_pObject;
+	}
+
     OdBaseObject* get() const { return m_pObject; }
-    bool isNull() const { return m_pObject == 0; }
+    bool isNull() const { return m_pObject == nullptr; }
 };
 
 template <class T>
@@ -43,7 +66,8 @@ public:
         }
     }
 
-    OdSmartPtr(const OdSmartPtr<T>& sp) : OdBaseObjectPtr(sp.m_pObject), ref_count(sp.ref_count) {
+    OdSmartPtr(const OdSmartPtr<T>& sp)
+        : OdBaseObjectPtr(sp), ref_count(sp.ref_count) {
         addRef();
     }
 
@@ -58,14 +82,14 @@ public:
     OdSmartPtr<T>& operator=(const OdSmartPtr<T>& sp) {
         if (this != &sp) {
             release();
-            m_pObject = sp.m_pObject;
+            OdBaseObjectPtr::operator=(sp);
             ref_count = sp.ref_count;
             addRef();
         }
         return *this;
     }
 
-    OdSmartPtr<T>& operator=(OdSmartPtr<T>&& sp) noexcept {
+    OdSmartPtr<T>& operator=(OdSmartPtr<T>&& sp) {
         if (this != &sp) {
             release();
             OdBaseObjectPtr::operator=(std::move(sp));
@@ -74,6 +98,10 @@ public:
         }
         return *this;
     }
+
+	bool operator==(const OdSmartPtr<T>& sp) const {
+		return m_pObject == sp.m_pObject;
+	}
 
     OdSmartPtr<T>& operator=(std::nullptr_t) {
         release();
@@ -118,6 +146,9 @@ protected:
 public:
     OdBaseObject() : m_id(OdDbObjectId()) {}
     OdDbObjectId getObjectId() const;
+	bool operator==(const OdBaseObject& obj) const { 
+		return m_id == obj.m_id;
+    }
     virtual ~OdBaseObject() = default;
 
     virtual std::string getClassName() const = 0;

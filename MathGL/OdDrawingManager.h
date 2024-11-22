@@ -2,6 +2,7 @@
 #include <OdBaseObject.h>
 #include <OdDbEntity.h>
 #include <OdHostAppService.h>
+#include <OdDatabase.h>
 #include <OdJig.h>
 
 typedef OdSmartPtr<class OdDrawingManager> OdDrawingManagerPtr;
@@ -14,29 +15,37 @@ public:
 	// Inherited via OdBaseObject
 	OdBaseObjectPtr Clone() override;
 
-#pragma region Properties
-	std::vector<const OdBaseObject*> getEntities() const { return m_entities; }
-	void setEntities(const std::vector<const OdBaseObject*>& entities) { m_entities = entities; }
-	void appendEntity(const OdBaseObject* entity) { m_entities.push_back(entity); }
-	void removeEntity(const OdBaseObject* entity) { 
-		m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end());
+	void appendEntity(OdBaseObjectPtr entity) { m_entities.push_back(entity); }
+	void removeEntity(OdBaseObjectPtr entity) {
+		auto it = std::find(m_entities.begin(), m_entities.end(), entity);
+		if (it != m_entities.end()) {
+			m_entities.erase(it);
+		}
 	}
-	std::vector<const OdBaseObject*> getJigs() const { return m_jigs; }
-	void setJigs(std::vector<const OdBaseObject*>& jigs) { m_jigs = jigs; }
-#pragma endregion
+	std::vector<OdBaseObjectPtr> getJigs() const { return m_jigs; }
+	void setJigs(std::vector<OdBaseObjectPtr>& jigs) { m_jigs = jigs; }
+
 	OdDrawingManager()
 	{
+		m_database = OdDatabase::createObject();
 		RegisterCommandPattern();
+	}
+	OdTransactionPtr startTransaction()
+	{
+		return m_database->startTransaction();
 	}
 	void CreateSession(std::string fileName);
 	void ChangeSession(std::string filePath);
 	void AppendCommand(const std::string command);
 	void AppendPrompt(const std::string prompt);
 	void RegisterCommandPattern();
+	void pickObject(int x, int y);
 private:
-	std::vector<const OdBaseObject*> m_entities;
-	std::vector<const OdBaseObject*> m_jigs;
-	std::vector<const OdBaseObject*> m_tempRenders;
+	OdDatabasePtr m_database;
+	std::map<int, OdBaseObjectPtr> objectMap;
+	std::vector<OdBaseObjectPtr> m_entities;
+	std::vector<OdBaseObjectPtr> m_jigs;
+	std::vector<OdBaseObjectPtr> m_tempRenders;
 	static OdDrawingManagerPtr m_instance;
 };
 OD_RTTI_DEFINE(OdDrawingManager, OdBaseObject)

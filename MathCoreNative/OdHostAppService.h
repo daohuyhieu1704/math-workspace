@@ -8,7 +8,7 @@ class OdHostAppService :
 	OD_RTTI_DECLARE(OdHostAppService, OdBaseObject)
 public:
 	OD_RTTI_SINGLETON_DECLARE(OdHostAppService)
-	OdMathSessionPtr createSession(const std::string& sessionId) {
+	OdMathSessionPtr createSession(const std::string sessionId) {
 		if (m_sessions.find(sessionId) != m_sessions.end()) {
 			return m_sessions[sessionId];
 		}
@@ -18,7 +18,7 @@ public:
 		return session;
 	}
 
-	OdMathSessionPtr getSession(const std::string& sessionId) {
+	OdMathSessionPtr getSession(std::string sessionId) {
 		if (m_sessions.find(sessionId) != m_sessions.end()) {
 			return m_sessions[sessionId];
 		}
@@ -30,12 +30,16 @@ public:
 			currentSessionId = filePath;
 		}
 	}
-	void removeSession(const std::string& sessionId) {
+	void removeSession(const std::string sessionId) {
 		m_sessions.erase(sessionId);
 	}
 
 	OdMathSessionPtr getCurrentSession() {
 		return getSession(currentSessionId);
+	}
+	
+	std::string getCurrentSessionId() {
+		return currentSessionId;
 	}
 
 	void ExecuteAllPrompts() {

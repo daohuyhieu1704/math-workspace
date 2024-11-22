@@ -67,6 +67,15 @@
     <Filter Include="Entities\Polyline">
       <UniqueIdentifier>{a2e6c161-3323-4182-b552-0e675a4dfb81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Database\Database">
+      <UniqueIdentifier>{8711ab23-9c50-48ce-9e95-1253f0494bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\Transaction">
+      <UniqueIdentifier>{876ec7bd-d2be-4f21-9b08-9e5c11bb6c6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\DataTableRecord">
+      <UniqueIdentifier>{ec76d74f-3876-4293-bfaa-0d2b371d4d98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdBaseObject.h">
@@ -135,6 +144,13 @@
     <ClInclude Include="OdDbPolyline.h">
       <Filter>Entities\Polyline</Filter>
     </ClInclude>
+    <ClInclude Include="OdDatabase.h">
+      <Filter>Database\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="OdTransaction.h">
+      <Filter>Database\Transaction</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDataTableRecord.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OdBaseObject.cpp">
@@ -191,5 +207,12 @@
     <ClCompile Include="OdDbPolyline.cpp">
       <Filter>Entities\Polyline</Filter>
     </ClCompile>
+    <ClCompile Include="OdDatabase.cpp">
+      <Filter>Database\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="OdTransaction.cpp">
+      <Filter>Database\Transaction</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDataTableRecord.cpp" />
   </ItemGroup>
 </Project>

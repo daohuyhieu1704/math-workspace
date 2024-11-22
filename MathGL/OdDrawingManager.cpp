@@ -12,10 +12,10 @@
 #include "MathViewport.h"
 #include "LineCmd.h"
 #include "MathArc.h"
+#include <glm/glm.hpp>
+#include <OdTransaction.h>
 
 OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
-
-std::map<int, std::string> objectMap;
 
 int argc = 1;
 char* argv[] = { (char*)"MathWorkspace" };
@@ -47,7 +47,6 @@ void keypress(unsigned char key, int x, int y);
 void skeypress(int key, int x, int y);
 void mouse(int bn, int st, int x, int y);
 void motion(int x, int y);
-void pickObject(int x, int y);
 void setColorID(int id);
 
 int anim, help;
@@ -187,7 +186,7 @@ void idle(void)
 
 void display(void)
 {
-	drawScene(false); // Regular rendering
+	drawScene(false);
 }
 
 void drawScene(bool picking)
@@ -220,6 +219,18 @@ void drawScene(bool picking)
 	arc->setEndPoint(OdGePoint3d(10, 10, 0));
 	arc->setBulge(0.8);
 	arc->draw();
+
+	OdTransactionPtr transaction = OdDrawingManager::R()->startTransaction();
+	try
+	{
+		transaction->addEntity(circle);
+		transaction->addEntity(arc);
+		transaction->commit();
+	}
+	catch (const std::exception&)
+	{
+		transaction->abort();
+	}
 
 	// Draw Axis and Grid
 	drawAxis(picking);
@@ -351,7 +362,7 @@ void mouse(int bn, int st, int x, int y)
 	viewport->setMouseY(y);
 	if (bn == GLUT_LEFT_BUTTON && st == GLUT_DOWN)
 	{
-		pickObject(x, y);
+		OdDrawingManager::R()->pickObject(x, y);
 	}
 }
 
@@ -369,32 +380,92 @@ void setColorID(int id)
 	glColor3ub(r, g, b);
 }
 
-// Picking function
-void pickObject(int x, int y)
+glm::mat4 projectionMatrix;
+glm::mat4 viewMatrix;
+glm::vec3 cameraPosition;
+
+bool rayIntersectsSphere(
+	const glm::vec3& rayOrigin,
+	const glm::vec3& rayDirection,
+	const glm::vec3& sphereCenter,
+	float sphereRadius,
+	float& t)
 {
-	GLint viewport[4];
-	glGetIntegerv(GL_VIEWPORT, viewport);
+	// Vector from ray origin to sphere center
+	glm::vec3 L = sphereCenter - rayOrigin;
 
-	// Set up off-screen rendering for picking
-	glReadBuffer(GL_BACK);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	drawScene(true); // Render with unique colors for picking
+	// Project L onto the ray direction
+	float tca = glm::dot(L, rayDirection);
 
-	// Read the color at the clicked position
-	GLubyte pixel[3];
-	glReadPixels(x, viewport[3] - y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
+	// Distance squared from sphere center to the projection
+	float d2 = glm::dot(L, L) - tca * tca;
+	float radius2 = sphereRadius * sphereRadius;
 
-	int colorID = (pixel[0]) | (pixel[1] << 8) | (pixel[2] << 16);
-	auto it = objectMap.find(colorID);
-	if (it != objectMap.end())
-	{
-		selectedObjectID = colorID; // Set selected object ID
-		std::cout << "Selected object: " << it->second << std::endl;
+	// If d2 > radius^2, the ray misses the sphere
+	if (d2 > radius2) return false;
+
+	// Distance from tca to the intersection points
+	float thc = sqrt(radius2 - d2);
+
+	// Compute the two intersection distances along the ray
+	float t0 = tca - thc;
+	float t1 = tca + thc;
+
+	// Ensure t0 is the closest intersection
+	if (t0 > t1) std::swap(t0, t1);
+
+	// If both intersections are behind the ray origin, there is no valid intersection
+	if (t1 < 0) return false;
+
+	// If t0 is negative, use t1 instead
+	t = (t0 < 0) ? t1 : t0;
+
+	return true;
+}
+
+// Picking function
+void OdDrawingManager::pickObject(int x, int y)
+{
+	// Get window dimensions
+	int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
+	int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
+
+	// Convert to NDC
+	float ndcX = (2.0f * x) / windowWidth - 1.0f;
+	float ndcY = 1.0f - (2.0f * y) / windowHeight;
+
+	// Convert to clip space
+	glm::vec4 rayClip = glm::vec4(ndcX, ndcY, -1.0f, 1.0f);
+
+	// Convert to eye space
+	glm::vec4 rayEye = glm::inverse(projectionMatrix) * rayClip;
+	rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f); // Set w to 0 for direction vector
+
+	// Convert to world space
+	glm::vec3 rayWorld = glm::normalize(glm::vec3(glm::inverse(viewMatrix) * rayEye));
+
+	// Ray origin and direction
+	glm::vec3 rayOrigin = cameraPosition;
+	glm::vec3 rayDirection = rayWorld;
+
+	// Intersection test
+	float closestDistance = FLT_MAX;
+	OdBaseObject* selectedObject = nullptr;
+	for (OdBaseObjectPtr& obj : m_database->getRecord(OdHostAppService::R()->getCurrentSession()->getObjectId().GetObjectId())->getSession()->getEntities()) {
+		if (obj.get()->isKindOf(OdDbEntity::desc())) {
+			float t;
+			OdDbEntity* entity = dynamic_cast<OdDbEntity*>(obj.get());
+			if (rayIntersectsSphere(rayOrigin, rayDirection, glm::vec3(entity->m_position.x, entity->m_position.y, entity->m_position.z), 20, t)) {
+				if (t < closestDistance) {
+					closestDistance = t;
+					selectedObject = obj.get();
+				}
+			}
+		}
 	}
-	else
-	{
-		selectedObjectID = -1; // No object selected
-		std::cout << "No object selected." << std::endl;
+
+	if (selectedObject != nullptr) {
+		OdDbEntity* entity = dynamic_cast<OdDbEntity*>(selectedObject);
 	}
 
 	// Restore normal rendering

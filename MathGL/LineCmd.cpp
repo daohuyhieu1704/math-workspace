@@ -14,7 +14,7 @@ bool LineCmd::execute()
 	MathLinePtr line = MathLine::createObject();
     line->setStartPnt(startPnt);
     line->setEndPnt(endPnt);
-    OdDrawingManager::R()->appendEntity(line.get());
+    OdDrawingManager::R()->appendEntity(line);
     return true;
 }
 

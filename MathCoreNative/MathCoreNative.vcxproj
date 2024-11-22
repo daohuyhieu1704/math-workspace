@@ -155,6 +155,8 @@
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="MathLog.h" />
     <ClInclude Include="OdBaseObject.h" />
+    <ClInclude Include="OdDatabase.h" />
+    <ClInclude Include="OdDataTableRecord.h" />
     <ClInclude Include="OdDbArc.h" />
     <ClInclude Include="OdDbCircle.h" />
     <ClInclude Include="OdDbEntity.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="OdMathSession.h" />
     <ClInclude Include="OdPlatformSettings.h" />
     <ClInclude Include="OdResult.h" />
+    <ClInclude Include="OdTransaction.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +180,8 @@
     <ClCompile Include="IActionCmd.cpp" />
     <ClCompile Include="IEngine.cpp" />
     <ClCompile Include="OdBaseObject.cpp" />
+    <ClCompile Include="OdDatabase.cpp" />
+    <ClCompile Include="OdDataTableRecord.cpp" />
     <ClCompile Include="OdDbArc.cpp" />
     <ClCompile Include="OdDbCircle.cpp" />
     <ClCompile Include="OdDbEntity.cpp" />
@@ -190,6 +195,7 @@
     <ClCompile Include="OdHostAppService.cpp" />
     <ClCompile Include="OdJig.cpp" />
     <ClCompile Include="OdMathSession.cpp" />
+    <ClCompile Include="OdTransaction.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
