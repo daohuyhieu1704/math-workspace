@@ -7,8 +7,9 @@ MathPolyline::MathPolyline()
 
 void MathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, double bulge) const {
     if (bulge == 0.0) {
-        glVertex2d(start.x, start.y);
-        glVertex2d(end.x, end.y);
+        // Straight line segment
+        glVertex3d(start.x, start.y, start.z);
+        glVertex3d(end.x, end.y, end.z);
         return;
     }
 
@@ -16,16 +17,22 @@ void MathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, dou
     double dy = end.y - start.y;
     double chordLength = sqrt(dx * dx + dy * dy);
 
-    double sagitta = bulge * chordLength / 2.0;
-    double radius = (chordLength * chordLength / (8.0 * fabs(sagitta))) + fabs(sagitta);
+    // Calculate the included angle using bulge
+    double includedAngle = 4 * atan(fabs(bulge));
+    double radius = chordLength / (2 * sin(includedAngle / 2.0));
 
+    // Determine arc center
+    double sagitta = radius * (1 - cos(includedAngle / 2.0));
     double cx, cy;
-    double midX = (start.x + end.x) / 2.0;
-    double midY = (start.y + end.y) / 2.0;
-    double offsetX = -dy * sagitta / fabs(sagitta) * (radius - fabs(sagitta)) / chordLength;
-    double offsetY = dx * sagitta / fabs(sagitta) * (radius - fabs(sagitta)) / chordLength;
-    cx = midX + offsetX;
-    cy = midY + offsetY;
+
+    if (bulge > 0.0) {
+        cx = (start.x + end.x) / 2.0 - dy * sagitta / chordLength;
+        cy = (start.y + end.y) / 2.0 + dx * sagitta / chordLength;
+    }
+    else {
+        cx = (start.x + end.x) / 2.0 + dy * sagitta / chordLength;
+        cy = (start.y + end.y) / 2.0 - dx * sagitta / chordLength;
+    }
 
     double startAngle = atan2(start.y - cy, start.x - cx);
     double endAngle = atan2(end.y - cy, end.x - cx);
@@ -43,26 +50,31 @@ void MathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, dou
         double angle = startAngle + i * angleStep;
         double x = cx + radius * cos(angle);
         double y = cy + radius * sin(angle);
-        glVertex2d(x, y);
+        glVertex3d(x, y, start.z); // Use z-coordinate from the start point
     }
 }
 
-OdResult MathPolyline::draw() const
-{
-    if (numVertices() == 0) {
+OdResult MathPolyline::draw() const {
+    if (numVertices() < 2) {
         return eInvalidInput;
     }
 
     glPushMatrix();
-    glLoadIdentity();
 
     glBegin(GL_LINE_STRIP);
     int numVert = numVertices();
-    for (size_t i = 0; i < numVert - 1; ++i) {
+    for (int i = 0; i < numVert - 1; ++i) {
         const OdGePoint3d& current = getVertexAt(i);
         const OdGePoint3d& next = getVertexAt(i + 1);
         double bulge = getBulgeAt(i);
         drawArc(current, next, bulge);
+    }
+
+    if (isClosed() && numVert > 2) {
+        const OdGePoint3d& first = getVertexAt(0);
+        const OdGePoint3d& last = getVertexAt(numVert - 1);
+        double bulge = getBulgeAt(numVert - 1);
+        drawArc(last, first, bulge);
     }
 
     glEnd();
@@ -71,3 +83,4 @@ OdResult MathPolyline::draw() const
 
     return eOk;
 }
+

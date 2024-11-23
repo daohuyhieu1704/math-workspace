@@ -58,6 +58,9 @@
     <Filter Include="Graphics\Polyline">
       <UniqueIdentifier>{d340f1f0-f961-41a7-8451-4dccded737a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Plane">
+      <UniqueIdentifier>{1449204a-cdd9-45ed-a81a-e10f4cfb1093}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">

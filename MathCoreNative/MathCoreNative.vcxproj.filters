@@ -40,32 +40,32 @@
     <Filter Include="Entities\Circle">
       <UniqueIdentifier>{6c0ea26e-c1f3-433f-b19e-9c49161aca23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commons\ObjectBase\AbstractEngine">
-      <UniqueIdentifier>{ac2cea56-e654-4615-afac-6c491683a8cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\ObjectBase\AbstractEngine\Session">
-      <UniqueIdentifier>{a8bdd297-6900-4221-a778-858d0aff69c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\ObjectBase\AbstractEngine\HostAppService">
-      <UniqueIdentifier>{ca6aa1b2-c14d-4199-bdca-1692bdaf872a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\ObjectBase\AbstractEngine\Command">
-      <UniqueIdentifier>{90292e40-3fce-4c8a-a918-dcffda46ffe4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\ObjectBase\AbstractEngine\GraphicEngine">
-      <UniqueIdentifier>{ac0bbf78-8723-4ae4-9d1c-d8371e75220a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Entities\Line">
       <UniqueIdentifier>{cc5c197b-3767-44d1-87e9-de7e18c2296f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commons\ObjectBase\AbstractEngine\CommandPrompt">
-      <UniqueIdentifier>{480d7bc0-944a-43f6-bf99-10d885c5a214}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entities\Arc">
       <UniqueIdentifier>{e4201ae4-e64f-4f02-8ce7-0e113f356f0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Entities\Polyline">
       <UniqueIdentifier>{a2e6c161-3323-4182-b552-0e675a4dfb81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Command">
+      <UniqueIdentifier>{90292e40-3fce-4c8a-a918-dcffda46ffe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\CommandPrompt">
+      <UniqueIdentifier>{480d7bc0-944a-43f6-bf99-10d885c5a214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\HostAppService">
+      <UniqueIdentifier>{ca6aa1b2-c14d-4199-bdca-1692bdaf872a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\GraphicEngine">
+      <UniqueIdentifier>{ac0bbf78-8723-4ae4-9d1c-d8371e75220a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Session">
+      <UniqueIdentifier>{a8bdd297-6900-4221-a778-858d0aff69c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Plane">
+      <UniqueIdentifier>{a13a3fd0-8b8b-4ec5-8ca5-28ce61b3fa86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,22 +106,22 @@
       <Filter>Entities\Circle</Filter>
     </ClInclude>
     <ClInclude Include="OdHostAppService.h">
-      <Filter>Commons\ObjectBase\AbstractEngine\HostAppService</Filter>
+      <Filter>Commons\HostAppService</Filter>
     </ClInclude>
     <ClInclude Include="IActionCmd.h">
-      <Filter>Commons\ObjectBase\AbstractEngine\Command</Filter>
+      <Filter>Commons\Command</Filter>
     </ClInclude>
     <ClInclude Include="OdMathSession.h">
-      <Filter>Commons\ObjectBase\AbstractEngine\Session</Filter>
+      <Filter>Commons\Session</Filter>
     </ClInclude>
     <ClInclude Include="IEngine.h">
-      <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
+      <Filter>Commons\GraphicEngine</Filter>
     </ClInclude>
     <ClInclude Include="OdDbLine.h">
       <Filter>Entities\Line</Filter>
     </ClInclude>
     <ClInclude Include="CommandPrompt.h">
-      <Filter>Commons\ObjectBase\AbstractEngine\CommandPrompt</Filter>
+      <Filter>Commons\CommandPrompt</Filter>
     </ClInclude>
     <ClInclude Include="OdJig.h">
       <Filter>Drawing\Jig</Filter>
@@ -165,22 +165,22 @@
       <Filter>Entities\Circle</Filter>
     </ClCompile>
     <ClCompile Include="OdHostAppService.cpp">
-      <Filter>Commons\ObjectBase\AbstractEngine\HostAppService</Filter>
+      <Filter>Commons\HostAppService</Filter>
     </ClCompile>
     <ClCompile Include="IActionCmd.cpp">
-      <Filter>Commons\ObjectBase\AbstractEngine\Command</Filter>
+      <Filter>Commons\Command</Filter>
     </ClCompile>
     <ClCompile Include="OdMathSession.cpp">
-      <Filter>Commons\ObjectBase\AbstractEngine\Session</Filter>
+      <Filter>Commons\Session</Filter>
     </ClCompile>
     <ClCompile Include="IEngine.cpp">
-      <Filter>Commons\ObjectBase\AbstractEngine\GraphicEngine</Filter>
+      <Filter>Commons\GraphicEngine</Filter>
     </ClCompile>
     <ClCompile Include="OdDbLine.cpp">
       <Filter>Entities\Line</Filter>
     </ClCompile>
     <ClCompile Include="CommandPrompt.cpp">
-      <Filter>Commons\ObjectBase\AbstractEngine\CommandPrompt</Filter>
+      <Filter>Commons\CommandPrompt</Filter>
     </ClCompile>
     <ClCompile Include="OdJig.cpp">
       <Filter>Drawing\Jig</Filter>

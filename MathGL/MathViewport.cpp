@@ -2,12 +2,17 @@
 #include "MathViewport.h"
 #include <iostream>
 #include <cmath>
+#include "MathCircle.h"
+#include "MathPolyline.h"
 
 OD_RTTI_DEFINE(MathViewport, OdGiDrawable)
 OD_RTTI_SINGLETON_DEFINE(MathViewport)
 
-MathViewport::MathViewport() {}
 
+MathPolylinePtr polyline = MathPolyline::createObject();
+
+MathViewport::MathViewport() {
+}
 // Member function implementations
 void MathViewport::idle() {
     glutPostRedisplay();
@@ -39,8 +44,20 @@ void MathViewport::drawScene(bool picking) {
     }
 
     // Draw Axis and Grid
-    drawAxis(picking);
-    drawGridXY(picking);
+    // drawAxis(picking);
+    // drawGridXY(picking);
+
+	MathCirclePtr circle = MathCircle::createObject();
+	circle->setCenter(OdGePoint3d(0, 0, 0));
+	circle->setRadius(1);
+    circle->draw();
+
+    polyline->addVertex(OdGePoint3d(0.0, 0.0, 0.0), 0.0);
+    polyline->addVertex(OdGePoint3d(10.0, 0.0, 0.0), 0.5);
+    polyline->addVertex(OdGePoint3d(10.0, 10.0, 0.0), 0.0);
+    polyline->addVertex(OdGePoint3d(0.0, 10.0, 0.0), -0.5);
+    polyline->setClosed(true);
+    polyline->draw();
 
     if (!picking) {
         print_help();

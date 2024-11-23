@@ -7,7 +7,7 @@ class OdDbPolyline :
 {
 	OD_RTTI_DECLARE(OdDbPolyline, OdDbEntity);
 public:
-	void addVertex(const OdGePoint2d& vertex, double bulge = 0);
+	void addVertex(const OdGePoint3d& vertex, double bulge = 0);
 	OdGePoint3d getVertexAt(int index) const;
 	double getBulgeAt(int index) const;
 	int numVertices() const;
@@ -21,7 +21,7 @@ public:
 	virtual json toJson() const override;
 	virtual void fromJson(const json& j) override;
 private:
-	std::vector<std::pair<OdGePoint2d, double>> m_vertices;
+	std::vector<std::pair<OdGePoint3d, double>> m_vertices;
 };
 
 OD_RTTI_DEFINE(OdDbPolyline, OdDbEntity)
