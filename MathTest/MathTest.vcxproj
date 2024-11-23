@@ -123,6 +123,29 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomCommand\CustomCommand.csproj">
+      <Project>{64775d55-e713-4f4a-bc33-d05ab1fbb22d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\GeometryNative\GeometryNative.vcxproj">
+      <Project>{856419b2-50fd-4fca-870d-15c5148cac7c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Geometry\Geometry.vcxproj">
+      <Project>{91300d2f-50f4-415e-9130-43351d2f0087}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MathCoreNative\MathCoreNative.vcxproj">
+      <Project>{6504e9e5-702e-432d-9e3e-5f4497c23661}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MathGL\MathGL.vcxproj">
+      <Project>{0083506c-bbd5-4429-9c97-e51c4e1191d8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MathTestCSharp\MathTestCSharp.csproj">
+      <Project>{2dd3b503-4a03-4a95-a67b-4347f29df440}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MathUI\MathUI.csproj">
+      <Project>{07e6a901-c310-49f4-a123-4aa856ca7cb8}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.7\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets" Condition="Exists('..\packages\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.7\build\native\Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.targets')" />

@@ -52,32 +52,32 @@ namespace MathUI.Presenters
 
         private void DrawLine_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.DrawLine());
+            //CommandAction((model) => ViewModel.DrawLine());
         }
 
         private void DrawCircle_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.DrawCircle());
+            //CommandAction((model) => ViewModel.DrawCircle());
         }
 
         private void DrawRect_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.DrawRect());
+            //CommandAction((model) => ViewModel.DrawRect());
         }
 
         private void DrawSquare_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.DrawSquare());
+            //CommandAction((model) => ViewModel.DrawSquare());
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.Undo());
+            //CommandAction((model) => ViewModel.Undo());
         }
 
         private void Redo_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.Redo());
+            //CommandAction((model) => ViewModel.Redo());
         }
 
         private void New_Click(object sender, RoutedEventArgs e)
@@ -97,7 +97,7 @@ namespace MathUI.Presenters
 
         private void Select_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.Select());
+            //CommandAction((model) => ViewModel.Select());
         }
 
         private void CloseApp_Click(object sender, RoutedEventArgs e)
@@ -107,7 +107,7 @@ namespace MathUI.Presenters
 
         private void Dist_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.Dist());
+            //CommandAction((model) => ViewModel.Dist());
         }
 
         private void FileTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -116,12 +116,12 @@ namespace MathUI.Presenters
             {
                 return;
             }
-            CommandAction((model) => ViewModel.ChangeTab());
+            //CommandAction((model) => ViewModel.ChangeTab());
         }
 
         private void DrawPoly_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.DrawPoly());
+            //CommandAction((model) => ViewModel.DrawPoly());
         }
     }
 }

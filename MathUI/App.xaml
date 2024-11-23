@@ -1,9 +1,10 @@
 ﻿<Application x:Class="MathUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MathUI.Presenters"
+             xmlns:local="clr-namespace:MathUI"
+             xmlns:presenters="clr-namespace:MathUI.Presenters"
              StartupUri="Presenters/MainWindow.xaml">
     <Application.Resources>
-         
+      
     </Application.Resources>
 </Application>
