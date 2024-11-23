@@ -45,7 +45,6 @@ public:
 	OdBaseObjectPtr Clone() override;
 	OdHostAppService();
 private:
-	static OdHostAppServicePtr m_instance;
 	~OdHostAppService() = default;
 	OdHostAppService(const OdHostAppService&) = delete;
 	OdHostAppService& operator=(const OdHostAppService&) = delete;

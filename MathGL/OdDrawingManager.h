@@ -37,6 +37,5 @@ private:
 	std::vector<const OdBaseObject*> m_entities;
 	std::vector<const OdBaseObject*> m_jigs;
 	std::vector<const OdBaseObject*> m_tempRenders;
-	static OdDrawingManagerPtr m_instance;
 };
 OD_RTTI_DEFINE(OdDrawingManager, OdBaseObject)

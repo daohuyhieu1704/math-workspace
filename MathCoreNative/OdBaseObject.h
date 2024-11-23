@@ -176,7 +176,10 @@ public: \
     }
 
 #define OD_RTTI_SINGLETON_DECLARE(ClassName) \
-static OdSmartPtr<ClassName>& R();
+private: \
+    static OdSmartPtr<ClassName> m_instance; \
+public: \
+    static OdSmartPtr<ClassName>& R();
 
 #define OD_RTTI_SINGLETON_DEFINE(ClassName) \
 OdSmartPtr<ClassName> ClassName::m_instance; \

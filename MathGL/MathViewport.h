@@ -1,45 +1,65 @@
 #pragma once
+#include <glm/glm.hpp>
 #include <OdGiDrawable.h>
 #include <OdGePoint2d.h>
 #include <OdGePoint3d.h>
 
 using namespace GeometryNative;
 
+#define ZNEAR	0.5f
+
+#define OBJ_TORUS 1
+#define OBJ_SPHERE 2
+#define OBJ_CUBE 3
+#define OBJ_CONE 4
+#define OBJ_TEAPOT 5
+#define OBJ_PLANE 6
+#define OBJ_AXIS 7
+#define OBJ_GRID 8
+
 typedef OdSmartPtr<class MathViewport> MathViewportPtr;
 class MathViewport : public OdGiDrawable {
-    OD_RTTI_DECLARE(MathViewport, OdGiDrawable);
+    OD_RTTI_DECLARE(MathViewport, OdGiDrawable)
+        OD_RTTI_SINGLETON_DECLARE(MathViewport)
 public:
+    // Constructor
     MathViewport();
 
-#pragma region Properties
-	int getWidth() const { return win_width; }
-	void setWidth(int width) { win_width = width; }
-	int getHeight() const { return win_height; }
-	void setHeight(int height) { win_height = height; }
-	float getTheta() const { return rotateY; }
-	void setTheta(float theta) { rotateY = theta; }
-	float getPhi() const { return rotateX; }
-	void setPhi(float phi) { rotateX = phi; }
-	float getDistance() const { return cam_dist; }
-	void setDistance(float distance) { cam_dist = distance; }
-	float* getPan() { return cam_pan; }
-	void setPan(float x, float y, float z) { cam_pan[0] = x; cam_pan[1] = y; cam_pan[2] = z; }
-	int getMouseX() const { return mouse_x; }
-	void setMouseX(int x) { mouse_x = x; }
-	int getMouseY() const { return mouse_y; }
-	void setMouseY(int y) { mouse_y = y; }
-	int* getButtonState() { return bnstate; }
-	void setButtonState(int idx, int state) { bnstate[idx] = state; }
-#pragma endregion
+    // Member variables
+    int win_width = 800, win_height = 600;
+    float cam_theta = 0, cam_phi = 25, cam_dist = 8;
+    float cam_pan[3] = { 0.0f, 0.0f, 0.0f };
+    int mouse_x = 0, mouse_y = 0;
+    int bnstate[8] = { 0 };
+    int anim = 0, help = 0;
+    long anim_start = 0;
+    long nframes = 0;
+
+    // Matrices and camera properties
+    glm::mat4 projectionMatrix;
+    glm::mat4 viewMatrix;
+    glm::vec3 cameraPosition;
+
+    // Member functions
+    void idle();
+    void display();
+    void drawScene(bool picking = false);
+    void print_help();
+    void reshape(int x, int y);
+    void keypress(unsigned char key, int x, int y);
+    void skeypress(int key, int x, int y);
+    void mouse(int bn, int st, int x, int y);
+    void motion(int x, int y);
+    void setColorID(int id);
+    void setButtonState(int idx, bool state) { bnstate[idx] = state; }
+    void setMouseX(int x) { mouse_x = x; }
+    void setMouseY(int y) { mouse_y = y; }
+    void motionHandler(int x, int y);
+    void drawGridXY(bool picking = false, float size = 10.0f, float step = 1.0f);
+    void drawAxis(bool picking = false, float size = 2.5f);
+    void pickObject(int x, int y);
+
+    // Inherited via OdGiDrawable
     OdBaseObjectPtr Clone() override;
     OdResult draw() const override;
-	void motion(int x, int y);
-private:
-	int win_width, win_height;
-	float rotateY, rotateX = 25, cam_dist = 8;
-	float cam_pan[3];
-	int mouse_x, mouse_y;
-	int bnstate[8];
 };
-
-OD_RTTI_DEFINE(MathViewport, OdGiDrawable)
