@@ -62,6 +62,7 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
                 {
 					if (objRaw->id() == name) {
 						objRaw->setSelected(true);
+                        OdDrawingManager::R()->m_json = objRaw->toJson();
 						break;
 					}
                 }

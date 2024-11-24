@@ -37,6 +37,7 @@ public:
 	void AppendPrompt(const std::string prompt);
 	void RegisterCommandPattern();
 	void renderAll();
+	json m_json;
 private:
 	std::vector<OdBaseObjectPtr> m_entities;
 	std::vector<OdBaseObjectPtr> m_jigs;

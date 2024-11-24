@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Text.Json.Nodes;
 
 namespace MathUI.Presenters
 {
@@ -25,6 +26,7 @@ namespace MathUI.Presenters
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            DataContext = new MainWindowViewModel(this);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -64,6 +66,10 @@ namespace MathUI.Presenters
         {
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
+            }
+            else if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                CommandAction((model) => model.readJson());
             }
         }
 

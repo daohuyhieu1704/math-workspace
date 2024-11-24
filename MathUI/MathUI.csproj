@@ -67,6 +67,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Geometry\Geometry.vcxproj" />
     <ProjectReference Include="..\MathGL\MathGL.vcxproj" />
   </ItemGroup>

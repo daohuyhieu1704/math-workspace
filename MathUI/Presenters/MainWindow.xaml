@@ -7,6 +7,7 @@
         d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown"
         Name="MainView"
         Title="MathUI" Height="960" Width="1400">
     <Window.Resources>

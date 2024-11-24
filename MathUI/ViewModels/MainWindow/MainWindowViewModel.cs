@@ -17,6 +17,7 @@ using System.IO;
 using MathUI.Commons;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
+using System.Text.Json.Nodes;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -402,6 +403,12 @@ namespace MathUI.ViewModels.MainWindow
 
         internal async void DrawPoly()
         {
+        }
+
+        internal void readJson()
+        {
+            JsonObject json = DrawingManager.Instance.Entities;
+            string jsonString = json.ToString();
         }
 
         public ICommand CloseTabCommand { get; }
