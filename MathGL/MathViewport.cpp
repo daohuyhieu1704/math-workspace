@@ -4,10 +4,12 @@
 #include <cmath>
 #include "MathCircle.h"
 #include "MathPolyline.h"
+#include "MathPlane.h"
+#include "OdDrawingManager.h"
+#include "OdSelectionPrompt.h"
 
 OD_RTTI_DEFINE(MathViewport, OdGiDrawable)
 OD_RTTI_SINGLETON_DEFINE(MathViewport)
-
 
 MathPolylinePtr polyline = MathPolyline::createObject();
 
@@ -31,10 +33,7 @@ void MathViewport::drawScene(bool picking) {
     glLoadIdentity();
 
     // Camera transformations
-    glTranslatef(0, 0, -cam_dist);
-    glRotatef(cam_phi, 1, 0, 0);
-    glRotatef(cam_theta, 0, 1, 0);
-    glTranslatef(cam_pan[0], cam_pan[1], cam_pan[2]);
+    setCamera();
 
     if (!picking) {
         glLightfv(GL_LIGHT0, GL_POSITION, lpos);
@@ -44,20 +43,9 @@ void MathViewport::drawScene(bool picking) {
     }
 
     // Draw Axis and Grid
-    // drawAxis(picking);
-    // drawGridXY(picking);
-
-	MathCirclePtr circle = MathCircle::createObject();
-	circle->setCenter(OdGePoint3d(0, 0, 0));
-	circle->setRadius(1);
-    circle->draw();
-
-    polyline->addVertex(OdGePoint3d(0.0, 0.0, 0.0), 0.0);
-    polyline->addVertex(OdGePoint3d(10.0, 0.0, 0.0), 0.5);
-    polyline->addVertex(OdGePoint3d(10.0, 10.0, 0.0), 0.0);
-    polyline->addVertex(OdGePoint3d(0.0, 10.0, 0.0), -0.5);
-    polyline->setClosed(true);
-    polyline->draw();
+    drawAxis(picking);
+	drawInfiniteGrid(1.0f, 50);
+    OdDrawingManager::R()->renderAll();
 
     if (!picking) {
         print_help();
@@ -160,42 +148,76 @@ void MathViewport::drawGridXY(bool picking, float size, float step) {
         glEnable(GL_LIGHTING);
 }
 
+static void renderText(const char* text, float x, float y, float z) {
+    glRasterPos3f(x, y, z);
+    for (const char* c = text; *c != '\0'; c++) {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
+    }
+}
+
+void MathViewport::drawInfiniteGrid(float spacing, int halfSize) const {
+    glLineWidth(1.0f);       // Set grid line width
+    glColor3f(0.5f, 0.5f, 0.5f); // Grid color (gray)
+
+    glBegin(GL_LINES);
+    // Convert spherical coordinates to Cartesian
+    float cam_x = cam_dist * cosf(cam_phi * OdPI / 180.0f) * sinf(cam_theta * OdPI / 180.0f);
+    float cam_y = cam_dist * sinf(cam_phi * OdPI / 180.0f);
+
+    // Dynamic grid offset based on camera position
+    float offsetX = cam_x - fmod(cam_x, spacing);
+    float offsetY = cam_y - fmod(cam_y, spacing);
+
+    // Draw lines parallel to the X-axis
+    for (int i = -halfSize; i <= halfSize; ++i) {
+        float y = (i * spacing) + offsetY;
+        glVertex3f(-halfSize * spacing + offsetX, y, 0.0f); // Start point
+        glVertex3f(halfSize * spacing + offsetX, y, 0.0f);  // End point
+    }
+
+    // Draw lines parallel to the Y-axis
+    for (int i = -halfSize; i <= halfSize; ++i) {
+        float x = (i * spacing) + offsetX;
+        glVertex3f(x, -halfSize * spacing + offsetY, 0.0f); // Start point
+        glVertex3f(x, halfSize * spacing + offsetY, 0.0f);  // End point
+    }
+
+    glEnd();
+}
+
 void MathViewport::drawAxis(bool picking, float size) {
-    glLineWidth(2.0f);
+    glDisable(GL_LIGHTING);
+    glLineWidth(2.0f); // Set line width
 
-    if (picking) {
-        setColorID(OBJ_AXIS);
-        glBegin(GL_LINES);
-        // Draw X-axis
-        glVertex3f(0.0f, 0.0f, 0.0f);
-        glVertex3f(10.0f, 0.0f, 0.0f);
-        // Draw Y-axis
-        glVertex3f(0.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, 10.0f, 0.0f);
-        glEnd();
-    }
-    else {
-        // Draw X-axis in red
-        glBegin(GL_LINES);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, 0.0f, 0.0f);
-        glVertex3f(10.0f, 0.0f, 0.0f);
-        glEnd();
+    glBegin(GL_LINES);
 
-        // Draw Y-axis in green
-        glBegin(GL_LINES);
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(0.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, 10.0f, 0.0f);
-        glEnd();
+    // X-axis (Red)
+    glColor3f(1.0f, 0.0f, 0.0f); // Red color
+    glVertex3f(-1.0f, 0.0f, 0.0f); // Negative X
+    glVertex3f(1.0f, 0.0f, 0.0f);  // Positive X
 
-        // Draw the origin point
-        glPointSize(5.0f);
-        glBegin(GL_POINTS);
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(0.0f, 0.0f, 0.0f);
-        glEnd();
-    }
+    // Y-axis (Green)
+    glColor3f(0.0f, 1.0f, 0.0f); // Green color
+    glVertex3f(0.0f, -1.0f, 0.0f); // Negative Y
+    glVertex3f(0.0f, 1.0f, 0.0f);  // Positive Y
+
+    // Z-axis (Blue)
+    glColor3f(0.0f, 0.0f, 1.0f); // Blue color
+    glVertex3f(0.0f, 0.0f, -1.0f); // Negative Z
+    glVertex3f(0.0f, 0.0f, 1.0f);  // Positive Z
+
+    glEnd();
+
+    // Add labels to the axes
+    glColor3f(1.0f, 0.0f, 0.0f); // Red for X
+    renderText("X", 1.1f, 0.0f, 0.0f); // Slightly beyond the positive X-axis
+
+    glColor3f(0.0f, 1.0f, 0.0f); // Green for Y
+    renderText("Y", 0.0f, 1.1f, 0.0f); // Slightly beyond the positive Y-axis
+
+    glColor3f(0.0f, 0.0f, 1.0f); // Blue for Z
+    renderText("Z", 0.0f, 0.0f, 1.1f); // Slightly beyond the positive Z-axis
+    glEnable(GL_LIGHTING);
 }
 
 void MathViewport::print_help() {
@@ -362,7 +384,6 @@ void MathViewport::skeypress(int key, int x, int y) {
     }
 }
 
-
 void MathViewport::mouse(int bn, int st, int x, int y) {
     int bidx = bn - GLUT_LEFT_BUTTON;
     if (bidx >= 0 && bidx < 3) {
@@ -373,7 +394,7 @@ void MathViewport::mouse(int bn, int st, int x, int y) {
     mouse_y = y;
 
     if (bn == GLUT_LEFT_BUTTON && st == GLUT_DOWN) {
-        pickObject(x, y);
+        OdSelectionPrompt::R()->pickObjects(x, y);
     }
 
     glutPostRedisplay();
@@ -456,7 +477,6 @@ void MathViewport::pickObject(int x, int y) {
     // Object picking logic
     float closestDistance = FLT_MAX; // Track the closest object
     int pickedObjectID = -1;         // ID of the picked object
-
     //// Iterate through all objects (this assumes a list of objects with bounding spheres)
     //for (const auto& object : sceneObjects) { // `sceneObjects` contains objects with bounding spheres
     //    float t; // Distance to intersection
@@ -483,6 +503,12 @@ void MathViewport::pickObject(int x, int y) {
     glutPostRedisplay(); // Redraw the screen to reflect the selection
 }
 
+void MathViewport::setCamera() {
+    glTranslatef(0, 0, -cam_dist);
+    glRotatef(cam_phi, 1, 0, 0);
+    glRotatef(cam_theta, 0, 1, 0);
+    glTranslatef(cam_pan[0], cam_pan[1], cam_pan[2]);
+}
 
 
 OdBaseObjectPtr MathViewport::Clone()

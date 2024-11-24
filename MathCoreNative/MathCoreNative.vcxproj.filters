@@ -52,9 +52,6 @@
     <Filter Include="Commons\Command">
       <UniqueIdentifier>{90292e40-3fce-4c8a-a918-dcffda46ffe4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commons\CommandPrompt">
-      <UniqueIdentifier>{480d7bc0-944a-43f6-bf99-10d885c5a214}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Commons\HostAppService">
       <UniqueIdentifier>{ca6aa1b2-c14d-4199-bdca-1692bdaf872a}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,15 @@
     </Filter>
     <Filter Include="Entities\Plane">
       <UniqueIdentifier>{a13a3fd0-8b8b-4ec5-8ca5-28ce61b3fa86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Prompts">
+      <UniqueIdentifier>{b89cb2af-9fe2-4919-a4f6-69a2e4dc1725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Prompts\CommandPrompt">
+      <UniqueIdentifier>{480d7bc0-944a-43f6-bf99-10d885c5a214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Prompts\SelectionPrompt">
+      <UniqueIdentifier>{c4a7f966-39e3-4b49-b7b0-d0f566b9bf56}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +127,7 @@
       <Filter>Entities\Line</Filter>
     </ClInclude>
     <ClInclude Include="CommandPrompt.h">
-      <Filter>Commons\CommandPrompt</Filter>
+      <Filter>Commons\Prompts\CommandPrompt</Filter>
     </ClInclude>
     <ClInclude Include="OdJig.h">
       <Filter>Drawing\Jig</Filter>
@@ -134,6 +140,12 @@
     </ClInclude>
     <ClInclude Include="OdDbPolyline.h">
       <Filter>Entities\Polyline</Filter>
+    </ClInclude>
+    <ClInclude Include="OdDbPlane.h">
+      <Filter>Entities\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractSelectionPrompt.h">
+      <Filter>Commons\Prompts\SelectionPrompt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,7 +192,7 @@
       <Filter>Entities\Line</Filter>
     </ClCompile>
     <ClCompile Include="CommandPrompt.cpp">
-      <Filter>Commons\CommandPrompt</Filter>
+      <Filter>Commons\Prompts\CommandPrompt</Filter>
     </ClCompile>
     <ClCompile Include="OdJig.cpp">
       <Filter>Drawing\Jig</Filter>
@@ -190,6 +202,12 @@
     </ClCompile>
     <ClCompile Include="OdDbPolyline.cpp">
       <Filter>Entities\Polyline</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDbPlane.cpp">
+      <Filter>Entities\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractSelectionPrompt.cpp">
+      <Filter>Commons\Prompts\SelectionPrompt</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

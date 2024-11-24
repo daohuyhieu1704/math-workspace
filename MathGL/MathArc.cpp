@@ -18,6 +18,8 @@ double calculateAngleFromBulge(double bulge) {
 
 OdResult MathArc::draw() const
 {
+	glDisable(GL_LIGHTING);
+
     double bulge = getBulge();
     OdGePoint3d startPnt = getStartPoint();
     OdGePoint3d endPnt = getEndPoint();
@@ -65,6 +67,7 @@ OdResult MathArc::draw() const
     }
 
     glEnd();
+	glEnable(GL_LIGHTING);
 
     return OdResult::eOk;
 }

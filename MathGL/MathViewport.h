@@ -58,7 +58,8 @@ public:
     void drawGridXY(bool picking = false, float size = 10.0f, float step = 1.0f);
     void drawAxis(bool picking = false, float size = 2.5f);
     void pickObject(int x, int y);
-
+    void drawInfiniteGrid(float spacing = 1.0f, int halfSize = 50) const;
+    void setCamera();
     // Inherited via OdGiDrawable
     OdBaseObjectPtr Clone() override;
     OdResult draw() const override;

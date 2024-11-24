@@ -13,6 +13,7 @@ namespace GeometryNative
 		~OdGeVector3d();
 
 		double Length() const;
+		OdGeVector3d perpendicular() const;
 		OdGeVector3d normalize() const;
 		OdGeVector3d crossProduct(const OdGeVector3d& other) const;
 		double dotProduct(const OdGeVector3d& other) const;

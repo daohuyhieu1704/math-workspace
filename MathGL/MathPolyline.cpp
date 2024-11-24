@@ -59,6 +59,11 @@ OdResult MathPolyline::draw() const {
         return eInvalidInput;
     }
 
+	glDisable(GL_LIGHTING);
+	glLoadName(id());
+    float color[3] = { getColor().r, getColor().g, getColor().b };
+    glColor3f(color[0], color[1], color[2]);
+
     glPushMatrix();
 
     glBegin(GL_LINE_STRIP);
@@ -80,6 +85,7 @@ OdResult MathPolyline::draw() const {
     glEnd();
 
     glPopMatrix();
+	glEnable(GL_LIGHTING);
 
     return eOk;
 }

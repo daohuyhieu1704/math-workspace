@@ -61,6 +61,15 @@
     <Filter Include="Graphics\Plane">
       <UniqueIdentifier>{1449204a-cdd9-45ed-a81a-e10f4cfb1093}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Jig">
+      <UniqueIdentifier>{87f79b65-1d9d-4a36-9acd-5dec1bc18858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Circle">
+      <UniqueIdentifier>{a7d9188f-66d7-4aad-94f9-f09151ee7596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prompts">
+      <UniqueIdentifier>{a53274d4-789b-4a1d-9bb6-cbb9773508c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -94,7 +103,16 @@
       <Filter>Graphics\Arc</Filter>
     </ClInclude>
     <ClInclude Include="MathPolyline.h">
-      <Filter>Header Files</Filter>
+      <Filter>Graphics\Polyline</Filter>
+    </ClInclude>
+    <ClInclude Include="MathPlane.h">
+      <Filter>Graphics\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCircleJig.h">
+      <Filter>Jig\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="OdSelectionPrompt.h">
+      <Filter>Prompts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +144,16 @@
       <Filter>Graphics\Arc</Filter>
     </ClCompile>
     <ClCompile Include="MathPolyline.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Graphics\Polyline</Filter>
+    </ClCompile>
+    <ClCompile Include="MathPlane.cpp">
+      <Filter>Graphics\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCircleJig.cpp">
+      <Filter>Jig\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="OdSelectionPrompt.cpp">
+      <Filter>Prompts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

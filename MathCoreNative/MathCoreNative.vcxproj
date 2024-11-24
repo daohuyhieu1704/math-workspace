@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractSelectionPrompt.h" />
     <ClInclude Include="CommandPrompt.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="IActionCmd.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="OdDbLine.h" />
     <ClInclude Include="OdDbObject.h" />
     <ClInclude Include="OdDbObjectId.h" />
+    <ClInclude Include="OdDbPlane.h" />
     <ClInclude Include="OdDbPolyline.h" />
     <ClInclude Include="OdError.h" />
     <ClInclude Include="OdError_NotThatKindOfClass.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractSelectionPrompt.cpp" />
     <ClCompile Include="CommandPrompt.cpp" />
     <ClCompile Include="IActionCmd.cpp" />
     <ClCompile Include="IEngine.cpp" />
@@ -183,6 +186,7 @@
     <ClCompile Include="OdDbLine.cpp" />
     <ClCompile Include="OdDbObject.cpp" />
     <ClCompile Include="OdDbObjectId.cpp" />
+    <ClCompile Include="OdDbPlane.cpp" />
     <ClCompile Include="OdDbPolyline.cpp" />
     <ClCompile Include="OdError.cpp" />
     <ClCompile Include="OdError_NotThatKindOfClass.cpp" />

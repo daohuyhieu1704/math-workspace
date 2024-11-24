@@ -12,6 +12,7 @@
 #include "MathViewport.h"
 #include "LineCmd.h"
 #include "MathArc.h"
+#include "MathPlane.h"
 
 OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
 
@@ -82,12 +83,30 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
+	MathPlanePtr plane = MathPlane::createObject();
+	plane->setOrigin(OdGePoint3d(0, 0, 0));
+	plane->setNormal(OdGeVector3d(0, 0, 1));
+	OdDrawingManager::R()->appendEntity(plane);
+
 	return hwnd;
 }
 
 OdBaseObjectPtr OdDrawingManager::Clone()
 {
 	return OdDrawingManagerPtr();
+}
+
+int OdDrawingManager::appendEntity(std::string name)
+{
+	if (name == "MathCircle")
+	{
+		m_entities.push_back(MathCircle::createObject());
+	}
+	else if (name == "MathPlane")
+	{
+		m_entities.push_back(MathPlane::createObject());
+	}
+	return m_entities.size() - 1;
 }
 
 void OdDrawingManager::CreateSession(std::string fileName)
@@ -115,6 +134,35 @@ void OdDrawingManager::AppendPrompt(const std::string prompt)
 
 void OdDrawingManager::RegisterCommandPattern()
 {
-	//LineCmdPtr lineCmd = LineCmd::createObject();
-	//OdHostAppService::R()->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
+	// LineCmdPtr lineCmd = LineCmd::createObject();
+	// OdHostAppService::R()->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
+}
+
+void OdDrawingManager::renderAll()
+{
+	for (auto& entity : m_entities)
+	{
+		std::string type = entity->getClassName();
+		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
+		if (objRaw)
+		{
+			glPushMatrix();
+			glLoadName(objRaw->id());
+			if (objRaw->isSelected())
+			{
+				glColor3f(1.0f, 0.0f, 0.0f);
+			}
+			else
+			{
+				float color[3] = { objRaw->getColor().r, objRaw->getColor().g, objRaw->getColor().b };
+				glColor3f(color[0], color[1], color[2]);
+			}
+			objRaw->draw();
+			glPopMatrix();
+		}
+	}
+	//for (auto& jig : m_jigs)
+	//{
+	//	jig.Preview();
+	//}
 }

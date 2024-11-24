@@ -11,7 +11,7 @@ class OdDbObject : public OdGiDrawable
 {
 	OD_RTTI_DECLARE_ABSTRACT(OdDbObject, OdGiDrawable);
 public:
-	OdDbObjectId id() const;
+	unsigned int id() const;
 	virtual ~OdDbObject() = default;
 	virtual json toJson() const;
 	virtual void fromJson(const json& j);

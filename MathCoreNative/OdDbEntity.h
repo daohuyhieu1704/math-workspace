@@ -16,6 +16,8 @@ class OdDbEntity : public OdDbObject
 	OdGeVector3d m_zDir = OdGeVector3d::kZAxis;
 	OdGeExtents3d m_extents = OdGeExtents3d(OdGePoint3d::kOrigin, OdGePoint3d::kOrigin);
 	OdGeMatrix3d m_transform;
+	bool m_isVisible = true;
+	bool m_isSelected = false;
 public:
 #pragma region Properties
 	OdGeScale3d getScale() const { return m_scale; }
@@ -30,6 +32,12 @@ public:
 	void setZDir(const OdGeVector3d& zDir) { m_zDir = zDir; }
 	OdGeExtents3d getExtents() const { return m_extents; }
 	void setExtents(const OdGeExtents3d& extents) { m_extents = extents; }
+	OdGeMatrix3d getTransform() const { return m_transform; }
+	void setTransform(const OdGeMatrix3d& transform) { m_transform = transform; }
+	bool isVisible() const { return m_isVisible; }
+	void setVisible(bool isVisible) { m_isVisible = isVisible; }
+	bool isSelected() const { return m_isSelected; }
+	void setSelected(bool isSelected) { m_isSelected = isSelected; }
 #pragma endregion
 
 	virtual OdGeExtents3d boundingBox() const = 0;

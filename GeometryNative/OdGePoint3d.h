@@ -24,6 +24,7 @@ namespace GeometryNative
 		OdGePoint3d operator+(const OdGePoint3d& other) const;
 		OdGePoint3d operator+(const OdGeVector3d& other) const;
 		OdGeVector3d operator-(const OdGePoint3d& other) const;
+		OdGePoint3d operator-(const OdGeVector3d& vec) const;
 		bool isEqual(const OdGePoint3d& other) const;
 		OdGeVector3d toVector3d() const;
 		static const OdGePoint3d kOrigin;

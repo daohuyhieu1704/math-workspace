@@ -11,10 +11,10 @@ OdBaseObjectPtr LineCmd::Clone()
 
 bool LineCmd::execute()
 {
-	MathLinePtr line = MathLine::createObject();
-    line->setStartPnt(startPnt);
-    line->setEndPnt(endPnt);
-    OdDrawingManager::R()->appendEntity(line.get());
+	//MathLinePtr line = MathLine::createObject();
+ //   line->setStartPnt(startPnt);
+ //   line->setEndPnt(endPnt);
+ //   OdDrawingManager::R()->appendEntity(line);
     return true;
 }
 

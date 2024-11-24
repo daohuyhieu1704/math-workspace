@@ -79,6 +79,10 @@ namespace GeometryNative
 		return OdGeVector3d(x - other.x, y - other.y, z - other.z);
 	}
 
+	OdGePoint3d OdGePoint3d::operator-(const OdGeVector3d& vec) const {
+		return OdGePoint3d(x - vec.x, y - vec.y, z - vec.z);
+	}
+
 	bool OdGePoint3d::isEqual(const OdGePoint3d& other) const
 	{
 		const double EPSILON = 0.00001f;

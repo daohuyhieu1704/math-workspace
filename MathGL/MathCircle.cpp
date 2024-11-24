@@ -13,6 +13,7 @@ MathCircle::MathCircle(OdGePoint3d center, double radius) : OdDbCircle()
 
 OdResult MathCircle::draw() const
 {
+	glDisable(GL_LIGHTING);
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < m_segments; i++) {
         float angle = 2.0f * OdPI * i / m_segments;
@@ -21,5 +22,6 @@ OdResult MathCircle::draw() const
         glVertex2f(x, y);
     }
     glEnd();
+	glEnable(GL_LIGHTING);
 	return OdResult::eOk;
 }
