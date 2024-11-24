@@ -131,6 +131,7 @@
     <ClInclude Include="Matrix2d.h" />
     <ClInclude Include="Matrix3d.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Point2d.h" />
     <ClInclude Include="Point3d.h" />
     <ClInclude Include="Resource.h" />
@@ -151,6 +152,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Point2d.cpp" />
     <ClCompile Include="Point3d.cpp" />
     <ClCompile Include="Scale2d.cpp" />

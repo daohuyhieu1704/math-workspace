@@ -56,6 +56,11 @@ namespace GeometryNative
         return std::abs(a * point.x + b * point.y + c * point.z + d) / std::sqrt(a * a + b * b + c * c);
     }
 
+    bool OdGePlane::Intersect(const OdGePlane& other, OdGePoint3d& pointOnLine, OdGeVector3d& lineDirection) const
+    {
+		return Intersect(other, pointOnLine, lineDirection, FLT_EPSILON);
+    }
+
     bool OdGePlane::Intersect(const OdGePlane& other, OdGePoint3d& pointOnLine, OdGeVector3d& lineDirection, const double tolerance) const
     {
         // Compute the direction vector of the intersection line

@@ -14,15 +14,16 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
 {
     GLuint selectBuf[512];
     GLint hits, viewport[4];
-	double windowWidth = MathViewport::R()->win_width;
-	double windowHeight = MathViewport::R()->win_height;
+    double windowWidth = MathViewport::R()->win_width;
+    double windowHeight = MathViewport::R()->win_height;
     glGetIntegerv(GL_VIEWPORT, viewport);
 
     glSelectBuffer(512, selectBuf);
     glRenderMode(GL_SELECT);
 
     glInitNames();
-    glPushName(0);
+    glPushName(0); // Ensure name stack is not empty
+
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -34,7 +35,11 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
     glLoadIdentity();
 
     MathViewport::R()->setCamera();
+
+    // Render entities with names
     OdDrawingManager::R()->renderAll();
+
+    glPopName(); // Pop the initial name off the stack
 
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
@@ -42,36 +47,49 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
 
     hits = glRenderMode(GL_RENDER);
 
+    // Clear selection status of all entities
     const auto& entities = OdDrawingManager::R()->getEntities();
     for (auto& obj : entities) {
-        static_cast<OdDbEntity*>(obj.get())->setSelected(false);
+        OdDbEntity* entity = static_cast<OdDbEntity*>(obj.get());
+        if (entity) {
+            entity->setSelected(false);
+        }
     }
 
-    if (hits > 0) {
+    if (hits > 0)
+    {
         GLuint* ptr = selectBuf;
-        for (int i = 0; i < hits; ++i) {
-            int numNames = *ptr++;
+        for (int i = 0; i < hits; ++i)
+        {
+            GLuint numNames = *ptr++;
             GLuint minZ = *ptr++;
             GLuint maxZ = *ptr++;
-            GLuint name = *ptr++;
+            GLuint name = 0;
+            if (numNames > 0)
+            {
+                name = *ptr;
+                ptr += numNames;
+            }
+            else
+            {
+                continue;
+            }
 
-            // Find the object with the given name and select it
-            for (const OdBaseObjectPtr& obj : entities) {
-                OdDbEntity* objRaw = static_cast<OdDbEntity*>(obj.get());
-                if (objRaw)
+            for (const OdBaseObjectPtr& obj : entities)
+            {
+                OdDbEntity* entity = static_cast<OdDbEntity*>(obj.get());
+                if (entity && entity->id() == name)
                 {
-					if (objRaw->id() == name) {
-						objRaw->setSelected(true);
-                        OdDrawingManager::R()->m_json = objRaw->toJson();
-						break;
-					}
+                    entity->setSelected(true);
+                    OdDrawingManager::R()->m_json = entity->toJson();
+                    break;
                 }
             }
         }
     }
 
     glutPostRedisplay();
-	return OdResult::eOk;
+    return OdResult::eOk;
 }
 
 OdBaseObjectPtr OdSelectionPrompt::Clone()

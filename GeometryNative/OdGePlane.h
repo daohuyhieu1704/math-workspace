@@ -19,7 +19,8 @@ namespace GeometryNative
 		OdGePlane(double a, double b, double c, double d);
 
 		double DistanceTo(const OdGePoint3d& point) const;
-		bool Intersect(const OdGePlane& other, OdGePoint3d& pointOnLine, OdGeVector3d& lineDirection, const double tolerance = FLT_EPSILON) const;
+		bool Intersect(const OdGePlane& other, OdGePoint3d& pointOnLine, OdGeVector3d& lineDirection) const;
+		bool Intersect(const OdGePlane& other, OdGePoint3d& pointOnLine, OdGeVector3d& lineDirection, const double tolerance) const;
 	};
 }
 

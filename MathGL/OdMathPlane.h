@@ -1,13 +1,13 @@
 #pragma once
 #include <OdDbPlane.h>
 
-typedef OdSmartPtr<class MathPlane> MathPlanePtr;
-class MathPlane :
+typedef OdSmartPtr<class OdMathPlane> OdMathPlanePtr;
+class OdMathPlane :
 	public OdDbPlane
 {
-	OD_RTTI_DECLARE(MathPlane, OdDbPlane)
+	OD_RTTI_DECLARE(OdMathPlane, OdDbPlane)
 public:
-	MathPlane();
+	OdMathPlane();
 	OdResult draw() const override;
 private:
 	void drawNormalVector(
@@ -19,5 +19,5 @@ private:
 	) const;
 };
 
-OD_RTTI_DEFINE(MathPlane, OdDbPlane)
+OD_RTTI_DEFINE(OdMathPlane, OdDbPlane)
 

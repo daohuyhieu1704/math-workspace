@@ -2,16 +2,16 @@
 #include "MathViewport.h"
 #include <iostream>
 #include <cmath>
-#include "MathCircle.h"
+#include "OdMathCircle.h"
 #include "MathPolyline.h"
-#include "MathPlane.h"
+#include "OdMathPlane.h"
 #include "OdDrawingManager.h"
 #include "OdSelectionPrompt.h"
 
 OD_RTTI_DEFINE(MathViewport, OdGiDrawable)
 OD_RTTI_SINGLETON_DEFINE(MathViewport)
 
-MathPolylinePtr polyline = MathPolyline::createObject();
+OdMathPolylinePtr polyline = OdMathPolyline::createObject();
 
 MathViewport::MathViewport() {
 }

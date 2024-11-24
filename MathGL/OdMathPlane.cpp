@@ -1,11 +1,11 @@
 #include "pch.h"
-#include "MathPlane.h"
+#include "OdMathPlane.h"
 
-MathPlane::MathPlane()
+OdMathPlane::OdMathPlane()
 {
 }
 
-OdResult MathPlane::draw() const
+OdResult OdMathPlane::draw() const
 {
     // Disable lighting to apply plain colors
     glDisable(GL_LIGHTING);
@@ -41,7 +41,7 @@ OdResult MathPlane::draw() const
     return eOk;
 }
 
-void MathPlane::drawNormalVector(OdGePoint3d origin, OdGeVector3d normal, OdGeVector3d u, OdGeVector3d v, double planeSize) const
+void OdMathPlane::drawNormalVector(OdGePoint3d origin, OdGeVector3d normal, OdGeVector3d u, OdGeVector3d v, double planeSize) const
 {   
     glColor3f(1.0f, 0.0f, 0.0f); // Red color for the normal vector
 

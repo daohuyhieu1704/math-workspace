@@ -1,6 +1,6 @@
 #pragma once
 #include <OdJig.h>
-#include "MathCircle.h"
+#include "OdMathCircle.h"
 
 class MathCircleJig :
     public OdJig
@@ -22,7 +22,7 @@ public:
     DragStatus AcquirePoint(OdGePoint3d point) override;
 
 private:
-    MathCirclePtr m_Circle;
+    OdMathCirclePtr m_Circle;
 
     // Inherited via OdJig
     OdBaseObjectPtr Clone() override;

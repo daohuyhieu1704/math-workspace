@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "MathPolyline.h"
 
-MathPolyline::MathPolyline()
+OdMathPolyline::OdMathPolyline()
 {
 }
 
-void MathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, double bulge) const {
+void OdMathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, double bulge) const {
     if (bulge == 0.0) {
         // Straight line segment
         glVertex3d(start.x, start.y, start.z);
@@ -54,7 +54,7 @@ void MathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, dou
     }
 }
 
-OdResult MathPolyline::draw() const {
+OdResult OdMathPolyline::draw() const {
     if (numVertices() < 2) {
         return eInvalidInput;
     }

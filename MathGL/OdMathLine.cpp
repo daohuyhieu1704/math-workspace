@@ -1,17 +1,17 @@
 #include "pch.h"
-#include "MathLine.h"
+#include "OdMathLine.h"
 
-MathLine::MathLine()
+OdMathLine::OdMathLine()
 {
 }
 
-MathLine::MathLine(OdGePoint3d startPnt, OdGePoint3d endPnt)
+OdMathLine::OdMathLine(OdGePoint3d startPnt, OdGePoint3d endPnt)
 {
 	setStartPnt(startPnt);
 	setEndPnt(endPnt);
 }
 
-OdResult MathLine::draw() const
+OdResult OdMathLine::draw() const
 {
 	try
 	{

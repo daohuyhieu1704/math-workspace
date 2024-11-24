@@ -1,27 +1,38 @@
 #include "pch.h"
 #include "MathCircle.h"
 
-MathCircle::MathCircle() : OdDbCircle()
+namespace MathGL
 {
-}
 
-MathCircle::MathCircle(OdGePoint3d center, double radius) : OdDbCircle()
-{
-	setCenter(center);
-	setRadius(radius);
-}
-
-OdResult MathCircle::draw() const
-{
-	glDisable(GL_LIGHTING);
-    glBegin(GL_LINE_LOOP);
-    for (int i = 0; i < m_segments; i++) {
-        float angle = 2.0f * OdPI * i / m_segments;
-        float x = getCenter().x + getRadius() * cos(angle);
-        float y = getCenter().y + getRadius() * sin(angle);
-        glVertex2f(x, y);
+    Point3d MathCircle::Center::get()
+    {
+		OdMathCircle* pCircle = GetImpObj();
+		return Point3d(pCircle->getCenter().x, pCircle->getCenter().y, pCircle->getCenter().z);
     }
-    glEnd();
-	glEnable(GL_LIGHTING);
-	return OdResult::eOk;
+
+    void MathCircle::Center::set(Point3d value)
+    {
+		OdGePoint3d center = OdGePoint3d(value.X, value.Y, value.Z);
+		GetImpObj()->setCenter(center);
+    }
+
+    double MathCircle::Radius::get()
+    {
+		return GetImpObj()->getRadius();
+    }
+
+    void MathCircle::Radius::set(double value)
+    {
+		GetImpObj()->setRadius(value);
+    }
+
+    int MathCircle::Segments::get()
+    {
+		return GetImpObj()->getSegments();
+    }
+
+    void MathCircle::Segments::set(int value)
+    {
+		GetImpObj()->setSegments(value);
+    }
 }

@@ -130,14 +130,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommandInvoker.h" />
     <ClInclude Include="DisposableWrapper.h" />
     <ClInclude Include="LineCmd.h" />
     <ClInclude Include="MathArc.h" />
     <ClInclude Include="MathCircle.h" />
+    <ClInclude Include="OdMathCircle.h" />
     <ClInclude Include="DrawingManager.h" />
     <ClInclude Include="MathCircleJig.h" />
-    <ClInclude Include="MathLine.h" />
-    <ClInclude Include="MathPlane.h" />
+    <ClInclude Include="OdMathLine.h" />
+    <ClInclude Include="OdMathPlane.h" />
     <ClInclude Include="MathPolyline.h" />
     <ClInclude Include="MathViewport.h" />
     <ClInclude Include="OdDrawingManager.h" />
@@ -147,13 +149,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CommandInvoker.cpp" />
     <ClCompile Include="LineCmd.cpp" />
     <ClCompile Include="MathArc.cpp" />
     <ClCompile Include="MathCircle.cpp" />
+    <ClCompile Include="OdMathCircle.cpp" />
     <ClCompile Include="DrawingManager.cpp" />
     <ClCompile Include="MathCircleJig.cpp" />
-    <ClCompile Include="MathLine.cpp" />
-    <ClCompile Include="MathPlane.cpp" />
+    <ClCompile Include="OdMathLine.cpp" />
+    <ClCompile Include="OdMathPlane.cpp" />
     <ClCompile Include="MathPolyline.cpp" />
     <ClCompile Include="MathViewport.cpp" />
     <ClCompile Include="OdDrawingManager.cpp" />

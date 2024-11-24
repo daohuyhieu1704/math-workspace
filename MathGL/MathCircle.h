@@ -1,20 +1,44 @@
 #pragma once
-#include "OdDbCircle.h"
+#include "DisposableWrapper.h"
+#include "OdMathCircle.h"
+#include "OdDrawingManager.h"
 
-typedef OdSmartPtr<class MathCircle> MathCirclePtr;
-class MathCircle :
-    public OdDbCircle
-{
-	OD_RTTI_DECLARE(MathCircle, OdDbCircle);
-public:
-#pragma region Properties
-	void setSegments(int segments) { m_segments = segments; }
-	int getSegments() const { return m_segments; }
-#pragma endregion
-	MathCircle();
-	MathCircle(OdGePoint3d center, double radius);
-	OdResult draw() const override;
-private:
-	int m_segments = 100;
-};
-OD_RTTI_DEFINE(MathCircle, OdDbCircle)
+using namespace Geometry;
+
+namespace MathGL {
+	public ref class MathCircle : DisposableWrapper
+	{
+	protected:
+		MathCircle()
+			: DisposableWrapper(IntPtr(OdMathCircle::createObject().get()), false)
+		{
+		}
+		OdMathCircle* GetImpObj()
+		{
+			return static_cast<OdMathCircle*>(DisposableWrapper::GetImpObj());
+		}
+	public:
+		MathCircle(Point3d center, double radius)
+			: DisposableWrapper(IntPtr(OdMathCircle::createObject().get()), false)
+		{
+			OdGePoint3d nativeCenter = OdGePoint3d(center.X, center.Y, center.Z);
+			GetImpObj()->setCenter(nativeCenter);
+			GetImpObj()->setRadius(radius);
+		}
+		property Point3d Center
+		{
+			Point3d get();
+			void set(Point3d value);
+		}
+		property double Radius
+		{
+			double get();
+			void set(double value);
+		}
+		property int Segments
+		{
+			int get();
+			void set(int value);
+		}
+	};
+}

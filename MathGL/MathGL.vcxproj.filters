@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Base">
-      <UniqueIdentifier>{aae1df52-cbce-438f-a032-c7c450a208bf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Commands">
       <UniqueIdentifier>{d65545e8-829e-4b4b-9197-2400f8949171}</UniqueIdentifier>
     </Filter>
@@ -70,6 +67,9 @@
     <Filter Include="Prompts">
       <UniqueIdentifier>{a53274d4-789b-4a1d-9bb6-cbb9773508c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commons\CommandInvoker">
+      <UniqueIdentifier>{277339c0-cfcf-46c8-998b-113da31a044d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -93,10 +93,10 @@
     <ClInclude Include="LineCmd.h">
       <Filter>Commands\LineCmd</Filter>
     </ClInclude>
-    <ClInclude Include="MathCircle.h">
+    <ClInclude Include="OdMathCircle.h">
       <Filter>Graphics\Circle</Filter>
     </ClInclude>
-    <ClInclude Include="MathLine.h">
+    <ClInclude Include="OdMathLine.h">
       <Filter>Graphics\Line</Filter>
     </ClInclude>
     <ClInclude Include="MathArc.h">
@@ -105,7 +105,7 @@
     <ClInclude Include="MathPolyline.h">
       <Filter>Graphics\Polyline</Filter>
     </ClInclude>
-    <ClInclude Include="MathPlane.h">
+    <ClInclude Include="OdMathPlane.h">
       <Filter>Graphics\Plane</Filter>
     </ClInclude>
     <ClInclude Include="MathCircleJig.h">
@@ -113,6 +113,12 @@
     </ClInclude>
     <ClInclude Include="OdSelectionPrompt.h">
       <Filter>Prompts</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandInvoker.h">
+      <Filter>Commons\CommandInvoker</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCircle.h">
+      <Filter>Graphics\Circle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,13 +137,13 @@
     <ClCompile Include="OdDrawingManager.cpp">
       <Filter>Commons\DrawingManager</Filter>
     </ClCompile>
-    <ClCompile Include="MathCircle.cpp">
+    <ClCompile Include="OdMathCircle.cpp">
       <Filter>Graphics\Circle</Filter>
     </ClCompile>
     <ClCompile Include="LineCmd.cpp">
       <Filter>Commands\LineCmd</Filter>
     </ClCompile>
-    <ClCompile Include="MathLine.cpp">
+    <ClCompile Include="OdMathLine.cpp">
       <Filter>Graphics\Line</Filter>
     </ClCompile>
     <ClCompile Include="MathArc.cpp">
@@ -146,7 +152,7 @@
     <ClCompile Include="MathPolyline.cpp">
       <Filter>Graphics\Polyline</Filter>
     </ClCompile>
-    <ClCompile Include="MathPlane.cpp">
+    <ClCompile Include="OdMathPlane.cpp">
       <Filter>Graphics\Plane</Filter>
     </ClCompile>
     <ClCompile Include="MathCircleJig.cpp">
@@ -154,6 +160,12 @@
     </ClCompile>
     <ClCompile Include="OdSelectionPrompt.cpp">
       <Filter>Prompts</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandInvoker.cpp">
+      <Filter>Commons\CommandInvoker</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCircle.cpp">
+      <Filter>Graphics\Circle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

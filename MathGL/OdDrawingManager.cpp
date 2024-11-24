@@ -8,11 +8,11 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include "MathCircle.h"
+#include "OdMathCircle.h"
 #include "MathViewport.h"
 #include "LineCmd.h"
 #include "MathArc.h"
-#include "MathPlane.h"
+#include "OdMathPlane.h"
 
 OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
 
@@ -89,7 +89,7 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
-	MathPlanePtr plane = MathPlane::createObject();
+	OdMathPlanePtr plane = OdMathPlane::createObject();
 	plane->setOrigin(OdGePoint3d(0, 0, 0));
 	plane->setNormal(OdGeVector3d(0, 0, 1));
 	OdDrawingManager::R()->appendEntity(plane);
@@ -104,13 +104,13 @@ OdBaseObjectPtr OdDrawingManager::Clone()
 
 int OdDrawingManager::appendEntity(std::string name)
 {
-	if (name == "MathCircle")
+	if (name == "OdMathCircle")
 	{
-		m_entities.push_back(MathCircle::createObject());
+		m_entities.push_back(OdMathCircle::createObject());
 	}
-	else if (name == "MathPlane")
+	else if (name == "OdMathPlane")
 	{
-		m_entities.push_back(MathPlane::createObject());
+		m_entities.push_back(OdMathPlane::createObject());
 	}
 	return m_entities.size() - 1;
 }
@@ -148,11 +148,9 @@ void OdDrawingManager::renderAll()
 {
 	for (auto& entity : m_entities)
 	{
-		std::string type = entity->getClassName();
 		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
 		if (objRaw)
 		{
-			glPushMatrix();
 			glLoadName(objRaw->id());
 			if (objRaw->isSelected())
 			{
@@ -164,11 +162,6 @@ void OdDrawingManager::renderAll()
 				glColor3f(color[0], color[1], color[2]);
 			}
 			objRaw->draw();
-			glPopMatrix();
 		}
 	}
-	//for (auto& jig : m_jigs)
-	//{
-	//	jig.Preview();
-	//}
 }

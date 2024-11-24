@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "LineCmd.h"
 #include "OdDrawingManager.h"
-#include "MathLine.h"
+#include "OdMathLine.h"
 
 OdBaseObjectPtr LineCmd::Clone()
 {
@@ -11,7 +11,7 @@ OdBaseObjectPtr LineCmd::Clone()
 
 bool LineCmd::execute()
 {
-	//MathLinePtr line = MathLine::createObject();
+	//OdMathLinePtr line = OdMathLine::createObject();
  //   line->setStartPnt(startPnt);
  //   line->setEndPnt(endPnt);
  //   OdDrawingManager::R()->appendEntity(line);

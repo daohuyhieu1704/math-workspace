@@ -3,7 +3,7 @@
 #include <OdDbEntity.h>
 #include <OdHostAppService.h>
 #include <OdJig.h>
-#include "MathCircle.h"
+#include "OdMathCircle.h"
 
 
 typedef OdSmartPtr<class OdDrawingManager> OdDrawingManagerPtr;

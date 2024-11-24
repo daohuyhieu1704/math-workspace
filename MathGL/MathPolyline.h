@@ -1,11 +1,11 @@
 #pragma once
 #include "OdDbPolyline.h"
 
-typedef OdSmartPtr<class MathPolyline> MathPolylinePtr;
-class MathPolyline :
+typedef OdSmartPtr<class OdMathPolyline> OdMathPolylinePtr;
+class OdMathPolyline :
 	public OdDbPolyline
 {
-	OD_RTTI_DECLARE(MathPolyline, OdDbPolyline);
+	OD_RTTI_DECLARE(OdMathPolyline, OdDbPolyline);
 public:
 #pragma region Properties
 	void setSegments(int segments) { m_segments = segments; }
@@ -13,12 +13,12 @@ public:
 	void setClosed(bool closed) { m_isClosed = closed; }
 	bool isClosed() const { return m_isClosed; }
 #pragma endregion
-	MathPolyline();
-	// MathPolyline(OdGePoint3d center, double radius);
+	OdMathPolyline();
+	// OdMathPolyline(OdGePoint3d center, double radius);
 	OdResult draw() const override;
 private:
 	bool m_isClosed = false;
 	void drawArc(const OdGePoint3d& start, const OdGePoint3d& end, double bulge) const;
 	int m_segments = 100;
 };
-OD_RTTI_DEFINE(MathPolyline, OdDbPolyline)
+OD_RTTI_DEFINE(OdMathPolyline, OdDbPolyline)

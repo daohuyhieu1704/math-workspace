@@ -99,6 +99,9 @@
     <ClInclude Include="Matrix3d.h">
       <Filter>Matrix\Matrix3d</Filter>
     </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Plane</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Matrix3d.cpp">
       <Filter>Matrix\Matrix3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Plane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

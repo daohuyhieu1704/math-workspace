@@ -8,7 +8,7 @@ MathCircleJig::~MathCircleJig()
 
 OdBaseObjectPtr MathCircleJig::entity() const
 {
-	MathCirclePtr circle = MathCircle::createObject();
+	OdMathCirclePtr circle = OdMathCircle::createObject();
 	circle->setCenter(m_Circle->getCenter());
 	circle->setRadius(m_Circle->getRadius());
     return circle;

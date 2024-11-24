@@ -63,6 +63,7 @@ public:
         return m_pObject != other.m_pObject;
     }
 
+    OdBaseObject* get() { return m_pObject; }
     OdBaseObject* get() const { return m_pObject; }
     bool isNull() const { return m_pObject == nullptr; }
 	int getRefCount() const { return ref_count ? *ref_count : 0; }
