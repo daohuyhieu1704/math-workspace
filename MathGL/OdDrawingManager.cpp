@@ -55,6 +55,12 @@ int MathGL::DrawingManager::ProcessGLUTEvents()
 	return 0;
 }
 
+int MathGL::DrawingManager::exitGLUT()
+{
+	exit(0);
+	return 0;
+}
+
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);

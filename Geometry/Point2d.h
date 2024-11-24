@@ -26,6 +26,7 @@ namespace Geometry
         }
 
         OdGePoint2d ToNative();
+		Point2d CenterTo(Point2d point);
         static Point2d FromNative(OdGePoint2d point);
         double DistanceTo(Point2d point);
     };

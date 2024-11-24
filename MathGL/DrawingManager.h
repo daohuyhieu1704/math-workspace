@@ -83,6 +83,7 @@ namespace MathGL {
 
 		IntPtr InitializeWindow(IntPtr parentHandle);
 		int ProcessGLUTEvents();
+		int exitGLUT();
 	private:
 		OdDrawingManager* GetImpObj()
 		{

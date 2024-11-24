@@ -22,6 +22,45 @@
     <Filter Include="Point\Point3d">
       <UniqueIdentifier>{a6fcf146-d029-4282-b8de-8f4844fd1980}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vector">
+      <UniqueIdentifier>{46f9da60-d531-412d-8fed-538ad3850ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scale">
+      <UniqueIdentifier>{902fd8f2-7f8d-4b5a-9bf6-79b0dadc7503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plane">
+      <UniqueIdentifier>{59510d92-20f3-45ca-9c46-8ae8e590ae9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extend">
+      <UniqueIdentifier>{110263e0-bee5-4fbf-99f7-baf140e5c046}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix">
+      <UniqueIdentifier>{15d37977-d69c-4a11-9b9c-86f28c573828}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector\Vector2d">
+      <UniqueIdentifier>{5dd3ed67-b96d-4daf-b444-e0b23b5b6be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vector\Vector3d">
+      <UniqueIdentifier>{aa4ce8f3-245f-464a-8d34-2575c8a2a571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scale\Scale2d">
+      <UniqueIdentifier>{b3b48958-5615-4240-ab13-a9829cf4fcc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scale\Scale3d">
+      <UniqueIdentifier>{7a11326e-ac3b-46bf-8ffe-d5740e2477e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extend\Extend2d">
+      <UniqueIdentifier>{6798f9d1-16bc-41c0-a6d3-11ad0471d795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extend\Extend3d">
+      <UniqueIdentifier>{4ae12e04-8e55-4d51-8048-05ebcc9b3714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix\Matrix2d">
+      <UniqueIdentifier>{8e83aa63-96ad-494e-b4ca-dd47c1b85332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Matrix\Matrix3d">
+      <UniqueIdentifier>{7ffc13a2-75a0-47d8-beca-d3e367cad035}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -36,6 +75,30 @@
     <ClInclude Include="Point3d.h">
       <Filter>Point\Point3d</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2d.h">
+      <Filter>Vector\Vector2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3d.h">
+      <Filter>Vector\Vector3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Scale2d.h">
+      <Filter>Scale\Scale2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Scale3d.h">
+      <Filter>Scale\Scale3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Extents2d.h">
+      <Filter>Extend\Extend2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Extents3d.h">
+      <Filter>Extend\Extend3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix2d.h">
+      <Filter>Matrix\Matrix2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3d.h">
+      <Filter>Matrix\Matrix3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -49,6 +112,30 @@
     </ClCompile>
     <ClCompile Include="Point3d.cpp">
       <Filter>Point\Point3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2d.cpp">
+      <Filter>Vector\Vector2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3d.cpp">
+      <Filter>Vector\Vector3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Scale2d.cpp">
+      <Filter>Scale\Scale2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Scale3d.cpp">
+      <Filter>Scale\Scale3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Extents2d.cpp">
+      <Filter>Extend\Extend2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Extents3d.cpp">
+      <Filter>Extend\Extend3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix2d.cpp">
+      <Filter>Matrix\Matrix2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3d.cpp">
+      <Filter>Matrix\Matrix3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

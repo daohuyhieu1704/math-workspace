@@ -90,7 +90,7 @@
     <ClInclude Include="OdGeMatrix3d.h">
       <Filter>Matrix\Matrix3d</Filter>
     </ClInclude>
-    <ClInclude Include="OdGeExtend2d.h">
+    <ClInclude Include="OdGeExtents2d.h">
       <Filter>Extend\Extend2d</Filter>
     </ClInclude>
     <ClInclude Include="OdGeExtents3d.h">
@@ -128,7 +128,7 @@
     <ClCompile Include="OdGeMatrix3d.cpp">
       <Filter>Matrix\Matrix3d</Filter>
     </ClCompile>
-    <ClCompile Include="OdGeExtend2d.cpp">
+    <ClCompile Include="OdGeExtents2d.cpp">
       <Filter>Extend\Extend2d</Filter>
     </ClCompile>
     <ClCompile Include="OdGeExtents3d.cpp">

@@ -28,6 +28,11 @@ namespace Geometry
         return OdGePoint2d(x, y);
     }
 
+    Point2d Point2d::CenterTo(Point2d point)
+    {
+		return Point2d((x + point.x) / 2, (y + point.y) / 2);
+    }
+
     Point2d Point2d::FromNative(OdGePoint2d point)
     {
         return Point2d(point.x, point.y);

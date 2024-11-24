@@ -3,7 +3,7 @@
 
 namespace GeometryNative
 {
-	class OdGeExtend2d
+	class OdGeExtents2d
 	{
 	private:
 		OdGePoint2d m_min;
@@ -14,9 +14,10 @@ namespace GeometryNative
 		void SetMinPnt(OdGePoint2d minPnt);
 		OdGePoint2d GetMaxPnt() const;
 		void SetMaxPnt(OdGePoint2d maxPnt);
+		OdGePoint2d center() const;
 	#pragma endregion
 	
-		OdGeExtend2d(OdGePoint2d minPnt, OdGePoint2d maxPnt);
-		~OdGeExtend2d();
+		OdGeExtents2d(OdGePoint2d minPnt, OdGePoint2d maxPnt);
+		~OdGeExtents2d();
 	};
 }

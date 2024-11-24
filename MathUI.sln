@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathUI", "MathUI\MathUI.csproj", "{07E6A901-C310-49F4-A123-4AA856CA7CB8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Geometry", "Geometry\Geometry.vcxproj", "{91300D2F-50F4-415E-9130-43351D2F0087}"
+	ProjectSection(ProjectDependencies) = postProject
+		{856419B2-50FD-4FCA-870D-15C5148CAC7C} = {856419B2-50FD-4FCA-870D-15C5148CAC7C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeometryNative", "GeometryNative\GeometryNative.vcxproj", "{856419B2-50FD-4FCA-870D-15C5148CAC7C}"
 EndProject
