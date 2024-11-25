@@ -332,19 +332,17 @@ namespace MathUI.ViewModels.MainWindow
             //HistoryWindow += line4.GetCommand() + "\n";
         }
 
-        public async void DrawSquare()
+        public async void DrawArc()
         {
-            //PointSelection pointSelection = new();
-            //HistoryWindow += "Pick 2 points:" + "\n";
-            //List<Point3d> pnt = await pointSelection.getPoints(2);
-            //TextInput textInp = new(this);
-            //string text = await textInp.GetText();
-            //if (double.TryParse(text, out var z))
-            //{
-            //    Square square = new(pnt[0].ConvertTo2d(), pnt[1].ConvertTo2d(), z);
-            //    square.Draw();
-            //    HistoryWindow += square.GetCommand() + "\n";
-            //}
+            PointSelection pointSelection = new();
+            HistoryWindow += "Pick start points:" + "\n";
+            List<Point3d> pnt = await pointSelection.getPoints(1);
+            HistoryWindow += "Pick end points:" + "\n";
+            List<Point3d> pnt2 = await pointSelection.getPoints(1);
+            HistoryWindow += "Pick 3rd point on circle:" + "\n";
+            List<Point3d> pnt3 = await pointSelection.getPoints(1);
+            using MathArc arc = new(pnt[0], pnt2[0], pnt3[0]);
+            arc.Draw();
         }
 
         internal void AppendCommand()
@@ -381,7 +379,7 @@ namespace MathUI.ViewModels.MainWindow
 
         internal void Select()
         {
-            Shape = EntitySelection.LastId.ToString();
+            // Shape = EntitySelection.LastId.ToString();
         }
 
         internal void CloseApp()

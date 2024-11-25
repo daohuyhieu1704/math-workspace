@@ -108,7 +108,7 @@
     <ClInclude Include="OdMathLine.h">
       <Filter>Graphics\Line</Filter>
     </ClInclude>
-    <ClInclude Include="MathArc.h">
+    <ClInclude Include="OdMathArc.h">
       <Filter>Graphics\Arc</Filter>
     </ClInclude>
     <ClInclude Include="MathPolyline.h">
@@ -147,6 +147,9 @@
     <ClInclude Include="EntitySelection.h">
       <Filter>Prompts\Selection</Filter>
     </ClInclude>
+    <ClInclude Include="MathArc.h">
+      <Filter>Graphics\Arc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -173,7 +176,7 @@
     <ClCompile Include="OdMathLine.cpp">
       <Filter>Graphics\Line</Filter>
     </ClCompile>
-    <ClCompile Include="MathArc.cpp">
+    <ClCompile Include="OdMathArc.cpp">
       <Filter>Graphics\Arc</Filter>
     </ClCompile>
     <ClCompile Include="MathPolyline.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="EntitySelection.cpp">
       <Filter>Prompts\Selection</Filter>
+    </ClCompile>
+    <ClCompile Include="MathArc.cpp">
+      <Filter>Graphics\Arc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

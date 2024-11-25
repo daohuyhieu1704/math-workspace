@@ -257,7 +257,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/rect.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Arc" FontSize="10" Click="DrawRect_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Arc" FontSize="10" Click="DrawArc_Click" />
                                         </Grid>
                                     </Border>
                                     <Grid Width="50">

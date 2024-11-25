@@ -65,9 +65,9 @@ namespace MathUI.Presenters
             CommandAction((model) => ViewModel.DrawRect());
         }
 
-        private void DrawSquare_Click(object sender, RoutedEventArgs e)
+        private void DrawArc_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.DrawSquare());
+            CommandAction((model) => ViewModel.DrawArc());
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)

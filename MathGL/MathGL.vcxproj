@@ -136,6 +136,7 @@
     <ClInclude Include="LineCmd.h" />
     <ClInclude Include="Math3dSolid.h" />
     <ClInclude Include="MathArc.h" />
+    <ClInclude Include="OdMathArc.h" />
     <ClInclude Include="MathCircle.h" />
     <ClInclude Include="MathLine.h" />
     <ClInclude Include="OdMath3dSolid.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="LineCmd.cpp" />
     <ClCompile Include="Math3dSolid.cpp" />
     <ClCompile Include="MathArc.cpp" />
+    <ClCompile Include="OdMathArc.cpp" />
     <ClCompile Include="MathCircle.cpp" />
     <ClCompile Include="MathLine.cpp" />
     <ClCompile Include="OdMath3dSolid.cpp" />
