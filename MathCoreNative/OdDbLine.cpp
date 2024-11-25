@@ -23,7 +23,7 @@ OdResult OdDbLine::draw() const
 
 OdGeExtents3d OdDbLine::boundingBox() const
 {
-	return getExtents();
+	return OdGeExtents3d(m_startPnt, m_endPnt);
 }
 
 OdResult OdDbLine::worldDraw() const

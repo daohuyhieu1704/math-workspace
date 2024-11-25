@@ -43,30 +43,6 @@ OdResult OdMath3dSolid::drawBox() const
 
         BRepMesh_IncrementalMesh mesh(box, 0.01);
 
-        glEnable(GL_LIGHTING);
-        glEnable(GL_LIGHT0);
-        glEnable(GL_DEPTH_TEST);
-
-        GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 0.0f };
-        GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-        GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-        GLfloat light_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-        glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-
-        GLfloat mat_diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-        GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-        GLfloat mat_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-        GLfloat mat_shininess[] = { 50.0f };
-
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-        glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-        glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-
         for (TopExp_Explorer aFaceIter(box, TopAbs_FACE);
             aFaceIter.More(); aFaceIter.Next())
         {
@@ -77,7 +53,6 @@ OdResult OdMath3dSolid::drawBox() const
             if (aPolyTri.IsNull()) { continue; } // error
             for (int aTriIter = 1; aTriIter <= aPolyTri->NbTriangles(); ++aTriIter)
             {
-                glBegin(GL_TRIANGLES);
                 const Poly_Triangle& aTri = aPolyTri->Triangle(aTriIter);
                 gp_Pnt aTriNodes[3] = {
                     aPolyTri->Node(aTri(1)),
@@ -92,6 +67,7 @@ OdResult OdMath3dSolid::drawBox() const
 
                 glNormal3d(normal.X(), normal.Y(), normal.Z());
 
+                glBegin(GL_TRIANGLES);
                 for (int aNodeIter = 0; aNodeIter < 3; ++aNodeIter)
                 {
                     const gp_Pnt& aNode = aTriNodes[aNodeIter];
@@ -99,7 +75,6 @@ OdResult OdMath3dSolid::drawBox() const
                 }
                 glEnd();
             }
-
         }
     }
     catch (const Standard_Failure& e) {

@@ -45,6 +45,10 @@ public:
 	virtual json toJson() const;
 	virtual void fromJson(const json& j);
 	OdResult transformBy(const OdGeMatrix3d xform);
+	virtual bool intersectWithRay(
+		double rayStartX, double rayStartY, double rayStartZ,
+		double rayDirX, double rayDirY, double rayDirZ,
+		double& intersectionDistance) const;
 };
 
 OD_RTTI_DEFINE_ABSTRACT(OdDbEntity, OdDbObject)

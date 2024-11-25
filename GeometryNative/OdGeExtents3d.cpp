@@ -31,6 +31,10 @@ namespace GeometryNative
 		addPoint(p1 + vect);
 		addPoint(p2 + vect);
 	}
+	double OdGeExtents3d::getRadius() const
+	{
+		return m_min.DistanceTo(m_max) / 2.0;
+	}
 	OdGePoint3d OdGeExtents3d::getCenter() const
 	{
 		return m_min.CenterTo(m_max);

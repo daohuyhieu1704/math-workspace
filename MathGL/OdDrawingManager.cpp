@@ -89,10 +89,9 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-
-	OdMath3dSolidPtr solid = OdMath3dSolid::createObject();
-	solid->setType(SolidType::Box);
-	OdDrawingManager::R()->appendEntity(solid);
+	//OdMath3dSolidPtr solid = OdMath3dSolid::createObject();
+	//solid->setType(SolidType::Box);
+	//OdDrawingManager::R()->appendEntity(solid);
 	//OdMathPlanePtr plane = OdMathPlane::createObject();
 	//plane->setOrigin(OdGePoint3d(0, 0, 0));
 	//plane->setNormal(OdGeVector3d(0, 0, 1));

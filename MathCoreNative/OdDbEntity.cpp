@@ -92,3 +92,37 @@ OdResult OdDbEntity::transformBy(const OdGeMatrix3d xform)
 		return OdResult::eInvalidInput;
     }
 }
+
+bool OdDbEntity::intersectWithRay(
+	double rayStartX, double rayStartY, double rayStartZ,
+	double rayDirX, double rayDirY, double rayDirZ,
+	double& intersectionDistance) const
+{
+    double sphereCenterX = boundingBox().getCenter().x;
+    double sphereCenterY = boundingBox().getCenter().y;
+    double sphereCenterZ = boundingBox().getCenter().z;
+    double sphereRadius = boundingBox().getRadius();
+
+    double dx = rayStartX - sphereCenterX;
+    double dy = rayStartY - sphereCenterY;
+    double dz = rayStartZ - sphereCenterZ;
+
+    double a = rayDirX * rayDirX + rayDirY * rayDirY + rayDirZ * rayDirZ;
+    double b = 2.0 * (dx * rayDirX + dy * rayDirY + dz * rayDirZ);
+    double c = dx * dx + dy * dy + dz * dz - sphereRadius * sphereRadius;
+
+    double discriminant = b * b - 4.0 * a * c;
+    if (discriminant < 0) {
+        return false;
+    }
+
+    double t1 = (-b - std::sqrt(discriminant)) / (2.0 * a);
+    double t2 = (-b + std::sqrt(discriminant)) / (2.0 * a);
+
+    if (t1 >= 0 && t2 >= 0) {
+        intersectionDistance = std::min(t1, t2);
+        return true;
+    }
+
+    return false;
+}

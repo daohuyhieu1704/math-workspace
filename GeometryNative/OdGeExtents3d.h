@@ -41,6 +41,7 @@ namespace GeometryNative
         void expandBy(
             const OdGeVector3d& vect);
 #pragma endregion
+		double getRadius() const;
         OdGePoint3d getCenter() const;
     };
 }

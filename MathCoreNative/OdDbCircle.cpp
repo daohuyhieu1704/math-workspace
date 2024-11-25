@@ -5,6 +5,9 @@ OD_RTTI_DEFINE(OdDbCircle, OdDbEntity)
 OdDbCircle::OdDbCircle() : m_center(OdGePoint3d::kOrigin), m_radius(0)
 {
 	setPosition(OdGePoint3d::kOrigin);
+	setXDir(OdGeVector3d::kXAxis);
+	setYDir(OdGeVector3d::kYAxis);
+	setZDir(OdGeVector3d::kZAxis);
 }
 
 OdBaseObjectPtr OdDbCircle::Clone()
@@ -32,7 +35,21 @@ OdResult OdDbCircle::draw() const
 
 OdGeExtents3d OdDbCircle::boundingBox() const
 {
-	return getExtents();
+	OdGePoint3d center = m_center;
+	double radius = m_radius;
+
+	OdGePoint3d minPoint(center.x - radius, center.y - radius, center.z);
+	OdGePoint3d maxPoint(center.x + radius, center.y + radius, center.z);
+
+	OdGeVector3d xDir = getXDir();
+	OdGeVector3d yDir = getYDir();
+	OdGeVector3d zDir = getZDir();
+
+	OdGePoint3d transformedMin = center + xDir * -radius + yDir * -radius;
+	OdGePoint3d transformedMax = center + xDir * radius + yDir * radius;
+
+	OdGeExtents3d boundingBox = OdGeExtents3d(minPoint, maxPoint);
+	return boundingBox;
 }
 
 OdResult OdDbCircle::worldDraw() const

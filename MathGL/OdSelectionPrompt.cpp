@@ -11,82 +11,51 @@ OdSelectionPrompt::OdSelectionPrompt()
 {
 }
 
-OdResult OdSelectionPrompt::pickObjects(int x, int y)
-{
-    GLuint selectBuf[512];
-    GLint hits, viewport[4];
-    double windowWidth = MathViewport::R()->win_width;
-    double windowHeight = MathViewport::R()->win_height;
+OdResult OdSelectionPrompt::pickObjects(int x, int y) {
+    GLint viewport[4];
+    GLdouble modelview[16], projection[16];
+    GLdouble rayStartX, rayStartY, rayStartZ;
+    GLdouble rayEndX, rayEndY, rayEndZ;
+
     glGetIntegerv(GL_VIEWPORT, viewport);
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
 
-    glSelectBuffer(512, selectBuf);
-    glRenderMode(GL_SELECT);
+    GLfloat winX = static_cast<float>(x);
+    GLfloat winY = static_cast<float>(viewport[3] - y);
 
-    glInitNames();
-    glPushName(0); // Ensure m_name stack is not empty
+    gluUnProject(winX, winY, 0.0, modelview, projection, viewport, &rayStartX, &rayStartY, &rayStartZ);
+    gluUnProject(winX, winY, 1.0, modelview, projection, viewport, &rayEndX, &rayEndY, &rayEndZ);
 
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
+    GLdouble rayDirX = rayEndX - rayStartX;
+    GLdouble rayDirY = rayEndY - rayStartY;
+    GLdouble rayDirZ = rayEndZ - rayStartZ;
+    GLdouble rayDirLength = std::sqrt(rayDirX * rayDirX + rayDirY * rayDirY + rayDirZ * rayDirZ);
 
-    gluPickMatrix(x, viewport[3] - y, 5.0, 5.0, viewport);
-    gluPerspective(45.0, windowWidth / windowHeight, 0.1, 100.0);
+    rayDirX /= rayDirLength;
+    rayDirY /= rayDirLength;
+    rayDirZ /= rayDirLength;
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    MathViewport::R()->setCamera();
-
-    // Render entities with names
-    OdDrawingManager::R()->renderAll();
-
-    glPopName(); // Pop the initial m_name off the stack
-
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-
-    hits = glRenderMode(GL_RENDER);
-
-    // Clear selection status of all entities
     const auto& entities = OdDrawingManager::R()->getEntities();
-    for (auto& obj : entities) {
-        OdDbEntity* entity = static_cast<OdDbEntity*>(obj.get());
-        if (entity) {
-            entity->setSelected(false);
+    GLdouble closestDistance = std::numeric_limits<GLdouble>::max();
+    OdDbObjectId selectedEntityId;
+
+    for (auto& entity : entities) {
+        GLdouble intersectionDistance;
+        if (static_cast<OdDbEntity*>(entity.get())->intersectWithRay(
+            rayStartX, rayStartY, rayStartZ,
+            rayDirX, rayDirY, rayDirZ,
+            intersectionDistance)) {
+            if (intersectionDistance < closestDistance) {
+                closestDistance = intersectionDistance;
+                selectedEntityId = entity->getObjectId().GetObjectId();
+            }
         }
     }
 
-    if (hits > 0)
-    {
-        GLuint* ptr = selectBuf;
-        for (int i = 0; i < hits; ++i)
-        {
-            GLuint numNames = *ptr++;
-            GLuint minZ = *ptr++;
-            GLuint maxZ = *ptr++;
-            GLuint m_name = 0;
-            if (numNames > 0)
-            {
-                m_name = *ptr;
-                ptr += numNames;
-            }
-            else
-            {
-                continue;
-            }
-
-            for (const OdBaseObjectPtr& obj : entities)
-            {
-                OdDbEntity* entity = static_cast<OdDbEntity*>(obj.get());
-                if (entity && entity->id() == m_name)
-                {
-                    entity->setSelected(true);
-                    OdDrawingManager::R()->m_json = entity->toJson();
-                    break;
-                }
-            }
-        }
+    for (auto& entity : entities) {
+        static_cast<OdDbEntity*>(entity.get())->setSelected(entity->getObjectId() == selectedEntityId);
+        OdDrawingManager::R()->m_json = static_cast<OdDbEntity*>(entity.get())->toJson();
     }
 
     glutPostRedisplay();
