@@ -24,6 +24,7 @@ public:
 		mathPrompt->executeAllPrompts();
 	}
 	CommandPromptPtr mathPrompt;
+	virtual ~OdMathSession() = default;
 private:
 	std::string fileName = "";
 };

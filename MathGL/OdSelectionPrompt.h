@@ -9,7 +9,8 @@ class OdSelectionPrompt :
 	OD_RTTI_SINGLETON_DECLARE(OdSelectionPrompt)
 public:
 	OdSelectionPrompt();
+	virtual ~OdSelectionPrompt() = default;
 	OdResult pickObjects(int x, int y) override;
+	void resetWorldMouse(int x, int y);
 	OdBaseObjectPtr Clone() override;
-private:
 };

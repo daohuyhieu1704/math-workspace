@@ -8,6 +8,7 @@ class OdDbPlane :
 	OD_RTTI_DECLARE(OdDbPlane, OdDbEntity)
 public:
 	OdDbPlane();
+	virtual ~OdDbPlane() = default;
 #pragma region Properties
 	OdGePoint3d getOrigin() const { return m_origin; }
 	void setOrigin(OdGePoint3d origin) { m_origin = origin; }

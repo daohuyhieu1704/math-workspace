@@ -7,6 +7,7 @@ class OdDbArc : public OdDbEntity
 	OD_RTTI_DECLARE(OdDbArc, OdDbEntity)
 public:
 	OdDbArc();
+	virtual ~OdDbArc() = default;
 #pragma region Properties
 	double getBulge() const { return m_bulge; }
 	void setBulge(double bulge) { m_bulge = bulge; }

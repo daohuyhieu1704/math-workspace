@@ -7,6 +7,7 @@ class OdDbLine : public OdDbEntity
 	OD_RTTI_DECLARE(OdDbLine, OdDbEntity)
 public:
 	OdDbLine();
+	virtual ~OdDbLine() = default;
 #pragma region Properties
 	OdGePoint3d getStartPnt() const { return m_startPnt; }
 	void setStartPnt(OdGePoint3d startPnt)

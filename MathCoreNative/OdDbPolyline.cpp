@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "OdDbPolyline.h"
 
+OdDbPolyline::OdDbPolyline()
+{
+}
+
 void OdDbPolyline::addVertex(const OdGePoint3d& vertex, double bulge)
 {
     m_vertices.emplace_back(vertex, bulge);

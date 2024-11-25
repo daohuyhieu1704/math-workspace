@@ -7,6 +7,7 @@ class AbstractSelectionPrompt :
 {
 	OD_RTTI_DECLARE_ABSTRACT(AbstractSelectionPrompt, OdBaseObject)
 public:
+    virtual ~AbstractSelectionPrompt() = default;
     virtual OdResult pickObjects(int x, int y) = 0;
 
     // Inherited via OdBaseObject

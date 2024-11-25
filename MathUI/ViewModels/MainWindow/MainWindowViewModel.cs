@@ -211,7 +211,7 @@ namespace MathUI.ViewModels.MainWindow
             FileSelected = "Untitled";
             PathSelected = "Untitled";
             IsNewFile = true;
-            CloseTabCommand = new RelayCommand<string>((fileName) => true, (fileName) => CloseTab(fileName));
+            CloseTabCommand = new RelayCommand<string>((fileName) => true, CloseTab);
         }
 
         private void CloseTab(string fileName)
@@ -303,19 +303,13 @@ namespace MathUI.ViewModels.MainWindow
 
         public async void DrawCircle()
         {
-            using MathCircle mathCircle = new(Point3d.Origin, 10);
+            PointSelection pointSelection = new();
+            HistoryWindow += "Pick 2 center:" + "\n";
+            List<Point3d> pnt1 = await pointSelection.getPoints(1);
+            HistoryWindow += "Pick 2nd point on circle:" + "\n";
+            List<Point3d> pnt2 = await pointSelection.getPoints(1);
+            using MathCircle mathCircle = new(pnt1[0], pnt1[0].DistanceTo(pnt2[0]));
             mathCircle.Draw();
-            //PointSelection pointSelection = new();
-            //HistoryWindow += "Pick 2 center:" + "\n";
-            //List<Point3d> pnt1 = await pointSelection.getPoints(1);
-            //using LineJig lineJig = new(pnt1[0]);
-            //using CircleJig circleJig = new(pnt1[0]);
-            //lineJig.Commit();
-            //circleJig.Commit();
-            //List<Point3d> pnt2 = await pointSelection.getPoints(1);
-            //Circle circle = new(pnt1[0], pnt1[0].DistanceTo(pnt2[0]));
-            //circle.Draw();
-            //HistoryWindow += circle.GetCommand() + "\n";
         }
 
         internal async void DrawRect()

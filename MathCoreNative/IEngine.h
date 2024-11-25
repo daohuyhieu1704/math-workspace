@@ -6,6 +6,7 @@ class IEngine : public OdBaseObject
 {
 	OD_RTTI_DECLARE_ABSTRACT(IEngine, OdBaseObject)
 public:
+	virtual ~IEngine() = default;
 	virtual HWND InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd) = 0;
 };
 

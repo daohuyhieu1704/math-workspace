@@ -14,6 +14,7 @@ public:
 	bool isClosed() const { return m_isClosed; }
 #pragma endregion
 	OdMathPolyline();
+	virtual ~OdMathPolyline() = default;
 	// OdMathPolyline(OdGePoint3d center, double radius);
 	OdResult draw() const override;
 private:

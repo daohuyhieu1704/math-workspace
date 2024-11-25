@@ -24,7 +24,7 @@ class MathViewport : public OdGiDrawable {
 public:
     // Constructor
     MathViewport();
-
+    virtual ~MathViewport() = default;
     // Member variables
     int win_width = 800, win_height = 600;
     float cam_theta = 0, cam_phi = 25, cam_dist = 8;

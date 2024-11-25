@@ -7,6 +7,7 @@ class OdDbCircle :
 {
 	OD_RTTI_DECLARE(OdDbCircle, OdDbEntity)
 public:
+	virtual ~OdDbCircle() = default;
 	OdDbCircle();
 	OdGePoint3d getCenter() const { return m_center; }
 	void setCenter(OdGePoint3d center)

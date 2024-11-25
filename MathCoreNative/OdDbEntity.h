@@ -39,7 +39,7 @@ public:
 	bool isSelected() const { return m_isSelected; }
 	void setSelected(bool isSelected) { m_isSelected = isSelected; }
 #pragma endregion
-
+	virtual ~OdDbEntity() = default;
 	virtual OdGeExtents3d boundingBox() const = 0;
 	virtual OdResult worldDraw() const = 0;
 	virtual json toJson() const;

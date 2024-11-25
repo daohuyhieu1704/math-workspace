@@ -174,3 +174,26 @@ void OdDrawingManager::renderAll()
 		}
 	}
 }
+
+void OdDrawingManager::SetPointPickedCallback(PointPickedCallback callback)
+{
+	pointPickedCallback = callback;
+}
+
+void OdDrawingManager::TriggerPointPicked(std::vector<OdGePoint3d> resPnt)
+{
+	if (pointPickedCallback) {
+		pointPickedCallback(resPnt);
+	}
+}
+
+void OdDrawingManager::SetEntityPickedCallback(EntityPickedCallback callback)
+{
+	entityPickedCallback = callback;
+}
+
+void OdDrawingManager::TriggerEntityPicked() {
+	if (entityPickedCallback) {
+		entityPickedCallback();
+	}
+}

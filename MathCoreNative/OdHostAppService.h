@@ -45,7 +45,7 @@ public:
 	OdBaseObjectPtr Clone() override;
 	OdHostAppService();
 private:
-	~OdHostAppService() = default;
+	virtual ~OdHostAppService() = default;
 	OdHostAppService(const OdHostAppService&) = delete;
 	OdHostAppService& operator=(const OdHostAppService&) = delete;
 	std::unordered_map<std::string, OdMathSessionPtr> m_sessions;

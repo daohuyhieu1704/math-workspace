@@ -2,10 +2,6 @@
 #include "MathCircleJig.h"
 #include "OdDrawingManager.h"
 
-MathCircleJig::~MathCircleJig()
-{
-}
-
 OdBaseObjectPtr MathCircleJig::entity() const
 {
 	OdMathCirclePtr circle = OdMathCircle::createObject();

@@ -7,6 +7,8 @@ class OdDbPolyline :
 {
 	OD_RTTI_DECLARE(OdDbPolyline, OdDbEntity);
 public:
+	OdDbPolyline();
+	virtual ~OdDbPolyline() = default;
 	void addVertex(const OdGePoint3d& vertex, double bulge = 0);
 	OdGePoint3d getVertexAt(int index) const;
 	double getBulgeAt(int index) const;

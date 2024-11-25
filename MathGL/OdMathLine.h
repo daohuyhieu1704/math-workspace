@@ -10,6 +10,7 @@ public:
 	OdMathLine();
 	OdMathLine(OdGePoint3d startPnt, OdGePoint3d endPnt);
 	OdResult draw() const override;
+	virtual ~OdMathLine() = default;
 };
 
 OD_RTTI_DEFINE(OdMathLine, OdDbLine)

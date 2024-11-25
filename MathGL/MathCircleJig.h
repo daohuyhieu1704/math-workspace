@@ -12,7 +12,7 @@ public:
         m_Circle->setCenter(center);
     }
     MathCircleJig() : m_Circle() {}
-    ~MathCircleJig();
+    virtual ~MathCircleJig() = default;
 
     // Inherited via OdJig
     OdBaseObjectPtr entity() const override;

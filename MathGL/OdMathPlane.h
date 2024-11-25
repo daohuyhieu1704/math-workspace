@@ -9,6 +9,7 @@ class OdMathPlane :
 public:
 	OdMathPlane();
 	OdResult draw() const override;
+	virtual ~OdMathPlane() = default;
 private:
 	void drawNormalVector(
 		OdGePoint3d origin,

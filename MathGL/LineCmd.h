@@ -14,6 +14,7 @@ class LineCmd :
 	OdBaseObjectPtr Clone() override;
 	bool execute() override;
 	bool serialize(const std::vector<std::string>& strData) override;
+	virtual ~LineCmd() = default;
 private:
 	OdGePoint3d startPnt;
 	OdGePoint3d endPnt;

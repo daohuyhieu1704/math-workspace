@@ -143,8 +143,10 @@
     <ClInclude Include="MathPolyline.h" />
     <ClInclude Include="MathViewport.h" />
     <ClInclude Include="OdDrawingManager.h" />
+    <ClInclude Include="OdPointPrompt.h" />
     <ClInclude Include="OdSelectionPrompt.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PointSelection.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +163,7 @@
     <ClCompile Include="MathPolyline.cpp" />
     <ClCompile Include="MathViewport.cpp" />
     <ClCompile Include="OdDrawingManager.cpp" />
+    <ClCompile Include="OdPointPrompt.cpp" />
     <ClCompile Include="OdSelectionPrompt.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -168,6 +171,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PointSelection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

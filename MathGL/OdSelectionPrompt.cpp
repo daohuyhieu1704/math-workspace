@@ -2,6 +2,7 @@
 #include "OdSelectionPrompt.h"
 #include "MathViewport.h"
 #include "OdDrawingManager.h"
+#include "OdPointPrompt.h"
 
 OD_RTTI_DEFINE(OdSelectionPrompt, AbstractSelectionPrompt)
 OD_RTTI_SINGLETON_DEFINE(OdSelectionPrompt)
@@ -90,6 +91,46 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
 
     glutPostRedisplay();
     return OdResult::eOk;
+}
+
+void OdSelectionPrompt::resetWorldMouse(int x, int y)
+{
+    GLint viewport[4];
+    GLdouble modelview[16], projection[16];
+    GLdouble posX, posY, posZ;
+
+    glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+    glGetDoublev(GL_PROJECTION_MATRIX, projection);
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    GLdouble rayStartX, rayStartY, rayStartZ;
+    GLdouble rayEndX, rayEndY, rayEndZ;
+
+    GLfloat winX = (float)x;
+    GLfloat winY = (float)(viewport[3] - y);
+
+    gluUnProject(winX, winY, 0.0, modelview, projection, viewport, &rayStartX, &rayStartY, &rayStartZ);
+    gluUnProject(winX, winY, 1.0, modelview, projection, viewport, &rayEndX, &rayEndY, &rayEndZ);
+
+    GLdouble dirX = rayEndX - rayStartX;
+    GLdouble dirY = rayEndY - rayStartY;
+    GLdouble dirZ = rayEndZ - rayStartZ;
+
+    if (dirZ != 0.0)
+    {
+        double t = -rayStartZ / dirZ;
+        posX = rayStartX + t * dirX;
+        posY = rayStartY + t * dirY;
+        posZ = 0.0;
+    }
+    else
+    {
+        posX = rayStartX;
+        posY = rayStartY;
+        posZ = rayStartZ;
+    }
+
+    OdPointPrompt::AppendPoint(OdGePoint3d(posX, posY, posZ));
 }
 
 OdBaseObjectPtr OdSelectionPrompt::Clone()

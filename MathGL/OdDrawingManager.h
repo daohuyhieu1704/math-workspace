@@ -5,6 +5,8 @@
 #include <OdJig.h>
 #include "OdMathCircle.h"
 
+using PointPickedCallback = void(*)(std::vector<GeometryNative::OdGePoint3d> resPnt);
+using EntityPickedCallback = void(*)();
 
 typedef OdSmartPtr<class OdDrawingManager> OdDrawingManagerPtr;
 class OdDrawingManager : public OdBaseObject
@@ -27,7 +29,7 @@ public:
 	void appendJig(const OdBaseObjectPtr& jig) { m_jigs.push_back(jig); }
 	void setJigs(std::vector<OdBaseObjectPtr>& jigs) { m_jigs = jigs; }
 #pragma endregion
-#pragma endregion
+	virtual ~OdDrawingManager() = default;
 	OdDrawingManager()
 	{
 	}
@@ -38,9 +40,20 @@ public:
 	void RegisterCommandPattern();
 	void renderAll();
 	json m_json;
+
+	/// <summary>
+	/// Pick-point features
+	/// </summary>
+	/// <param name="callback"></param>
+	void SetPointPickedCallback(PointPickedCallback callback);
+	void TriggerPointPicked(std::vector<OdGePoint3d> resPnt);
+	void SetEntityPickedCallback(EntityPickedCallback callback);
+	void TriggerEntityPicked();
 private:
 	std::vector<OdBaseObjectPtr> m_entities;
 	std::vector<OdBaseObjectPtr> m_jigs;
 	std::vector<const OdBaseObject*> m_tempRenders;
+	PointPickedCallback pointPickedCallback = nullptr;
+	EntityPickedCallback entityPickedCallback = nullptr;
 };
 OD_RTTI_DEFINE(OdDrawingManager, OdBaseObject)

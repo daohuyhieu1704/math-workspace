@@ -31,9 +31,8 @@ public:
     static std::vector<std::string> split(const std::string& str);
     static std::vector<std::string> split(const std::string& str, char delimiter);
 private:
-
+    virtual ~CommandPrompt() = default;
     void saveStateForUndo();
-
     std::map<std::string, IActionCmd*> commandMap;
     std::vector<std::string> History;
     std::stack<std::string> undoStack;
