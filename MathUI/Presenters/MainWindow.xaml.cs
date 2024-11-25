@@ -69,7 +69,7 @@ namespace MathUI.Presenters
             }
             else if (e.LeftButton == MouseButtonState.Pressed)
             {
-                CommandAction((model) => model.readJson());
+                CommandAction((model) => model.Select());
             }
         }
 

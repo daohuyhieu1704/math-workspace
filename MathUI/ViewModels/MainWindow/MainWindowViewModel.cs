@@ -379,8 +379,9 @@ namespace MathUI.ViewModels.MainWindow
         {
         }
 
-        internal async void Select()
+        internal void Select()
         {
+            Shape = EntitySelection.LastId.ToString();
         }
 
         internal void CloseApp()
@@ -401,8 +402,7 @@ namespace MathUI.ViewModels.MainWindow
 
         internal void readJson()
         {
-            JsonObject json = DrawingManager.Instance.Entities;
-            string jsonString = json.ToString();
+
         }
 
         public ICommand CloseTabCommand { get; }

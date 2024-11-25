@@ -5,7 +5,11 @@
 #include "OdPointPrompt.h"
 
 OD_RTTI_DEFINE(OdSelectionPrompt, AbstractSelectionPrompt)
-OD_RTTI_SINGLETON_DEFINE(OdSelectionPrompt)
+
+bool OdSelectionPrompt::m_endPicked = false;
+int OdSelectionPrompt::m_totalPick = 0;
+std::vector<OdDbObjectId> OdSelectionPrompt::m_ents;
+OdDbObjectId OdSelectionPrompt::m_ent;
 
 OdSelectionPrompt::OdSelectionPrompt()
 {
@@ -56,10 +60,16 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
     for (auto& entity : entities) {
         static_cast<OdDbEntity*>(entity.get())->setSelected(entity->getObjectId() == selectedEntityId);
         OdDrawingManager::R()->m_json = static_cast<OdDbEntity*>(entity.get())->toJson();
+		AppendId(selectedEntityId);
     }
 
     glutPostRedisplay();
     return OdResult::eOk;
+}
+
+OdDbObjectId OdSelectionPrompt::getObjectId()
+{
+    return OdDbObjectId();
 }
 
 void OdSelectionPrompt::resetWorldMouse(int x, int y)
@@ -104,5 +114,39 @@ void OdSelectionPrompt::resetWorldMouse(int x, int y)
 
 OdBaseObjectPtr OdSelectionPrompt::Clone()
 {
-	return OdBaseObjectPtr();
+	OdSelectionPromptPtr clone = OdSelectionPrompt::createObject();
+	return clone;
+}
+
+void OdSelectionPrompt::Focus()
+{
+}
+
+void OdSelectionPrompt::AppendId(OdDbObjectId id)
+{
+    m_ents.push_back(id);
+	m_ent = id;
+    if (m_ents.size() == m_totalPick) OdDrawingManager::R()->TriggerEntityPicked(m_ents);
+}
+
+
+OdDbObjectId OdSelectionPrompt::LastId()
+{
+	return m_ent;
+}
+
+void OdSelectionPrompt::Clear()
+{
+	m_ents.clear();
+	m_ent = OdDbObjectId();
+}
+
+void OdSelectionPrompt::TotalPick(int total)
+{
+	m_totalPick = total;
+}
+
+void OdSelectionPrompt::SetEntityPicked(bool picked)
+{
+	m_endPicked = picked;
 }

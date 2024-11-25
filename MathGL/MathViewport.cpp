@@ -396,8 +396,8 @@ void MathViewport::mouse(int bn, int st, int x, int y) {
     if (bn == GLUT_LEFT_BUTTON)
     {
         if (st == GLUT_DOWN) {
-            OdSelectionPrompt::R()->pickObjects(x, y);
-            OdSelectionPrompt::R()->resetWorldMouse(x, y);
+            OdSelectionPrompt::pickObjects(x, y);
+            OdSelectionPrompt::resetWorldMouse(x, y);
         }
     }
 

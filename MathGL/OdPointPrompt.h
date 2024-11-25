@@ -10,7 +10,6 @@ class OdPointPrompt :
 public:
 	OdPointPrompt();
 	virtual ~OdPointPrompt() = default;
-	OdResult pickObjects(int x, int y) override;
 	OdBaseObjectPtr Clone() override;
 
 	using PointPickedCallback = void(*)(double x, double y, double z);
@@ -20,7 +19,7 @@ public:
 	static OdGePoint3d LastPoint();
 	static void Clear();
 	static void TotalPick(int total);
-	static void SetPointPicked(bool picked);
+	static void SetEntityPicked(bool picked);
 private:
 	static bool pointPicked;
 	static int m_totalPick;

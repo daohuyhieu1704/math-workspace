@@ -190,8 +190,8 @@ void OdDrawingManager::SetEntityPickedCallback(EntityPickedCallback callback)
 	entityPickedCallback = callback;
 }
 
-void OdDrawingManager::TriggerEntityPicked() {
+void OdDrawingManager::TriggerEntityPicked(std::vector<OdDbObjectId> resId) {
 	if (entityPickedCallback) {
-		entityPickedCallback();
+		entityPickedCallback(resId);
 	}
 }

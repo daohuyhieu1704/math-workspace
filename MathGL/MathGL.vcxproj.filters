@@ -144,6 +144,9 @@
     <ClInclude Include="OdMath3dSolid.h">
       <Filter>Graphics\3dSolid</Filter>
     </ClInclude>
+    <ClInclude Include="EntitySelection.h">
+      <Filter>Prompts\Selection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -205,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="OdMath3dSolid.cpp">
       <Filter>Graphics\3dSolid</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySelection.cpp">
+      <Filter>Prompts\Selection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

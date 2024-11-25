@@ -12,14 +12,10 @@ OdPointPrompt::OdPointPrompt()
 {
 }
 
-OdResult OdPointPrompt::pickObjects(int x, int y)
-{
-	return OdResult();
-}
-
 OdBaseObjectPtr OdPointPrompt::Clone()
 {
-	return OdBaseObjectPtr();
+	OdPointPromptPtr clone = OdPointPrompt::createObject();
+	return clone;
 }
 
 OdGePoint3d OdPointPrompt::getPoints()
@@ -39,11 +35,8 @@ void OdPointPrompt::Focus()
 void OdPointPrompt::AppendPoint(const OdGePoint3d point)
 {
 	m_points.push_back(point);
-	if (m_points.size() == m_totalPick)
-	{
-		OdDrawingManager::R()->TriggerPointPicked(m_points);
-	}
 	m_lastPoint = point;
+	if (m_points.size() == m_totalPick) OdDrawingManager::R()->TriggerPointPicked(m_points);
 }
 
 OdGePoint3d OdPointPrompt::LastPoint()
@@ -61,7 +54,7 @@ void OdPointPrompt::TotalPick(int total)
 	m_totalPick = total;
 }
 
-void OdPointPrompt::SetPointPicked(bool picked)
+void OdPointPrompt::SetEntityPicked(bool picked)
 {
 	pointPicked = picked;
 }
