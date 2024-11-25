@@ -15,7 +15,7 @@ public:
     OdBaseObjectPtr Clone() override;
     OdMathSession();
 	std::string getFileName() { return fileName; }
-	void setFileName(std::string name) { fileName = name; }
+	void setFileName(std::string m_name) { fileName = m_name; }
 	void undo();
 	void redo();
 	CommandPromptPtr getPrompts() { return mathPrompt; }

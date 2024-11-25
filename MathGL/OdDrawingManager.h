@@ -22,7 +22,7 @@ public:
 	std::vector<OdBaseObjectPtr> getEntities() const { return m_entities; }
 	void setEntities(std::vector<OdBaseObjectPtr>& entities) { m_entities = entities; }
 	void appendEntity(const OdBaseObjectPtr& entity) { m_entities.push_back(entity); }
-	int appendEntity(std::string name);
+	int appendEntity(std::string m_name);
 	OdBaseObjectPtr& getEntityAt(int index) { return m_entities[index]; }
 	void removeEntity(const OdBaseObjectPtr& entity) { m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end()); }
 	std::vector<OdBaseObjectPtr> getJigs() const { return m_jigs; }
@@ -44,7 +44,7 @@ public:
 	/// <summary>
 	/// Pick-point features
 	/// </summary>
-	/// <param name="callback"></param>
+	/// <param m_name="callback"></param>
 	void SetPointPickedCallback(PointPickedCallback callback);
 	void TriggerPointPicked(std::vector<OdGePoint3d> resPnt);
 	void SetEntityPickedCallback(EntityPickedCallback callback);

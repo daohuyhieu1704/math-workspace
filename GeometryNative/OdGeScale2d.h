@@ -144,7 +144,7 @@ namespace GeometryNative
 		/// <summary>
 		/// Set the matrix as a scaling matrix with sx and sy
 		/// </summary>
-		/// <param name="xfm"></param>
+		/// <param m_name="xfm"></param>
 		void getMatrix(OdGeMatrix2d& xfm) const
 		{
 			xfm.setToIdentity();
@@ -155,7 +155,7 @@ namespace GeometryNative
 		/// <summary>
 		/// Extract the scaling factors from the matrix
 		/// </summary>
-		/// <param name="xfm"></param>
+		/// <param m_name="xfm"></param>
 		/// <returns></returns>
 		OdGeScale2d& extractScale(const OdGeMatrix2d& xfm)
 		{
@@ -167,7 +167,7 @@ namespace GeometryNative
 		/// <summary>
 		/// Remove scaling from the matrix and set it to identity scale factors
 		/// </summary>
-		/// <param name="xfm"></param>
+		/// <param m_name="xfm"></param>
 		/// <returns></returns>
 		OdGeScale2d& removeScale(OdGeMatrix2d& xfm)
 		{

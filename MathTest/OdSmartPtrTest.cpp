@@ -46,7 +46,7 @@ TEST_F(OdSmartPtrTest, DefaultConstructor) {
 /// <summary>
 /// ParameterizedConstructor test verifies that the constructor accepts a raw pointer and initializes correctly.
 /// </summary>
-/// <param name="ptr">OdSmartPtr with initial value set.</param>
+/// <param m_name="ptr">OdSmartPtr with initial value set.</param>
 TEST_F(OdSmartPtrTest, ParameterizedConstructor) {
     TestObjectPtr ptr(new TestObject(5));
     EXPECT_EQ(ptr.getRefCount(), 1);
@@ -56,8 +56,8 @@ TEST_F(OdSmartPtrTest, ParameterizedConstructor) {
 /// <summary>
 /// CopyConstructor test checks if the copy constructor increments the reference count of the original object.
 /// </summary>
-/// <param name="ptr1">First OdSmartPtr instance.</param>
-/// <param name="ptr2">Copied OdSmartPtr instance with incremented reference count.</param>
+/// <param m_name="ptr1">First OdSmartPtr instance.</param>
+/// <param m_name="ptr2">Copied OdSmartPtr instance with incremented reference count.</param>
 TEST_F(OdSmartPtrTest, CopyConstructor) {
     ptr1->value = 10;
     TestObjectPtr ptr2(ptr1);
@@ -70,8 +70,8 @@ TEST_F(OdSmartPtrTest, CopyConstructor) {
 /// <summary>
 /// AssignmentOperator test verifies that the assignment operator correctly increments the reference count when assigned.
 /// </summary>
-/// <param name="ptr1">OdSmartPtr instance being assigned.</param>
-/// <param name="ptr2">OdSmartPtr instance after assignment.</param>
+/// <param m_name="ptr1">OdSmartPtr instance being assigned.</param>
+/// <param m_name="ptr2">OdSmartPtr instance after assignment.</param>
 TEST_F(OdSmartPtrTest, AssignmentOperator) {
     ptr1->value = 20;
     ptr2 = ptr1;
@@ -84,7 +84,7 @@ TEST_F(OdSmartPtrTest, AssignmentOperator) {
 /// <summary>
 /// SelfAssignment test ensures that self-assignment does not change the reference count or modify the objectÅfs state.
 /// </summary>
-/// <param name="ptr">OdSmartPtr instance assigned to itself.</param>
+/// <param m_name="ptr">OdSmartPtr instance assigned to itself.</param>
 TEST_F(OdSmartPtrTest, SelfAssignment) {
     ptr1->value = 30;
     ptr1 = ptr1;
@@ -95,8 +95,8 @@ TEST_F(OdSmartPtrTest, SelfAssignment) {
 /// <summary>
 /// DestructorDeletesWhenRefCountIsZero test checks if the object is deleted when the reference count reaches zero.
 /// </summary>
-/// <param name="ptr1">First OdSmartPtr instance.</param>
-/// <param name="ptr2">Second OdSmartPtr instance pointing to the same object as ptr1.</param>
+/// <param m_name="ptr1">First OdSmartPtr instance.</param>
+/// <param m_name="ptr2">Second OdSmartPtr instance pointing to the same object as ptr1.</param>
 TEST_F(OdSmartPtrTest, DestructorDeletesWhenRefCountIsZero) {
     ptr1->value = 40;
 
@@ -116,7 +116,7 @@ TEST_F(OdSmartPtrTest, DestructorDeletesWhenRefCountIsZero) {
 /// <summary>
 /// DereferenceOperator test checks if the dereference operator correctly accesses the object's data.
 /// </summary>
-/// <param name="ptr1">OdSmartPtr instance dereferenced to access data.</param>
+/// <param m_name="ptr1">OdSmartPtr instance dereferenced to access data.</param>
 TEST_F(OdSmartPtrTest, DereferenceOperator) {
     ptr1->value = 50;
     EXPECT_EQ((*ptr1).value, 50);
@@ -125,7 +125,7 @@ TEST_F(OdSmartPtrTest, DereferenceOperator) {
 /// <summary>
 /// ArrowOperator test ensures that the arrow operator correctly accesses the object's member variables.
 /// </summary>
-/// <param name="ptr1">OdSmartPtr instance accessed with the arrow operator.</param>
+/// <param m_name="ptr1">OdSmartPtr instance accessed with the arrow operator.</param>
 TEST_F(OdSmartPtrTest, ArrowOperator) {
     ptr1->value = 60;
     EXPECT_EQ(ptr1->value, 60);
@@ -134,7 +134,7 @@ TEST_F(OdSmartPtrTest, ArrowOperator) {
 /// <summary>
 /// Test dictionary object.
 /// </summary>
-/// <param name="ptr1">OdSmartPtr instance accessed with the arrow operator.</param>
+/// <param m_name="ptr1">OdSmartPtr instance accessed with the arrow operator.</param>
 TEST_F(OdSmartPtrTest, MapInsert) {
     
 	OdSmartPtr<TestObject> ptr1 = TestObject::createObject();

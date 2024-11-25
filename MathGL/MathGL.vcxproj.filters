@@ -76,6 +76,9 @@
     <Filter Include="Prompts\Point">
       <UniqueIdentifier>{7158cef9-b9b4-4fbf-ae22-191aef1187f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\3dSolid">
+      <UniqueIdentifier>{0e311fef-b690-4e9f-8837-da505f60eee7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -135,6 +138,12 @@
     <ClInclude Include="MathLine.h">
       <Filter>Graphics\Line</Filter>
     </ClInclude>
+    <ClInclude Include="Math3dSolid.h">
+      <Filter>Graphics\3dSolid</Filter>
+    </ClInclude>
+    <ClInclude Include="OdMath3dSolid.h">
+      <Filter>Graphics\3dSolid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -190,6 +199,12 @@
     </ClCompile>
     <ClCompile Include="MathLine.cpp">
       <Filter>Graphics\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="Math3dSolid.cpp">
+      <Filter>Graphics\3dSolid</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMath3dSolid.cpp">
+      <Filter>Graphics\3dSolid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

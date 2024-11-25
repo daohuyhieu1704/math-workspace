@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "OdMath3dSolid.h"
 #include "OdDrawingManager.h"
 #include "pch.h"
 #include <stdio.h>
@@ -89,6 +90,9 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
+	OdMath3dSolidPtr solid = OdMath3dSolid::createObject();
+	solid->setType(SolidType::Box);
+	OdDrawingManager::R()->appendEntity(solid);
 	//OdMathPlanePtr plane = OdMathPlane::createObject();
 	//plane->setOrigin(OdGePoint3d(0, 0, 0));
 	//plane->setNormal(OdGeVector3d(0, 0, 1));
@@ -148,6 +152,10 @@ void OdDrawingManager::renderAll()
 {
 	for (const auto& entity : m_entities)
 	{
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
 		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
 		if (objRaw)
 		{

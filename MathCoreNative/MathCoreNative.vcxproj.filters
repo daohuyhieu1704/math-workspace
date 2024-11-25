@@ -73,6 +73,9 @@
     <Filter Include="Commons\Prompts\SelectionPrompt">
       <UniqueIdentifier>{c4a7f966-39e3-4b49-b7b0-d0f566b9bf56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\3dSolid">
+      <UniqueIdentifier>{c96654e0-f64a-45b4-b9c3-d7cf25094d34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OdBaseObject.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="AbstractSelectionPrompt.h">
       <Filter>Commons\Prompts\SelectionPrompt</Filter>
     </ClInclude>
+    <ClInclude Include="OdDb3dSolid.h">
+      <Filter>Entities\3dSolid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OdBaseObject.cpp">
@@ -208,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="AbstractSelectionPrompt.cpp">
       <Filter>Commons\Prompts\SelectionPrompt</Filter>
+    </ClCompile>
+    <ClCompile Include="OdDb3dSolid.cpp">
+      <Filter>Entities\3dSolid</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

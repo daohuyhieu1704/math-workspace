@@ -76,7 +76,7 @@ public:
     /// <summary>
     /// VS2015 requires to create copy constructor explicity
     /// </summary>
-    /// <param name="objectId"></param>
+    /// <param m_name="objectId"></param>
     OdDbObjectId(const OdDbObjectId& objectId) = default;
     OdDbObjectId& operator = (const OdDbObjectId& objectId) = default;
 

@@ -37,7 +37,7 @@ namespace GeometryNative
     /// <summary>
     /// ParameterizedConstructor test validates that the parameterized constructor initializes the point with specified coordinates.
     /// </summary>
-    /// <param name="point">Initialized point object with specified x and y coordinates.</param>
+    /// <param m_name="point">Initialized point object with specified x and y coordinates.</param>
     TEST_F(OdGePoint2dTest, ParameterizedConstructor)
     {
         OdGePoint2d point(1.0f, 2.0f);
@@ -48,8 +48,8 @@ namespace GeometryNative
     /// <summary>
     /// DistanceTo test verifies the calculation of the distance between two points.
     /// </summary>
-    /// <param name="point1">First point to calculate distance from.</param>
-    /// <param name="point2">Second point to calculate distance to.</param>
+    /// <param m_name="point1">First point to calculate distance from.</param>
+    /// <param m_name="point2">Second point to calculate distance to.</param>
     TEST_F(OdGePoint2dTest, DistanceTo)
     {
         double distance = point1.DistanceTo(point2);
@@ -59,7 +59,7 @@ namespace GeometryNative
     /// <summary>
     /// StaticOriginPoint test verifies that the static origin point kOrigin is initialized to (0, 0).
     /// </summary>
-    /// <param name="origin">Static origin point to be checked.</param>
+    /// <param m_name="origin">Static origin point to be checked.</param>
     TEST_F(OdGePoint2dTest, StaticOriginPoint)
     {
         EXPECT_NEAR(origin.x, 0.0f, 1e-6);

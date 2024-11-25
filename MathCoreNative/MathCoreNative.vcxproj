@@ -73,6 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Build\$(Platform)\$(Configuration)</OutDir>
     <IncludePath>$(SolutionDir)vcpkg_installed\x64-windows\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)vcpkg_installed\x64-windows\debug\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -156,6 +157,7 @@
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="MathLog.h" />
     <ClInclude Include="OdBaseObject.h" />
+    <ClInclude Include="OdDb3dSolid.h" />
     <ClInclude Include="OdDbArc.h" />
     <ClInclude Include="OdDbCircle.h" />
     <ClInclude Include="OdDbEntity.h" />
@@ -180,6 +182,7 @@
     <ClCompile Include="IActionCmd.cpp" />
     <ClCompile Include="IEngine.cpp" />
     <ClCompile Include="OdBaseObject.cpp" />
+    <ClCompile Include="OdDb3dSolid.cpp" />
     <ClCompile Include="OdDbArc.cpp" />
     <ClCompile Include="OdDbCircle.cpp" />
     <ClCompile Include="OdDbEntity.cpp" />

@@ -23,7 +23,7 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
     glRenderMode(GL_SELECT);
 
     glInitNames();
-    glPushName(0); // Ensure name stack is not empty
+    glPushName(0); // Ensure m_name stack is not empty
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -40,7 +40,7 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
     // Render entities with names
     OdDrawingManager::R()->renderAll();
 
-    glPopName(); // Pop the initial name off the stack
+    glPopName(); // Pop the initial m_name off the stack
 
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
@@ -65,10 +65,10 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
             GLuint numNames = *ptr++;
             GLuint minZ = *ptr++;
             GLuint maxZ = *ptr++;
-            GLuint name = 0;
+            GLuint m_name = 0;
             if (numNames > 0)
             {
-                name = *ptr;
+                m_name = *ptr;
                 ptr += numNames;
             }
             else
@@ -79,7 +79,7 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y)
             for (const OdBaseObjectPtr& obj : entities)
             {
                 OdDbEntity* entity = static_cast<OdDbEntity*>(obj.get());
-                if (entity && entity->id() == name)
+                if (entity && entity->id() == m_name)
                 {
                     entity->setSelected(true);
                     OdDrawingManager::R()->m_json = entity->toJson();

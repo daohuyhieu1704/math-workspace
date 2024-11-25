@@ -56,7 +56,7 @@ protected:
 /// <summary>
 /// Test toJson verifies that the toJson method correctly serializes the entity's fields into JSON format.
 /// </summary>
-/// <param name="entity">An OdDbEntity object to serialize.</param>
+/// <param m_name="entity">An OdDbEntity object to serialize.</param>
 TEST_F(OdDbEntityTest, toJson) {
     json expectedJson = {
         {"scale", { {"x", 1.0}, {"y", 2.0}, {"z", 3.0} }},
@@ -76,8 +76,8 @@ TEST_F(OdDbEntityTest, toJson) {
 /// <summary>
 /// Test fromJson verifies that the fromJson method correctly deserializes JSON data into the entity's fields.
 /// </summary>
-/// <param name="entity">An OdDbEntity object to deserialize into.</param>
-/// <param name="jsonData">JSON data to deserialize.</param>
+/// <param m_name="entity">An OdDbEntity object to deserialize into.</param>
+/// <param m_name="jsonData">JSON data to deserialize.</param>
 TEST_F(OdDbEntityTest, fromJson) {
     json jsonData = {
         {"scale", { {"x", 2.0}, {"y", 4.0}, {"z", 6.0} }},

@@ -12,7 +12,7 @@ OdMathSession::OdMathSession()
 {
     mathPrompt = CommandPrompt::createObject();
 }
-
+  
 void OdMathSession::undo()
 {
 	mathPrompt->undo();
