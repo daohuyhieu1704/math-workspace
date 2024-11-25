@@ -9,6 +9,7 @@ class OdMathPlane :
 public:
 	OdMathPlane();
 	OdResult draw() const override;
+	OdBaseObjectPtr Clone() override;
 	virtual ~OdMathPlane() = default;
 private:
 	void drawNormalVector(

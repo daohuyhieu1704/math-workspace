@@ -16,6 +16,7 @@ public:
 	OdMathPolyline();
 	virtual ~OdMathPolyline() = default;
 	// OdMathPolyline(OdGePoint3d center, double radius);
+	OdBaseObjectPtr Clone() override;
 	OdResult draw() const override;
 private:
 	bool m_isClosed = false;

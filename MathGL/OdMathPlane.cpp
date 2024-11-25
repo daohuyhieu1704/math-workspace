@@ -41,6 +41,14 @@ OdResult OdMathPlane::draw() const
     return eOk;
 }
 
+OdBaseObjectPtr OdMathPlane::Clone()
+{
+	OdMathPlanePtr clone = OdMathPlane::createObject();
+	clone->setOrigin(getOrigin());
+	clone->setNormal(getNormal());
+	return clone;
+}
+
 void OdMathPlane::drawNormalVector(OdGePoint3d origin, OdGeVector3d normal, OdGeVector3d u, OdGeVector3d v, double planeSize) const
 {   
     glColor3f(1.0f, 0.0f, 0.0f); // Red color for the normal vector

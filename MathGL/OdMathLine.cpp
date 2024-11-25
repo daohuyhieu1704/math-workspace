@@ -28,3 +28,11 @@ OdResult OdMathLine::draw() const
 		return OdResult::eInvalidDrawing;
 	}
 }
+
+OdBaseObjectPtr OdMathLine::Clone()
+{
+	OdMathLinePtr clone = OdMathLine::createObject();
+	clone->setStartPnt(getStartPnt());
+	clone->setEndPnt(getEndPnt());
+	return clone;
+}

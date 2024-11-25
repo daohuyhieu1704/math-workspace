@@ -135,6 +135,7 @@
     <ClInclude Include="LineCmd.h" />
     <ClInclude Include="MathArc.h" />
     <ClInclude Include="MathCircle.h" />
+    <ClInclude Include="MathLine.h" />
     <ClInclude Include="OdMathCircle.h" />
     <ClInclude Include="DrawingManager.h" />
     <ClInclude Include="MathCircleJig.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="LineCmd.cpp" />
     <ClCompile Include="MathArc.cpp" />
     <ClCompile Include="MathCircle.cpp" />
+    <ClCompile Include="MathLine.cpp" />
     <ClCompile Include="OdMathCircle.cpp" />
     <ClCompile Include="DrawingManager.cpp" />
     <ClCompile Include="MathCircleJig.cpp" />

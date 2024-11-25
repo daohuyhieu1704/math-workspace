@@ -148,29 +148,20 @@ void OdDrawingManager::renderAll()
 {
 	for (const auto& entity : m_entities)
 	{
-		if (entity && entity->isKindOf(OdMathCircle::desc()))
+		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
+		if (objRaw)
 		{
-			OdMathCirclePtr circle = OdMathCircle::cast(entity);
-			if (circle)
+			glLoadName(objRaw->id());
+			if (objRaw->isSelected())
 			{
-				glLoadName(circle->id());
-				if (circle->isSelected())
-				{
-					glColor3f(1.0f, 0.0f, 0.0f);
-				}
-				else
-				{
-					float color[3] = { circle->getColor().r, circle->getColor().g, circle->getColor().b };
-					glColor3f(color[0], color[1], color[2]);
-				}
-				circle->draw();
+				glColor3f(1.0f, 0.0f, 0.0f);
 			}
 			else
 			{
+				float color[3] = { objRaw->getColor().r, objRaw->getColor().g, objRaw->getColor().b };
+				glColor3f(color[0], color[1], color[2]);
 			}
-		}
-		else
-		{
+			objRaw->draw();
 		}
 	}
 }

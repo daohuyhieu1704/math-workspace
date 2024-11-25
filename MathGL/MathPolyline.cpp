@@ -54,6 +54,18 @@ void OdMathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, d
     }
 }
 
+OdBaseObjectPtr OdMathPolyline::Clone()
+{
+	OdMathPolylinePtr clone = OdMathPolyline::createObject();
+	clone->setSegments(getSegments());
+	clone->setClosed(isClosed());
+	for (int i = 0; i < numVertices(); i++)
+	{
+		clone->addVertex(getVertexAt(i), getBulgeAt(i));
+	}
+	return clone;
+}
+
 OdResult OdMathPolyline::draw() const {
     if (numVertices() < 2) {
         return eInvalidInput;

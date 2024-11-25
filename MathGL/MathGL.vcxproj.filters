@@ -132,6 +132,9 @@
     <ClInclude Include="PointSelection.h">
       <Filter>Prompts\Point</Filter>
     </ClInclude>
+    <ClInclude Include="MathLine.h">
+      <Filter>Graphics\Line</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="PointSelection.cpp">
       <Filter>Prompts\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="MathLine.cpp">
+      <Filter>Graphics\Line</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

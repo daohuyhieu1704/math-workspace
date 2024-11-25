@@ -37,8 +37,6 @@ namespace MathGL
     }
     void MathCircle::Draw()
     {
-        //OdMathCirclePtr clone = OdMathCircle::cast();
         OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
-        //GetImpObj()->draw();
     }
 }
