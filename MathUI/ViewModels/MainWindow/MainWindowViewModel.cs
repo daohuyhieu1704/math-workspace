@@ -18,6 +18,7 @@ using MathUI.Commons;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Text.Json.Nodes;
+using Geometry;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -302,6 +303,8 @@ namespace MathUI.ViewModels.MainWindow
 
         public async void DrawCircle()
         {
+            using MathCircle mathCircle = new(Point3d.Origin, 10);
+            mathCircle.Draw();
             //PointSelection pointSelection = new();
             //HistoryWindow += "Pick 2 center:" + "\n";
             //List<Point3d> pnt1 = await pointSelection.getPoints(1);

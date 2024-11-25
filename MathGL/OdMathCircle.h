@@ -13,6 +13,7 @@ public:
 #pragma endregion
 	OdMathCircle();
 	OdMathCircle(OdGePoint3d center, double radius);
+	OdBaseObjectPtr Clone() override;
 	OdResult draw() const override;
 private:
 	int m_segments = 100;

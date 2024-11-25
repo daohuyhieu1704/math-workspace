@@ -10,7 +10,7 @@ namespace MathGL {
 	{
 	protected:
 		MathCircle()
-			: DisposableWrapper(IntPtr(OdMathCircle::createObject().get()), false)
+			: DisposableWrapper(IntPtr(new OdMathCircle()), true)
 		{
 		}
 		OdMathCircle* GetImpObj()
@@ -19,7 +19,7 @@ namespace MathGL {
 		}
 	public:
 		MathCircle(Point3d center, double radius)
-			: DisposableWrapper(IntPtr(OdMathCircle::createObject().get()), false)
+			: DisposableWrapper(IntPtr(new OdMathCircle()), true)
 		{
 			OdGePoint3d nativeCenter = OdGePoint3d(center.X, center.Y, center.Z);
 			GetImpObj()->setCenter(nativeCenter);
@@ -40,5 +40,7 @@ namespace MathGL {
 			int get();
 			void set(int value);
 		}
+		
+		void Draw();
 	};
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <utility>
+#include <atomic>
 #include "OdDbObjectId.h"
 
 class OdBaseObject;
@@ -10,31 +11,33 @@ class OdBaseObject;
 class OdBaseObjectPtr {
 protected:
     OdBaseObject* m_pObject = nullptr;
-    unsigned* ref_count = nullptr;
+    std::atomic<unsigned>* ref_count = nullptr;
 
 public:
-    OdBaseObjectPtr() : m_pObject(nullptr), ref_count(new unsigned(1)) {}
+    // Default constructor
+    OdBaseObjectPtr() noexcept : m_pObject(nullptr), ref_count(nullptr) {}
 
-    explicit OdBaseObjectPtr(OdBaseObject* pSource) : m_pObject(pSource), ref_count(new unsigned(1)) {}
+    // Constructor from raw pointer
+    explicit OdBaseObjectPtr(OdBaseObject* pSource) : m_pObject(pSource), ref_count(new std::atomic<unsigned>(1)) {}
 
-    OdBaseObjectPtr(const OdBaseObjectPtr& other) : m_pObject(other.m_pObject), ref_count(other.ref_count) {
+    // Copy constructor
+    OdBaseObjectPtr(const OdBaseObjectPtr& other) noexcept : m_pObject(other.m_pObject), ref_count(other.ref_count) {
         addRef();
     }
 
+    // Move constructor
     OdBaseObjectPtr(OdBaseObjectPtr&& other) noexcept : m_pObject(other.m_pObject), ref_count(other.ref_count) {
         other.m_pObject = nullptr;
         other.ref_count = nullptr;
     }
 
+    // Destructor
     ~OdBaseObjectPtr() {
         release();
     }
 
-    OdBaseObject* operator->() const {
-        return static_cast<OdBaseObject*>(m_pObject);
-    }
-
-    OdBaseObjectPtr& operator=(const OdBaseObjectPtr& other) {
+    // Copy assignment operator
+    OdBaseObjectPtr& operator=(const OdBaseObjectPtr& other) noexcept {
         if (this != &other) {
             release();
             m_pObject = other.m_pObject;
@@ -44,6 +47,7 @@ public:
         return *this;
     }
 
+    // Move assignment operator
     OdBaseObjectPtr& operator=(OdBaseObjectPtr&& other) noexcept {
         if (this != &other) {
             release();
@@ -55,66 +59,152 @@ public:
         return *this;
     }
 
-    bool operator==(const OdBaseObjectPtr& other) const {
+    // Reset the pointer to nullptr
+    void reset() noexcept {
+        release();
+    }
+
+    // Reset the pointer to a new object
+    void reset(OdBaseObject* pSource) {
+        if (m_pObject != pSource) {
+            release();
+            if (pSource) {
+                m_pObject = pSource;
+                ref_count = new std::atomic<unsigned>(1);
+            }
+        }
+    }
+
+    // Swap with another pointer
+    void swap(OdBaseObjectPtr& other) noexcept {
+        std::swap(m_pObject, other.m_pObject);
+        std::swap(ref_count, other.ref_count);
+    }
+
+    // Get the raw pointer
+    OdBaseObject* get() const noexcept {
+        return m_pObject;
+    }
+
+    // Use count
+    unsigned use_count() const noexcept {
+        return ref_count ? ref_count->load(std::memory_order_relaxed) : 0;
+    }
+
+    // Check if unique
+    bool unique() const noexcept {
+        return use_count() == 1;
+    }
+
+    // Bool conversion
+    explicit operator bool() const noexcept {
+        return m_pObject != nullptr;
+    }
+
+    // Operator->
+    OdBaseObject* operator->() const noexcept {
+        return m_pObject;
+    }
+
+    // Operator*
+    OdBaseObject& operator*() const {
+        return *m_pObject;
+    }
+
+    // Comparison operators
+    bool operator==(const OdBaseObjectPtr& other) const noexcept {
         return m_pObject == other.m_pObject;
     }
 
-    bool operator!=(const OdBaseObjectPtr& other) const {
+    bool operator!=(const OdBaseObjectPtr& other) const noexcept {
         return m_pObject != other.m_pObject;
     }
 
-    OdBaseObject* get() { return m_pObject; }
-    OdBaseObject* get() const { return m_pObject; }
-    bool isNull() const { return m_pObject == nullptr; }
-	int getRefCount() const { return ref_count ? *ref_count : 0; }
 protected:
     void addRef() {
         if (ref_count) {
-            ++(*ref_count);
+            ref_count->fetch_add(1, std::memory_order_relaxed);
         }
     }
 
+    /// <summary>
+    /// Do not set m_pObject and ref_count to nullptr if the reference count is not zero
+    /// </summary>
     void release() {
-        if (ref_count && --(*ref_count) == 0) {
-            delete m_pObject;
-            delete ref_count;
+        if (ref_count) {
+            if (ref_count->fetch_sub(1, std::memory_order_acq_rel) == 1) {
+                delete m_pObject;
+                delete ref_count;
+                m_pObject = nullptr;
+                ref_count = nullptr;
+            }
         }
-        m_pObject = nullptr;
-        ref_count = nullptr;
     }
+
 };
 
-
+// OdSmartPtr implementation
 template <class T>
 class OdSmartPtr : public OdBaseObjectPtr {
 public:
-    OdSmartPtr() : OdBaseObjectPtr(new T()) {}
+    // Default constructor
+    OdSmartPtr() noexcept : OdBaseObjectPtr() {}
 
-    OdSmartPtr(T* rawPtr) : OdBaseObjectPtr(rawPtr) {}
+    // Constructor from raw pointer
+    explicit OdSmartPtr(T* rawPtr) : OdBaseObjectPtr(rawPtr) {}
 
-    OdSmartPtr(const OdSmartPtr<T>& sp) : OdBaseObjectPtr(sp) {}
+    // Copy constructor
+    OdSmartPtr(const OdSmartPtr<T>& sp) noexcept : OdBaseObjectPtr(sp) {}
 
+    // Move constructor
     OdSmartPtr(OdSmartPtr<T>&& sp) noexcept : OdBaseObjectPtr(std::move(sp)) {}
 
-    OdSmartPtr<T>& operator=(const OdSmartPtr<T>& sp) {
+    // Constructor from OdBaseObjectPtr
+    OdSmartPtr(const OdBaseObjectPtr& basePtr) noexcept : OdBaseObjectPtr(basePtr) {}
+
+    // Copy assignment operator
+    OdSmartPtr<T>& operator=(const OdSmartPtr<T>& sp) noexcept {
         OdBaseObjectPtr::operator=(sp);
         return *this;
     }
 
+    // Move assignment operator
     OdSmartPtr<T>& operator=(OdSmartPtr<T>&& sp) noexcept {
         OdBaseObjectPtr::operator=(std::move(sp));
         return *this;
     }
 
+    // Reset the pointer
+    void reset() noexcept {
+        OdBaseObjectPtr::reset();
+    }
+
+    void reset(T* rawPtr) {
+        OdBaseObjectPtr::reset(rawPtr);
+    }
+
+    // Swap function
+    void swap(OdSmartPtr<T>& other) noexcept {
+        OdBaseObjectPtr::swap(other);
+    }
+
+    // Operator->
+    T* operator->() const noexcept {
+        return static_cast<T*>(m_pObject);
+    }
+
+    // Operator*
     T& operator*() const {
         return *static_cast<T*>(m_pObject);
     }
 
-    T* operator->() const {
+    // Get the raw pointer
+    T* get() const noexcept {
         return static_cast<T*>(m_pObject);
     }
 };
 
+// OdBaseObject definition remains the same
 class OdBaseObject {
 protected:
     OdDbObjectId m_id = OdDbObjectId::kNull;
@@ -132,12 +222,13 @@ public:
         return m_id != other.m_id;
     }
 
-
     virtual std::string getClassName() const = 0;
     virtual bool isKindOf(const std::string& className) const = 0;
 
     virtual OdBaseObjectPtr Clone() = 0;
 };
+
+// RTTI macros remain the same, but you can adjust them if needed
 
 #define OD_RTTI_DECLARE_ABSTRACT(ClassName, BaseClassName) \
 public: \
@@ -154,46 +245,52 @@ public: \
     inline virtual bool isKindOf(const std::string& desc) const override; \
     static OdSmartPtr<ClassName> createObject(); \
     static OdSmartPtr<ClassName> cast(const OdSmartPtr<BaseClassName>& obj); \
-    static OdSmartPtr<ClassName> cast(const OdBaseObjectPtr& obj);
+    static OdSmartPtr<ClassName> cast(const OdBaseObjectPtr& obj); \
+    static OdSmartPtr<ClassName> cast(OdBaseObject* obj);
 
 #define OD_RTTI_DEFINE_ABSTRACT(ClassName, BaseClassName) \
     inline bool ClassName::isKindOf(const std::string& desc) const { \
-        const OdBaseObject* current = this; \
-        while (current) { \
-            if (desc == current->getClassName()) { \
-                return true; \
-            } \
-            current = dynamic_cast<const BaseClassName*>(current); \
+        if (desc == getClassName()) { \
+            return true; \
         } \
-        return false; \
+        const BaseClassName* basePtr = static_cast<const BaseClassName*>(this); \
+        if (basePtr) { \
+            return basePtr->isKindOf(desc); \
+        } \
+        else { \
+            return false; \
+        } \
     }
 
 #define OD_RTTI_DEFINE(ClassName, BaseClassName) \
     inline bool ClassName::isKindOf(const std::string& desc) const { \
-        const OdBaseObject* current = this; \
-        while (current) { \
-            if (desc == current->getClassName()) { \
-                return true; \
-            } \
-            current = dynamic_cast<const BaseClassName*>(current); \
+        if (desc == getClassName()) { \
+            return true; \
         } \
-        return false; \
+        const BaseClassName* basePtr = static_cast<const BaseClassName*>(this); \
+        if (basePtr) { \
+            return basePtr->isKindOf(desc); \
+        } else { \
+            return false; \
+        } \
     } \
     inline OdSmartPtr<ClassName> ClassName::createObject() { \
         return OdSmartPtr<ClassName>(new ClassName()); \
     } \
     inline OdSmartPtr<ClassName> ClassName::cast(const OdSmartPtr<BaseClassName>& obj) { \
-        if (!obj.isNull() && obj->isKindOf(ClassName::desc())) { \
-            return OdSmartPtr<ClassName>(dynamic_cast<ClassName*>(obj.get())); \
+        if (obj && obj->isKindOf(ClassName::desc())) { \
+            return OdSmartPtr<ClassName>(obj); \
         } \
-        return nullptr; \
+        return OdSmartPtr<ClassName>(); \
     } \
     inline OdSmartPtr<ClassName> ClassName::cast(const OdBaseObjectPtr& obj) { \
-        if (!obj.isNull() && obj.get()->isKindOf(ClassName::desc())) { \
-            return OdSmartPtr<ClassName>(dynamic_cast<ClassName*>(obj.get())); \
+        if (obj && obj->isKindOf(ClassName::desc())) { \
+            return OdSmartPtr<ClassName>(obj); \
         } \
-        return nullptr; \
+        return OdSmartPtr<ClassName>(); \
     }
+
+
 
 #define OD_RTTI_SINGLETON_DECLARE(ClassName) \
 private: \
@@ -205,7 +302,7 @@ public: \
 OdSmartPtr<ClassName> ClassName::m_instance; \
 OdSmartPtr<ClassName>& ClassName::R() \
 { \
-    if (m_instance.isNull()) \
+    if (!m_instance) \
     { \
         m_instance = ClassName::createObject(); \
     } \
@@ -216,9 +313,9 @@ template<typename T>
 OdSmartPtr<T> static_pointer_cast(const OdBaseObjectPtr& basePtr) {
     T* derivedPtr = dynamic_cast<T*>(basePtr.get());
     if (derivedPtr) {
-        return OdSmartPtr<T>(basePtr); // Calls copy constructor
+        return OdSmartPtr<T>(basePtr);
     }
     else {
-        return OdSmartPtr<T>(); // Returns a null smart pointer
+        return OdSmartPtr<T>();
     }
 }

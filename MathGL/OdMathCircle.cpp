@@ -11,6 +11,14 @@ OdMathCircle::OdMathCircle(OdGePoint3d center, double radius) : OdDbCircle()
 	setRadius(radius);
 }
 
+OdBaseObjectPtr OdMathCircle::Clone()
+{
+	OdMathCirclePtr clone = OdMathCircle::createObject();
+	clone->setCenter(getCenter());
+	clone->setRadius(getRadius());
+    return clone;
+}
+
 OdResult OdMathCircle::draw() const
 {
 	glDisable(GL_LIGHTING);

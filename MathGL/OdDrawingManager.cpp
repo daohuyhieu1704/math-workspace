@@ -35,7 +35,7 @@ int selectedObjectID = -1; // -1 means no object is selected
 #define GL_MULTISAMPLE 0x809d
 #endif
 
-MathViewportPtr viewport;
+MathViewportPtr viewport = MathViewport::R();
 
 HWND GetGLUTWindowHandle()
 {
@@ -89,10 +89,10 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
-	OdMathPlanePtr plane = OdMathPlane::createObject();
-	plane->setOrigin(OdGePoint3d(0, 0, 0));
-	plane->setNormal(OdGeVector3d(0, 0, 1));
-	OdDrawingManager::R()->appendEntity(plane);
+	//OdMathPlanePtr plane = OdMathPlane::createObject();
+	//plane->setOrigin(OdGePoint3d(0, 0, 0));
+	//plane->setNormal(OdGeVector3d(0, 0, 1));
+	//OdDrawingManager::R()->appendEntity(plane);
 
 	return hwnd;
 }
@@ -146,22 +146,31 @@ void OdDrawingManager::RegisterCommandPattern()
 
 void OdDrawingManager::renderAll()
 {
-	for (auto& entity : m_entities)
+	for (const auto& entity : m_entities)
 	{
-		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
-		if (objRaw)
+		if (entity && entity->isKindOf(OdMathCircle::desc()))
 		{
-			glLoadName(objRaw->id());
-			if (objRaw->isSelected())
+			OdMathCirclePtr circle = OdMathCircle::cast(entity);
+			if (circle)
 			{
-				glColor3f(1.0f, 0.0f, 0.0f);
+				glLoadName(circle->id());
+				if (circle->isSelected())
+				{
+					glColor3f(1.0f, 0.0f, 0.0f);
+				}
+				else
+				{
+					float color[3] = { circle->getColor().r, circle->getColor().g, circle->getColor().b };
+					glColor3f(color[0], color[1], color[2]);
+				}
+				circle->draw();
 			}
 			else
 			{
-				float color[3] = { objRaw->getColor().r, objRaw->getColor().g, objRaw->getColor().b };
-				glColor3f(color[0], color[1], color[2]);
 			}
-			objRaw->draw();
+		}
+		else
+		{
 		}
 	}
 }
