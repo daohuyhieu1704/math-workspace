@@ -91,7 +91,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OpenGL32.Lib;winmm.lib;gdi32.lib;GlU32.Lib;freeglutd.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;GeometryNative.lib;MathCoreNative.lib;TKernel.lib;TKMath.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKTopAlgo.lib;TKPrim.lib;TKBO.lib;TKBRep.lib;TKG3d.lib;TKMesh.lib</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.Lib;winmm.lib;gdi32.lib;GlU32.Lib;freeglutd.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;GeometryNative.lib;MathCoreNative.lib;TKernel.lib;TKMath.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKTopAlgo.lib;TKPrim.lib;TKBO.lib;TKBRep.lib;TKG3d.lib;TKMesh.lib;TKShHealing.lib;TKOffset.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
