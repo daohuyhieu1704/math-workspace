@@ -123,5 +123,45 @@ namespace MathUI.Presenters
         {
             CommandAction((model) => ViewModel.DrawPoly());
         }
+
+        private void Plane_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.DrawPlane());
+        }
+
+        private void Extrude_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Extrude());
+        }
+
+        private void Sweep_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Sweep());
+        }
+
+        private void Scale_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Scale());
+        }
+
+        private void Trans_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Trans());
+        }
+
+        private void Rotate_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Rotate());
+        }
+
+        private void P2W_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.P2W());
+        }
+
+        private void W2P_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.W2P());
+        }
     }
 }

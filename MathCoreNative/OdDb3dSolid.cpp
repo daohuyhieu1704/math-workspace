@@ -10,7 +10,7 @@
 #include <opencascade/TopoDS_Face.hxx>
 #include "OdDb3dSolid.h"
 
-OdDb3dSolid::OdDb3dSolid() : m_volume(0.0), m_surfaceArea(0.0), m_name("Unnamed") {}
+OdDb3dSolid::OdDb3dSolid() : m_type(SolidType::Box), m_volume(0.0), m_surfaceArea(0.0), m_name("Unnamed") {}
 
 OdBaseObjectPtr OdDb3dSolid::Clone()
 {

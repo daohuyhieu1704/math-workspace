@@ -403,6 +403,46 @@ namespace MathUI.ViewModels.MainWindow
 
         }
 
+        internal void DrawPlane()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Extrude()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Sweep()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Scale()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Trans()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Rotate()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void P2W()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void W2P()
+        {
+            throw new NotImplementedException();
+        }
+
         public ICommand CloseTabCommand { get; }
     }
 }

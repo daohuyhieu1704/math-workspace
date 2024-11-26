@@ -288,7 +288,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Plane" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Plane" FontSize="10" Click="Plane_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderThickness="0 0 0 0" BorderBrush="Black">
@@ -298,7 +298,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Extrude" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Extrude" FontSize="10" Click="Extrude_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderThickness="0 0 0 0" BorderBrush="Black">
@@ -308,7 +308,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Sweep" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Sweep" FontSize="10" Click="Sweep_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderThickness="0 0 0 0" BorderBrush="Black">
@@ -318,7 +318,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Scale" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Scale" FontSize="10" Click="Scale_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderThickness="0 0 0 0" BorderBrush="Black">
@@ -328,7 +328,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Translation" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Translation" FontSize="10" Click="Trans_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderThickness="0 0 0 0" BorderBrush="Black">
@@ -338,7 +338,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Rotate" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Rotate" FontSize="10" Click="Rotate_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderThickness="0 0 0 0" BorderBrush="Black">
@@ -348,7 +348,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="PlaneToWorld" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="PlaneToWorld" FontSize="10" Click="P2W_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderThickness="0 0 0 0" BorderBrush="Black">
@@ -358,7 +358,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="WorldToPlane" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="WorldToPlane" FontSize="10" Click="W2P_Click" />
                                         </Grid>
                                     </Border>
                                 </StackPanel>
