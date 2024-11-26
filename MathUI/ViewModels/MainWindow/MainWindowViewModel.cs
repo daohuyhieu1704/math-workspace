@@ -20,6 +20,7 @@ using System.Windows.Shapes;
 using System.Text.Json.Nodes;
 using Geometry;
 using MathUI.Commands;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -424,6 +425,7 @@ namespace MathUI.ViewModels.MainWindow
         {
             try
             {
+                HistoryWindow += "Select entity:\n";
                 EntitySelection entitySelection = new EntitySelection();
                 List<uint> entitieId = await entitySelection.getEntities(1);
                 if (entitieId[0] == 0) {
@@ -452,9 +454,34 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
-        internal void Sweep()
+        internal async void Sweep()
         {
-            throw new NotImplementedException();
+            try
+            {
+                HistoryWindow += "Select entity:\n";
+                EntitySelection entitySelection = new EntitySelection();
+                List<uint> entitieId = await entitySelection.getEntities(1);
+                if (entitieId[0] == 0)
+                {
+                    HistoryWindow += "Entity Not found\n";
+                    return;
+                }
+
+                HistoryWindow += "Select path:\n";
+                List<uint> pathId = await entitySelection.getEntities(1);
+                if (pathId[0] == 0)
+                {
+                    HistoryWindow += "Path Not found\n";
+                    return;
+                }
+                Math3dSolid math3DSolid = new();
+                math3DSolid.createSweepSolid(entitieId[0], pathId[0]);
+                math3DSolid.Draw();
+            }
+            catch
+            {
+                HistoryWindow += "Invalid input\n";
+            }
         }
 
         internal async void Scale()

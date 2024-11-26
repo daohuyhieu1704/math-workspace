@@ -27,6 +27,10 @@ namespace MathGL {
 			OdGeVector3d nativeAxis(aXis.X, aXis.Y, aXis.Z);
 			GetImpObj()->createExtrudeSolid(entityId, height, nativeAxis);
 		}
+		void createSweepSolid(unsigned int profileId, unsigned int pathId)
+		{
+			GetImpObj()->createSweepSolid(profileId, pathId);
+		}
 		void Draw();
 	};
 }

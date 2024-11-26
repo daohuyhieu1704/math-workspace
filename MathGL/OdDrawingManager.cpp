@@ -183,6 +183,7 @@ void OdDrawingManager::renderAll()
 				glColor3f(color[0], color[1], color[2]);
 			}
 			objRaw->draw();
+			drawBoundingBox(objRaw->getExtents());
 		}
 	}
 }
@@ -208,4 +209,66 @@ void OdDrawingManager::TriggerEntityPicked(const std::vector<OdDbObjectId>& resI
 	if (entityPickedCallback) {
 		entityPickedCallback(resId);
 	}
+}
+
+void OdDrawingManager::drawBoundingBox(const OdGeExtents3d& extents) {
+	// Extract min and max points
+	OdGePoint3d minPnt = extents.GetMinPnt();
+	OdGePoint3d maxPnt = extents.GetMaxPnt();
+
+	// Calculate all 8 corners of the box
+	OdGePoint3d corners[8] = {
+		{minPnt.x, minPnt.y, minPnt.z}, // Bottom-left-front
+		{maxPnt.x, minPnt.y, minPnt.z}, // Bottom-right-front
+		{maxPnt.x, maxPnt.y, minPnt.z}, // Bottom-right-back
+		{minPnt.x, maxPnt.y, minPnt.z}, // Bottom-left-back
+		{minPnt.x, minPnt.y, maxPnt.z}, // Top-left-front
+		{maxPnt.x, minPnt.y, maxPnt.z}, // Top-right-front
+		{maxPnt.x, maxPnt.y, maxPnt.z}, // Top-right-back
+		{minPnt.x, maxPnt.y, maxPnt.z}  // Top-left-back
+	};
+
+	// Set line color to green
+	glColor3f(0.0f, 1.0f, 0.0f);
+	// Draw edges of the bounding box
+	glBegin(GL_LINES);
+	// Bottom face
+	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
+	glVertex3f(corners[1].x, corners[1].y, corners[1].z);
+
+	glVertex3f(corners[1].x, corners[1].y, corners[1].z);
+	glVertex3f(corners[2].x, corners[2].y, corners[2].z);
+
+	glVertex3f(corners[2].x, corners[2].y, corners[2].z);
+	glVertex3f(corners[3].x, corners[3].y, corners[3].z);
+
+	glVertex3f(corners[3].x, corners[3].y, corners[3].z);
+	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
+
+	// Top face
+	glVertex3f(corners[4].x, corners[4].y, corners[4].z);
+	glVertex3f(corners[5].x, corners[5].y, corners[5].z);
+
+	glVertex3f(corners[5].x, corners[5].y, corners[5].z);
+	glVertex3f(corners[6].x, corners[6].y, corners[6].z);
+
+	glVertex3f(corners[6].x, corners[6].y, corners[6].z);
+	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
+
+	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
+	glVertex3f(corners[4].x, corners[4].y, corners[4].z);
+
+	// Vertical edges
+	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
+	glVertex3f(corners[4].x, corners[4].y, corners[4].z);
+
+	glVertex3f(corners[1].x, corners[1].y, corners[1].z);
+	glVertex3f(corners[5].x, corners[5].y, corners[5].z);
+
+	glVertex3f(corners[2].x, corners[2].y, corners[2].z);
+	glVertex3f(corners[6].x, corners[6].y, corners[6].z);
+
+	glVertex3f(corners[3].x, corners[3].y, corners[3].z);
+	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
+	glEnd();
 }

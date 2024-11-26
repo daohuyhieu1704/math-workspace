@@ -39,6 +39,7 @@ public:
 	void AppendCommand(const std::string command);
 	void AppendPrompt(const std::string prompt);
 	void RegisterCommandPattern();
+
 	void renderAll();
 	json m_json;
 
@@ -56,6 +57,7 @@ public:
 	void SetEntityPickedCallback(EntityPickedCallback callback);
 	void TriggerEntityPicked(const std::vector<OdDbObjectId>& resId);
 private:
+	void drawBoundingBox(const OdGeExtents3d& extents);
 	std::vector<OdBaseObjectPtr> m_entities;
 	std::vector<OdBaseObjectPtr> m_jigs;
 	std::vector<const OdBaseObject*> m_tempRenders;
