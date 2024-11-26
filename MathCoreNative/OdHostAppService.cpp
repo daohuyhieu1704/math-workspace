@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "OdHostAppService.h"
+#include "OdBaseObject.h"
 
 OD_RTTI_DEFINE(OdHostAppService, OdBaseObject)
 OD_RTTI_SINGLETON_DEFINE(OdHostAppService)

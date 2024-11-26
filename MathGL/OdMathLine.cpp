@@ -11,16 +11,23 @@ OdMathLine::OdMathLine(OdGePoint3d startPnt, OdGePoint3d endPnt)
 	setEndPnt(endPnt);
 }
 
-OdResult OdMathLine::draw() const
+OdResult OdMathLine::draw() 
 {
 	try
 	{
+		OdGePoint3d transformedStart = (getStartPnt() * m_scale) * m_transform;
+		OdGePoint3d transformedEnd = (getEndPnt() * m_scale) * m_transform;
 		glDisable(GL_LIGHTING);
+		getExtents().reset();
 		glBegin(GL_LINES);
-		glVertex2f(getStartPnt().x, getStartPnt().y);
-		glVertex2f(getEndPnt().x, getEndPnt().y);
+		glVertex2f(static_cast<GLfloat>(transformedStart.x), static_cast<GLfloat>(transformedStart.y));
+		glVertex2f(static_cast<GLfloat>(transformedEnd.x), static_cast<GLfloat>(transformedEnd.y));
 		glEnd();
 		glEnable(GL_LIGHTING);
+		OdGeExtents3d extents = OdGeExtents3d(transformedStart, transformedEnd);
+		extents.apppendPoint(transformedStart);
+		extents.apppendPoint(transformedEnd);
+		extents.appendFace({ 0, 1 });
 		return OdResult::eOk;
 	}
 	catch (const std::exception&)

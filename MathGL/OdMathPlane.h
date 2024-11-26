@@ -8,7 +8,7 @@ class OdMathPlane :
 	OD_RTTI_DECLARE(OdMathPlane, OdDbPlane)
 public:
 	OdMathPlane();
-	OdResult draw() const override;
+	OdResult draw() override;
 	OdBaseObjectPtr Clone() override;
 	virtual ~OdMathPlane() = default;
 private:

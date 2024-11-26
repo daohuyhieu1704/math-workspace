@@ -14,8 +14,8 @@ class OdDbEntity : public OdDbObject
 	OdGeVector3d m_xDir = OdGeVector3d::kXAxis;
 	OdGeVector3d m_yDir = OdGeVector3d::kYAxis;
 	OdGeVector3d m_zDir = OdGeVector3d::kZAxis;
-	OdGeExtents3d m_extents = OdGeExtents3d(OdGePoint3d::kOrigin, OdGePoint3d::kOrigin);
-	OdGeMatrix3d m_transform;
+	OdGeExtents3d m_extents = OdGeExtents3d();
+	OdGeMatrix3d m_transform = OdGeMatrix3d::kIdentity;
 	bool m_isVisible = true;
 	bool m_isSelected = false;
 public:
@@ -30,8 +30,11 @@ public:
 	void setYDir(const OdGeVector3d& yDir) { m_yDir = yDir; }
 	OdGeVector3d getZDir() const { return m_zDir; }
 	void setZDir(const OdGeVector3d& zDir) { m_zDir = zDir; }
-	OdGeExtents3d getExtents() const { return m_extents; }
-	void setExtents(const OdGeExtents3d& extents) { m_extents = extents; }
+	OdGeExtents3d& getExtents() { return m_extents; }
+	//const OdGeExtents3d& getExtents() const {
+	//	return m_extents;
+	//}
+	void setExtents(OdGeExtents3d extents) { m_extents = extents; }
 	OdGeMatrix3d getTransform() const { return m_transform; }
 	void setTransform(const OdGeMatrix3d& transform) { m_transform = transform; }
 	bool isVisible() const { return m_isVisible; }
@@ -40,15 +43,13 @@ public:
 	void setSelected(bool isSelected) { m_isSelected = isSelected; }
 #pragma endregion
 	virtual ~OdDbEntity() = default;
-	virtual OdGeExtents3d boundingBox() const = 0;
-	virtual OdResult worldDraw() const = 0;
 	virtual json toJson() const;
 	virtual void fromJson(const json& j);
 	OdResult transformBy(const OdGeMatrix3d xform);
 	virtual bool intersectWithRay(
 		double rayStartX, double rayStartY, double rayStartZ,
 		double rayDirX, double rayDirY, double rayDirZ,
-		double& intersectionDistance) const;
+		double& intersectionDistance);
 };
 
 OD_RTTI_DEFINE_ABSTRACT(OdDbEntity, OdDbObject)

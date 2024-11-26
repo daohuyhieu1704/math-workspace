@@ -14,7 +14,7 @@ class OdGiDrawable : public OdBaseObject {
     OD_RTTI_DECLARE_ABSTRACT(OdGiDrawable, OdBaseObject)
 public:
     virtual ~OdGiDrawable() = default;
-    virtual OdResult draw() const = 0;
+    virtual OdResult draw() = 0;
 	virtual void setColor(const ColorRGB& color) { m_color = color; }
 	virtual ColorRGB getColor() const { return m_color; }
 private:

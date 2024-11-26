@@ -9,7 +9,7 @@ class OdMathArc :
 public:
 	OdMathArc();
 	OdMathArc(OdGePoint3d startPnt, OdGePoint3d endPnt, double bulge);
-	OdResult draw() const override;
+	OdResult draw() override;
     OdBaseObjectPtr Clone() override;
     static void calculateCircleFrom3Points(
         const OdGePoint3d& p1,

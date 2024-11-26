@@ -5,39 +5,36 @@ OdMathPlane::OdMathPlane()
 {
 }
 
-OdResult OdMathPlane::draw() const
+OdResult OdMathPlane::draw() 
 {
     // Disable lighting to apply plain colors
-    glDisable(GL_LIGHTING);
-
     // Define the size of the plane (half-length along each axis)
     const double planeSize = 5.0;
-
     // Compute the plane's orientation
     OdGeVector3d normal = getNormal().normalize();             // Plane normal
     OdGeVector3d u = normal.perpendicular().normalize() * planeSize; // First perpendicular vector
     OdGeVector3d v = normal.crossProduct(u).normalize() * planeSize; // Second perpendicular vector
-
     // Define the plane's corners
     OdGePoint3d origin = getOrigin();
     OdGePoint3d p1 = origin - u - v;
     OdGePoint3d p2 = origin + u - v;
     OdGePoint3d p3 = origin + u + v;
     OdGePoint3d p4 = origin - u + v;
-
+    getExtents().reset();
     glBegin(GL_QUADS);
     glNormal3f(normal.x, normal.y, normal.z); // Specify the plane's normal
     glVertex3f(p1.x, p1.y, p1.z); // Bottom-left corner
     glVertex3f(p2.x, p2.y, p2.z); // Bottom-right corner
     glVertex3f(p3.x, p3.y, p3.z); // Top-right corner
     glVertex3f(p4.x, p4.y, p4.z); // Top-left corner
+	getExtents().appendPoint_s(p1);
+	getExtents().appendPoint_s(p2);
+	getExtents().appendPoint_s(p3);
+	getExtents().appendPoint_s(p4);
+	getExtents().appendFace({ 0, 1, 2, 3 });
     glEnd();
     // Draw the normal vector
     // drawNormalVector(origin, normal, u, v, planeSize);
-
-    // Re-enable lighting
-    glEnable(GL_LIGHTING);
-
     return eOk;
 }
 

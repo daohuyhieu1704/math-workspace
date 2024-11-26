@@ -14,7 +14,7 @@ public:
 	OdMathCircle();
 	OdMathCircle(OdGePoint3d center, double radius);
 	OdBaseObjectPtr Clone() override;
-	OdResult draw() const override;
+	OdResult draw() override;
 	virtual ~OdMathCircle() = default;
 private:
 	int m_segments = 100;

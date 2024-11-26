@@ -384,13 +384,13 @@ namespace GeometryNative
 
     // Set to mirroring about plane
     OdGeMatrix3d& OdGeMatrix3d::setToMirroring(const OdGePlane& mirrorPlane) {
-        OdGeVector3d n = mirrorPlane.normal;
+        OdGeVector3d n = mirrorPlane.m_normal;
         n.normalize();
 
         double a = n.x;
         double b = n.y;
         double c = n.z;
-        double d = -(a * mirrorPlane.origin.x + b * mirrorPlane.origin.y + c * mirrorPlane.origin.z);
+        double d = -(a * mirrorPlane.m_origin.x + b * mirrorPlane.m_origin.y + c * mirrorPlane.m_origin.z);
 
         entry[0][0] = 1 - 2 * a * a;
         entry[0][1] = -2 * a * b;
@@ -434,7 +434,7 @@ namespace GeometryNative
     // Set to projection onto plane
     OdGeMatrix3d& OdGeMatrix3d::setToProjection(const OdGePlane& projectionPlane,
         const OdGeVector3d& projectDir) {
-        OdGeVector3d n = projectionPlane.normal;
+        OdGeVector3d n = projectionPlane.m_normal;
         n.normalize();
         OdGeVector3d d = projectDir;
         d.normalize();
@@ -462,7 +462,7 @@ namespace GeometryNative
         entry[2][2] = 1 - dz * c / dot;
         entry[2][3] = 0.0;
 
-        OdGeVector3d trans = -projectDir * (projectionPlane.origin.x * a + projectionPlane.origin.y * b + projectionPlane.origin.z * c) / dot;
+        OdGeVector3d trans = -projectDir * (projectionPlane.m_origin.x * a + projectionPlane.m_origin.y * b + projectionPlane.m_origin.z * c) / dot;
         entry[0][3] = trans.x;
         entry[1][3] = trans.y;
         entry[2][3] = trans.z;

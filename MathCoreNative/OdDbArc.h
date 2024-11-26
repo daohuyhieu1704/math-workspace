@@ -24,9 +24,8 @@ public:
 
 	// Inherited via OdDbEntity
 	OdBaseObjectPtr Clone() override;
-	virtual OdResult draw() const;
+	virtual OdResult draw();
 	virtual OdGeExtents3d boundingBox() const;
-	OdResult worldDraw() const override;
 
 	// Inherited via OdDbObject
 	virtual json toJson() const override;

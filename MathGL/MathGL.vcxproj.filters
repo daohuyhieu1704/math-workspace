@@ -97,6 +97,9 @@
     <Filter Include="Jig\AbstractJig">
       <UniqueIdentifier>{3ccbf966-ab5f-4552-af5d-6493d3f796fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\SelectionManager">
+      <UniqueIdentifier>{98f20205-219d-4e76-af8d-38000ef2fe87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -177,6 +180,9 @@
     <ClInclude Include="MathJig.h">
       <Filter>Jig\AbstractJig</Filter>
     </ClInclude>
+    <ClInclude Include="OdSelectionManager.h">
+      <Filter>Graphics\SelectionManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -253,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="MathJig.cpp">
       <Filter>Jig\AbstractJig</Filter>
+    </ClCompile>
+    <ClCompile Include="OdSelectionManager.cpp">
+      <Filter>Graphics\SelectionManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -62,5 +62,5 @@ public:
     void setCamera();
     // Inherited via OdGiDrawable
     OdBaseObjectPtr Clone() override;
-    OdResult draw() const override;
+    OdResult draw() override;
 };

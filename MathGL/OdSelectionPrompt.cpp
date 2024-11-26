@@ -3,6 +3,7 @@
 #include "MathViewport.h"
 #include "OdDrawingManager.h"
 #include "OdPointPrompt.h"
+#include "OdSelectionManager.h"
 
 OD_RTTI_DEFINE(OdSelectionPrompt, AbstractSelectionPrompt)
 
@@ -45,7 +46,8 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
     OdDbObjectId selectedEntityId;
 
     for (auto& entity : entities) {
-        GLdouble intersectionDistance;
+        GLdouble intersectionDistance = std::numeric_limits<GLdouble>::max();
+
         if (static_cast<OdDbEntity*>(entity.get())->intersectWithRay(
             rayStartX, rayStartY, rayStartZ,
             rayDirX, rayDirY, rayDirZ,
@@ -60,12 +62,13 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
     for (auto& entity : entities) {
         static_cast<OdDbEntity*>(entity.get())->setSelected(entity->getObjectId() == selectedEntityId);
         OdDrawingManager::R()->m_json = static_cast<OdDbEntity*>(entity.get())->toJson();
-		AppendId(selectedEntityId);
+        AppendId(selectedEntityId);
     }
 
     glutPostRedisplay();
     return OdResult::eOk;
 }
+
 
 OdDbObjectId OdSelectionPrompt::getObjectId()
 {

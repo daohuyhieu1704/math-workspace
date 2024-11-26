@@ -33,7 +33,7 @@ namespace GeometryNative
     TEST_F(OdGePlaneTest, DefaultConstructor)
     {
         OdGePlane plane;
-        EXPECT_NEAR(plane.normal.Length(), 1.0, 1e-6); // Assuming default normal is unit length
+        EXPECT_NEAR(plane.m_normal.Length(), 1.0, 1e-6); // Assuming default normal is unit length
         EXPECT_NEAR(plane.DistanceTo(OdGePoint3d::kOrigin), 0.0, 1e-6);
         MathLog::LogFunction("DefaultConstructor", plane);
     }
@@ -43,9 +43,9 @@ namespace GeometryNative
     /// </summary>
     TEST_F(OdGePlaneTest, ParameterizedConstructor)
     {
-        EXPECT_NEAR(plane1.normal.x, normal.x, 1e-6);
-        EXPECT_NEAR(plane1.normal.y, normal.y, 1e-6);
-        EXPECT_NEAR(plane1.normal.z, normal.z, 1e-6);
+        EXPECT_NEAR(plane1.m_normal.x, normal.x, 1e-6);
+        EXPECT_NEAR(plane1.m_normal.y, normal.y, 1e-6);
+        EXPECT_NEAR(plane1.m_normal.z, normal.z, 1e-6);
         EXPECT_NEAR(plane1.DistanceTo(pointOnPlane), 0.0, 1e-6); // Point lies on the plane
     }
 
@@ -64,9 +64,9 @@ namespace GeometryNative
     /// </summary>
     TEST_F(OdGePlaneTest, NormalDirection)
     {
-        EXPECT_NEAR(plane1.normal.x, 0.0, 1e-6);
-        EXPECT_NEAR(plane1.normal.y, 0.0, 1e-6);
-        EXPECT_NEAR(plane1.normal.z, 1.0, 1e-6); // Z-axis normal for plane1
+        EXPECT_NEAR(plane1.m_normal.x, 0.0, 1e-6);
+        EXPECT_NEAR(plane1.m_normal.y, 0.0, 1e-6);
+        EXPECT_NEAR(plane1.m_normal.z, 1.0, 1e-6); // Z-axis normal for plane1
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ namespace GeometryNative
     TEST_F(OdGePlaneTest, ParallelPlane)
     {
         OdGePlane parallelPlane(OdGePoint3d(1.0, 1.0, 4.0), normal);
-        EXPECT_TRUE(plane1.normal.isParallelTo(parallelPlane.normal));
+        EXPECT_TRUE(plane1.m_normal.isParallelTo(parallelPlane.m_normal));
     }
 
     /// <summary>

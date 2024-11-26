@@ -15,9 +15,7 @@ public:
 	int numVertices() const;
 	// Inherited via OdDbEntity
 	OdBaseObjectPtr Clone() override;
-	OdResult draw() const override;
-	OdGeExtents3d boundingBox() const override;
-	OdResult worldDraw() const override;
+	OdResult draw() override;
 
 	// Inherited via OdDbObject
 	virtual json toJson() const override;

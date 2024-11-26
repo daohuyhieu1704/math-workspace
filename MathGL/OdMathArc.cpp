@@ -16,7 +16,7 @@ double calculateAngleFromBulge(double bulge) {
 	return atan(bulge) * 4;
 }
 
-OdResult OdMathArc::draw() const
+OdResult OdMathArc::draw() 
 {
 	glDisable(GL_LIGHTING);
 
@@ -54,8 +54,9 @@ OdResult OdMathArc::draw() const
     else if (bulge > 0 && endAngle < startAngle)
         endAngle += 2 * OdPI;
 
+    getExtents().reset();
     glBegin(GL_LINE_STRIP);
-
+    std::vector<int> face;
     for (int i = 0; i <= m_segments; ++i) {
         double t = static_cast<double>(i) / m_segments;
         double currentAngle = startAngle + t * (endAngle - startAngle);
@@ -63,7 +64,11 @@ OdResult OdMathArc::draw() const
         double x = center.x + radius * cos(currentAngle);
         double y = center.y + radius * sin(currentAngle);
 
-        glVertex3f(static_cast<GLfloat>(x), static_cast<GLfloat>(y), static_cast<GLfloat>(startPnt.z));
+		OdGePoint3d newPnt = OdGePoint3d(x, y, startPnt.z);
+		OdGePoint3d tranformedPnt = (newPnt * m_scale) * m_transform;
+		getExtents().appendPoint_s(tranformedPnt);
+        face.push_back(i);
+        glVertex3f(static_cast<GLfloat>(tranformedPnt.x), static_cast<GLfloat>(tranformedPnt.y), static_cast<GLfloat>(tranformedPnt.z));
     }
 
     glEnd();

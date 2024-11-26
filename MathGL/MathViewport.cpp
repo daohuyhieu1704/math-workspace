@@ -521,7 +521,7 @@ OdBaseObjectPtr MathViewport::Clone()
     return clone;
 }
 
-OdResult MathViewport::draw() const
+OdResult MathViewport::draw() 
 {
     return OdResult();
 }

@@ -152,6 +152,7 @@
     <ClInclude Include="MathViewport.h" />
     <ClInclude Include="OdDrawingManager.h" />
     <ClInclude Include="OdPointPrompt.h" />
+    <ClInclude Include="OdSelectionManager.h" />
     <ClInclude Include="OdSelectionPrompt.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PointSelection.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="MathViewport.cpp" />
     <ClCompile Include="OdDrawingManager.cpp" />
     <ClCompile Include="OdPointPrompt.cpp" />
+    <ClCompile Include="OdSelectionManager.cpp" />
     <ClCompile Include="OdSelectionPrompt.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

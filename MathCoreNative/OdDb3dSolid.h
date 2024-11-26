@@ -38,10 +38,7 @@ public:
 	virtual ~OdDb3dSolid() = default;
 	// Inherited via OdDbEntity
 	OdBaseObjectPtr Clone() override;
-	virtual OdResult draw() const;
-	OdGeExtents3d boundingBox() const override;
-	OdResult worldDraw() const override;
-
+	virtual OdResult draw();
 	// Inherited via OdDbObject
 	virtual json toJson() const override;
 	virtual void fromJson(const json& j) override;

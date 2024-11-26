@@ -50,7 +50,7 @@ OdResult OdMath3dSolid::drawBox() const
             TopLoc_Location aLoc;
             const Handle(Poly_Triangulation)& aPolyTri =
                 BRep_Tool::Triangulation(aFace, aLoc);
-            if (aPolyTri.IsNull()) { continue; } // error
+            if (aPolyTri.IsNull()) { continue; }
             for (int aTriIter = 1; aTriIter <= aPolyTri->NbTriangles(); ++aTriIter)
             {
                 const Poly_Triangle& aTri = aPolyTri->Triangle(aTriIter);
@@ -84,7 +84,7 @@ OdResult OdMath3dSolid::drawBox() const
     return OdResult::eOk;
 }
 
-OdResult OdMath3dSolid::draw() const
+OdResult OdMath3dSolid::draw() 
 {
 	try {
 		switch (getType()) {

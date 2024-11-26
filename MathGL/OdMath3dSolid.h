@@ -9,7 +9,7 @@ class OdMath3dSolid :
 	OD_RTTI_DECLARE(OdMath3dSolid, OdDb3dSolid);
 public:
 	OdMath3dSolid();
-	OdResult draw() const override;
+	OdResult draw() override;
 	OdBaseObjectPtr Clone() override;
 	virtual ~OdMath3dSolid() = default;
 	OdResult drawBox() const;

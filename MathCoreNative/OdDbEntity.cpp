@@ -96,12 +96,12 @@ OdResult OdDbEntity::transformBy(const OdGeMatrix3d xform)
 bool OdDbEntity::intersectWithRay(
 	double rayStartX, double rayStartY, double rayStartZ,
 	double rayDirX, double rayDirY, double rayDirZ,
-	double& intersectionDistance) const
+	double& intersectionDistance)
 {
-    double sphereCenterX = boundingBox().getCenter().x;
-    double sphereCenterY = boundingBox().getCenter().y;
-    double sphereCenterZ = boundingBox().getCenter().z;
-    double sphereRadius = boundingBox().getRadius();
+    double sphereCenterX = getExtents().getCenter().x;
+    double sphereCenterY = getExtents().getCenter().y;
+    double sphereCenterZ = getExtents().getCenter().z;
+    double sphereRadius = getExtents().getRadius();
 
     double dx = rayStartX - sphereCenterX;
     double dy = rayStartY - sphereCenterY;

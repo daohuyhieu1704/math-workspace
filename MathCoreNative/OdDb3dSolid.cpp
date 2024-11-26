@@ -20,19 +20,9 @@ OdBaseObjectPtr OdDb3dSolid::Clone()
 	return pSolid;
 }
 
-OdResult OdDb3dSolid::draw() const
+OdResult OdDb3dSolid::draw() 
 {
 	return OdResult::eNotImplementedYet;
-}
-
-OdGeExtents3d OdDb3dSolid::boundingBox() const
-{
-	return getExtents();
-}
-
-OdResult OdDb3dSolid::worldDraw() const
-{
-	return OdResult();
 }
 
 json OdDb3dSolid::toJson() const

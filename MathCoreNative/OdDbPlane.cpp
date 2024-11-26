@@ -25,17 +25,7 @@ OdBaseObjectPtr OdDbPlane::Clone()
 	return clone;
 }
 
-OdResult OdDbPlane::draw() const
-{
-	return OdResult::eNotImplementedYet;
-}
-
-OdGeExtents3d OdDbPlane::boundingBox() const
-{
-	return getExtents();
-}
-
-OdResult OdDbPlane::worldDraw() const
+OdResult OdDbPlane::draw() 
 {
 	return OdResult::eNotImplementedYet;
 }

@@ -16,7 +16,7 @@ OdBaseObjectPtr OdDbArc::Clone()
     return pClone;
 }
 
-OdResult OdDbArc::draw() const
+OdResult OdDbArc::draw() 
 {
 	return OdResult::eNotImplementedYet;
 }
@@ -24,11 +24,6 @@ OdResult OdDbArc::draw() const
 OdGeExtents3d OdDbArc::boundingBox() const
 {
 	return OdGeExtents3d(m_startPnt, m_endPnt);
-}
-
-OdResult OdDbArc::worldDraw() const
-{
-	return OdResult::eNotImplementedYet;
 }
 
 json OdDbArc::toJson() const

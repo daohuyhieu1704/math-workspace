@@ -59,8 +59,8 @@ private:
 
         // Format the string with the plane's origin and normal
         std::string ret = IndentStr + "OdGePlane: \n" + OP_SHARP_BRACKET + "\n";
-        ret += IndentStr + "\tOrigin: " + GetStringValue(plane.origin, IndentLevel) + "\n";
-        ret += IndentStr + "\tNormal: " + GetStringValue(plane.normal, IndentLevel) + "\n";
+        ret += IndentStr + "\tOrigin: " + GetStringValue(plane.m_origin, IndentLevel) + "\n";
+        ret += IndentStr + "\tNormal: " + GetStringValue(plane.m_normal, IndentLevel) + "\n";
         ret += IndentStr + ED_SHARP_BRACKET;
         return ret;
     }

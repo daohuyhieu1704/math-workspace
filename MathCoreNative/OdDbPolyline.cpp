@@ -36,17 +36,7 @@ OdBaseObjectPtr OdDbPolyline::Clone() {
 	return pClone;
 }
 
-OdResult OdDbPolyline::draw() const
-{
-    return OdResult::eNotImplementedYet;
-}
-
-OdGeExtents3d OdDbPolyline::boundingBox() const
-{
-	return getExtents();
-}
-
-OdResult OdDbPolyline::worldDraw() const
+OdResult OdDbPolyline::draw() 
 {
     return OdResult::eNotImplementedYet;
 }

@@ -16,17 +16,7 @@ OdBaseObjectPtr OdDbLine::Clone()
 	return pLine;
 }
 
-OdResult OdDbLine::draw() const
-{
-	return OdResult::eNotImplementedYet;
-}
-
-OdGeExtents3d OdDbLine::boundingBox() const
-{
-	return OdGeExtents3d(m_startPnt, m_endPnt);
-}
-
-OdResult OdDbLine::worldDraw() const
+OdResult OdDbLine::draw() 
 {
 	return OdResult::eNotImplementedYet;
 }

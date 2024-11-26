@@ -48,8 +48,8 @@ namespace Geometry
     Plane Plane::FromNative(const OdGePlane& nativePlane)
     {
         return Plane(
-            Point3d::FromNative(nativePlane.origin),
-            Vector3d::FromNative(nativePlane.normal));
+            Point3d::FromNative(nativePlane.m_origin),
+            Vector3d::FromNative(nativePlane.m_normal));
     }
 
     Point3d Plane::Origin::get()

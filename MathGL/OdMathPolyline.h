@@ -17,7 +17,7 @@ public:
 	virtual ~OdMathPolyline() = default;
 	// OdMathPolyline(OdGePoint3d center, double radius);
 	OdBaseObjectPtr Clone() override;
-	OdResult draw() const override;
+	OdResult draw() override;
 private:
 	bool m_isClosed = false;
 	void drawArc(const OdGePoint3d& start, const OdGePoint3d& end, double bulge) const;

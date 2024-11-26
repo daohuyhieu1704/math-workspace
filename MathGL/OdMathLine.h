@@ -9,7 +9,7 @@ class OdMathLine :
 public:
 	OdMathLine();
 	OdMathLine(OdGePoint3d startPnt, OdGePoint3d endPnt);
-	OdResult draw() const override;
+	OdResult draw() override;
 	OdBaseObjectPtr Clone() override;
 	virtual ~OdMathLine() = default;
 };

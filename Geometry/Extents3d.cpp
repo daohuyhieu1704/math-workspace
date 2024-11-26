@@ -52,7 +52,7 @@ namespace Geometry
     void Extents3d::AddPoint(Point3d point)
     {
         OdGeExtents3d native = ToNative();
-        native.addPoint(point.ToNative());
+        native.appendPoint_s(point.ToNative());
         *this = FromNative(native);
     }
 
