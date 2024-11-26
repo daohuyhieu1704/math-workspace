@@ -6,7 +6,7 @@
 #include "OdMathCircle.h"
 
 using PointPickedCallback = void(*)(std::vector<GeometryNative::OdGePoint3d> resPnt);
-using EntityPickedCallback = void(*)(std::vector<OdDbObjectId> resPnt);
+using EntityPickedCallback = void(*)(const std::vector<OdDbObjectId>& resPnt);
 
 typedef OdSmartPtr<class OdDrawingManager> OdDrawingManagerPtr;
 class OdDrawingManager : public OdBaseObject
@@ -20,6 +20,7 @@ public:
 
 #pragma region Properties
 	std::vector<OdBaseObjectPtr> getEntities() const { return m_entities; }
+	OdBaseObjectPtr getEntityById(unsigned int id);
 	void setEntities(std::vector<OdBaseObjectPtr>& entities) { m_entities = entities; }
 	void appendEntity(const OdBaseObjectPtr& entity) { m_entities.push_back(entity); }
 	int appendEntity(std::string m_name);
@@ -53,7 +54,7 @@ public:
 	///	</summary>
 	/// <param m_name="callback"></param>
 	void SetEntityPickedCallback(EntityPickedCallback callback);
-	void TriggerEntityPicked(std::vector<OdDbObjectId> resId);
+	void TriggerEntityPicked(const std::vector<OdDbObjectId>& resId);
 private:
 	std::vector<OdBaseObjectPtr> m_entities;
 	std::vector<OdBaseObjectPtr> m_jigs;

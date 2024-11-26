@@ -4,6 +4,7 @@
 #include "OdDrawingManager.h"
 #include "OdPointPrompt.h"
 #include "OdSelectionManager.h"
+#include <MathLog.h>
 
 OD_RTTI_DEFINE(OdSelectionPrompt, AbstractSelectionPrompt)
 
@@ -43,27 +44,31 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
 
     const auto& entities = OdDrawingManager::R()->getEntities();
     GLdouble closestDistance = std::numeric_limits<GLdouble>::max();
-    OdDbObjectId selectedEntityId;
+    OdDbObjectId selectedEntityId = OdDbObjectId::kNull;
 
     for (auto& entity : entities) {
         GLdouble intersectionDistance = std::numeric_limits<GLdouble>::max();
-
         if (static_cast<OdDbEntity*>(entity.get())->intersectWithRay(
             rayStartX, rayStartY, rayStartZ,
             rayDirX, rayDirY, rayDirZ,
             intersectionDistance)) {
             if (intersectionDistance < closestDistance) {
                 closestDistance = intersectionDistance;
-                selectedEntityId = entity->getObjectId().GetObjectId();
+                selectedEntityId = entity->getObjectId();
+				MathLog::LogFunction("Selected entity: " + std::to_string(selectedEntityId.GetObjectId()));
             }
         }
     }
 
     for (auto& entity : entities) {
-        static_cast<OdDbEntity*>(entity.get())->setSelected(entity->getObjectId() == selectedEntityId);
-        OdDrawingManager::R()->m_json = static_cast<OdDbEntity*>(entity.get())->toJson();
-        AppendId(selectedEntityId);
+        if (entity->getObjectId() == selectedEntityId)
+        {
+            static_cast<OdDbEntity*>(entity.get())->setSelected(true);
+            OdDrawingManager::R()->m_json = static_cast<OdDbEntity*>(entity.get())->toJson();
+            MathLog::LogFunction("Append entity: " + std::to_string(selectedEntityId.GetObjectId()));
+        }
     }
+    AppendId(selectedEntityId);
 
     glutPostRedisplay();
     return OdResult::eOk;
@@ -125,10 +130,11 @@ void OdSelectionPrompt::Focus()
 {
 }
 
-void OdSelectionPrompt::AppendId(OdDbObjectId id)
+void OdSelectionPrompt::AppendId(const OdDbObjectId& id)
 {
     m_ents.push_back(id);
 	m_ent = id;
+    MathLog::LogFunction("Append Id: " + std::to_string(id.GetObjectId()));
     if (m_ents.size() == m_totalPick) OdDrawingManager::R()->TriggerEntityPicked(m_ents);
 }
 

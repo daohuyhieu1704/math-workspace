@@ -100,6 +100,9 @@
     <Filter Include="Graphics\SelectionManager">
       <UniqueIdentifier>{98f20205-219d-4e76-af8d-38000ef2fe87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commons\Entity">
+      <UniqueIdentifier>{9929530d-c7c2-48c0-9aa3-093e6409280d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -183,6 +186,9 @@
     <ClInclude Include="OdSelectionManager.h">
       <Filter>Graphics\SelectionManager</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Commons\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -262,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="OdSelectionManager.cpp">
       <Filter>Graphics\SelectionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Commons\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

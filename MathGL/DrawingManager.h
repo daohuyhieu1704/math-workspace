@@ -3,6 +3,7 @@
 #include "DisposableWrapper.h"
 #include "OdDrawingManager.h"
 #include <nlohmann/json.hpp>
+#include "Entity.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -82,6 +83,7 @@ namespace MathGL {
 		}
 
 		IntPtr InitializeWindow(IntPtr parentHandle);
+		Entity^ getEntityById(unsigned int id);
 		int ProcessGLUTEvents();
 		int exitGLUT();
 	private:

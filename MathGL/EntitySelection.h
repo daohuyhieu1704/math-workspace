@@ -2,13 +2,14 @@
 #include "DisposableWrapper.h"
 #include "OdDrawingManager.h"
 #include "OdSelectionPrompt.h"
+#include <MathLog.h>
 
 using namespace System::Collections::Generic;
 using namespace System::Threading::Tasks;
 
 namespace MathGL
 {
-	public delegate void EntityPickedDelegate(std::vector<OdDbObjectId> resId);
+	public delegate void EntityPickedDelegate(const std::vector<OdDbObjectId>& resId);
 	public delegate void EntitySelectedCallback(List<unsigned int>^ entities);
 	public ref class EntitySelection : DisposableWrapper
 	{
@@ -31,11 +32,12 @@ namespace MathGL
 		{
 			return static_cast<OdSelectionPrompt*>(DisposableWrapper::GetImpObj());
 		}
-		static void OnEntityPicked(std::vector<OdDbObjectId> resId)
+		static void OnEntityPicked(const std::vector<OdDbObjectId>& resId)
 		{
 			List<unsigned int>^ entities = gcnew List<unsigned int>(resId.size());
 			for (int i = 0; i < resId.size(); i++)
 			{
+				MathLog::LogFunction("Picked Id: " + std::to_string(resId[i].GetObjectId()));
 				entities->Add(resId[i].GetObjectId());
 			}
 			_tcs->SetResult(entities);

@@ -24,10 +24,9 @@ OdResult OdMathLine::draw()
 		glVertex2f(static_cast<GLfloat>(transformedEnd.x), static_cast<GLfloat>(transformedEnd.y));
 		glEnd();
 		glEnable(GL_LIGHTING);
-		OdGeExtents3d extents = OdGeExtents3d(transformedStart, transformedEnd);
-		extents.apppendPoint(transformedStart);
-		extents.apppendPoint(transformedEnd);
-		extents.appendFace({ 0, 1 });
+		getExtents().appendPoint_s(transformedStart);
+		getExtents().appendPoint_s(transformedEnd);
+		getExtents().appendFace({ 0, 1 });
 		return OdResult::eOk;
 	}
 	catch (const std::exception&)

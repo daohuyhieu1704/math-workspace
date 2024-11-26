@@ -18,7 +18,7 @@ public:
 
 	static void resetWorldMouse(int x, int y);
 	void Focus();
-	static void AppendId(OdDbObjectId point);
+	static void AppendId(const OdDbObjectId& point);
 	static OdDbObjectId LastId();
 	static void Clear();
 	static void TotalPick(int total);

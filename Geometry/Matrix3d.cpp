@@ -27,18 +27,18 @@ namespace Geometry
 
     OdGeMatrix3d Matrix3d::ToNative()
     {
-        OdGeMatrix3d nativeMatrix;
+		OdGeMatrix3d nativeMatrix = OdGeMatrix3d::kIdentity;
         for (int i = 0; i < 4; ++i)
         {
             for (int j = 0; j < 4; ++j)
             {
-                nativeMatrix(i, j) = m_entries[i, j];
+                nativeMatrix[i][j] = m_entries[i, j];
             }
         }
         return nativeMatrix;
     }
 
-    Matrix3d Matrix3d::FromNative(const OdGeMatrix3d& nativeMatrix)
+    Matrix3d Matrix3d::FromNative(OdGeMatrix3d nativeMatrix)
     {
         array<double, 2>^ entries = gcnew array<double, 2>(4, 4);
         for (int i = 0; i < 4; ++i)

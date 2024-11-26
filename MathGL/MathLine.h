@@ -1,16 +1,16 @@
 #pragma once
-#include "DisposableWrapper.h"
 #include "OdMathLine.h"
 #include "OdDrawingManager.h"
+#include "Entity.h"
 
 using namespace Geometry;
 
 namespace MathGL {
-	public ref class MathLine : DisposableWrapper
+	public ref class MathLine : Entity
 	{
 	protected:
 		MathLine()
-			: DisposableWrapper(IntPtr(new OdMathLine()), true)
+			: Entity(new OdMathLine(), true)
 		{
 		}
 		OdMathLine* GetImpObj()
@@ -19,7 +19,7 @@ namespace MathGL {
 		}
 	public:
 		MathLine(Point3d startPnt, Point3d endPnt)
-			: DisposableWrapper(IntPtr(new OdMathLine()), true)
+			: Entity(new OdMathLine(), true)
 		{
 			OdGePoint3d nativeStart = OdGePoint3d(startPnt.X, startPnt.Y, startPnt.Z);
 			OdGePoint3d nativeEnd = OdGePoint3d(endPnt.X, endPnt.Y, endPnt.Z);

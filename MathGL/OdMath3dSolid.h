@@ -12,7 +12,7 @@ public:
 	OdResult draw() override;
 	OdBaseObjectPtr Clone() override;
 	virtual ~OdMath3dSolid() = default;
-	OdResult drawBox() const;
+	OdResult createBox();
 private:
 	TopoDS_Shape m_shape;
 	virtual OdResult calculateVolume() override;

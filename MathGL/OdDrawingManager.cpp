@@ -105,6 +105,20 @@ OdBaseObjectPtr OdDrawingManager::Clone()
 	return OdDrawingManagerPtr();
 }
 
+OdBaseObjectPtr OdDrawingManager::getEntityById(unsigned int id)
+{
+	for (const auto& entity : m_entities)
+	{
+		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
+		unsigned int entId = objRaw->id();
+		if (entId == id)
+		{
+			return OdBaseObjectPtr(entity);
+		}
+	}
+	return OdBaseObjectPtr();
+}
+
 int OdDrawingManager::appendEntity(std::string name)
 {
 	if (name == "OdMathCircle")
@@ -190,7 +204,7 @@ void OdDrawingManager::SetEntityPickedCallback(EntityPickedCallback callback)
 	entityPickedCallback = callback;
 }
 
-void OdDrawingManager::TriggerEntityPicked(std::vector<OdDbObjectId> resId) {
+void OdDrawingManager::TriggerEntityPicked(const std::vector<OdDbObjectId>& resId) {
 	if (entityPickedCallback) {
 		entityPickedCallback(resId);
 	}

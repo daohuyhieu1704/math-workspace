@@ -36,7 +36,7 @@ OdResult OdMath3dSolid::calculateSurfaceArea()
     return OdResult();
 }
 
-OdResult OdMath3dSolid::drawBox() const
+OdResult OdMath3dSolid::createBox()
 {
     try {
         TopoDS_Shape box = BRepPrimAPI_MakeBox(1.0, 5.0, 1.0).Shape();
@@ -89,7 +89,7 @@ OdResult OdMath3dSolid::draw()
 	try {
 		switch (getType()) {
 		case SolidType::Box:
-            return drawBox();
+            return createBox();
 			break;
 		case SolidType::Cylinder:
 			break;

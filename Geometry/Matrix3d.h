@@ -23,7 +23,7 @@ namespace Geometry
         // Convert to native
         OdGeMatrix3d ToNative();
         // Convert from native
-        static Matrix3d FromNative(const OdGeMatrix3d& nativeMatrix);
+        static Matrix3d FromNative(OdGeMatrix3d nativeMatrix);
 
         // Properties
         property array<double, 2>^ Entries

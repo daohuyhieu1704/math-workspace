@@ -430,9 +430,30 @@ namespace MathUI.ViewModels.MainWindow
             throw new NotImplementedException();
         }
 
-        internal void Scale()
+        internal async void Scale()
         {
-            throw new NotImplementedException();
+            try
+            {
+                EntitySelection entitySelection = new EntitySelection();
+                List<uint> entitieId = await entitySelection.getEntities(1);
+                Entity ent = DrawingManager.Instance.getEntityById(entitieId[0]);
+                TextInputPrompt textInputPrompt = new(this);
+                string text = await textInputPrompt.GetText();
+                if (double.TryParse(text, out double n))
+                {
+                    CommandWindow = "";
+                    HistoryWindow += text.ToString() + "\n";
+                    ent.Scale = new Scale3d(n, n, n);
+                }
+                else
+                {
+                    HistoryWindow += "Invalid input\n";
+                }
+            }
+            catch
+            {
+                HistoryWindow += "Invalid input\n";
+            }
         }
 
         internal void Trans()

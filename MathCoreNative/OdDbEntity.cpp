@@ -72,19 +72,6 @@ void OdDbEntity::fromJson(const json& j)
 OdResult OdDbEntity::transformBy(const OdGeMatrix3d xform)
 {
     try {
-        //m_position = xform * m_position;
-
-        //m_xDir = xform * m_xDir;
-        //m_yDir = xform * m_yDir;
-        //m_zDir = xform * m_zDir;
-
-        //m_xDir.normalize();
-        //m_yDir.normalize();
-        //m_zDir.normalize();
-
-        //OdGePoint3d minPnt = m_extents.GetMinPnt();
-        //OdGePoint3d maxPnt = m_extents.GetMaxPnt();
-        //m_extents.set(xform * minPnt, xform * maxPnt);
         m_transform = xform * m_transform;
         return OdResult::eOk;
     }
@@ -94,35 +81,56 @@ OdResult OdDbEntity::transformBy(const OdGeMatrix3d xform)
 }
 
 bool OdDbEntity::intersectWithRay(
-	double rayStartX, double rayStartY, double rayStartZ,
-	double rayDirX, double rayDirY, double rayDirZ,
-	double& intersectionDistance)
+    double rayStartX, double rayStartY, double rayStartZ,
+    double rayDirX, double rayDirY, double rayDirZ,
+    double& intersectionDistance)
 {
-    double sphereCenterX = getExtents().getCenter().x;
-    double sphereCenterY = getExtents().getCenter().y;
-    double sphereCenterZ = getExtents().getCenter().z;
-    double sphereRadius = getExtents().getRadius();
+    // Get bounding box extents (min and max points of the bounding box)
+    OdGePoint3d minPnt = getExtents().GetMinPnt();
+    OdGePoint3d maxPnt = getExtents().GetMaxPnt();
 
-    double dx = rayStartX - sphereCenterX;
-    double dy = rayStartY - sphereCenterY;
-    double dz = rayStartZ - sphereCenterZ;
+    // Calculate the ray's direction components
+    double invDirX = (rayDirX != 0) ? 1.0 / rayDirX : 0.0;
+    double invDirY = (rayDirY != 0) ? 1.0 / rayDirY : 0.0;
+    double invDirZ = (rayDirZ != 0) ? 1.0 / rayDirZ : 0.0;
 
-    double a = rayDirX * rayDirX + rayDirY * rayDirY + rayDirZ * rayDirZ;
-    double b = 2.0 * (dx * rayDirX + dy * rayDirY + dz * rayDirZ);
-    double c = dx * dx + dy * dy + dz * dz - sphereRadius * sphereRadius;
+    // Calculate the intersection of the ray with the box along each axis
+    double tmin = (minPnt.x - rayStartX) * invDirX;
+    double tmax = (maxPnt.x - rayStartX) * invDirX;
 
-    double discriminant = b * b - 4.0 * a * c;
-    if (discriminant < 0) {
-        return false;
+    if (tmin > tmax) std::swap(tmin, tmax);
+
+    double tymin = (minPnt.y - rayStartY) * invDirY;
+    double tymax = (maxPnt.y - rayStartY) * invDirY;
+
+    if (tymin > tymax) std::swap(tymin, tymax);
+
+    if ((tmin > tymax) || (tymin > tmax)) {
+        return false; // No intersection
     }
 
-    double t1 = (-b - std::sqrt(discriminant)) / (2.0 * a);
-    double t2 = (-b + std::sqrt(discriminant)) / (2.0 * a);
+    // Update the tmin and tmax values for the y-direction
+    tmin = std::max(tmin, tymin);
+    tmax = std::min(tmax, tymax);
 
-    if (t1 >= 0 && t2 >= 0) {
-        intersectionDistance = std::min(t1, t2);
-        return true;
+    double tzmin = (minPnt.z - rayStartZ) * invDirZ;
+    double tzmax = (maxPnt.z - rayStartZ) * invDirZ;
+
+    if (tzmin > tzmax) std::swap(tzmin, tzmax);
+
+    if ((tmin > tzmax) || (tzmin > tmax)) {
+        return false; // No intersection
     }
 
-    return false;
+    // Final tmin and tmax values for all axes
+    tmin = std::max(tmin, tzmin);
+    tmax = std::min(tmax, tzmax);
+
+    if (tmax < 0) {
+        return false; // The ray is going away from the box
+    }
+
+    // If tmin is positive, it is the first intersection, otherwise use tmax
+    intersectionDistance = (tmin >= 0) ? tmin : tmax;
+    return true;
 }
