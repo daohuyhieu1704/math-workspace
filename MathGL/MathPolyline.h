@@ -1,6 +1,7 @@
 #pragma once
 #include "DisposableWrapper.h"
 #include "OdMathPolyline.h"
+#include "OdDrawingManager.h"
 
 using namespace Geometry;
 
@@ -10,15 +11,15 @@ namespace MathGL
         public DisposableWrapper
     {
     protected:
-        MathPolyline()
-            : DisposableWrapper(IntPtr(new OdMathPolyline()), true)
-        {
-        }
         OdMathPolyline* GetImpObj()
         {
             return static_cast<OdMathPolyline*>(DisposableWrapper::GetImpObj());
         }
     public:
+        MathPolyline()
+            : DisposableWrapper(IntPtr(new OdMathPolyline()), true)
+        {
+        }
         void AddVertex(Point3d vertex);
         void AddVertex(Point3d vertex, double bulge);
         Point3d GetVertexAt(int index);
@@ -32,5 +33,6 @@ namespace MathGL
             bool get();
             void set(bool value);
         }
+        void Draw();
     };
 }

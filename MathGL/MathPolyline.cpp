@@ -40,4 +40,9 @@ namespace MathGL
     {
         GetImpObj()->setClosed(value);
     }
+
+    void MathPolyline::Draw()
+    {
+        OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
+    }
 }

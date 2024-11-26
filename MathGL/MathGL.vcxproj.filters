@@ -168,6 +168,9 @@
     <ClInclude Include="MathPolyline.h">
       <Filter>Graphics\Polyline</Filter>
     </ClInclude>
+    <ClInclude Include="MathPlane.h">
+      <Filter>Graphics\Plane</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -238,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="MathPolyline.cpp">
       <Filter>Graphics\Polyline</Filter>
+    </ClCompile>
+    <ClCompile Include="MathPlane.cpp">
+      <Filter>Graphics\Plane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
