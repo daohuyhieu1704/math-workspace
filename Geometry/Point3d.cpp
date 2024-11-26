@@ -88,4 +88,8 @@ namespace Geometry
     {
         return ToNative().isEqual(other.ToNative());
     }
+    System::String^ Point3d::ToString()
+    {
+		return System::String::Format("({0}, {1}, {2})", x, y, z);
+    }
 }

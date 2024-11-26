@@ -47,6 +47,7 @@ namespace Geometry
         Point3d operator+(OdGeVector3d other);
         OdGeVector3d operator-(Point3d other);
         bool IsEqual(Point3d other);
+		System::String^ ToString() override;
 
         static initonly Point3d Origin = Point3d(0.0, 0.0, 0.0);
     };

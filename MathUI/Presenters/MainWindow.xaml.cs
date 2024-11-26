@@ -21,12 +21,14 @@ namespace MathUI.Presenters
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DispatcherTimer _glutTimer;
+        private readonly MainWindowViewModel vm;
         public MainWindow()
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
-            DataContext = new MainWindowViewModel(this);
+            vm = new MainWindowViewModel(this);
+            DataContext = vm;
+            vm.InputCommandWindow = InputCommandWindow;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -36,12 +38,6 @@ namespace MathUI.Presenters
             {
                 engineContainer.Children.Add(new EngineHost());
                 DrawingManager.Instance.ProcessGLUTEvents();
-                //_glutTimer = new DispatcherTimer
-                //{
-                //    Interval = TimeSpan.FromMilliseconds(16)
-                //};
-                //_glutTimer.Tick += (s, args) => 
-                //_glutTimer.Start();
             }
         }
 
@@ -64,13 +60,10 @@ namespace MathUI.Presenters
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-            }
-            else if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                CommandAction((model) => model.Select());
-            }
+            //if (e.LeftButton == MouseButtonState.Pressed)
+            //{
+            //    CommandAction((model) => model.Select());
+            //}
         }
 
         private void TL_click(object sender, RoutedEventArgs e)
@@ -123,7 +116,7 @@ namespace MathUI.Presenters
             CommandAction((model) => model.BR());
         }
 
-        private void CommandTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void CommandTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

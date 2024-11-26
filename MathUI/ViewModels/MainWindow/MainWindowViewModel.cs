@@ -227,7 +227,7 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
-        public void LoadEngine(MathUI.Presenters.MainWindow mainWindow)
+        public void LoadEngine(Presenters.MainWindow mainWindow)
         {
         }
 
@@ -322,14 +322,28 @@ namespace MathUI.ViewModels.MainWindow
         internal async void DrawPoly()
         {
             PointSelection pointSelection = new();
-            HistoryWindow += "Pick start points:" + "\n";
-            List<Point3d> pnt = await pointSelection.getPoints(1);
-            HistoryWindow += "Pick end points:" + "\n";
+            HistoryWindow += "Pick start points: ";
+            List<Point3d> pnt1 = await pointSelection.getPoints(1);
+            HistoryWindow += pnt1[0].ToString() + "\n";
+            HistoryWindow += "Pick end points: ";
             List<Point3d> pnt2 = await pointSelection.getPoints(1);
-            HistoryWindow += "Bulge:" + "\n";
+            HistoryWindow += pnt2[0].ToString() + "\n";
+            HistoryWindow += "Bulge: ";
             TextInputPrompt textInputPrompt = new(this);
             string text = await textInputPrompt.GetText();
-            int n = int.Parse(text);
+            if (double.TryParse(text, out double n))
+            {
+                CommandWindow = "";
+                HistoryWindow += text.ToString() + "\n";
+                using MathPolyline mathPolyline = new();
+                mathPolyline.AddVertex(pnt1[0], n);
+                mathPolyline.AddVertex(pnt2[0]);
+                mathPolyline.Draw();
+            }
+            else
+            {
+                HistoryWindow += "Invalid input\n";
+            }
             //bool isEscPressed = false;
 
             //KeyEventHandler escapeHandler = (s, ke) =>
@@ -358,8 +372,8 @@ namespace MathUI.ViewModels.MainWindow
         internal void AppendCommand()
         {
             // DrawingManager.Instance.AppendCommand(CommandWindow);
-            CommandWindow = "";
-            HistoryWindow += CommandWindow + "\n";
+            // CommandWindow = "";
+            // HistoryWindow += CommandWindow + "\n";
         }
 
         internal void Undo()

@@ -8,16 +8,12 @@ using System.Windows.Input;
 
 namespace MathUI.Commands
 {
-    public class TextInputPrompt
+    public class TextInputPrompt(MainWindowViewModel viewModel)
     {
-        private MainWindowViewModel vm;
-        private TaskCompletionSource<string> _tcs;
+        private readonly MainWindowViewModel vm = viewModel;
+        private TaskCompletionSource<string>? _tcs;
 
         public event KeyEventHandler KeyDown;
-        public TextInputPrompt(MainWindowViewModel viewModel)
-        {
-            vm = viewModel;
-        }
 
         internal async Task<string> GetText()
         {
@@ -38,8 +34,15 @@ namespace MathUI.Commands
                     vm.InputCommandWindow.KeyDown -= OnKeyDown;
                 }
 
-                _tcs.SetResult(vm.CommandWindow);
-                vm.CommandWindow = "";
+                string? userInput = vm.CommandWindow?.Trim();
+                if (!string.IsNullOrEmpty(userInput))
+                {
+                    _tcs.SetResult(userInput);
+                }
+                else
+                {
+                    _tcs.SetResult(string.Empty);
+                }
             }
         }
     }
