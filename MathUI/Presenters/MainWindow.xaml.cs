@@ -73,11 +73,6 @@ namespace MathUI.Presenters
             }
         }
 
-        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            CommandAction((model) => model.ZoomViewport(e));
-        }
-
         private void TL_click(object sender, RoutedEventArgs e)
         {
             CommandAction((model) => model.TL());

@@ -281,10 +281,6 @@ namespace MathUI.ViewModels.MainWindow
             // GLEngine.Instance.BRViewport();
         }
 
-        public void RealtimeHandle()
-        {
-        }
-
         public void ZoomViewport(MouseWheelEventArgs e)
         {
         }
@@ -394,14 +390,6 @@ namespace MathUI.ViewModels.MainWindow
         internal void Select()
         {
             // Shape = EntitySelection.LastId.ToString();
-        }
-
-        internal void CloseApp()
-        {
-        }
-
-        internal async void Dist()
-        {
         }
 
         internal void ChangeTab()

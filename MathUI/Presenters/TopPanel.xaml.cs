@@ -46,7 +46,6 @@ namespace MathUI.Presenters
             }
             catch (Exception)
             {
-
             }
         }
 
@@ -93,16 +92,6 @@ namespace MathUI.Presenters
         private void Select_Click(object sender, RoutedEventArgs e)
         {
             CommandAction((model) => ViewModel.Select());
-        }
-
-        private void CloseApp_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.CloseApp());
-        }
-
-        private void Dist_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.Dist());
         }
 
         private void FileTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

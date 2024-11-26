@@ -136,6 +136,7 @@
     <ClInclude Include="LineCmd.h" />
     <ClInclude Include="Math3dSolid.h" />
     <ClInclude Include="MathArc.h" />
+    <ClInclude Include="MathJig.h" />
     <ClInclude Include="MathPlane.h" />
     <ClInclude Include="MathPolyline.h" />
     <ClInclude Include="OdMathArc.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="LineCmd.cpp" />
     <ClCompile Include="Math3dSolid.cpp" />
     <ClCompile Include="MathArc.cpp" />
+    <ClCompile Include="MathJig.cpp" />
     <ClCompile Include="MathPlane.cpp" />
     <ClCompile Include="MathPolyline.cpp" />
     <ClCompile Include="OdMathArc.cpp" />
