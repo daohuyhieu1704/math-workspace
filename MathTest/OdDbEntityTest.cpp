@@ -11,9 +11,6 @@ class OdDbEntityDerived : public OdDbEntity {
     OD_RTTI_DECLARE(OdDbEntityDerived, OdDbEntity);
 public:
     OdDbEntityDerived() = default;
-    OdGeExtents3d boundingBox() const override { return getExtents(); }
-    OdResult worldDraw() const override { return eOk; }
-
     OdBaseObjectPtr Clone() override {
         OdDbEntityDerivedPtr pClone = OdDbEntityDerived::createObject();
         pClone->setScale(getScale());
@@ -25,7 +22,7 @@ public:
         return pClone;
     }
 
-    OdResult draw() const override {
+    OdResult draw() override {
         return OdResult::eOk;
     }
 };

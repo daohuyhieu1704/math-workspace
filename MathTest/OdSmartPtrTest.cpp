@@ -38,8 +38,8 @@ protected:
 /// DefaultConstructor test verifies that the default constructor initializes an object with a reference count of 1.
 /// </summary>
 TEST_F(OdSmartPtrTest, DefaultConstructor) {
-    TestObjectPtr ptr;
-    EXPECT_EQ(ptr.getRefCount(), 1);
+    TestObjectPtr ptr = TestObject::createObject();
+    EXPECT_EQ(ptr.use_count(), 1);
     EXPECT_EQ(ptr->value, 0);
 }
 
@@ -49,7 +49,7 @@ TEST_F(OdSmartPtrTest, DefaultConstructor) {
 /// <param m_name="ptr">OdSmartPtr with initial value set.</param>
 TEST_F(OdSmartPtrTest, ParameterizedConstructor) {
     TestObjectPtr ptr(new TestObject(5));
-    EXPECT_EQ(ptr.getRefCount(), 1);
+    EXPECT_EQ(ptr.use_count(), 1);
     EXPECT_EQ(ptr->value, 5);
 }
 
@@ -61,8 +61,8 @@ TEST_F(OdSmartPtrTest, ParameterizedConstructor) {
 TEST_F(OdSmartPtrTest, CopyConstructor) {
     ptr1->value = 10;
     TestObjectPtr ptr2(ptr1);
-    EXPECT_EQ(ptr1.getRefCount(), 2);
-    EXPECT_EQ(ptr2.getRefCount(), 2);
+    EXPECT_EQ(ptr1.use_count(), 2);
+    EXPECT_EQ(ptr2.use_count(), 2);
     EXPECT_EQ(ptr1->value, 10);
     EXPECT_EQ(ptr2->value, 10);
 }
@@ -75,8 +75,8 @@ TEST_F(OdSmartPtrTest, CopyConstructor) {
 TEST_F(OdSmartPtrTest, AssignmentOperator) {
     ptr1->value = 20;
     ptr2 = ptr1;
-    EXPECT_EQ(ptr1.getRefCount(), 2);
-    EXPECT_EQ(ptr2.getRefCount(), 2);
+    EXPECT_EQ(ptr1.use_count(), 2);
+    EXPECT_EQ(ptr2.use_count(), 2);
     EXPECT_EQ(ptr1->value, 20);
     EXPECT_EQ(ptr2->value, 20);
 }
@@ -88,7 +88,7 @@ TEST_F(OdSmartPtrTest, AssignmentOperator) {
 TEST_F(OdSmartPtrTest, SelfAssignment) {
     ptr1->value = 30;
     ptr1 = ptr1;
-    EXPECT_EQ(ptr1.getRefCount(), 1);
+    EXPECT_EQ(ptr1.use_count(), 1);
     EXPECT_EQ(ptr1->value, 30);
 }
 
@@ -102,14 +102,14 @@ TEST_F(OdSmartPtrTest, DestructorDeletesWhenRefCountIsZero) {
 
     // Create a copy of ptr1, which increments the reference count
     OdSmartPtr<TestObject> ptr2(ptr1);
-    EXPECT_EQ(ptr1.getRefCount(), 2);
-    EXPECT_EQ(ptr2.getRefCount(), 2);
+    EXPECT_EQ(ptr1.use_count(), 2);
+    EXPECT_EQ(ptr2.use_count(), 2);
 
     // Simulate deletion by setting ptr1 to nullptr, decreasing the reference count
-    ptr1 = nullptr;
+    ptr1 = OdBaseObjectPtr();
 
     // Check that ptr2 still has a reference count of 1 and retains the value
-    EXPECT_EQ(ptr2.getRefCount(), 1);
+    EXPECT_EQ(ptr2.use_count(), 1);
     EXPECT_EQ(ptr2->value, 40);
 }
 
@@ -139,11 +139,11 @@ TEST_F(OdSmartPtrTest, MapInsert) {
     
 	OdSmartPtr<TestObject> ptr1 = TestObject::createObject();
 	ptr1->value = 60;
-    EXPECT_EQ(ptr1.getRefCount(), 1);
+    EXPECT_EQ(ptr1.use_count(), 1);
 	std::map<int, TestObjectPtr> map;
 	map.insert(std::make_pair(1, ptr1));
-    EXPECT_EQ(ptr1.getRefCount(), 2);
+    EXPECT_EQ(ptr1.use_count(), 2);
 	map.clear();
-    EXPECT_EQ(ptr1.getRefCount(), 1);
+    EXPECT_EQ(ptr1.use_count(), 1);
 }
 
