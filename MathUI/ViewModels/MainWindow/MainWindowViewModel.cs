@@ -19,6 +19,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Text.Json.Nodes;
 using Geometry;
+using MathUI.Commands;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -89,8 +90,8 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
-        private System.Windows.Controls.TextBox _InputCommandWindow;
-        public System.Windows.Controls.TextBox InputCommandWindow
+        private TextBox _InputCommandWindow;
+        public TextBox InputCommandWindow
         {
             get => _InputCommandWindow;
             set
@@ -309,29 +310,6 @@ namespace MathUI.ViewModels.MainWindow
             mathCircle.Draw();
         }
 
-        internal async void DrawRect()
-        {
-            //PointSelection pointSelection = new();
-            //HistoryWindow += "Pick 2 points:" + "\n";
-            //List<Point3d> pnt = await pointSelection.getPoints(2);
-            //Line line1 = new(new Point3d(pnt[0].X, pnt[1].Y, 0), pnt[1]);
-            //line1.Draw();
-
-            //Line line2 = new(pnt[1], new Point3d(pnt[1].X, pnt[0].Y, 0));
-            //line2.Draw();
-
-            //Line line3 = new(new Point3d(pnt[1].X, pnt[0].Y, 0), pnt[0]);
-            //line3.Draw();
-
-            //Line line4 = new(pnt[0], new Point3d(pnt[0].X, pnt[1].Y, 0));
-            //line4.Draw();
-
-            //HistoryWindow += line1.GetCommand() + "\n";
-            //HistoryWindow += line2.GetCommand() + "\n";
-            //HistoryWindow += line3.GetCommand() + "\n";
-            //HistoryWindow += line4.GetCommand() + "\n";
-        }
-
         public async void DrawArc()
         {
             PointSelection pointSelection = new();
@@ -343,6 +321,42 @@ namespace MathUI.ViewModels.MainWindow
             List<Point3d> pnt3 = await pointSelection.getPoints(1);
             using MathArc arc = new(pnt[0], pnt2[0], pnt3[0]);
             arc.Draw();
+        }
+
+        internal async void DrawPoly()
+        {
+            PointSelection pointSelection = new();
+            HistoryWindow += "Pick start points:" + "\n";
+            List<Point3d> pnt = await pointSelection.getPoints(1);
+            HistoryWindow += "Pick end points:" + "\n";
+            List<Point3d> pnt2 = await pointSelection.getPoints(1);
+            HistoryWindow += "Bulge:" + "\n";
+            TextInputPrompt textInputPrompt = new(this);
+            string text = await textInputPrompt.GetText();
+            int n = int.Parse(text);
+            //bool isEscPressed = false;
+
+            //KeyEventHandler escapeHandler = (s, ke) =>
+            //{
+            //    if (ke.Key == Key.Escape)
+            //    {
+            //        isEscPressed = true;
+            //    }
+            //};
+
+            //try
+            //{
+            //    Application.Current.MainWindow.KeyDown += escapeHandler;
+
+            //    while (!isEscPressed)
+            //    {
+            //        await Task.Delay(100);
+            //    }
+            //}
+            //finally
+            //{
+            //    Application.Current.MainWindow.KeyDown -= escapeHandler;
+            //}
         }
 
         internal void AppendCommand()
@@ -394,10 +408,6 @@ namespace MathUI.ViewModels.MainWindow
         {
         }
 
-        internal async void DrawPoly()
-        {
-        }
-
         internal void readJson()
         {
 
@@ -439,6 +449,11 @@ namespace MathUI.ViewModels.MainWindow
         }
 
         internal void W2P()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void ChangeLanguage()
         {
             throw new NotImplementedException();
         }

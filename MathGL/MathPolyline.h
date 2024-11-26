@@ -1,26 +1,36 @@
 #pragma once
-#include "OdDbPolyline.h"
+#include "DisposableWrapper.h"
+#include "OdMathPolyline.h"
 
-typedef OdSmartPtr<class OdMathPolyline> OdMathPolylinePtr;
-class OdMathPolyline :
-	public OdDbPolyline
+using namespace Geometry;
+
+namespace MathGL
 {
-	OD_RTTI_DECLARE(OdMathPolyline, OdDbPolyline);
-public:
-#pragma region Properties
-	void setSegments(int segments) { m_segments = segments; }
-	int getSegments() const { return m_segments; }
-	void setClosed(bool closed) { m_isClosed = closed; }
-	bool isClosed() const { return m_isClosed; }
-#pragma endregion
-	OdMathPolyline();
-	virtual ~OdMathPolyline() = default;
-	// OdMathPolyline(OdGePoint3d center, double radius);
-	OdBaseObjectPtr Clone() override;
-	OdResult draw() const override;
-private:
-	bool m_isClosed = false;
-	void drawArc(const OdGePoint3d& start, const OdGePoint3d& end, double bulge) const;
-	int m_segments = 100;
-};
-OD_RTTI_DEFINE(OdMathPolyline, OdDbPolyline)
+    public ref class MathPolyline :
+        public DisposableWrapper
+    {
+    protected:
+        MathPolyline()
+            : DisposableWrapper(IntPtr(new OdMathPolyline()), true)
+        {
+        }
+        OdMathPolyline* GetImpObj()
+        {
+            return static_cast<OdMathPolyline*>(DisposableWrapper::GetImpObj());
+        }
+    public:
+        void AddVertex(Point3d vertex);
+        void AddVertex(Point3d vertex, double bulge);
+        Point3d GetVertexAt(int index);
+        double GetBulgeAt(int index);
+        property int NumVerts
+        {
+            int get();
+        }
+        property bool IsClosed
+        {
+            bool get();
+            void set(bool value);
+        }
+    };
+}

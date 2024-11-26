@@ -60,11 +60,6 @@ namespace MathUI.Presenters
             CommandAction((model) => ViewModel.DrawCircle());
         }
 
-        private void DrawRect_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.DrawRect());
-        }
-
         private void DrawArc_Click(object sender, RoutedEventArgs e)
         {
             CommandAction((model) => ViewModel.DrawArc());
@@ -162,6 +157,11 @@ namespace MathUI.Presenters
         private void W2P_Click(object sender, RoutedEventArgs e)
         {
             CommandAction((model) => ViewModel.W2P());
+        }
+
+        private void Language_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.ChangeLanguage());
         }
     }
 }

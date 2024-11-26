@@ -79,6 +79,21 @@
     <Filter Include="Graphics\3dSolid">
       <UniqueIdentifier>{0e311fef-b690-4e9f-8837-da505f60eee7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Jig\Line">
+      <UniqueIdentifier>{33262371-b7fb-437c-a577-908a1906df3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Arc">
+      <UniqueIdentifier>{669951e2-19d3-4d92-8024-917325b02384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Plane">
+      <UniqueIdentifier>{cac2610d-6da3-4df5-a23a-17397629bf88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Polyline">
+      <UniqueIdentifier>{da9441dc-55a1-482e-8141-94408107beac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\3dSolid">
+      <UniqueIdentifier>{729a3f5f-c646-4c25-9428-a8a4ac033ea0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -111,7 +126,7 @@
     <ClInclude Include="OdMathArc.h">
       <Filter>Graphics\Arc</Filter>
     </ClInclude>
-    <ClInclude Include="MathPolyline.h">
+    <ClInclude Include="OdMathPolyline.h">
       <Filter>Graphics\Polyline</Filter>
     </ClInclude>
     <ClInclude Include="OdMathPlane.h">
@@ -150,6 +165,9 @@
     <ClInclude Include="MathArc.h">
       <Filter>Graphics\Arc</Filter>
     </ClInclude>
+    <ClInclude Include="MathPolyline.h">
+      <Filter>Graphics\Polyline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -179,7 +197,7 @@
     <ClCompile Include="OdMathArc.cpp">
       <Filter>Graphics\Arc</Filter>
     </ClCompile>
-    <ClCompile Include="MathPolyline.cpp">
+    <ClCompile Include="OdMathPolyline.cpp">
       <Filter>Graphics\Polyline</Filter>
     </ClCompile>
     <ClCompile Include="OdMathPlane.cpp">
@@ -217,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="MathArc.cpp">
       <Filter>Graphics\Arc</Filter>
+    </ClCompile>
+    <ClCompile Include="MathPolyline.cpp">
+      <Filter>Graphics\Polyline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

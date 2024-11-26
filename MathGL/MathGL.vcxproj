@@ -136,6 +136,7 @@
     <ClInclude Include="LineCmd.h" />
     <ClInclude Include="Math3dSolid.h" />
     <ClInclude Include="MathArc.h" />
+    <ClInclude Include="MathPolyline.h" />
     <ClInclude Include="OdMathArc.h" />
     <ClInclude Include="MathCircle.h" />
     <ClInclude Include="MathLine.h" />
@@ -145,7 +146,7 @@
     <ClInclude Include="MathCircleJig.h" />
     <ClInclude Include="OdMathLine.h" />
     <ClInclude Include="OdMathPlane.h" />
-    <ClInclude Include="MathPolyline.h" />
+    <ClInclude Include="OdMathPolyline.h" />
     <ClInclude Include="MathViewport.h" />
     <ClInclude Include="OdDrawingManager.h" />
     <ClInclude Include="OdPointPrompt.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="LineCmd.cpp" />
     <ClCompile Include="Math3dSolid.cpp" />
     <ClCompile Include="MathArc.cpp" />
+    <ClCompile Include="MathPolyline.cpp" />
     <ClCompile Include="OdMathArc.cpp" />
     <ClCompile Include="MathCircle.cpp" />
     <ClCompile Include="MathLine.cpp" />
@@ -170,7 +172,7 @@
     <ClCompile Include="MathCircleJig.cpp" />
     <ClCompile Include="OdMathLine.cpp" />
     <ClCompile Include="OdMathPlane.cpp" />
-    <ClCompile Include="MathPolyline.cpp" />
+    <ClCompile Include="OdMathPolyline.cpp" />
     <ClCompile Include="MathViewport.cpp" />
     <ClCompile Include="OdDrawingManager.cpp" />
     <ClCompile Include="OdPointPrompt.cpp" />
