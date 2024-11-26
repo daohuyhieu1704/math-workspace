@@ -53,7 +53,7 @@ namespace MathGL
         OdGeVector3d zDir(value.X, value.Y, value.Z);
         GetImpObj()->setZDir(zDir);
     }
-    OdResult Entity::TransformBy(Matrix3d xform)
+    MathResult Entity::TransformBy(Matrix3d xform)
     {
         OdGeMatrix3d nativeXform = OdGeMatrix3d::kIdentity;
 		for (int i = 0; i < 4; ++i)
@@ -63,7 +63,7 @@ namespace MathGL
 				nativeXform[i][j] = xform.Entries[i, j];
 			}
 		}
-		return GetImpObj()->transformBy(nativeXform);
+		return MathResult(GetImpObj()->transformBy(nativeXform));
     }
     String^ Entity::ToJson()
     {

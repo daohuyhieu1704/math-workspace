@@ -34,7 +34,7 @@ public:
 	//const OdGeExtents3d& getExtents() const {
 	//	return m_extents;
 	//}
-	void setExtents(OdGeExtents3d extents) { m_extents = extents; }
+	void setExtents(const OdGeExtents3d& extents) { m_extents = extents; }
 	OdGeMatrix3d getTransform() const { return m_transform; }
 	void setTransform(const OdGeMatrix3d& transform) { m_transform = transform; }
 	bool isVisible() const { return m_isVisible; }

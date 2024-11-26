@@ -12,8 +12,10 @@ public:
 	OdResult draw() override;
 	OdBaseObjectPtr Clone() override;
 	virtual ~OdMath3dSolid() = default;
-	OdResult createBox();
+	OdResult createBox(double x, double y, double z);
+	virtual OdResult createExtrudeSolid(unsigned int entityId, double height, OdGeVector3d aXis);
 private:
+	void extractGeometry(const TopoDS_Shape& shape);
 	TopoDS_Shape m_shape;
 	virtual OdResult calculateVolume() override;
 	virtual OdResult calculateSurfaceArea() override;

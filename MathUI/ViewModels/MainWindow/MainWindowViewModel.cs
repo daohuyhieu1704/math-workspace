@@ -420,9 +420,36 @@ namespace MathUI.ViewModels.MainWindow
             throw new NotImplementedException();
         }
 
-        internal void Extrude()
+        internal async void Extrude()
         {
-            throw new NotImplementedException();
+            try
+            {
+                EntitySelection entitySelection = new EntitySelection();
+                List<uint> entitieId = await entitySelection.getEntities(1);
+                if (entitieId[0] == 0) {
+                    HistoryWindow += "Entity Not found\n";
+                    return;
+                }
+                TextInputPrompt textInputPrompt = new(this);
+                HistoryWindow += "Height:\n";
+                string text = await textInputPrompt.GetText();
+                if (double.TryParse(text, out double n))
+                {
+                    Math3dSolid math3DSolid = new();
+                    math3DSolid.createExtrudeSolid(entitieId[0], n, Vector3d.ZAxis);
+                    math3DSolid.Draw();
+                    CommandWindow = "";
+                    HistoryWindow += text.ToString() + "\n";
+                }
+                else
+                {
+                    HistoryWindow += "Invalid input\n";
+                }
+            }
+            catch
+            {
+                HistoryWindow += "Invalid input\n";
+            }
         }
 
         internal void Sweep()
@@ -461,9 +488,38 @@ namespace MathUI.ViewModels.MainWindow
             throw new NotImplementedException();
         }
 
-        internal void Rotate()
+        internal async void Rotate()
         {
-            throw new NotImplementedException();
+            try
+            {
+                EntitySelection entitySelection = new EntitySelection();
+                List<uint> entitieId = await entitySelection.getEntities(1);
+                Entity ent = DrawingManager.Instance.getEntityById(entitieId[0]);
+                if (ent == null)
+                {
+                    HistoryWindow += "Entity Not found\n";
+                    return;
+                }
+                PointSelection pointSelection = new PointSelection();
+                List<Point3d> pnts = await pointSelection.getPoints(1);
+
+                TextInputPrompt textInputPrompt = new(this);
+                string text = await textInputPrompt.GetText();
+                if (double.TryParse(text, out double n))
+                {
+                    CommandWindow = "";
+                    HistoryWindow += text.ToString() + "\n";
+                    ent.TransformBy(Matrix3d.Rotation(45, Vector3d.XAxis, pnts[0]));
+                }
+                else
+                {
+                    HistoryWindow += "Invalid input\n";
+                }
+            }
+            catch
+            {
+                HistoryWindow += "Invalid input\n";
+            }
         }
 
         internal void P2W()

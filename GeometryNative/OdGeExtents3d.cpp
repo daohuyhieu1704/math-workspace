@@ -3,7 +3,7 @@
 
 namespace GeometryNative
 {
-	void OdGeExtents3d::apppendPoint(const OdGePoint3d& point)
+	void OdGeExtents3d::appendPoint(const OdGePoint3d& point)
 	{
 		m_points.push_back(point);
 	}
@@ -68,5 +68,9 @@ namespace GeometryNative
 		m_max = OdGePoint3d::kOrigin;
 		m_points.clear();
 		m_faces.clear();
+	}
+	int OdGeExtents3d::pntSize() const
+	{
+		return m_points.size();
 	}
 }

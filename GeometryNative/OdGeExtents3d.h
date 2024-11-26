@@ -13,7 +13,7 @@ namespace GeometryNative
 		std::vector<OdGePoint3d> m_points;
         std::vector<std::vector<int>> m_faces;
     public:
-		void apppendPoint(const OdGePoint3d& point);
+		void appendPoint(const OdGePoint3d& point);
         static const OdGeExtents3d kInvalid;
         OdGeExtents3d();
         OdGeExtents3d(OdGePoint3d minPnt, OdGePoint3d maxPnt)
@@ -25,6 +25,10 @@ namespace GeometryNative
         }
         OdGePoint3d& operator[] (int iIndex) {
             return iIndex == 0 ? m_min : m_max;
+        }
+        OdGePoint3d getPoint(int index)
+		{
+			return m_points[index];
         }
         std::vector<OdGePoint3d> getPoints()
         {
@@ -73,5 +77,6 @@ namespace GeometryNative
 		double getRadius() const;
         OdGePoint3d getCenter() const;
         void reset();
+        int pntSize() const;
     };
 }
