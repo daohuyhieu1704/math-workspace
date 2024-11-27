@@ -31,14 +31,14 @@ namespace MathUI.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ResXResourceManager", "1.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DialogLanguageRes {
+    public class MainWindowRes {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DialogLanguageRes() {
+        internal MainWindowRes() {
         }
         
         /// <summary>
@@ -48,17 +48,17 @@ namespace MathUI.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MathUI.Resources.DialogLanguageRes", typeof(DialogLanguageRes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MathUI.Resources.MainWindowRes", typeof(MainWindowRes).Assembly);
                     resourceMan = temp;
                 }
 
                 switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
                 {
                     case "en":
-						resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.DialogLanguageRes", typeof(DialogLanguageRes).Assembly);
+						resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.MainWindowRes", typeof(MainWindowRes).Assembly);
 						break;
                     case "vn":
-                       resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.DialogLanguageResvn", typeof(DialogLanguageRes).Assembly);
+                       resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.MainWindowResvn", typeof(MainWindowRes).Assembly);
                        break;
                 }
 
@@ -82,20 +82,11 @@ namespace MathUI.Resources {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to "English "
+        ///   Looks up a localized string similar to "Window Command "
         /// </summary>
-        public static string English {
+        public static string window_command {
             get {
-                return ResourceManager.GetString("English", resourceCulture) ?? string.Empty;
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to "Vietnamese"
-        /// </summary>
-        public static string Vietnamese {
-            get {
-                return ResourceManager.GetString("Vietnamese", resourceCulture) ?? string.Empty;
+                return ResourceManager.GetString("window_command", resourceCulture) ?? string.Empty;
             }
         }
     }

@@ -88,7 +88,17 @@
     <Compile Update="Resources\DialogLanguageResvn.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DialogLanguageResvn.Designer.tt</DependentUpon>
+      <DependentUpon>DialogLanguageResvn.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\MainWindowRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainWindowRes.Designer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\MainWindowResvn.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainWindowResvn.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -97,7 +107,15 @@
       <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\DialogLanguageResvn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DialogLanguageResvn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\MainWindowRes.resx">
       <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\MainWindowResvn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainWindowResvn.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -107,10 +125,10 @@
       <DependentUpon>DialogLanguageRes.resx</DependentUpon>
       <LastGenOutput>DialogLanguageRes.Designer.cs</LastGenOutput>
     </None>
-    <None Update="Resources\DialogLanguageResvn.Designer.tt">
+    <None Update="Resources\MainWindowRes.Designer.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DialogLanguageResvn.resx</DependentUpon>
-      <LastGenOutput>DialogLanguageResvn.Designer.cs</LastGenOutput>
+      <DependentUpon>MainWindowRes.resx</DependentUpon>
+      <LastGenOutput>MainWindowRes.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

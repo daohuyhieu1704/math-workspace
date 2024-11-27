@@ -11,7 +11,12 @@
         Height="150"
         d:DataContext="{d:DesignInstance Type=viewmodel:DialogLanguageViewModel}"
         Title="DialogLanguage">
-    <Grid>
+    <Grid Margin="8 8 8 8">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="28"/>
+        </Grid.RowDefinitions>
         <ComboBox x:Name="CmbListLanguage"
             Margin="0"
             ItemsSource="{Binding ListLanguage}"

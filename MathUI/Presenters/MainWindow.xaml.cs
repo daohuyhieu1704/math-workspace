@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Text.Json.Nodes;
+using System.Resources;
+using MathUI.Resources;
 
 namespace MathUI.Presenters
 {
@@ -21,7 +23,9 @@ namespace MathUI.Presenters
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ResourceManager resManager;
         private readonly MainWindowViewModel vm;
+        private string language = "";
         public MainWindow()
         {
             InitializeComponent();
@@ -29,6 +33,18 @@ namespace MathUI.Presenters
             vm = new MainWindowViewModel(this);
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
+
+            switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+            {
+                case "vn":
+                    resManager = new ResourceManager("MathUI.Resources.MainWindowResvn", typeof(MainWindowResvn).Assembly);
+                    language = "vn";
+                    break;
+                default:
+                    resManager = new ResourceManager("MathUI.Resources.MainWindowRes", typeof(MainWindowRes).Assembly);
+                    language = "";
+                    break;
+            }
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

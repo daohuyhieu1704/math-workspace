@@ -9,7 +9,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MathUI.ViewModels
 {
@@ -66,7 +69,7 @@ namespace MathUI.ViewModels
             ];
 
             var currentLanguage = ListLanguage.First(x => x.TwoLetterIso == Util.AppCultureInfo?.TwoLetterISOLanguageName);
-            SelectedLanguage = currentLanguage ?? ListLanguage.First(x => x.TwoLetterIso == "ja");
+            SelectedLanguage = currentLanguage ?? ListLanguage.First(x => x.TwoLetterIso == "vn");
         }
 
         private void BtnOKCmdExecute(DialogLanguage dialog)

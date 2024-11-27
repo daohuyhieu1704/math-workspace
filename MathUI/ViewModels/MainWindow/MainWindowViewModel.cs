@@ -22,6 +22,8 @@ using Geometry;
 using MathUI.Commands;
 using static System.Net.Mime.MediaTypeNames;
 using MathUI.Presenters;
+using System.Resources;
+using MathUI.Resources;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -34,6 +36,7 @@ namespace MathUI.ViewModels.MainWindow
 
     public class MainWindowViewModel : ViewModelBase
     {
+        private ResourceManager resManager;
         private DispatcherTimer _timer;
         public Presenters.MainWindow context;
         string _MouseX;
@@ -215,6 +218,15 @@ namespace MathUI.ViewModels.MainWindow
             PathSelected = "Untitled";
             IsNewFile = true;
             CloseTabCommand = new RelayCommand<string>((fileName) => true, CloseTab);
+            switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+            {
+                case "vn":
+                    resManager = new ResourceManager("MasterAppLib.ConnectionMaster.View.Resources.MainWindowResvn", typeof(MainWindowRes).Assembly);
+                    break;
+                default:
+                    resManager = new ResourceManager("MasterAppLib.ConnectionMaster.View.Resources.MainWindowRes", typeof(MainWindowRes).Assembly);
+                    break;
+            }
         }
 
         private void CloseTab(string fileName)
@@ -564,11 +576,6 @@ namespace MathUI.ViewModels.MainWindow
         {
             DialogLanguage dialogLanguage = new DialogLanguage();
             dialogLanguage.ShowDialog();
-
-            if (dialogLanguage.DialogResult == true)
-            {
-                // GLEngine.Instance.ChangeLanguage();
-            }
         }
 
         public ICommand CloseTabCommand { get; }

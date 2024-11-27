@@ -80,9 +80,9 @@ namespace <#= localNamespace #> {
                     case "en":
 						resourceMan = new global::System.Resources.ResourceManager("<#= localNamespace #>.<#= className #>", typeof(<#= className #>).Assembly);
 						break;
-                    case "ja":
-                        resourceMan = new global::System.Resources.ResourceManager("<#= localNamespace #>.<#= className #>ja", typeof(<#= className #>).Assembly);
-                        break;
+                    case "vn":
+                       resourceMan = new global::System.Resources.ResourceManager("<#= localNamespace #>.<#= className #>vn", typeof(<#= className #>).Assembly);
+                       break;
                 }
 
                 return resourceMan;
