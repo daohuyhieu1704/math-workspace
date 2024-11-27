@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "OdMath3dSolid.h"
 #include "OdDrawingManager.h"
-#include "pch.h"
 #include <stdio.h>
 #include <math.h>
 #include <GL/freeglut.h>
@@ -14,6 +13,7 @@
 #include "LineCmd.h"
 #include "MathArc.h"
 #include "OdMathPlane.h"
+#include <MathLog.h>
 
 OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
 
@@ -65,6 +65,7 @@ int MathGL::DrawingManager::exitGLUT()
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
+
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutCreateWindow("freeglut 3D view demo");
 
@@ -78,6 +79,7 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 
 	SetWindowPos(hwnd, nullptr, 0, 0, 800, 600, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 
+	viewport->setParentHwnd(parentHwnd);
 	glutDisplayFunc([]() { viewport->display(); });
 	glutReshapeFunc([](int x, int y) { viewport->reshape(x, y); });
 	glutKeyboardFunc([](unsigned char key, int x, int y) { viewport->keypress(key, x, y); });
@@ -96,7 +98,6 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	//plane->setOrigin(OdGePoint3d(0, 0, 0));
 	//plane->setNormal(OdGeVector3d(0, 0, 1));
 	//OdDrawingManager::R()->appendEntity(plane);
-
 	return hwnd;
 }
 
@@ -183,7 +184,9 @@ void OdDrawingManager::renderAll()
 				glColor3f(color[0], color[1], color[2]);
 			}
 			objRaw->draw();
-			drawBoundingBox(objRaw->getExtents());
+			std::string jsonString = objRaw->toJson().dump();
+			MathLog::LogFunction("Entity json: " + jsonString);
+			// drawBoundingBox(objRaw->getExtents());
 		}
 	}
 }

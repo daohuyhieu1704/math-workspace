@@ -63,4 +63,7 @@ public:
     // Inherited via OdGiDrawable
     OdBaseObjectPtr Clone() override;
     OdResult draw() override;
+	void setParentHwnd(HWND hwnd) { m_parentHwnd = hwnd; }
+private:
+    HWND m_parentHwnd;
 };

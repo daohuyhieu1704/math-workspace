@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CallbackBridge.h" />
     <ClInclude Include="CommandInvoker.h" />
     <ClInclude Include="DisposableWrapper.h" />
     <ClInclude Include="Entity.h" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CallbackBridge.cpp" />
     <ClCompile Include="CommandInvoker.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntitySelection.cpp" />

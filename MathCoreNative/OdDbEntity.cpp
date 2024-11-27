@@ -5,6 +5,7 @@
 json OdDbEntity::toJson() const
 {
     json j;
+	j["type"] = getClassName();
     j["scale"] = { {"x", m_scale.sx}, {"y", m_scale.sy}, {"z", m_scale.sz} };
     j["position"] = { {"x", m_position.x}, {"y", m_position.y}, {"z", m_position.z} };
     j["xDir"] = { {"x", m_xDir.x}, {"y", m_xDir.y}, {"z", m_xDir.z} };

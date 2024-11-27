@@ -55,7 +55,7 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
             if (intersectionDistance < closestDistance) {
                 closestDistance = intersectionDistance;
                 selectedEntityId = entity->getObjectId();
-				MathLog::LogFunction("Selected entity: " + std::to_string(selectedEntityId.GetObjectId()));
+				// MathLog::LogFunction("Selected entity: " + std::to_string(selectedEntityId.GetObjectId()));
             }
         }
     }
@@ -64,8 +64,9 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
         if (entity->getObjectId() == selectedEntityId)
         {
             static_cast<OdDbEntity*>(entity.get())->setSelected(true);
-            OdDrawingManager::R()->m_json = static_cast<OdDbEntity*>(entity.get())->toJson();
-            MathLog::LogFunction("Append entity: " + std::to_string(selectedEntityId.GetObjectId()));
+            std::string jsonString = static_cast<OdDbEntity*>(entity.get())->toJson().dump();
+            OdDrawingManager::R()->m_json = jsonString;
+            // MathLog::LogFunction("Append entity: " + std::to_string(selectedEntityId.GetObjectId()));
         }
     }
     AppendId(selectedEntityId);
