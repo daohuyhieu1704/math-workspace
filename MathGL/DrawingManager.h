@@ -67,18 +67,11 @@ namespace MathGL {
 				return m_instance;
 			}
 		}
-		property JsonObject^ Entities
+		property String^ EntityJson
 		{
-			JsonObject^ get()
+			String^ get()
 			{
-				auto entities = GetImpObj()->getEntities();
-				Nullable<JsonNodeOptions> options{};
-				auto json = gcnew JsonObject(options);
-				for (int i = 0; i < entities.size(); i++)
-				{
-					json->Add(i.ToString(), ConvertToJsonNode(GetImpObj()->m_json));
-				}
-				return json;
+				return gcnew String(GetImpObj()->m_json.c_str());
 			}
 		}
 

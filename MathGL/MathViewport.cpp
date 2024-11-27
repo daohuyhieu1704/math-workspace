@@ -11,6 +11,8 @@
 OD_RTTI_DEFINE(MathViewport, OdGiDrawable)
 OD_RTTI_SINGLETON_DEFINE(MathViewport)
 
+extern "C" __declspec(dllexport) void NotifyMouseClick(int x, int y);
+
 OdMathPolylinePtr polyline = OdMathPolyline::createObject();
 
 MathViewport::MathViewport() {
@@ -397,7 +399,8 @@ void MathViewport::mouse(int bn, int st, int x, int y) {
     {
         if (st == GLUT_DOWN) {
             OdSelectionPrompt::pickObjects(x, y);
-            OdSelectionPrompt::resetWorldMouse(x, y);
+            OdSelectionPrompt::resetWorldMouse(x, y);    
+            NotifyMouseClick(x, y);
         }
     }
 

@@ -23,6 +23,7 @@ namespace MathUI.Presenters
     /// </summary>
     public partial class MainWindow : Window
     {
+        public delegate void MouseClickCallback(int x, int y);
         private ResourceManager resManager;
         private readonly MainWindowViewModel vm;
         private string language = "";
@@ -33,7 +34,7 @@ namespace MathUI.Presenters
             vm = new MainWindowViewModel(this);
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
-
+            CallbackBridge.RegisterMouseCallback(OnMouseClick);
             switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
             {
                 case "vn":
@@ -45,6 +46,10 @@ namespace MathUI.Presenters
                     language = "";
                     break;
             }
+        }
+        void OnMouseClick(int x, int y)
+        {
+            CommandAction((model) => model.RegenViewModel());
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

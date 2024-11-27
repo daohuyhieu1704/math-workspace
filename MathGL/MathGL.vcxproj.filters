@@ -103,6 +103,9 @@
     <Filter Include="Commons\Entity">
       <UniqueIdentifier>{9929530d-c7c2-48c0-9aa3-093e6409280d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commons\CallbackBridge">
+      <UniqueIdentifier>{6b639a41-5972-4546-a157-fe096e242457}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -189,6 +192,9 @@
     <ClInclude Include="Entity.h">
       <Filter>Commons\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="CallbackBridge.h">
+      <Filter>Commons\CallbackBridge</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -271,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Commons\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="CallbackBridge.cpp">
+      <Filter>Commons\CallbackBridge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

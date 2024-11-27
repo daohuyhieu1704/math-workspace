@@ -24,6 +24,8 @@ using static System.Net.Mime.MediaTypeNames;
 using MathUI.Presenters;
 using System.Resources;
 using MathUI.Resources;
+using Newtonsoft.Json;
+using MathUI.Models;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -577,6 +579,34 @@ namespace MathUI.ViewModels.MainWindow
         {
             DialogLanguage dialogLanguage = new DialogLanguage();
             dialogLanguage.ShowDialog();
+        }
+
+        internal void RegenViewModel()
+        {
+            string json = DrawingManager.Instance.EntityJson;
+            if (json != "")
+            {
+                RegenLeftPanel(json);
+            }
+        }
+
+        private void RegenLeftPanel(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return;
+            }
+
+            dynamic? jsonObject = JsonConvert.DeserializeObject(json);
+            if (jsonObject != null)
+            {
+                EntityModel? model = EntityModel.FromJson(json);
+                Shape = model?.Type ?? "";
+                PositionX = model?.Position.X ?? 0;
+                PositionY = model?.Position.Y ?? 0;
+                PositionZ = model?.Position.Z ?? 0;
+            }
+
         }
 
         public ICommand CloseTabCommand { get; }

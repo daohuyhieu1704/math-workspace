@@ -41,7 +41,7 @@ public:
 	void RegisterCommandPattern();
 
 	void renderAll();
-	json m_json;
+	std::string m_json = "";
 
 	/// <summary>
 	/// Pick-point features
