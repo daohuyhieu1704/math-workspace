@@ -386,6 +386,7 @@ namespace MathUI.ViewModels.MainWindow
         internal void AppendCommand()
         {
             // DrawingManager.Instance.AppendCommand(CommandWindow);
+            CommandRegistry.Invoke(CommandWindow);
             // CommandWindow = "";
             // HistoryWindow += CommandWindow + "\n";
         }

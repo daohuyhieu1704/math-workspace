@@ -16,6 +16,8 @@ namespace MathUI.Commands
             }
         }
 
+        public static List<string> CommandNames => new(Commands.Keys);
+
         public static void DiscoverAndRegisterCommands()
         {
             var assembly = Assembly.GetExecutingAssembly();

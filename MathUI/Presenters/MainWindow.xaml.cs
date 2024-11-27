@@ -49,12 +49,12 @@ namespace MathUI.Presenters
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //var grid = FindName("EngineContainer");
-            //if (grid is Grid engineContainer)
-            //{
-            //    engineContainer.Children.Add(new EngineHost());
-            //    DrawingManager.Instance.ProcessGLUTEvents();
-            //}
+            var grid = FindName("EngineContainer");
+            if (grid is Grid engineContainer)
+            {
+                engineContainer.Children.Add(new EngineHost());
+                DrawingManager.Instance.ProcessGLUTEvents();
+            }
         }
 
         private void CommandAction(Action<MainWindowViewModel> callback)
