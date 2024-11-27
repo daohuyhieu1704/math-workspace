@@ -21,6 +21,7 @@ using System.Text.Json.Nodes;
 using Geometry;
 using MathUI.Commands;
 using static System.Net.Mime.MediaTypeNames;
+using MathUI.Presenters;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -561,7 +562,13 @@ namespace MathUI.ViewModels.MainWindow
 
         internal void ChangeLanguage()
         {
-            throw new NotImplementedException();
+            DialogLanguage dialogLanguage = new DialogLanguage();
+            dialogLanguage.ShowDialog();
+
+            if (dialogLanguage.DialogResult == true)
+            {
+                // GLEngine.Instance.ChangeLanguage();
+            }
         }
 
         public ICommand CloseTabCommand { get; }
