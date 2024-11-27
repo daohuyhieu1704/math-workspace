@@ -96,6 +96,10 @@ namespace GeometryNative
 	{
 		return (fabs(x - other.x) < FLT_EPSILON) && (fabs(y - other.y) < FLT_EPSILON) && (fabs(z - other.z) < FLT_EPSILON);
 	}
+	bool OdGeVector3d::isParallelTo(const OdGeVector3d& vector) const
+	{
+		return crossProduct(vector).Length() < FLT_EPSILON;
+	}
 	OdGeVector3d operator*(double scalar, const OdGeVector3d& vector)
 	{
 		return OdGeVector3d(scalar * vector.x, scalar * vector.y, scalar * vector.z);

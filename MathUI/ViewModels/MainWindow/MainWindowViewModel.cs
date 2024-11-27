@@ -22,6 +22,13 @@ using SharpDX.Direct2D1;
 
 namespace MathUI.ViewModels.MainWindow
 {
+    public class IconButtonViewModel : ViewModelBase
+    {
+        public string Icon { get; set; }
+        public string Label { get; set; }
+        public ICommand ClickHandler { get; set; }
+    }
+
     public class MainWindowViewModel : ViewModelBase
     {
 

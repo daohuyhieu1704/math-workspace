@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <set>
+#include <mutex>
 
 class OdDatabase;
 class OdDbObject;
@@ -39,14 +41,13 @@ namespace OdDb
 /// </summary>
 class OdDbObjectId
 {
+    static std::set<std::string> allocatedIds;
+    static std::mutex mutex;
 	OdDbObjectId(int i) : m_Id(std::to_string(i)) {}
+    static std::string GenerateShortId();
+    static std::string GenerateUniqueId();
 public:
     std::string GetObjectId() const;
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    static std::string GenerateShortId();
 
     /// <summary>
     /// This function guarantees that isNull() will, return true if it is the first operation applied to this instance.

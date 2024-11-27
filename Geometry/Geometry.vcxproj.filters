@@ -13,27 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Point">
+      <UniqueIdentifier>{b4a4003f-93b0-41c8-96da-0442773db86c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Point2d">
+      <UniqueIdentifier>{e33b3d01-9edf-40f5-a458-ac3095a97368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Point\Point3d">
+      <UniqueIdentifier>{a6fcf146-d029-4282-b8de-8f4844fd1980}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Geometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Point2d.h">
+      <Filter>Point\Point2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Point3d.h">
+      <Filter>Point\Point3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Geometry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Point2d.cpp">
+      <Filter>Point\Point2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Point3d.cpp">
+      <Filter>Point\Point3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

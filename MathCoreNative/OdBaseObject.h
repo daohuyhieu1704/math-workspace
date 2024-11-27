@@ -174,3 +174,17 @@ public: \
         } \
         return nullptr; \
     }
+
+#define OD_RTTI_SINGLETON_DECLARE(ClassName) \
+static OdSmartPtr<ClassName>& R();
+
+#define OD_RTTI_SINGLETON_DEFINE(ClassName) \
+OdSmartPtr<ClassName> ClassName::m_instance; \
+OdSmartPtr<ClassName>& ClassName::R() \
+{ \
+    if (m_instance.isNull()) \
+    { \
+        m_instance = ClassName::createObject(); \
+    } \
+    return m_instance; \
+}

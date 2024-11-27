@@ -27,7 +27,7 @@ OdBaseObjectPtr OdDbCircle::Clone()
 
 OdResult OdDbCircle::draw() const
 {
-	return OdResult::eInvalidDrawing;
+	return OdResult::eNotImplementedYet;
 }
 
 OdGeExtents3d OdDbCircle::boundingBox() const
@@ -37,7 +37,7 @@ OdGeExtents3d OdDbCircle::boundingBox() const
 
 OdResult OdDbCircle::worldDraw() const
 {
-	return OdResult::eInvalidDrawing;
+	return OdResult::eNotImplementedYet;
 }
 
 json OdDbCircle::toJson() const

@@ -26,6 +26,12 @@
     <ClCompile Include="OdDbEntityTest.cpp">
       <Filter>CoreNative</Filter>
     </ClCompile>
+    <ClCompile Include="OdGePlaneTest.cpp">
+      <Filter>GeometryNative</Filter>
+    </ClCompile>
+    <ClCompile Include="OdHostAppServiceTest.cpp">
+      <Filter>CoreNative</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
