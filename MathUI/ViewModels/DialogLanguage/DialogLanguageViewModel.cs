@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Text.RegularExpressions;
 
 namespace MathUI.ViewModels
 {
@@ -78,7 +79,9 @@ namespace MathUI.ViewModels
 
             var cultureInfo = new CultureInfo(SelectedLanguage.TwoLetterIso);
             CultureInfo.CurrentUICulture = cultureInfo;
+            CultureInfo.CurrentCulture = cultureInfo;
             Util.AppCultureInfo = cultureInfo;
+            MathUI.Utils.ResxDynamicResourceProvider.LoadResourceToApplication("TopPanelRes");
             dialog.Close();
         }
         private void ShowHint<T>(ObservableCollection<T> listStr)

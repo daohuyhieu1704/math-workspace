@@ -101,6 +101,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MainWindowResvn.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\TopPanelRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TopPanelRes.Designer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\TopPanelResvn.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TopPanelResvn.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -118,6 +128,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MainWindowResvn.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\TopPanelRes.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\TopPanelResvn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TopPanelResvn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -130,6 +147,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>MainWindowRes.resx</DependentUpon>
       <LastGenOutput>MainWindowRes.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\TopPanelRes.Designer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TopPanelRes.resx</DependentUpon>
+      <LastGenOutput>TopPanelRes.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

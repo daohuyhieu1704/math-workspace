@@ -23,6 +23,7 @@ namespace MathUI.Presenters
     /// </summary>
     public partial class TopPanel : UserControl
     {
+        private ResourceManager resourceMan;
         public static readonly DependencyProperty ViewModelProperty =
         DependencyProperty.Register("ViewModel", typeof(MainWindowViewModel), typeof(TopPanel), new PropertyMetadata(null));
 
@@ -34,6 +35,15 @@ namespace MathUI.Presenters
         public TopPanel()
         {
             InitializeComponent();
+            switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+            {
+                case "en":
+                    resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.TopPanelRes", typeof(TopPanelRes).Assembly);
+                    break;
+                case "vn":
+                    resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.TopPanelResvn", typeof(TopPanelRes).Assembly);
+                    break;
+            }
         }
         private void CommandAction(Action<MainWindowViewModel> callback)
         {

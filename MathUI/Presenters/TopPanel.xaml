@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:MathUI.Presenters"
              xmlns:converters="clr-namespace:MathUI.Converters"
              xmlns:mainwindow="clr-namespace:MathUI.ViewModels.MainWindow"
+             xmlns:lang="clr-namespace:MathUI.Resources"
              d:DataContext="{d:DesignInstance Type=mainwindow:MainWindowViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="130" d:DesignWidth="800">
@@ -385,7 +386,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Language" FontSize="10" Click="Language_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_Language}" FontSize="10" Click="Language_Click" />
                                         </Grid>
                                     </Border>
                                 </StackPanel>
