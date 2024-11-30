@@ -120,4 +120,7 @@
   <data name="Language" xml:space="preserve">
     <value>Ngôn ngữ</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
 </root>

@@ -12,9 +12,9 @@ namespace MathUI.Utils
 {
     public static class ResxDynamicResourceProvider
     {
-        private static readonly ResourceManager DialogLanguageResManager = MathUI.Resources.DialogLanguageRes.ResourceManager;
-        private static readonly ResourceManager MainWindowResManager = MathUI.Resources.MainWindowRes.ResourceManager;
-        private static readonly ResourceManager TopPanelResManager = MathUI.Resources.TopPanelRes.ResourceManager;
+        private static readonly ResourceManager DialogLanguageResManager = DialogLanguageRes.ResourceManager;
+        private static readonly ResourceManager MainWindowResManager = MainWindowRes.ResourceManager;
+        private static readonly ResourceManager TopPanelResManager = TopPanelRes.ResourceManager;
 
         public static void UpdateDynamicResources(string cultureCode)
         {

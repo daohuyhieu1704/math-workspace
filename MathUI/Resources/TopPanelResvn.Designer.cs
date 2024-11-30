@@ -68,5 +68,14 @@ namespace MathUI.Resources {
                 return ResourceManager.GetString("Language", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cài đặt.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
     }
 }

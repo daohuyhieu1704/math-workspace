@@ -369,7 +369,7 @@
                     </Border>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Settings">
+            <TabItem Header="{DynamicResource TopPanelRes_Settings}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Border BorderThickness="0 0 1 0" BorderBrush="Black">
                         <Grid Width="auto">

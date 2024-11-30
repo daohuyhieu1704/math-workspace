@@ -89,6 +89,15 @@ namespace MathUI.Resources {
                 return ResourceManager.GetString("Language", resourceCulture) ?? string.Empty;
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to "Settings"
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture) ?? string.Empty;
+            }
+        }
     }
 
 
