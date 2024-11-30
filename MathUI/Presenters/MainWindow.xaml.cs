@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Text.Json.Nodes;
 using System.Resources;
 using MathUI.Resources;
+using MathUI.Commands;
 
 namespace MathUI.Presenters
 {
@@ -32,6 +33,7 @@ namespace MathUI.Presenters
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
             vm = new MainWindowViewModel(this);
+            CommandRegistry.DiscoverAndRegisterCommands(vm);
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
             CallbackBridge.RegisterMouseCallback(OnMouseClick);
@@ -73,9 +75,9 @@ namespace MathUI.Presenters
 
                 callback(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                MessageBox.Show(e.Message);
             }
         }
 

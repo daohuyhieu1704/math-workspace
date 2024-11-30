@@ -1,4 +1,5 @@
-﻿using MathUI.Utils;
+﻿using MathUI.Commands;
+using MathUI.Utils;
 using System.Configuration;
 using System.Data;
 using System.Windows;
