@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Text.Json.Nodes;
 using System.Resources;
 using MathUI.Resources;
+using MathUI.Commands;
 
 namespace MathUI.Presenters
 {
@@ -24,14 +25,13 @@ namespace MathUI.Presenters
     public partial class MainWindow : Window
     {
         public delegate void MouseClickCallback(int x, int y);
-        private ResourceManager resManager;
         private readonly MainWindowViewModel vm;
-        private string language = "";
         public MainWindow()
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
             vm = new MainWindowViewModel(this);
+            CommandRegistry.DiscoverAndRegisterCommands(vm);
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
             CallbackBridge.RegisterMouseCallback(OnMouseClick);
@@ -43,12 +43,12 @@ namespace MathUI.Presenters
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //var grid = FindName("EngineContainer");
-            //if (grid is Grid engineContainer)
-            //{
-            //    engineContainer.Children.Add(new EngineHost());
-            //    DrawingManager.Instance.ProcessGLUTEvents();
-            //}
+            var grid = FindName("EngineContainer");
+            if (grid is Grid engineContainer)
+            {
+                engineContainer.Children.Add(new EngineHost());
+                DrawingManager.Instance.ProcessGLUTEvents();
+            }
         }
 
         private void CommandAction(Action<MainWindowViewModel> callback)
@@ -62,9 +62,9 @@ namespace MathUI.Presenters
 
                 callback(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                MessageBox.Show(e.Message);
             }
         }
 

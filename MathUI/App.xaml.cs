@@ -15,7 +15,6 @@ namespace MathUI
         public App()
         {
             Util.AppCultureInfo = Thread.CurrentThread.CurrentUICulture;
-            CommandRegistry.DiscoverAndRegisterCommands();
         }
         public static void OnLanguageChanged()
         {

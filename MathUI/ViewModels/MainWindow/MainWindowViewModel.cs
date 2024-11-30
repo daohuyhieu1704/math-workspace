@@ -220,15 +220,6 @@ namespace MathUI.ViewModels.MainWindow
             PathSelected = "Untitled";
             IsNewFile = true;
             CloseTabCommand = new RelayCommand<string>((fileName) => true, CloseTab);
-            switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
-            {
-                case "vn":
-                    resManager = new ResourceManager("MasterAppLib.ConnectionMaster.View.Resources.MainWindowResvn", typeof(MainWindowRes).Assembly);
-                    break;
-                default:
-                    resManager = new ResourceManager("MasterAppLib.ConnectionMaster.View.Resources.MainWindowRes", typeof(MainWindowRes).Assembly);
-                    break;
-            }
         }
 
         private void CloseTab(string fileName)
@@ -311,6 +302,7 @@ namespace MathUI.ViewModels.MainWindow
             line.Draw();
         }
 
+        [CommandMethod("CIRCLE")]
         public async void DrawCircle()
         {
             PointSelection pointSelection = new();
@@ -385,12 +377,18 @@ namespace MathUI.ViewModels.MainWindow
             //}
         }
 
-        internal void AppendCommand()
+        internal async void AppendCommand()
         {
-            // DrawingManager.Instance.AppendCommand(CommandWindow);
-            CommandRegistry.Invoke(CommandWindow);
-            // CommandWindow = "";
-            // HistoryWindow += CommandWindow + "\n";
+            if (CommandRegistry.IsACmd(CommandWindow))
+            {
+               await CommandRegistry.InvokeAsync(CommandWindow);
+                CommandWindow = "";
+            }
+            else
+            {
+                HistoryWindow += CommandWindow + "\n";
+                CommandWindow = "";
+            }
         }
 
         internal void Undo()
