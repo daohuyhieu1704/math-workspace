@@ -26,6 +26,7 @@ using System.Resources;
 using MathUI.Resources;
 using Newtonsoft.Json;
 using MathUI.Models;
+using System.Reflection;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -607,6 +608,33 @@ namespace MathUI.ViewModels.MainWindow
 
         }
 
+        [STAThread]
+        [CommandMethod("NETLOAD")]
+        public void NetLoad()
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Title = "Chọn tệp cần tải",
+                Filter = "Tất cả các tệp (*.*)|*.*|File Text (*.txt)|*.txt|File DLL (*.dll)|*.dll",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+            openFileDialog.Filter = "DLL Files (*.dll)|*.dll";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedFile = openFileDialog.FileName;
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(selectedFile);
+                    CommandRegistry.DiscoverAndRegisterExternalCommands(this, assembly);
+                    HistoryWindow += $"Loaded - {assembly.FullName}\n";
+                }
+                catch (Exception ex)
+                {
+                    HistoryWindow += $"Error - {ex.Message}\n";
+                }
+            }
+        }
+        public static List<Assembly> ExternalAssembly = [];
         public ICommand CloseTabCommand { get; }
     }
 }

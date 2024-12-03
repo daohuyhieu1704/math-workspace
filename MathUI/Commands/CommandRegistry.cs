@@ -21,6 +21,11 @@ namespace MathUI.Commands
         public static void DiscoverAndRegisterCommands(ViewModelBase instance)
         {
             var assembly = Assembly.GetExecutingAssembly();
+            DiscoverAndRegisterExternalCommands(instance, assembly);
+        }
+
+        public static void DiscoverAndRegisterExternalCommands(ViewModelBase instance, Assembly assembly)
+        {
             foreach (var type in assembly.GetTypes())
             {
                 foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance))
@@ -60,9 +65,10 @@ namespace MathUI.Commands
 
         private static Func<Task> CreateDelegateForMethod(MethodInfo method, object? instance = null)
         {
+            // Kiểm tra nếu phương thức trả về Task hoặc Task kế thừa
             if (typeof(Task).IsAssignableFrom(method.ReturnType))
             {
-                return (Func<Task>)Delegate.CreateDelegate(typeof(Func<Task>), instance, method);
+                return () => (Task?)method.Invoke(instance, null) ?? Task.CompletedTask;
             }
             else if (method.ReturnType == typeof(void))
             {
@@ -75,9 +81,10 @@ namespace MathUI.Commands
             }
             else
             {
-                throw new InvalidOperationException($"Unsupported return type for method {method.Name}");
+                throw new InvalidOperationException($"Unsupported return type for method {method.Name}. Must be Task or void.");
             }
         }
+
 
         public static bool IsACmd(string commandName)
         {

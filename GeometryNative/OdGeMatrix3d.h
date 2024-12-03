@@ -3,6 +3,9 @@
 #include <cmath> // for std::abs and other math operations
 #include <stdexcept>
 #include "OdGePoint3d.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace GeometryNative
 {
@@ -133,6 +136,7 @@ namespace GeometryNative
         inline double operator ()(int row, int column) const { return entry[row][column]; }
         inline double& operator ()(int row, int column) { return entry[row][column]; }
 
+        void setFromGLM(const glm::mat4& glmMatrix);
         double entry[4][4];
 	};
 }

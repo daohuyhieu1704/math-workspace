@@ -3,6 +3,7 @@
 #include "OdGeVector3d.h"
 #include "OdGePoint3d.h"
 #include <cmath>
+#include <OdPlatformSettings.h>
 
 namespace GeometryNative
 {
@@ -157,16 +158,20 @@ namespace GeometryNative
     /// </summary>
     TEST_F(OdGeMatrix3dTest, SetRotation)
     {
-        OdGeVector3d axis(0.0, 0.0, 1.0);
-        matrix1.setToRotation(3.14 / 2, axis);
+        OdGeMatrix3d matrix;
         OdGeMatrix3d expectedRotation;
+
+        expectedRotation.setToIdentity();
         expectedRotation(0, 0) = 0.0;
         expectedRotation(0, 1) = -1.0;
         expectedRotation(1, 0) = 1.0;
         expectedRotation(1, 1) = 0.0;
         expectedRotation(2, 2) = 1.0;
         expectedRotation(3, 3) = 1.0;
-        EXPECT_TRUE(matrix1.isEqualTo(expectedRotation, 1e-6));
+
+        matrix.setToRotation(OdPI / 2, OdGeVector3d::kZAxis);
+
+        EXPECT_TRUE(matrix.isEqualTo(expectedRotation, 1e-6));
     }
 
     /// <summary>

@@ -1,11 +1,16 @@
+using MathUI.Commands;
+using System.Windows;
+
 namespace MathTestCSharp
 {
-    public class UnitTest1
+    public static class UnitTest1
     {
         [Fact]
-        public void Test1()
+        [CommandMethod("TEST_SUITE_SCALE")]
+        public static void Test1()
         {
-
+            Assert.True(true);
+            MessageBox.Show("Test1");
         }
     }
 }
