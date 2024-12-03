@@ -18,7 +18,8 @@ namespace MathGL
 
     double MathCircle::Radius::get()
     {
-		return GetImpObj()->getRadius();
+		double minScale = std::min(GetImpObj()->getScale().sx, GetImpObj()->getScale().sy);
+		return GetImpObj()->getRadius() * minScale;
     }
 
     void MathCircle::Radius::set(double value)

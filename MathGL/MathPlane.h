@@ -1,5 +1,5 @@
 #pragma once
-#include "DisposableWrapper.h"
+#include "Entity.h"
 #include "OdMathPlane.h"
 #include "OdDrawingManager.h"
 
@@ -7,7 +7,7 @@
 using namespace Geometry;
 
 namespace MathGL {
-	public ref class MathPlane : DisposableWrapper
+	public ref class MathPlane : Entity
 	{
 	protected:
 		OdMathPlane* GetImpObj()
@@ -16,11 +16,11 @@ namespace MathGL {
 		}
 	public:
 		MathPlane()
-			: DisposableWrapper(IntPtr(new OdMathPlane()), true)
+			: Entity(new OdMathPlane(), true)
 		{
 		}
 		MathPlane(Point3d origin, Vector3d normal)
-			: DisposableWrapper(IntPtr(new OdMathPlane()), true)
+			: Entity(new OdMathPlane(), true)
 		{
 			OdGePoint3d org = OdGePoint3d(origin.X, origin.Y, origin.Z);
 			OdGeVector3d norm = OdGeVector3d(normal.X, normal.Y, normal.Z);

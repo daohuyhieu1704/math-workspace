@@ -1,5 +1,5 @@
 #pragma once
-#include "DisposableWrapper.h"
+#include "Entity.h"
 #include "OdMathPolyline.h"
 #include "OdDrawingManager.h"
 
@@ -8,7 +8,7 @@ using namespace Geometry;
 namespace MathGL
 {
     public ref class MathPolyline :
-        public DisposableWrapper
+        public Entity
     {
     protected:
         OdMathPolyline* GetImpObj()
@@ -17,7 +17,7 @@ namespace MathGL
         }
     public:
         MathPolyline()
-            : DisposableWrapper(IntPtr(new OdMathPolyline()), true)
+            : Entity(new OdMathPolyline(), true)
         {
         }
         void AddVertex(Point3d vertex);

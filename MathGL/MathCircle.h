@@ -1,16 +1,16 @@
 #pragma once
-#include "DisposableWrapper.h"
+#include "Entity.h"
 #include "OdMathCircle.h"
 #include "OdDrawingManager.h"
 
 using namespace Geometry;
 
 namespace MathGL {
-	public ref class MathCircle : DisposableWrapper
+	public ref class MathCircle : Entity
 	{
 	protected:
 		MathCircle()
-			: DisposableWrapper(IntPtr(new OdMathCircle()), true)
+			: Entity(new OdMathCircle(), true)
 		{
 		}
 		OdMathCircle* GetImpObj()
@@ -19,7 +19,7 @@ namespace MathGL {
 		}
 	public:
 		MathCircle(Point3d center, double radius)
-			: DisposableWrapper(IntPtr(new OdMathCircle()), true)
+			: Entity(new OdMathCircle(), true)
 		{
 			OdGePoint3d nativeCenter = OdGePoint3d(center.X, center.Y, center.Z);
 			GetImpObj()->setCenter(nativeCenter);

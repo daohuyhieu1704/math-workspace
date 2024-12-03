@@ -1,16 +1,16 @@
 #pragma once
-#include "DisposableWrapper.h"
+#include "Entity.h"
 #include "OdMathArc.h"
 #include "OdDrawingManager.h"
 
 using namespace Geometry;
 
 namespace MathGL {
-	public ref class MathArc : DisposableWrapper
+	public ref class MathArc : Entity
 	{
 	protected:
 		MathArc()
-			: DisposableWrapper(IntPtr(new OdMathArc()), true)
+			: Entity(new OdMathArc(), true)
 		{
 		}
 		OdMathArc* GetImpObj()
@@ -19,7 +19,7 @@ namespace MathGL {
 		}
 	public:
 		MathArc(Point3d startPnt, Point3d endPnt)
-			: DisposableWrapper(IntPtr(new OdMathArc()), true)
+			: Entity(new OdMathArc(), true)
 		{
 			OdGePoint3d nativeStart = OdGePoint3d(startPnt.X, startPnt.Y, startPnt.Z);
 			OdGePoint3d nativeEnd = OdGePoint3d(endPnt.X, endPnt.Y, endPnt.Z);
@@ -28,7 +28,7 @@ namespace MathGL {
 			GetImpObj()->setBulge(0.0);
 		}
 		MathArc(Point3d startPnt, Point3d endPnt, Point3d thirdPnt)
-			: DisposableWrapper(IntPtr(new OdMathArc()), true)
+			: Entity(new OdMathArc(), true)
 		{
 			OdGePoint3d nativeStart = OdGePoint3d(startPnt.X, startPnt.Y, startPnt.Z);
 			OdGePoint3d nativeEnd = OdGePoint3d(endPnt.X, endPnt.Y, endPnt.Z);
