@@ -81,7 +81,8 @@ namespace MathUI.ViewModels
             CultureInfo.CurrentUICulture = cultureInfo;
             CultureInfo.CurrentCulture = cultureInfo;
             Util.AppCultureInfo = cultureInfo;
-            MathUI.Utils.ResxDynamicResourceProvider.LoadResourceToApplication("TopPanelRes");
+            ResxDynamicResourceProvider.LoadResourceToApplication("MainWindowRes");
+            ResxDynamicResourceProvider.LoadResourceToApplication("TopPanelRes");
             dialog.Close();
         }
         private void ShowHint<T>(ObservableCollection<T> listStr)

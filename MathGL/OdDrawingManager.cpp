@@ -62,6 +62,56 @@ int MathGL::DrawingManager::exitGLUT()
 	return 0;
 }
 
+void MathGL::DrawingManager::TLViewport()
+{
+	viewport->TLViewport();
+}
+
+void MathGL::DrawingManager::TMViewport()
+{
+	viewport->TMViewport();
+}
+
+void MathGL::DrawingManager::TRViewport()
+{
+	viewport->TRViewport();
+}
+
+void MathGL::DrawingManager::MLViewport()
+{
+	viewport->MLViewport();
+}
+
+void MathGL::DrawingManager::TMMViewport()
+{
+	viewport->TMMViewport();
+}
+
+void MathGL::DrawingManager::BMMViewport()
+{
+	viewport->BMMViewport();
+}
+
+void MathGL::DrawingManager::MRViewport()
+{
+	viewport->MRViewport();
+}
+
+void MathGL::DrawingManager::BLViewport()
+{
+	viewport->BLViewport();
+}
+
+void MathGL::DrawingManager::BMViewport()
+{
+	viewport->BMViewport();
+}
+
+void MathGL::DrawingManager::BRViewport()
+{
+	viewport->BRViewport();
+}
+
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
@@ -184,8 +234,8 @@ void OdDrawingManager::renderAll()
 				glColor3f(color[0], color[1], color[2]);
 			}
 			objRaw->draw();
-			std::string jsonString = objRaw->toJson().dump();
-			MathLog::LogFunction("Entity json: " + jsonString);
+			// std::string jsonString = objRaw->toJson().dump();
+			// MathLog::LogFunction("Entity json: " + jsonString);
 			// drawBoundingBox(objRaw->getExtents());
 		}
 	}

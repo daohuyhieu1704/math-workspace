@@ -43,7 +43,7 @@ public:
     // Member functions
     void idle();
     void display();
-    void drawScene(bool picking = false);
+    void drawScene();
     void print_help();
     void reshape(int x, int y);
     void keypress(unsigned char key, int x, int y);
@@ -55,11 +55,23 @@ public:
     void setMouseX(int x) { mouse_x = x; }
     void setMouseY(int y) { mouse_y = y; }
     void motionHandler(int x, int y);
-    void drawGridXY(bool picking = false, float size = 10.0f, float step = 1.0f);
-    void drawAxis(bool picking = false, float size = 2.5f);
+    void drawGridXY(float size = 10.0f, float step = 1.0f);
+    void drawAxis(float size = 2.5f);
     void pickObject(int x, int y);
     void drawInfiniteGrid(float spacing = 1.0f, int halfSize = 50) const;
     void setCamera();
+
+    void TLViewport();
+    void TMViewport();
+    void TRViewport();
+    void MLViewport();
+    void TMMViewport();
+    void BMMViewport();
+    void MRViewport();
+    void BLViewport();
+    void BMViewport();
+    void BRViewport();
+
     // Inherited via OdGiDrawable
     OdBaseObjectPtr Clone() override;
     OdResult draw() override;

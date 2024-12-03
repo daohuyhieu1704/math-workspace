@@ -79,6 +79,16 @@ namespace MathGL {
 		Entity^ getEntityById(unsigned int id);
 		int ProcessGLUTEvents();
 		int exitGLUT();
+		void TLViewport();
+		void TMViewport();
+		void TRViewport();
+		void MLViewport();
+		void TMMViewport();
+		void BMMViewport();
+		void MRViewport();
+		void BLViewport();
+		void BMViewport();
+		void BRViewport();
 	private:
 		OdDrawingManager* GetImpObj()
 		{

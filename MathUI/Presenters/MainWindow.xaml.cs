@@ -34,7 +34,7 @@ namespace MathUI.Presenters
             CommandRegistry.DiscoverAndRegisterCommands(vm);
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
-            CallbackBridge.RegisterMouseCallback(OnMouseClick);
+            //CallbackBridge.RegisterMouseCallback(OnMouseClick);
         }
         void OnMouseClick(int x, int y)
         {

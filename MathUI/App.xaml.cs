@@ -11,7 +11,7 @@ namespace MathUI
     /// </summary>
     public partial class App : Application
     {
-        public static event EventHandler LanguageChanged;
+        public static event EventHandler? LanguageChanged;
         public App()
         {
             Util.AppCultureInfo = Thread.CurrentThread.CurrentUICulture;
@@ -23,7 +23,8 @@ namespace MathUI
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            MathUI.Utils.ResxDynamicResourceProvider.LoadResourceToApplication("TopPanelRes");
+            ResxDynamicResourceProvider.LoadResourceToApplication("MainWindowRes");
+            ResxDynamicResourceProvider.LoadResourceToApplication("TopPanelRes");
         }
     }
 

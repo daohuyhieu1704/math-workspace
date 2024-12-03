@@ -64,17 +64,6 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
-        private string _engineName;
-        public string EngineName
-        {
-            get => _engineName;
-            set
-            {
-                _engineName = value;
-                OnPropertyChanged("EngineName");
-            }
-        }
-
         private string _historyWindow;
         public string HistoryWindow
         {
@@ -212,7 +201,6 @@ namespace MathUI.ViewModels.MainWindow
 
         public MainWindowViewModel(Presenters.MainWindow mainWindow)
         {
-            EngineName = "OpenGL";
             HistoryWindow = "";
             context = mainWindow;
             FileItems = ["Untitled"];
@@ -241,58 +229,55 @@ namespace MathUI.ViewModels.MainWindow
 
         public void TL()
         {
-            // GLEngine.Instance.TLViewport();
+            DrawingManager.Instance.TLViewport();
         }
 
         public void TM()
         {
-            // GLEngine.Instance.TMViewport();
+            DrawingManager.Instance.TMViewport();
         }
 
         public void TR()
         {
-            // GLEngine.Instance.TRViewport();
+            DrawingManager.Instance.TRViewport();
         }
 
         public void ML()
         {
-            // GLEngine.Instance.MLViewport();
+            DrawingManager.Instance.MLViewport();
         }
 
         public void TMM()
         {
-            // GLEngine.Instance.TMMViewport();
+            DrawingManager.Instance.TMMViewport();
         }
 
         public void BMM()
         {
-            // GLEngine.Instance.BMMViewport();
+            DrawingManager.Instance.BMMViewport();
         }
 
         public void MR()
         {
-            // GLEngine.Instance.MRViewport();
+            DrawingManager.Instance.MRViewport();
         }
 
         public void BL()
         {
-            // GLEngine.Instance.BLViewport();
+            DrawingManager.Instance.BLViewport();
         }
 
         public void BM()
         {
-            // GLEngine.Instance.BMViewport();
+            DrawingManager.Instance.BMViewport();
         }
 
         public void BR()
         {
-            // GLEngine.Instance.BRViewport();
+            DrawingManager.Instance.BRViewport();
         }
 
-        public void ZoomViewport(MouseWheelEventArgs e)
-        {
-        }
-
+        [CommandMethod("LINE")]
         public async void DrawLine()
         {
             PointSelection pointSelection = new();
@@ -315,6 +300,7 @@ namespace MathUI.ViewModels.MainWindow
             mathCircle.Draw();
         }
 
+        [CommandMethod("ARC")]
         public async void DrawArc()
         {
             PointSelection pointSelection = new();
@@ -328,7 +314,8 @@ namespace MathUI.ViewModels.MainWindow
             arc.Draw();
         }
 
-        internal async void DrawPoly()
+        [CommandMethod("POLYLINE")]
+        public async void DrawPoly()
         {
             PointSelection pointSelection = new();
             HistoryWindow += "Pick start points: ";
@@ -392,14 +379,17 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
+        [CommandMethod("UNDO")]
         internal void Undo()
         {
         }
 
+        [CommandMethod("REDO")]
         internal void Redo()
         {
         }
 
+        [CommandMethod("NEW")]
         internal void NewFile()
         {
             FileItems.Add("Untitled");
@@ -409,14 +399,17 @@ namespace MathUI.ViewModels.MainWindow
             IsNewFile = true;
         }
 
+        [CommandMethod("OPEN")]
         internal void OpenFile()
         {
         }
 
+        [CommandMethod("SAVE")]
         internal void SaveFile()
         {
         }
 
+        [CommandMethod("SELECT")]
         internal void Select()
         {
             // Shape = EntitySelection.LastId.ToString();
@@ -431,11 +424,13 @@ namespace MathUI.ViewModels.MainWindow
 
         }
 
+        [CommandMethod("PLANE")]
         internal void DrawPlane()
         {
             throw new NotImplementedException();
         }
 
+        [CommandMethod("EXTRUDE")]
         internal async void Extrude()
         {
             try
@@ -469,6 +464,7 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
+        [CommandMethod("SWEEP")]
         internal async void Sweep()
         {
             try
@@ -499,6 +495,7 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
+        [CommandMethod("SCALE")]
         internal async void Scale()
         {
             try
@@ -525,11 +522,13 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
+        [CommandMethod("TRANS")]
         internal void Trans()
         {
             throw new NotImplementedException();
         }
 
+        [CommandMethod("ROTATE")]
         internal async void Rotate()
         {
             try
@@ -564,22 +563,26 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
+        [CommandMethod("P2W")]
         internal void P2W()
         {
             throw new NotImplementedException();
         }
 
+        [CommandMethod("W2P")]
         internal void W2P()
         {
             throw new NotImplementedException();
         }
 
+        [CommandMethod("LANG")]
         internal void ChangeLanguage()
         {
             DialogLanguage dialogLanguage = new DialogLanguage();
             dialogLanguage.ShowDialog();
         }
 
+        [CommandMethod("REGEN")]
         internal void RegenViewModel()
         {
             string json = DrawingManager.Instance.EntityJson;

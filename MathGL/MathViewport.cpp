@@ -11,49 +11,35 @@
 OD_RTTI_DEFINE(MathViewport, OdGiDrawable)
 OD_RTTI_SINGLETON_DEFINE(MathViewport)
 
-extern "C" __declspec(dllexport) void NotifyMouseClick(int x, int y);
+//extern "C" __declspec(dllexport) void NotifyMouseClick(int x, int y);
 
 OdMathPolylinePtr polyline = OdMathPolyline::createObject();
 
 MathViewport::MathViewport() {
 }
-// Member function implementations
+
 void MathViewport::idle() {
     glutPostRedisplay();
 }
 
 void MathViewport::display() {
-    drawScene(false);
+    drawScene();
 }
 
-void MathViewport::drawScene(bool picking) {
+void MathViewport::drawScene() {
     long tm;
     float lpos[] = { -1, 2, 3, 0 };
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    // Camera transformations
     setCamera();
-
-    if (!picking) {
-        glLightfv(GL_LIGHT0, GL_POSITION, lpos);
-    }
-    else {
-        glDisable(GL_LIGHTING);
-    }
-
-    // Draw Axis and Grid
-    drawAxis(picking);
+    drawAxis();
+    glLightfv(GL_LIGHT0, GL_POSITION, lpos);
 	drawInfiniteGrid(1.0f, 50);
     OdDrawingManager::R()->renderAll();
-
-    if (!picking) {
-        print_help();
-        glutSwapBuffers();
-        nframes++;
-    }
+    glutSwapBuffers();
+    nframes++;
 }
 
 void MathViewport::motionHandler(int x, int y)
@@ -110,18 +96,11 @@ void MathViewport::motionHandler(int x, int y)
     }
 }
 
-void MathViewport::drawGridXY(bool picking, float size, float step) {
-    if (picking) {
-        setColorID(OBJ_GRID);
-    }
-    else {
-        glDisable(GL_LIGHTING);
-    }
-
+void MathViewport::drawGridXY(float size, float step) {
+    glDisable(GL_LIGHTING);
     glBegin(GL_LINES);
 
-    if (!picking)
-        glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
+    glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 
     for (float i = step; i <= size; i += step) {
         glVertex3f(-size, i, 0);
@@ -134,20 +113,18 @@ void MathViewport::drawGridXY(bool picking, float size, float step) {
         glVertex3f(-i, -size, 0);
         glVertex3f(-i, size, 0);
     }
-    if (!picking) {
-        glColor3f(1, 0, 0);
-        glVertex3f(-size, 0, 0);
-        glVertex3f(size, 0, 0);
 
-        glColor3f(0, 1, 0);
-        glVertex3f(0, -size, 0);
-        glVertex3f(0, size, 0);
-    }
+    glColor3f(1, 0, 0);
+    glVertex3f(-size, 0, 0);
+    glVertex3f(size, 0, 0);
+
+    glColor3f(0, 1, 0);
+    glVertex3f(0, -size, 0);
+    glVertex3f(0, size, 0);
 
     glEnd();
 
-    if (!picking)
-        glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
 }
 
 static void renderText(const char* text, float x, float y, float z) {
@@ -187,7 +164,7 @@ void MathViewport::drawInfiniteGrid(float spacing, int halfSize) const {
     glEnd();
 }
 
-void MathViewport::drawAxis(bool picking, float size) {
+void MathViewport::drawAxis(float size) {
     glDisable(GL_LIGHTING);
     glLineWidth(2.0f); // Set line width
 
@@ -400,7 +377,7 @@ void MathViewport::mouse(int bn, int st, int x, int y) {
         if (st == GLUT_DOWN) {
             OdSelectionPrompt::pickObjects(x, y);
             OdSelectionPrompt::resetWorldMouse(x, y);    
-            NotifyMouseClick(x, y);
+            //NotifyMouseClick(x, y);
         }
     }
 
@@ -515,6 +492,106 @@ void MathViewport::setCamera() {
     glRotatef(cam_phi, 1, 0, 0);
     glRotatef(cam_theta, 0, 1, 0);
     glTranslatef(cam_pan[0], cam_pan[1], cam_pan[2]);
+}
+
+void MathViewport::TLViewport()
+{
+    cam_phi = 45.0f;
+    cam_theta = -45.0f;
+    cam_pan[0] = -10.0f;
+    cam_pan[1] = 10.0f;
+    cam_pan[2] = 0.0f;
+    setCamera();
+}
+
+void MathViewport::TMViewport()
+{
+	cam_phi = 45.0f;
+	cam_theta = 0.0f;
+	cam_pan[0] = 0.0f;
+	cam_pan[1] = 10.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::TRViewport()
+{
+	cam_phi = 45.0f;
+	cam_theta = 45.0f;
+	cam_pan[0] = 10.0f;
+	cam_pan[1] = 10.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::MLViewport()
+{
+	cam_phi = 45.0f;
+	cam_theta = -90.0f;
+	cam_pan[0] = -10.0f;
+	cam_pan[1] = 0.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::TMMViewport()
+{
+	cam_phi = 45.0f;
+	cam_theta = 0.0f;
+	cam_pan[0] = 0.0f;
+	cam_pan[1] = 0.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::BMMViewport()
+{
+	cam_phi = -45.0f;
+	cam_theta = 0.0f;
+	cam_pan[0] = 0.0f;
+	cam_pan[1] = 0.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::MRViewport()
+{
+	cam_phi = 45.0f;
+	cam_theta = 90.0f;
+	cam_pan[0] = 10.0f;
+	cam_pan[1] = 0.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::BLViewport()
+{
+	cam_phi = -45.0f;
+	cam_theta = -90.0f;
+	cam_pan[0] = -10.0f;
+	cam_pan[1] = -10.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::BMViewport()
+{
+	cam_phi = -45.0f;
+	cam_theta = 0.0f;
+	cam_pan[0] = 0.0f;
+	cam_pan[1] = -10.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
+}
+
+void MathViewport::BRViewport()
+{
+	cam_phi = -45.0f;
+	cam_theta = 45.0f;
+	cam_pan[0] = 10.0f;
+	cam_pan[1] = -10.0f;
+	cam_pan[2] = 0.0f;
+	setCamera();
 }
 
 
