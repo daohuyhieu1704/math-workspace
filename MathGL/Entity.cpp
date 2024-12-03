@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Entity.h"
 #include "OdDrawingManager.h"
+#include <MathLog.h>
 
 namespace MathGL
 {
@@ -79,15 +80,25 @@ namespace MathGL
     }
     unsigned int Entity::FromJson(String^ jsonStr)
     {
-		std::string strJson = msclr::interop::marshal_as<std::string>(jsonStr);
-		json j = json::parse(strJson);
-        std::string type = j["type"];
-        OdBaseObjectPtr obj = OdObjectFactory::createObject(type);
-        if (static_cast<OdDbEntity*>(obj.get()))
+        if (!OdHostAppService::R()->getCurrentSession()) return 0;
+        try
         {
-            static_cast<OdDbEntity*>(obj.get())->fromJson(j);
+            std::string strJson = msclr::interop::marshal_as<std::string>(jsonStr);
+            json j = json::parse(strJson);
+            std::string type = j["type"];
+            OdBaseObjectPtr obj = OdObjectFactory::createObject(type);
+            if (static_cast<OdDbEntity*>(obj.get()))
+            {
+                static_cast<OdDbEntity*>(obj.get())->fromJson(j);
+            }
+
+            return OdHostAppService::R()->getCurrentSession()->appendEntity(obj->Clone());
         }
-        return obj->getObjectId().GetObjectId();
+		catch (const std::exception& e)
+		{
+			MathLog::LogFunction("Error in Entity::FromJson: " + std::string(e.what()));
+			return 0;
+		}
     }
     void Entity::Draw()
     {

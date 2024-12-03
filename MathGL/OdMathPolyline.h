@@ -6,6 +6,7 @@ class OdMathPolyline :
 	public OdDbPolyline
 {
 	OD_RTTI_DECLARE(OdMathPolyline, OdDbPolyline);
+	OD_RTTI_REGISTER_CLASS(OdMathPolyline);
 public:
 #pragma region Properties
 	void setSegments(int segments) { m_segments = segments; }

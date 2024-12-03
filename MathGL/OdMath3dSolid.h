@@ -7,6 +7,7 @@ class OdMath3dSolid :
 	public OdDb3dSolid
 {
 	OD_RTTI_DECLARE(OdMath3dSolid, OdDb3dSolid);
+	OD_RTTI_REGISTER_CLASS(OdMath3dSolid);
 public:
 	OdMath3dSolid();
 	OdResult draw() override;

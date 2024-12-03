@@ -17,7 +17,7 @@ public:
 	HWND InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd);
 	// Inherited via OdBaseObject
 	OdBaseObjectPtr Clone() override;
-
+	void InitFactory();
 #pragma region Properties
 	std::vector<OdBaseObjectPtr> getJigs() const { return m_jigs; }
 	void appendJig(const OdBaseObjectPtr& jig) { m_jigs.push_back(jig); }
@@ -60,6 +60,10 @@ public:
 	void SetEntityPickedCallback(EntityPickedCallback callback);
 	void TriggerEntityPicked(const std::vector<OdDbObjectId>& resId);
 private:
+	OdDrawingManager()
+	{
+		InitFactory();
+	}
 	OdHostAppServicePtr m_appServices;
 	void drawBoundingBox(const OdGeExtents3d& extents);
 	std::vector<OdBaseObjectPtr> m_jigs;

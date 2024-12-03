@@ -28,6 +28,7 @@ using Newtonsoft.Json;
 using MathUI.Models;
 using System.Reflection;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -424,55 +425,81 @@ namespace MathUI.ViewModels.MainWindow
 
                     // Deserialize JSON content using Newtonsoft.Json
                     var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(content);
-
-                    // Format the JSON content for display
-                    string formattedContent = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-
-                    MessageBox.Show(formattedContent, "JSON File content at path: " + filePath);
-
-                    var topPnl = context.FindName("TopPanelElm") as UserControl;
-                    if (topPnl != null)
+                    if (jsonObject == null)
                     {
-                        var FileTabControl = topPnl.FindName("FileTabControl") as TabControl;
-                        if (FileTabControl != null)
+                        HistoryWindow += "The JSON content is not valid.\n";
+                        return;
+                    }
+                    if (jsonObject.TryGetValue("entities", out var entities))
+                    {
+                        if (entities is JArray jsonArray)
                         {
-                            HistoryWindow = "";
-                            var fileName = System.IO.Path.GetFileName(filePath);
-                            if (FilePaths.Contains(filePath))
+                            var alo = jsonArray.ToObject<List<string>>();
+                            if (alo == null)
                             {
-                                FileSelected = fileName;
-                                PathSelected = filePath;
-                                IsNewFile = false;
+                                HistoryWindow += "The 'entities' key is not a valid JSON array.\n";
+                                return;
                             }
-                            else
+                            foreach (var item in alo)
                             {
-                                FileItems.Add(fileName);
-                                FileSelected = fileName;
-                                FilePaths.Add(filePath);
-                                PathSelected = filePath;
-
-                                // Process JSON keys or content
-                                foreach (var key in jsonObject.Keys)
-                                {
-                                    string value = jsonObject[key]?.ToString() ?? "null";
-                                    // GLEngine.Instance.AppendPrompt($"{key}: {value}");
-                                    HistoryWindow += $"{key}: {value}\n";
-                                }
-
-                                IsNewFile = false;
+                                uint id = Entity.FromJson(item);
+                                //Entity entity = DrawingManager.Instance.getEntityById(id);
+                                //entity.Draw();
+                                HistoryWindow += item + "\n";
                             }
+                            //var topPnl = context.FindName("TopPanelElm") as UserControl;
+                            //if (topPnl != null)
+                            //{
+                            //    var FileTabControl = topPnl.FindName("FileTabControl") as TabControl;
+                            //    if (FileTabControl != null)
+                            //    {
+                            //        HistoryWindow = "";
+                            //        var fileName = System.IO.Path.GetFileName(filePath);
+                            //        if (FilePaths.Contains(filePath))
+                            //        {
+                            //            FileSelected = fileName;
+                            //            PathSelected = filePath;
+                            //            IsNewFile = false;
+                            //        }
+                            //        else
+                            //        {
+                            //            FileItems.Add(fileName);
+                            //            FileSelected = fileName;
+                            //            FilePaths.Add(filePath);
+                            //            PathSelected = filePath;
+
+                            //            // Process JSON keys or content
+                            //            foreach (var key in jsonObject.Keys)
+                            //            {
+                            //                string value = jsonObject[key]?.ToString() ?? "null";
+                            //                // GLEngine.Instance.AppendPrompt($"{key}: {value}");
+                            //                HistoryWindow += $"{key}: {value}\n";
+                            //            }
+
+                            //            IsNewFile = false;
+                            //        }
+                            //    }
+                            //}
                         }
+                        else
+                        {
+                            HistoryWindow += "The 'entities' key is not a valid JSON array.\n";
+                        }
+                    }
+                    else
+                    {
+                        HistoryWindow += "The 'entities' key does not exist in the JSON content." + "\n";
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("An error occurred while reading the file:");
-                    Console.WriteLine(e.Message);
+                    HistoryWindow += "An error occurred while reading the file:" + "\n";
+                    HistoryWindow += e.Message + "\n";
                 }
             }
             else
             {
-                Console.WriteLine("No file was selected.");
+                HistoryWindow += "No file was selected." + "\n";
             }
         }
 
@@ -490,14 +517,19 @@ namespace MathUI.ViewModels.MainWindow
 
                 bool? result = dialog.ShowDialog();
 
-                if (result == true) // Chỉ thực hiện nếu người dùng chọn một đường dẫn hợp lệ
+                if (result == true)
                 {
                     string filePath = dialog.FileName;
 
                     try
                     {
                         List<string> entityJson = DrawingManager.Instance.GetAllEntityJsons();
-                        var jsonData = JsonConvert.SerializeObject(entityJson, Formatting.Indented);
+                        var dataToSave = new
+                        {
+                            entities = entityJson
+                        };
+
+                        var jsonData = JsonConvert.SerializeObject(dataToSave, Formatting.Indented);
 
                         File.WriteAllText(filePath, jsonData);
                         HistoryWindow += "File saved successfully.\n";
@@ -513,14 +545,19 @@ namespace MathUI.ViewModels.MainWindow
                 try
                 {
                     List<string> entityJson = DrawingManager.Instance.GetAllEntityJsons();
-                    var jsonData = JsonConvert.SerializeObject(entityJson, Formatting.Indented);
+                    var dataToSave = new
+                    {
+                        entities = entityJson
+                    };
+
+                    var jsonData = JsonConvert.SerializeObject(dataToSave, Formatting.Indented);
 
                     File.WriteAllText(DrawingManager.Instance.CurrentFilePath, jsonData);
-                    Console.WriteLine("File saved successfully.");
+                    HistoryWindow += "File saved successfully.\n";
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("An error occurred while saving the file: " + ex.Message);
+                    HistoryWindow += "An error occurred while saving the file: " + ex.Message + "\n";
                 }
             }
         }

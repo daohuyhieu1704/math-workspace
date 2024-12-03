@@ -5,7 +5,8 @@ typedef OdSmartPtr<class OdMathLine> OdMathLinePtr;
 class OdMathLine :
     public OdDbLine
 {
-	OD_RTTI_DECLARE(OdMathLine, OdDbLine);	
+	OD_RTTI_DECLARE(OdMathLine, OdDbLine);
+	OD_RTTI_REGISTER_CLASS(OdMathLine);
 public:
 	OdMathLine();
 	OdMathLine(OdGePoint3d startPnt, OdGePoint3d endPnt);

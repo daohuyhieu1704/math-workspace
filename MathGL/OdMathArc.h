@@ -5,7 +5,8 @@ typedef OdSmartPtr<class OdMathArc> MathArcPtr;
 class OdMathArc :
     public OdDbArc
 {
-	OD_RTTI_DECLARE(OdMathArc, OdDbArc)
+    OD_RTTI_DECLARE(OdMathArc, OdDbArc);
+    OD_RTTI_REGISTER_CLASS(OdMathArc);
 public:
 	OdMathArc();
 	OdMathArc(OdGePoint3d startPnt, OdGePoint3d endPnt, double bulge);

@@ -5,7 +5,8 @@ typedef OdSmartPtr<class OdMathPlane> OdMathPlanePtr;
 class OdMathPlane :
 	public OdDbPlane
 {
-	OD_RTTI_DECLARE(OdMathPlane, OdDbPlane)
+	OD_RTTI_DECLARE(OdMathPlane, OdDbPlane);
+	OD_RTTI_REGISTER_CLASS(OdMathPlane);
 public:
 	OdMathPlane();
 	OdResult draw() override;

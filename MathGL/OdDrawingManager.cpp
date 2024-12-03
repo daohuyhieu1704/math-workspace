@@ -9,10 +9,12 @@
 #include <map>
 #include <iostream>
 #include "OdMathCircle.h"
+#include "OdMathLine.h"
 #include "MathViewport.h"
 #include "LineCmd.h"
 #include "MathArc.h"
 #include "OdMathPlane.h"
+#include "OdMathPolyline.h"
 #include <MathLog.h>
 
 OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
@@ -177,6 +179,16 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 OdBaseObjectPtr OdDrawingManager::Clone()
 {
 	return OdDrawingManagerPtr();
+}
+
+void OdDrawingManager::InitFactory()
+{
+	OdMathLine::registerClass();
+	OdMathCircle::registerClass();
+	OdMathArc::registerClass();
+	OdMathPolyline::registerClass();
+	OdMathPlane::registerClass();
+	OdMath3dSolid::registerClass();
 }
 
 void OdDrawingManager::CreateSession(std::string fileName)

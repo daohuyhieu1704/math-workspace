@@ -154,7 +154,7 @@ private:
     static std::unordered_map<std::string, CreateFunction> m_registry;
 
 public:
-    static void registerClass(const std::string& className, CreateFunction createFn) {
+    static void registerClass(std::string className, CreateFunction createFn) {
         m_registry[className] = createFn;
     }
 
@@ -247,7 +247,7 @@ public:
     }
 
     virtual std::string getClassName() const = 0;
-    virtual bool isKindOf(const std::string& className) const = 0;
+    virtual bool isKindOf(std::string className) const = 0;
 
     virtual OdBaseObjectPtr Clone() = 0;
 };
@@ -259,14 +259,14 @@ public: \
     static std::string desc() { return #ClassName; } \
     static std::string baseClassName() { return #BaseClassName; } \
     virtual std::string getClassName() const override { return ClassName::desc(); } \
-    inline virtual bool isKindOf(const std::string& desc) const override;
+    inline virtual bool isKindOf(std::string desc) const override;
 
 #define OD_RTTI_DECLARE(ClassName, BaseClassName) \
 public: \
     static std::string desc() { return #ClassName; } \
     static std::string baseClassName() { return #BaseClassName; } \
     virtual std::string getClassName() const override { return ClassName::desc(); } \
-    inline virtual bool isKindOf(const std::string& desc) const override; \
+    inline virtual bool isKindOf(std::string desc) const override; \
     static OdSmartPtr<ClassName> createObject(); \
     static OdBaseObjectPtr createObject(std::string className); \
     static OdSmartPtr<ClassName> cast(const OdSmartPtr<BaseClassName>& obj); \
@@ -274,7 +274,7 @@ public: \
     static OdSmartPtr<ClassName> cast(OdBaseObject* obj);
 
 #define OD_RTTI_DEFINE_ABSTRACT(ClassName, BaseClassName) \
-    inline bool ClassName::isKindOf(const std::string& desc) const { \
+    inline bool ClassName::isKindOf(std::string desc) const { \
         if (desc == getClassName()) { \
             return true; \
         } \
@@ -288,7 +288,7 @@ public: \
     }
 
 #define OD_RTTI_DEFINE(ClassName, BaseClassName) \
-    inline bool ClassName::isKindOf(const std::string& desc) const { \
+    inline bool ClassName::isKindOf(std::string desc) const { \
         if (desc == getClassName()) { \
             return true; \
         } \
@@ -320,11 +320,15 @@ public: \
 
 #define OD_RTTI_REGISTER_CLASS(ClassName) \
     static OdBaseObject* createInstance() { return new ClassName(); } \
+    static void registerClass() { \
+        OdObjectFactory::registerClass(ClassName::desc(), &ClassName::createInstance); \
+    } \
     static struct ClassName##FactoryRegistrar { \
         ClassName##FactoryRegistrar() { \
-            OdObjectFactory::registerClass(ClassName::desc(), &ClassName::createInstance); \
+            ClassName::registerClass(); \
         } \
     } s_##ClassName##FactoryRegistrar;
+
 
 #define OD_RTTI_SINGLETON_DECLARE(ClassName) \
 private: \
