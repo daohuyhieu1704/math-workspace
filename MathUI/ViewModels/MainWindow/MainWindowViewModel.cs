@@ -48,6 +48,7 @@ namespace MathUI.ViewModels.MainWindow
         private DispatcherTimer _timer;
         public Presenters.MainWindow context;
         string _MouseX;
+        public bool OnInput { get; set; } = false;
         public string MouseX
         {
             get => _MouseX;
@@ -373,6 +374,7 @@ namespace MathUI.ViewModels.MainWindow
 
         internal async void AppendCommand()
         {
+            if (OnInput) return;
             if (CommandRegistry.IsACmd(CommandWindow))
             {
                await CommandRegistry.InvokeAsync(CommandWindow);
@@ -668,9 +670,9 @@ namespace MathUI.ViewModels.MainWindow
             {
                 case "OdMathLine":
                     {
-                        List<string> labels = ["Shape", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z"];
+                        List<string> labels = ["type", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z"];
                         List<bool> isReadOnly = [true, false, false, false, false, false, false];
-                        List<string> values = ["Line", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString()];
+                        List<string> values = ["OdMathLine", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString()];
                         CreateUI(stack, labels, values, isReadOnly, jsonObject);
                         break;
                     }
@@ -678,39 +680,42 @@ namespace MathUI.ViewModels.MainWindow
                     {
                         List<string> labels = ["type", "center.x", "center.y", "center.z", "radius"];
                         List<bool> isReadOnly = [true, false, false, false, false, false, false];
-                        List<string> values = ["Circle", jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                        List<string> values = ["OdMathCircle", jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
                         CreateUI(stack, labels, values, isReadOnly, jsonObject);
                         break;
                     }
                 case "OdMathArc":
                     {
-                        List<string> labels = ["Shape", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z", "Center X", "Center Y", "Center Z", "Radius"];
+                        List<string> labels = ["type", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z", "Center X", "Center Y", "Center Z", "Radius"];
                         List<bool> isReadOnly = [true, false, false, false, false, false, false];
-                        List<string> values = ["Arc", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString(), jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                        List<string> values = ["OdMathArc", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString(), jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
                         CreateUI(stack, labels, values, isReadOnly, jsonObject);
                         break;
                     }
                 case "OdMathPolyline":
                     {
-                        List<string> labels = ["Shape", "Vertexes"];
+                        List<string> labels = ["type", "Vertexes"];
                         List<bool> isReadOnly = [true, false];
-                        List<string> values = ["Polyline", jsonObject["vertexes"].ToString()];
+                        List<string> values = ["OdMathPolyline", jsonObject["vertexes"].ToString()];
                         CreateUI(stack, labels, values, isReadOnly, jsonObject);
                         break;
                     }
                 case "OdMathSolid":
                 {
-                    List<string> labels = ["Shape", "Vertexes"];
+                    List<string> labels = ["type", "Vertexes"];
                     List<bool> isReadOnly = [true, false];
-                    List<string> values = ["Solid", jsonObject["vertexes"].ToString()];
+                    List<string> values = ["OdMathSolid", jsonObject["vertexes"].ToString()];
                     CreateUI(stack, labels, values, isReadOnly, jsonObject);
                     break;
                 }
                 case "OdMathPlane":
                 {
-                    List<string> labels = ["Shape", "Center X", "Center Y", "Center Z", "Radius"];
+                    List<string> labels = ["type", "origin.x", "origin.y", "origin.z", "normal.x", "normal.y", "normal.z"];
                     List<bool> isReadOnly = [true, false, false, false, false, false, false];
-                    List<string> values = ["Circle", jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                    List<string> values = ["OdMathPlane", 
+                        jsonObject["origin"]["x"].ToString(), jsonObject["origin"]["y"].ToString(), jsonObject["origin"]["z"].ToString(),
+                        jsonObject["normal"]["x"].ToString(), jsonObject["normal"]["y"].ToString(), jsonObject["normal"]["z"].ToString()
+                        ];
                     CreateUI(stack, labels, values, isReadOnly, jsonObject);
                     break;
                 }
@@ -734,9 +739,45 @@ namespace MathUI.ViewModels.MainWindow
         }
 
         [CommandMethod("PLANE")]
-        internal void DrawPlane()
+        internal async void DrawPlane()
         {
-            throw new NotImplementedException();
+            HistoryWindow += "Origin:\n";
+            TextInputPrompt textInputPrompt = new(this);
+            string text = await textInputPrompt.GetText();
+            List<string> values = [.. text.Split(' ')];
+            List<double> orgn = [];
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (double.TryParse(values[i], out double n))
+                {
+                    orgn.Add(n);
+                }
+                else
+                {
+                    HistoryWindow += "Invalid input\n";
+                    return;
+                }    
+            }
+
+            HistoryWindow += "Normal:\n";
+            text = await textInputPrompt.GetText();
+            values = text.Split(' ').ToList();
+            List<double> nrml = [];
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (double.TryParse(values[i], out double n))
+                {
+                    nrml.Add(n);
+                }
+                else
+                {
+                    HistoryWindow += "Invalid input\n";
+                    return;
+                }
+            }
+
+            using MathPlane mathPlane = new(new Point3d(orgn[0], orgn[1], orgn[2]), new Vector3d(nrml[0], nrml[1], nrml[2]));
+            mathPlane.Draw();
         }
 
         [CommandMethod("EXTRUDE")]
@@ -751,8 +792,8 @@ namespace MathUI.ViewModels.MainWindow
                     HistoryWindow += "Entity Not found\n";
                     return;
                 }
-                TextInputPrompt textInputPrompt = new(this);
                 HistoryWindow += "Height:\n";
+                TextInputPrompt textInputPrompt = new(this);
                 string text = await textInputPrompt.GetText();
                 if (double.TryParse(text, out double n))
                 {

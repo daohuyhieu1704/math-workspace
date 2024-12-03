@@ -17,6 +17,7 @@ namespace MathUI.Commands
 
         internal async Task<string> GetText()
         {
+            vm.OnInput = true;
             _tcs = new TaskCompletionSource<string>();
             if (vm.InputCommandWindow != null)
             {
@@ -38,10 +39,14 @@ namespace MathUI.Commands
                 if (!string.IsNullOrEmpty(userInput))
                 {
                     _tcs.SetResult(userInput);
+                    vm.OnInput = false;
+                    vm.CommandWindow = string.Empty;
                 }
                 else
                 {
                     _tcs.SetResult(string.Empty);
+                    vm.OnInput = false;
+                    vm.CommandWindow = string.Empty;
                 }
             }
         }
