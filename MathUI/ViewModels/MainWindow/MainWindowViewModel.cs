@@ -29,6 +29,9 @@ using MathUI.Models;
 using System.Reflection;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
+using System.Runtime.InteropServices.JavaScript;
+using System.Windows.Media;
+using System.Reflection.Emit;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -211,6 +214,7 @@ namespace MathUI.ViewModels.MainWindow
             PathSelected = "Untitled";
             IsNewFile = true;
             CloseTabCommand = new RelayCommand<string>((fileName) => true, CloseTab);
+            SelectCmd = new RelayCommand<Window>((exp) => true, Select);
         }
 
         private void CloseTab(string fileName)
@@ -396,6 +400,7 @@ namespace MathUI.ViewModels.MainWindow
         {
             FileItems.Add("Untitled");
             DrawingManager.Instance.createSession("Untitled");
+
             FileSelected = FileItems.Last();
             FilePaths.Add("");
             PathSelected = FilePaths.Last();
@@ -447,39 +452,6 @@ namespace MathUI.ViewModels.MainWindow
                                 //entity.Draw();
                                 HistoryWindow += item + "\n";
                             }
-                            //var topPnl = context.FindName("TopPanelElm") as UserControl;
-                            //if (topPnl != null)
-                            //{
-                            //    var FileTabControl = topPnl.FindName("FileTabControl") as TabControl;
-                            //    if (FileTabControl != null)
-                            //    {
-                            //        HistoryWindow = "";
-                            //        var fileName = System.IO.Path.GetFileName(filePath);
-                            //        if (FilePaths.Contains(filePath))
-                            //        {
-                            //            FileSelected = fileName;
-                            //            PathSelected = filePath;
-                            //            IsNewFile = false;
-                            //        }
-                            //        else
-                            //        {
-                            //            FileItems.Add(fileName);
-                            //            FileSelected = fileName;
-                            //            FilePaths.Add(filePath);
-                            //            PathSelected = filePath;
-
-                            //            // Process JSON keys or content
-                            //            foreach (var key in jsonObject.Keys)
-                            //            {
-                            //                string value = jsonObject[key]?.ToString() ?? "null";
-                            //                // GLEngine.Instance.AppendPrompt($"{key}: {value}");
-                            //                HistoryWindow += $"{key}: {value}\n";
-                            //            }
-
-                            //            IsNewFile = false;
-                            //        }
-                            //    }
-                            //}
                         }
                         else
                         {
@@ -561,15 +533,199 @@ namespace MathUI.ViewModels.MainWindow
                 }
             }
         }
+        private void AddTextBoxToGrid(Grid grid, string label, string value, JObject json, int row, int column)
+        {
+            TextBox textBox = new TextBox
+            {
+                Text = value,
+                Margin = new Thickness(5),
+                Tag = label
+            };
+
+            textBox.KeyDown += (sender, e) =>
+            {
+                if (e.Key == Key.Enter)
+                {
+                    var updatedTextBox = (TextBox)sender;
+                    string updatedValue = updatedTextBox.Text;
+                    if (label.Contains('.'))
+                    {
+                        var labels = label.Split('.');
+                        if (json.ContainsKey(labels[0]))
+                        {
+                            if (double.TryParse(updatedValue, out double doubleValue))
+                            {
+                                json[labels[0]][labels[1]] = doubleValue;
+                            }
+                            else
+                            {
+                                json[labels[0]][labels[1]] = updatedValue;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (double.TryParse(updatedValue, out double doubleValue))
+                        {
+                            json[label] = doubleValue;
+                        }
+                        else
+                        {
+                            json[label] = updatedValue;
+                            // Handle invalid double conversion
+                        }
+                    }
+                    var jsonData = JsonConvert.SerializeObject(json, Formatting.Indented);
+                    selectEntity.FromJson2(jsonData);
+                }
+            };
+
+            //textBox.TextChanged += (sender, e) =>
+            //{
+            //};
+
+            Grid.SetRow(textBox, row);
+            Grid.SetColumn(textBox, column);
+            grid.Children.Add(textBox);
+        }
+
+        public void CreateUI(StackPanel parentPanel, List<string> labels, List<string> values, List<bool> isReadOnly, JObject json)
+        {
+            if (labels.Count != values.Count)
+                throw new ArgumentException("Labels and values must have the same number of elements.");
+
+            Expander expander = new Expander
+            {
+                Header = "General",
+                Foreground = Brushes.White,
+                Background = new SolidColorBrush(Color.FromRgb(68, 68, 68)),
+                Margin = new Thickness(0, 0, 0, 10),
+                IsExpanded = true
+            };
+
+            Grid grid = new Grid
+            {
+                Margin = new Thickness(5)
+            };
+
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto, SharedSizeGroup = "Column1" });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), SharedSizeGroup = "Column2" });
+
+            for (int i = 0; i < labels.Count; i++)
+            {
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+                AddTextBlockToGrid(grid, labels[i], i, 0, Brushes.White);
+                if (isReadOnly[i])
+                    AddTextBlockToGrid(grid, values[i], i, 1, Brushes.White);
+                else
+                    AddTextBoxToGrid(grid, labels[i], values[i], json, i, 1);
+            }
+            expander.Content = grid;
+            parentPanel.Children.Add(expander);
+        }
+
+        private void AddTextBlockToGrid(Grid grid, string text, int row, int column, Brush foreground)
+        {
+            TextBlock textBlock = new TextBlock
+            {
+                Text = text,
+                Margin = new Thickness(5),
+                Foreground = foreground
+            };
+            Grid.SetRow(textBlock, row);
+            Grid.SetColumn(textBlock, column);
+            grid.Children.Add(textBlock);
+        }
+
+        private Entity selectEntity;
 
         [CommandMethod("SELECT")]
-        internal void Select()
+        internal async void Select(Window window)
         {
-            // Shape = EntitySelection.LastId.ToString();
+            Presenters.LeftSide? leftSide = window.FindName("leftSide") as Presenters.LeftSide;
+            StackPanel? stack = leftSide?.FindName("InputPanel") as StackPanel;
+            if (stack == null) return;
+            HistoryWindow += "Select entity:\n";
+            EntitySelection entitySelection = new();
+            List<uint> entitieId = await entitySelection.getEntities(1);
+            if (entitieId[0] == 0)
+            {
+                HistoryWindow += "Entity Not found\n";
+                return;
+            }
+            selectEntity = DrawingManager.Instance.getEntityById(entitieId[0]);
+            if (selectEntity == null)
+            {
+                HistoryWindow += "Invalid entity id\n";
+                return;
+            }
+            string jsonString = selectEntity.ToJson();
+            var jsonObject = JObject.Parse(jsonString);
+            string type = jsonObject["type"].ToString();
+
+            switch (type)
+            {
+                case "OdMathLine":
+                    {
+                        List<string> labels = ["Shape", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z"];
+                        List<bool> isReadOnly = [true, false, false, false, false, false, false];
+                        List<string> values = ["Line", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathCircle":
+                    {
+                        List<string> labels = ["type", "center.x", "center.y", "center.z", "radius"];
+                        List<bool> isReadOnly = [true, false, false, false, false, false, false];
+                        List<string> values = ["Circle", jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathArc":
+                    {
+                        List<string> labels = ["Shape", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z", "Center X", "Center Y", "Center Z", "Radius"];
+                        List<bool> isReadOnly = [true, false, false, false, false, false, false];
+                        List<string> values = ["Arc", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString(), jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathPolyline":
+                    {
+                        List<string> labels = ["Shape", "Vertexes"];
+                        List<bool> isReadOnly = [true, false];
+                        List<string> values = ["Polyline", jsonObject["vertexes"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathSolid":
+                {
+                    List<string> labels = ["Shape", "Vertexes"];
+                    List<bool> isReadOnly = [true, false];
+                    List<string> values = ["Solid", jsonObject["vertexes"].ToString()];
+                    CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                    break;
+                }
+                case "OdMathPlane":
+                {
+                    List<string> labels = ["Shape", "Center X", "Center Y", "Center Z", "Radius"];
+                    List<bool> isReadOnly = [true, false, false, false, false, false, false];
+                    List<string> values = ["Circle", jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                    CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                    break;
+                }
+                default:
+                    break;
+            }
         }
 
         internal void ChangeTab()
         {
+            if (FileSelected != null)
+            {
+                PathSelected = FilePaths[FileItems.IndexOf(FileSelected)];
+                //DrawingManager.Instance.ChangeSession(PathSelected);
+            }
         }
 
         internal void readJson()
@@ -792,5 +948,6 @@ namespace MathUI.ViewModels.MainWindow
         }
         public static List<Assembly> ExternalAssembly = [];
         public ICommand CloseTabCommand { get; }
+        public ICommand SelectCmd { get; }
     }
 }

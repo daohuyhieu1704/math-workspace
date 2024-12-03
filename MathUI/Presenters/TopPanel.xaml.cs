@@ -101,11 +101,6 @@ namespace MathUI.Presenters
             CommandAction((model) => ViewModel.SaveFile());
         }
 
-        private void Select_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.Select());
-        }
-
         private void FileTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ViewModel == null)

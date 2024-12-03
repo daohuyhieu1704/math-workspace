@@ -199,7 +199,7 @@
       <Filter>Commons\CallbackBridge</Filter>
     </ClInclude>
     <ClInclude Include="UtilCLI.h">
-      <Filter>Header Files</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -288,7 +288,7 @@
       <Filter>Commons\CallbackBridge</Filter>
     </ClCompile>
     <ClCompile Include="UtilCLI.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

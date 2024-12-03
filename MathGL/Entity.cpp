@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "OdDrawingManager.h"
 #include <MathLog.h>
+#include <nlohmann/json.hpp>
 
 namespace MathGL
 {
@@ -99,6 +100,19 @@ namespace MathGL
 			MathLog::LogFunction("Error in Entity::FromJson: " + std::string(e.what()));
 			return 0;
 		}
+    }
+    void Entity::FromJson2(String^ json)
+    {
+		try
+		{
+			std::string strJson = UtilCLI::convertToStdString(json);
+            nlohmann::json j = json::parse(strJson);
+			GetImpObj()->fromJson(j);
+		}
+		catch (const std::exception& e)
+        {
+			MathLog::LogFunction("Error in Entity::FromJson2");
+        }
     }
     void Entity::Draw()
     {

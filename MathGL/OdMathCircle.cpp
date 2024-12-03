@@ -29,7 +29,8 @@ OdResult OdMathCircle::draw()
         float angle = 2.0f * OdPI * i / m_segments;
         float x = getCenter().x + getRadius() * cos(angle);
         float y = getCenter().y + getRadius() * sin(angle);
-		OdGePoint3d transformPnt = (OdGePoint3d(x, y, getCenter().z) * m_scale) * m_transform;
+		float z = getCenter().z;
+		OdGePoint3d transformPnt = (OdGePoint3d(x, y, z) * m_scale) * m_transform;
 		getExtents().appendPoint_s(transformPnt);
 		face.push_back(i);
         glVertex3f(transformPnt.x, transformPnt.y, transformPnt.z);

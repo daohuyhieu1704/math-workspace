@@ -595,6 +595,7 @@ namespace MathGL
         MathResult TransformBy(Matrix3d xform);
         virtual String^ ToJson();
         static unsigned int FromJson(String^ json);
+        void FromJson2(String^ json);
 		void Draw();
     };
 }

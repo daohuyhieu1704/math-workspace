@@ -137,6 +137,18 @@ void MathGL::DrawingManager::createSession(String^ fileName)
 	OdHostAppService::R()->getCurrentSession()->setFileName(name);
 }
 
+void MathGL::DrawingManager::changeSession(unsigned int sessionId)
+{
+	OdHostAppService::R()->ChangeCurrSession(sessionId);
+}
+
+void MathGL::DrawingManager::appendPrompt(String^ prompt)
+{
+	if (!OdHostAppService::R()->getCurrentSession()) return;
+	std::string promptStr = UtilCLI::convertToStdString(prompt);
+	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendPrompt(promptStr);
+}
+
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);

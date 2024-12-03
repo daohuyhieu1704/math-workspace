@@ -16,7 +16,8 @@
 
         <TextBlock Text="Properties" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" Foreground="White" HorizontalAlignment="Center"/>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical">
+        <StackPanel Grid.Row="1" Orientation="Vertical" x:Name="InputPanel">
+
             <Expander Header="General" Foreground="White" Background="#444444" Margin="0,0,0,10" IsExpanded="True" >
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
@@ -39,7 +40,6 @@
                     <TextBlock Text="{Binding PositionZ}" Grid.Row="3" Grid.Column="1" Margin="5" Foreground="White"/>
                 </Grid>
             </Expander>
-
         </StackPanel>
     </Grid>
 </UserControl>

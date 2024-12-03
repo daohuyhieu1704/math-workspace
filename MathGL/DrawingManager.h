@@ -103,6 +103,8 @@ namespace MathGL {
 		void BRViewport();
 		List<String^>^ GetAllEntityJsons();
 		void createSession(String^ fileName);
+		void changeSession(unsigned int sessionId);
+		void appendPrompt(String^ prompt);
 	private:
 		OdDrawingManager* GetImpObj()
 		{
