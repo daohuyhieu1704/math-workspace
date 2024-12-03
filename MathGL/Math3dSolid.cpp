@@ -2,8 +2,8 @@
 #include "Math3dSolid.h"
 namespace MathGL
 {
-	void Math3dSolid::Draw()
-	{
-		OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
-	}
+	//void Math3dSolid::Draw()
+	//{
+	//	OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
+	//}
 }

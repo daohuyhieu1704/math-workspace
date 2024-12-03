@@ -19,7 +19,7 @@ json OdDbEntity::toJson() const
 }
 
 void OdDbEntity::fromJson(const json& j)
-{ 
+{
     if (j.contains("scale")) {
         m_scale.sx = j.at("scale").at("x").get<double>();
         m_scale.sy = j.at("scale").at("y").get<double>();

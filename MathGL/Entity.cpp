@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Entity.h"
+#include "OdDrawingManager.h"
 
 namespace MathGL
 {
@@ -53,6 +54,12 @@ namespace MathGL
         OdGeVector3d zDir(value.X, value.Y, value.Z);
         GetImpObj()->setZDir(zDir);
     }
+    unsigned int Entity::Create(String^ desc)
+    {
+        std::string descStr = UtilCLI::convertToStdString(desc);
+        if (!OdHostAppService::R()->getCurrentSession()) return 0;
+        return OdHostAppService::R()->getCurrentSession()->appendEntity(OdObjectFactory::createObject(descStr));
+    }
     MathResult Entity::TransformBy(Matrix3d xform)
     {
         OdGeMatrix3d nativeXform = OdGeMatrix3d::kIdentity;
@@ -70,12 +77,24 @@ namespace MathGL
 		json j = GetImpObj()->toJson();
 		return gcnew String(j.dump().c_str());
     }
-    void Entity::FromJson(String^ jsonStr)
+    unsigned int Entity::FromJson(String^ jsonStr)
     {
 		std::string strJson = msclr::interop::marshal_as<std::string>(jsonStr);
 		json j = json::parse(strJson);
-		GetImpObj()->fromJson(j);
+        std::string type = j["type"];
+        OdBaseObjectPtr obj = OdObjectFactory::createObject(type);
+        if (static_cast<OdDbEntity*>(obj.get()))
+        {
+            static_cast<OdDbEntity*>(obj.get())->fromJson(j);
+        }
+        return obj->getObjectId().GetObjectId();
     }
+    void Entity::Draw()
+    {
+        if (!OdHostAppService::R()->getCurrentSession()) return;
+        OdHostAppService::R()->getCurrentSession()->appendEntity(GetImpObj()->Clone());
+    }
+
     Matrix3d Entity::Transform::get()
     {
 		OdGeMatrix3d transform = GetImpObj()->getTransform();

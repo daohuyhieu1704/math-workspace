@@ -2,6 +2,7 @@
 
 #include "DisposableWrapper.h"
 #include "OdDbEntity.h"
+#include "UtilCLI.h"
 #include <msclr/marshal_cppstd.h>
 #define OD_ERROR_DEF(code, string) code,
 
@@ -535,6 +536,7 @@ namespace MathGL
             return static_cast<OdDbEntity*>(DisposableWrapper::GetImpObj());
         }
     public:
+		static unsigned int Create(String^ desc);
         Entity(OdDbEntity* nativeEntity, bool autoDelete) : DisposableWrapper(IntPtr(nativeEntity), autoDelete)
         {
         }
@@ -592,7 +594,8 @@ namespace MathGL
 
         MathResult TransformBy(Matrix3d xform);
         virtual String^ ToJson();
-        virtual void FromJson(String^ json);
+        static unsigned int FromJson(String^ json);
+		void Draw();
     };
 }
 

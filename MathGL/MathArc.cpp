@@ -27,8 +27,8 @@ namespace MathGL
 	{
 		GetImpObj()->setBulge(value);
 	}
-	void MathArc::Draw()
-	{
-		OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
-	}
+	//void MathArc::Draw()
+	//{
+	//	OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
+	//}
 }

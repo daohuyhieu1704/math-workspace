@@ -22,8 +22,8 @@ namespace MathGL {
 		OdGeVector3d pnt = OdGeVector3d(value.X, value.Y, value.Z);
 		GetImpObj()->setNormal(pnt);
 	}
-	void MathPlane::Draw()
-	{
-		OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
-	}
+	//void MathPlane::Draw()
+	//{
+	//	OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
+	//}
 }

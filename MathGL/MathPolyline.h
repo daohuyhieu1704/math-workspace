@@ -33,6 +33,6 @@ namespace MathGL
             bool get();
             void set(bool value);
         }
-        void Draw();
+        // void Draw();
     };
 }

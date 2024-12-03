@@ -36,8 +36,8 @@ namespace MathGL
     {
 		GetImpObj()->setSegments(value);
     }
-    void MathCircle::Draw()
-    {
-        OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
-    }
+    //void MathCircle::Draw()
+    //{
+    //    OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
+    //}
 }

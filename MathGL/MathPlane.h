@@ -37,6 +37,6 @@ namespace MathGL {
 			Vector3d get();
 			void set(Vector3d value);
 		}
-		void Draw();
+		// void Draw();
 	};
 }

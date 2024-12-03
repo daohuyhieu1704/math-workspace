@@ -112,6 +112,29 @@ void MathGL::DrawingManager::BRViewport()
 	viewport->BRViewport();
 }
 
+List<String^>^ MathGL::DrawingManager::GetAllEntityJsons()
+{
+	if (!OdHostAppService::R()->getCurrentSession()) return nullptr;
+	const auto& ents = OdHostAppService::R()->getCurrentSession()->getEntities();
+	List<String^>^ retVal = gcnew List<String^>(ents.size());
+	for (const auto& ent : ents)
+	{
+		OdDbEntity* entity = static_cast<OdDbEntity*>(ent.get());
+		if (entity)
+		{
+			retVal->Add(gcnew String(static_cast<OdDbEntity*>(ent.get())->toJson().dump().c_str()));
+		}
+	}
+	return retVal;
+}
+
+void MathGL::DrawingManager::createSession(String^ fileName)
+{
+	OdHostAppService::R()->createSession();
+	std::string name = UtilCLI::convertToStdString(fileName);
+	OdHostAppService::R()->getCurrentSession()->setFileName(name);
+}
+
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
@@ -156,87 +179,58 @@ OdBaseObjectPtr OdDrawingManager::Clone()
 	return OdDrawingManagerPtr();
 }
 
-OdBaseObjectPtr OdDrawingManager::getEntityById(unsigned int id)
-{
-	for (const auto& entity : m_entities)
-	{
-		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
-		unsigned int entId = objRaw->id();
-		if (entId == id)
-		{
-			return OdBaseObjectPtr(entity);
-		}
-	}
-	return OdBaseObjectPtr();
-}
-
-int OdDrawingManager::appendEntity(std::string name)
-{
-	if (name == "OdMathCircle")
-	{
-		m_entities.push_back(OdMathCircle::createObject());
-	}
-	else if (name == "OdMathPlane")
-	{
-		m_entities.push_back(OdMathPlane::createObject());
-	}
-	return m_entities.size() - 1;
-}
-
 void OdDrawingManager::CreateSession(std::string fileName)
 {
-	OdHostAppService::R()->createSession(fileName);
-	RegisterCommandPattern();
+	OdHostAppService::R()->createSession();
+	OdHostAppService::R()->getCurrentSession()->setFileName(fileName);
 }
 
-void OdDrawingManager::ChangeSession(std::string filePath)
+void OdDrawingManager::ChangeSession(unsigned int sessionId)
 {
-	OdHostAppService::R()->ChangeCurrSession(filePath);
-	m_entities.clear();
-	OdHostAppService::R()->getCurrentSession()->ExecuteAllPrompts();
+	OdHostAppService::R()->ChangeCurrSession(sessionId);
 }
 
 void OdDrawingManager::AppendCommand(const std::string command)
 {
+	if (!OdHostAppService::R()->getCurrentSession()) return;
 	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendCommand(command);
 }
 
 void OdDrawingManager::AppendPrompt(const std::string prompt)
 {
+	if (!OdHostAppService::R()->getCurrentSession()) return;
 	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendPrompt(prompt);
-}
-
-void OdDrawingManager::RegisterCommandPattern()
-{
-	// LineCmdPtr lineCmd = LineCmd::createObject();
-	// OdHostAppService::R()->getCurrentSession()->getPrompts()->registerCommand("LINE", dynamic_cast<IActionCmd*>(lineCmd.get()));
 }
 
 void OdDrawingManager::renderAll()
 {
-	for (const auto& entity : m_entities)
+	if (OdHostAppService::R()->getCurrentSession())
 	{
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-		OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
-		if (objRaw)
+		const auto& entities = OdHostAppService::R()->getCurrentSession()->getEntities();
+		for (const auto& entity : entities)
 		{
-			glLoadName(objRaw->id());
-			if (objRaw->isSelected())
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_CULL_FACE);
+			glEnable(GL_LIGHTING);
+			glEnable(GL_LIGHT0);
+			OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
+			if (objRaw)
 			{
-				glColor3f(1.0f, 0.0f, 0.0f);
+				glLoadName(objRaw->id());
+				if (objRaw->isSelected())
+				{
+					glColor3f(1.0f, 0.0f, 0.0f);
+				}
+				else
+				{
+					float color[3] = { objRaw->getColor().r, objRaw->getColor().g, objRaw->getColor().b };
+					glColor3f(color[0], color[1], color[2]);
+				}
+				objRaw->draw();
+				// std::string jsonString = objRaw->toJson().dump();
+				// MathLog::LogFunction("Entity json: " + jsonString);
+				// drawBoundingBox(objRaw->getExtents());
 			}
-			else
-			{
-				float color[3] = { objRaw->getColor().r, objRaw->getColor().g, objRaw->getColor().b };
-				glColor3f(color[0], color[1], color[2]);
-			}
-			objRaw->draw();
-			// std::string jsonString = objRaw->toJson().dump();
-			// MathLog::LogFunction("Entity json: " + jsonString);
-			// drawBoundingBox(objRaw->getExtents());
 		}
 	}
 }

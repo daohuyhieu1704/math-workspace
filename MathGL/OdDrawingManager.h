@@ -19,27 +19,30 @@ public:
 	OdBaseObjectPtr Clone() override;
 
 #pragma region Properties
-	std::vector<OdBaseObjectPtr> getEntities() const { return m_entities; }
-	OdBaseObjectPtr getEntityById(unsigned int id);
-	void setEntities(std::vector<OdBaseObjectPtr>& entities) { m_entities = entities; }
-	void appendEntity(const OdBaseObjectPtr& entity) { m_entities.push_back(entity); }
-	int appendEntity(std::string m_name);
-	OdBaseObjectPtr& getEntityAt(int index) { return m_entities[index]; }
-	void removeEntity(const OdBaseObjectPtr& entity) { m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end()); }
 	std::vector<OdBaseObjectPtr> getJigs() const { return m_jigs; }
 	void appendJig(const OdBaseObjectPtr& jig) { m_jigs.push_back(jig); }
 	void setJigs(std::vector<OdBaseObjectPtr>& jigs) { m_jigs = jigs; }
 #pragma endregion
 	virtual ~OdDrawingManager() = default;
-	OdDrawingManager()
-	{
-	}
 	void CreateSession(std::string fileName);
-	void ChangeSession(std::string filePath);
+	void ChangeSession(unsigned int sessionId);
 	void AppendCommand(const std::string command);
 	void AppendPrompt(const std::string prompt);
-	void RegisterCommandPattern();
-
+	OdBaseObjectPtr getEntityById(unsigned int id)
+	{
+		if (!OdHostAppService::R()->getCurrentSession()) return OdBaseObjectPtr();
+		return OdHostAppService::R()->getCurrentSession()->getEntityById(id);
+	}
+	int getHistorySize()
+	{
+		if (!OdHostAppService::R()->getCurrentSession()) return 0;
+		return OdHostAppService::R()->getCurrentSession()->getPrompts()->historySize();
+	}
+	std::string GetCurrentFilePath()
+	{
+		if (!OdHostAppService::R()->getCurrentSession()) return "";
+		return OdHostAppService::R()->getCurrentSession()->getFileName();
+	}
 	void renderAll();
 	std::string m_json = "";
 
@@ -57,8 +60,8 @@ public:
 	void SetEntityPickedCallback(EntityPickedCallback callback);
 	void TriggerEntityPicked(const std::vector<OdDbObjectId>& resId);
 private:
+	OdHostAppServicePtr m_appServices;
 	void drawBoundingBox(const OdGeExtents3d& extents);
-	std::vector<OdBaseObjectPtr> m_entities;
 	std::vector<OdBaseObjectPtr> m_jigs;
 	std::vector<const OdBaseObject*> m_tempRenders;
 	PointPickedCallback pointPickedCallback = nullptr;

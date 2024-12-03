@@ -74,6 +74,18 @@ namespace MathGL {
 				return gcnew String(GetImpObj()->m_json.c_str());
 			}
 		}
+		property String^ CurrentFilePath
+		{
+			String^ get()
+			{
+				return gcnew String(OdDrawingManager::R()->GetCurrentFilePath().c_str());
+			}
+		}
+
+		property unsigned int CurrentSessionId
+		{
+			unsigned int get();
+		}
 
 		IntPtr InitializeWindow(IntPtr parentHandle);
 		Entity^ getEntityById(unsigned int id);
@@ -89,6 +101,8 @@ namespace MathGL {
 		void BLViewport();
 		void BMViewport();
 		void BRViewport();
+		List<String^>^ GetAllEntityJsons();
+		void createSession(String^ fileName);
 	private:
 		OdDrawingManager* GetImpObj()
 		{

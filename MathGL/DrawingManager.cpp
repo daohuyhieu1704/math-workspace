@@ -19,4 +19,8 @@ namespace MathGL
 		Entity^ entity = gcnew Entity(entityRaw, false);
 		return entity;
 	}
+	unsigned int DrawingManager::CurrentSessionId::get()
+	{
+		return OdHostAppService::R()->getCurrentSessionId();
+	}
 }

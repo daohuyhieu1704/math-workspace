@@ -7,8 +7,8 @@ OD_RTTI_SINGLETON_DEFINE(OdHostAppService)
 
 OdHostAppService::OdHostAppService()
 {
-	m_sessions = std::unordered_map<std::string, OdMathSessionPtr>();
-	createSession("Untitled");
+	m_sessions = std::unordered_map<unsigned int, OdMathSessionPtr>();
+	currentSessionId = 0;
 };
 
 OdBaseObjectPtr OdHostAppService::Clone()

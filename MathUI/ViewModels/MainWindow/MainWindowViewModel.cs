@@ -27,6 +27,7 @@ using MathUI.Resources;
 using Newtonsoft.Json;
 using MathUI.Models;
 using System.Reflection;
+using System.Text.Json;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -393,6 +394,7 @@ namespace MathUI.ViewModels.MainWindow
         internal void NewFile()
         {
             FileItems.Add("Untitled");
+            DrawingManager.Instance.createSession("Untitled");
             FileSelected = FileItems.Last();
             FilePaths.Add("");
             PathSelected = FilePaths.Last();
@@ -402,11 +404,125 @@ namespace MathUI.ViewModels.MainWindow
         [CommandMethod("OPEN")]
         internal void OpenFile()
         {
+            var dialog = new OpenFileDialog
+            {
+                FileName = "Document",
+                DefaultExt = ".json",
+                Filter = "JSON files (.json)|*.json"
+            };
+
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                // Open document
+                string filePath = dialog.FileName;
+
+                try
+                {
+                    string content = File.ReadAllText(filePath);
+
+                    // Deserialize JSON content using Newtonsoft.Json
+                    var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(content);
+
+                    // Format the JSON content for display
+                    string formattedContent = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+
+                    MessageBox.Show(formattedContent, "JSON File content at path: " + filePath);
+
+                    var topPnl = context.FindName("TopPanelElm") as UserControl;
+                    if (topPnl != null)
+                    {
+                        var FileTabControl = topPnl.FindName("FileTabControl") as TabControl;
+                        if (FileTabControl != null)
+                        {
+                            HistoryWindow = "";
+                            var fileName = System.IO.Path.GetFileName(filePath);
+                            if (FilePaths.Contains(filePath))
+                            {
+                                FileSelected = fileName;
+                                PathSelected = filePath;
+                                IsNewFile = false;
+                            }
+                            else
+                            {
+                                FileItems.Add(fileName);
+                                FileSelected = fileName;
+                                FilePaths.Add(filePath);
+                                PathSelected = filePath;
+
+                                // Process JSON keys or content
+                                foreach (var key in jsonObject.Keys)
+                                {
+                                    string value = jsonObject[key]?.ToString() ?? "null";
+                                    // GLEngine.Instance.AppendPrompt($"{key}: {value}");
+                                    HistoryWindow += $"{key}: {value}\n";
+                                }
+
+                                IsNewFile = false;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred while reading the file:");
+                    Console.WriteLine(e.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No file was selected.");
+            }
         }
 
         [CommandMethod("SAVE")]
         internal void SaveFile()
         {
+            if (IsNewFile)
+            {
+                var dialog = new SaveFileDialog
+                {
+                    FileName = "Untitled",
+                    DefaultExt = ".json",
+                    Filter = "JSON files (.json)|*.json"
+                };
+
+                bool? result = dialog.ShowDialog();
+
+                if (result == true) // Chỉ thực hiện nếu người dùng chọn một đường dẫn hợp lệ
+                {
+                    string filePath = dialog.FileName;
+
+                    try
+                    {
+                        List<string> entityJson = DrawingManager.Instance.GetAllEntityJsons();
+                        var jsonData = JsonConvert.SerializeObject(entityJson, Formatting.Indented);
+
+                        File.WriteAllText(filePath, jsonData);
+                        HistoryWindow += "File saved successfully.\n";
+                    }
+                    catch (Exception ex)
+                    {
+                        HistoryWindow += "An error occurred while saving the file: " + ex.Message + "\n";
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    List<string> entityJson = DrawingManager.Instance.GetAllEntityJsons();
+                    var jsonData = JsonConvert.SerializeObject(entityJson, Formatting.Indented);
+
+                    File.WriteAllText(DrawingManager.Instance.CurrentFilePath, jsonData);
+                    Console.WriteLine("File saved successfully.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred while saving the file: " + ex.Message);
+                }
+            }
         }
 
         [CommandMethod("SELECT")]

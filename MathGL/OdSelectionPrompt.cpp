@@ -18,6 +18,8 @@ OdSelectionPrompt::OdSelectionPrompt()
 }
 
 OdResult OdSelectionPrompt::pickObjects(int x, int y) {
+    if (!OdHostAppService::R()->getCurrentSession()) return OdResult::eInvalidContext;
+
     GLint viewport[4];
     GLdouble modelview[16], projection[16];
     GLdouble rayStartX, rayStartY, rayStartZ;
@@ -42,7 +44,7 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
     rayDirY /= rayDirLength;
     rayDirZ /= rayDirLength;
 
-    const auto& entities = OdDrawingManager::R()->getEntities();
+    const auto& entities = OdHostAppService::R()->getCurrentSession()->getEntities();
     GLdouble closestDistance = std::numeric_limits<GLdouble>::max();
     OdDbObjectId selectedEntityId = OdDbObjectId::kNull;
 

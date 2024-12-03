@@ -27,7 +27,7 @@ public:
     virtual ~MathViewport() = default;
     // Member variables
     int win_width = 800, win_height = 600;
-    float cam_theta = 0, cam_phi = 25, cam_dist = 8;
+    float cam_theta = 0, cam_phi = 0, cam_dist = 10;
     float cam_pan[3] = { 0.0f, 0.0f, 0.0f };
     int mouse_x = 0, mouse_y = 0;
     int bnstate[8] = { 0 };

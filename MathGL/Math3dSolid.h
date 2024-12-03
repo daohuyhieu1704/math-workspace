@@ -31,7 +31,7 @@ namespace MathGL {
 		{
 			GetImpObj()->createSweepSolid(profileId, pathId);
 		}
-		void Draw();
+		// void Draw();
 	};
 }
 

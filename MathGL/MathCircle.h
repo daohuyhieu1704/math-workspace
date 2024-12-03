@@ -41,6 +41,6 @@ namespace MathGL {
 			void set(int value);
 		}
 		
-		void Draw();
+		//void Draw();
 	};
 }

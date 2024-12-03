@@ -159,6 +159,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="PointSelection.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="UtilCLI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -194,6 +195,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PointSelection.cpp" />
+    <ClCompile Include="UtilCLI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

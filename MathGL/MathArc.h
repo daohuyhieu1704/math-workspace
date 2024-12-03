@@ -59,7 +59,7 @@ namespace MathGL {
 			double get();
 			void set(double value);
 		}
-		void Draw();
+		// void Draw();
 	};
 }
 

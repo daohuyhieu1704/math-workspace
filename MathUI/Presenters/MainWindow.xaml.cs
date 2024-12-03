@@ -32,6 +32,7 @@ namespace MathUI.Presenters
             this.Loaded += MainWindow_Loaded;
             vm = new MainWindowViewModel(this);
             CommandRegistry.DiscoverAndRegisterCommands(vm);
+            DrawingManager.Instance.createSession("Untitled");
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
             //CallbackBridge.RegisterMouseCallback(OnMouseClick);

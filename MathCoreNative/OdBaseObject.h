@@ -5,6 +5,7 @@
 #include <utility>
 #include <atomic>
 #include "OdDbObjectId.h"
+#include <unordered_map>
 
 class OdBaseObject;
 
@@ -143,6 +144,29 @@ protected:
 
 };
 
+
+
+class OdObjectFactory {
+public:
+    using CreateFunction = OdBaseObject * (*)();
+
+private:
+    static std::unordered_map<std::string, CreateFunction> m_registry;
+
+public:
+    static void registerClass(const std::string& className, CreateFunction createFn) {
+        m_registry[className] = createFn;
+    }
+
+    static OdBaseObjectPtr createObject(std::string className) {
+        auto it = m_registry.find(className);
+        if (it != m_registry.end()) {
+            return OdBaseObjectPtr(it->second());
+        }
+        return OdBaseObjectPtr();
+    }
+};
+
 // OdSmartPtr implementation
 template <class T>
 class OdSmartPtr : public OdBaseObjectPtr {
@@ -244,6 +268,7 @@ public: \
     virtual std::string getClassName() const override { return ClassName::desc(); } \
     inline virtual bool isKindOf(const std::string& desc) const override; \
     static OdSmartPtr<ClassName> createObject(); \
+    static OdBaseObjectPtr createObject(std::string className); \
     static OdSmartPtr<ClassName> cast(const OdSmartPtr<BaseClassName>& obj); \
     static OdSmartPtr<ClassName> cast(const OdBaseObjectPtr& obj); \
     static OdSmartPtr<ClassName> cast(OdBaseObject* obj);
@@ -277,6 +302,9 @@ public: \
     inline OdSmartPtr<ClassName> ClassName::createObject() { \
         return OdSmartPtr<ClassName>(new ClassName()); \
     } \
+    inline OdBaseObjectPtr ClassName::createObject(std::string className) { \
+        return OdObjectFactory::createObject(className); \
+    } \
     inline OdSmartPtr<ClassName> ClassName::cast(const OdSmartPtr<BaseClassName>& obj) { \
         if (obj && obj->isKindOf(ClassName::desc())) { \
             return OdSmartPtr<ClassName>(obj); \
@@ -290,7 +318,13 @@ public: \
         return OdSmartPtr<ClassName>(); \
     }
 
-
+#define OD_RTTI_REGISTER_CLASS(ClassName) \
+    static OdBaseObject* createInstance() { return new ClassName(); } \
+    static struct ClassName##FactoryRegistrar { \
+        ClassName##FactoryRegistrar() { \
+            OdObjectFactory::registerClass(ClassName::desc(), &ClassName::createInstance); \
+        } \
+    } s_##ClassName##FactoryRegistrar;
 
 #define OD_RTTI_SINGLETON_DECLARE(ClassName) \
 private: \

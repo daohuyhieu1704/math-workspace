@@ -6,6 +6,7 @@ class OdMathCircle :
     public OdDbCircle
 {
 	OD_RTTI_DECLARE(OdMathCircle, OdDbCircle);
+	OD_RTTI_REGISTER_CLASS(OdMathCircle);
 public:
 #pragma region Properties
 	void setSegments(int segments) { m_segments = segments; }

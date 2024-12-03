@@ -36,6 +36,6 @@ namespace MathGL {
 			Point3d get();
 			void set(Point3d value);
 		}
-		void Draw();
+		// void Draw();
 	};
 }

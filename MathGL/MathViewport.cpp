@@ -492,6 +492,7 @@ void MathViewport::setCamera() {
     glRotatef(cam_phi, 1, 0, 0);
     glRotatef(cam_theta, 0, 1, 0);
     glTranslatef(cam_pan[0], cam_pan[1], cam_pan[2]);
+    glutPostRedisplay();
 }
 
 void MathViewport::TLViewport()

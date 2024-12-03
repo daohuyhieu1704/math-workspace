@@ -18,8 +18,8 @@ namespace MathGL
     {
         GetImpObj()->setEndPnt(OdGePoint3d(value.X, value.Y, value.Z));
     }
-    void MathLine::Draw()
-    {
-        OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
-    }
+    //void MathLine::Draw()
+    //{
+    //    OdDrawingManager::R()->appendEntity(GetImpObj()->Clone());
+    //}
 }
