@@ -91,6 +91,60 @@ namespace MathUI.Resources {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to "Netload"
+        /// </summary>
+        public static string Netload {
+            get {
+                return ResourceManager.GetString("Netload", resourceCulture) ?? string.Empty;
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to "New"
+        /// </summary>
+        public static string NewFile {
+            get {
+                return ResourceManager.GetString("NewFile", resourceCulture) ?? string.Empty;
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to "Open"
+        /// </summary>
+        public static string OpenFile {
+            get {
+                return ResourceManager.GetString("OpenFile", resourceCulture) ?? string.Empty;
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to "Progress"
+        /// </summary>
+        public static string Progress {
+            get {
+                return ResourceManager.GetString("Progress", resourceCulture) ?? string.Empty;
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to "Save"
+        /// </summary>
+        public static string SaveFile {
+            get {
+                return ResourceManager.GetString("SaveFile", resourceCulture) ?? string.Empty;
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to "Select"
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture) ?? string.Empty;
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to "Settings"
         /// </summary>
         public static string Settings {

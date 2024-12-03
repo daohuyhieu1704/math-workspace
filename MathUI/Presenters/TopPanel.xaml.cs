@@ -164,5 +164,10 @@ namespace MathUI.Presenters
         {
             CommandAction((model) => ViewModel.ChangeLanguage());
         }
+
+        private void Netload_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.NetLoad());
+        }
     }
 }

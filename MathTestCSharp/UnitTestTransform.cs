@@ -5,10 +5,10 @@ using System.Windows;
 
 namespace MathTestCSharp
 {
-    public static class UnitTest1
+    public static class UnitTestTransform
     {
         [Fact]
-        [CommandMethod("TEST_SUITE_SCALE")]
+        [CommandMethod("TEST_SCALE")]
         public static void Test1()
         {
             //// Test case 1
@@ -26,11 +26,7 @@ namespace MathTestCSharp
             };
             mathCircle2.Draw();
             Assert.Equal(2, mathCircle2.Radius);
-
-            //MathCircle mathCircle3 = new(Point3d.Origin, 4);
-            //mathCircle3.Scale = new Scale3d(0.5, 2, 1);
-            //mathCircle3.Draw();
-            //Assert.Equal(2, mathCircle3.Radius);
+            MessageBox.Show("TEST_SCALE passed");
         }
     }
 }

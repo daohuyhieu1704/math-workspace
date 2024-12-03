@@ -148,7 +148,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="New" FontSize="10" Click="New_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_NewFile}" FontSize="10" Click="New_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderBrush="Black">
@@ -158,7 +158,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/open.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Open" FontSize="10" Click="Open_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_OpenFile}" FontSize="10" Click="Open_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderBrush="Black">
@@ -168,7 +168,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/save.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Save" FontSize="10" Click="Save_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_SaveFile}" FontSize="10" Click="Save_Click" />
                                         </Grid>
                                     </Border>
                                 </StackPanel>
@@ -191,7 +191,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/select.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Select" FontSize="10" Click="Select_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_Select}" FontSize="10" Click="Select_Click" />
                                         </Grid>
                                     </Border>
                                     <Border  BorderBrush="Black">
@@ -216,7 +216,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <TextBlock Grid.Row="1" Foreground="White" Text="Progress" FontSize="10" TextAlignment="Center" />
+                            <TextBlock Grid.Row="1" Foreground="White" Text="{DynamicResource TopPanelRes_Progress}" FontSize="10" TextAlignment="Center" />
                         </Grid>
                     </Border>
                 </StackPanel>
@@ -387,6 +387,16 @@
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
                                             <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_Language}" FontSize="10" Click="Language_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border  BorderBrush="Black">
+                                        <Grid Width="48">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_Netload}" FontSize="10" Click="Netload_Click" />
                                         </Grid>
                                     </Border>
                                 </StackPanel>

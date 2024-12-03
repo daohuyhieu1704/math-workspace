@@ -120,6 +120,24 @@
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="Netload" xml:space="preserve">
+    <value>Netload</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="SaveFile" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>

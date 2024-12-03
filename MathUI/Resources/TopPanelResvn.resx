@@ -120,6 +120,24 @@
   <data name="Language" xml:space="preserve">
     <value>Ngôn ngữ</value>
   </data>
+  <data name="Netload" xml:space="preserve">
+    <value>Netload</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Tạo</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Mở</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Tiến trình</value>
+  </data>
+  <data name="SaveFile" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Chọn</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Cài đặt</value>
   </data>

@@ -70,6 +70,60 @@ namespace MathUI.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Netload.
+        /// </summary>
+        internal static string Netload {
+            get {
+                return ResourceManager.GetString("Netload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tạo.
+        /// </summary>
+        internal static string NewFile {
+            get {
+                return ResourceManager.GetString("NewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mở.
+        /// </summary>
+        internal static string OpenFile {
+            get {
+                return ResourceManager.GetString("OpenFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tiến trình.
+        /// </summary>
+        internal static string Progress {
+            get {
+                return ResourceManager.GetString("Progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lưu.
+        /// </summary>
+        internal static string SaveFile {
+            get {
+                return ResourceManager.GetString("SaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chọn.
+        /// </summary>
+        internal static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cài đặt.
         /// </summary>
         internal static string Settings {
