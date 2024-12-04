@@ -150,49 +150,26 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
-        private ObservableCollection<string> _fileItems;
+        private ObservableCollection<FileModel> _fileStorage;
 
-        public ObservableCollection<string> FileItems
+        public ObservableCollection<FileModel> FileStorage
         {
-            get => _fileItems;
+            get => _fileStorage;
             set
             {
-                Set(ref _fileItems, value);
-                OnPropertyChanged(nameof(FileItems));
+                Set(ref _fileStorage, value);
+                OnPropertyChanged(nameof(FileStorage));
             }
         }
 
-        private ObservableCollection<string> _filePaths;
-
-        public ObservableCollection<string> FilePaths
+        private int _fileSelectedIdx;
+        public int FileSelectedIdx
         {
-            get => _filePaths;
+            get => _fileSelectedIdx;
             set
             {
-                Set(ref _filePaths, value);
-                OnPropertyChanged(nameof(FilePaths));
-            }
-        }
-
-        private string _fileSelected;
-        public string FileSelected
-        {
-            get => _fileSelected;
-            set
-            {
-                Set(ref _fileSelected, value);
-                OnPropertyChanged(nameof(FileSelected));
-            }
-        }
-
-        private string _pathSelected;
-        public string PathSelected
-        {
-            get => _pathSelected;
-            set
-            {
-                Set(ref _pathSelected, value);
-                OnPropertyChanged(nameof(PathSelected));
+                Set(ref _fileSelectedIdx, value);
+                OnPropertyChanged(nameof(FileSelectedIdx));
             }
         }
 
@@ -211,10 +188,6 @@ namespace MathUI.ViewModels.MainWindow
         {
             HistoryWindow = "";
             context = mainWindow;
-            FileItems = ["Untitled"];
-            FilePaths = ["Untitled"];
-            FileSelected = "Untitled";
-            PathSelected = "Untitled";
             IsNewFile = true;
             CloseTabCommand = new RelayCommand<string>((fileName) => true, CloseTab);
             SelectCmd = new RelayCommand<Window>((exp) => true, Select);
@@ -222,12 +195,13 @@ namespace MathUI.ViewModels.MainWindow
 
         private void CloseTab(string fileName)
         {
-            if (FileItems.Contains(fileName))
+            for (int i = 0; i < FileStorage.Count; i++)
             {
-                FileItems.Remove(fileName);
-                if (FileItems.Count > 0)
+                if (FileStorage[i].FilePath == fileName)
                 {
-                    FileSelected = FileItems[0];
+                    FileStorage.RemoveAt(i);
+                    FileSelectedIdx = 0;
+                    break;
                 }
             }
         }
@@ -460,12 +434,9 @@ namespace MathUI.ViewModels.MainWindow
         [CommandMethod("NEW")]
         internal void NewFile()
         {
-            FileItems.Add("Untitled");
             DrawingManager.Instance.createSession("Untitled");
-
-            FileSelected = FileItems.Last();
-            FilePaths.Add("");
-            PathSelected = FilePaths.Last();
+            FileStorage.Add(new FileModel(DrawingManager.Instance.CurrentSessionId, "Untitled"));
+            FileSelectedIdx = FileStorage.Count - 1;
             IsNewFile = true;
         }
 
@@ -485,7 +456,7 @@ namespace MathUI.ViewModels.MainWindow
             {
                 // Open document
                 string filePath = dialog.FileName;
-
+                //if (FileStorage.Find(???))
                 try
                 {
                     string content = File.ReadAllText(filePath);
@@ -824,10 +795,9 @@ namespace MathUI.ViewModels.MainWindow
 
         internal void ChangeTab()
         {
-            if (FileSelected != null)
+            if (FileStorage.Count != 0)
             {
-                PathSelected = FilePaths[FileItems.IndexOf(FileSelected)];
-                //DrawingManager.Instance.ChangeSession(PathSelected);
+                DrawingManager.Instance.changeSession(FileStorage[FileSelectedIdx].FileId);
             }
         }
 
@@ -1193,15 +1163,99 @@ namespace MathUI.ViewModels.MainWindow
         }
 
         [CommandMethod("P2W")]
-        internal void P2W()
+        internal async void P2W()
         {
-            throw new NotImplementedException();
+            try
+            {
+                EntitySelection entitySelection = new ();
+                List<uint> entitieId = await entitySelection.getEntities(1);
+                if (entitieId[0] != 0)
+                {
+                    Entity ent = DrawingManager.Instance.getEntityById(entitieId[0]);
+                    EntitySelection planeSelection = new();
+                    List<uint> planeId = await planeSelection.getEntities(1);
+                    MathPlane plane = (MathPlane)DrawingManager.Instance.getEntityById<MathPlane>(planeId[0]);
+                    ent.TransformBy(Matrix3d.PlaneToWorld(plane.Origin, plane.Normal));
+
+                    //undoRedoManager.ExecuteCommand(new CommandAction(
+                    //    commandName: "P2W",
+                    //    parameters: parameters,
+                    //    undoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Scale3d oldScale = (Scale3d)parameters[1];
+                    //        Scale3d scale = new(1 / oldScale.XFactor, 1 / oldScale.YFactor, 1 / oldScale.ZFactor);
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.Scale = scale;
+                    //    },
+                    //    redoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Scale3d redoScale = (Scale3d)parameters[1];
+                    //        Scale3d scale = new(1 / redoScale.XFactor, 1 / redoScale.YFactor, 1 / redoScale.ZFactor);
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.Scale = scale;
+                    //    }
+                    //));
+                }
+                else
+                {
+                    HistoryWindow += "Invalid input\n";
+                }
+
+            }
+            catch
+            {
+                HistoryWindow += "Invalid input\n";
+            }
         }
 
         [CommandMethod("W2P")]
-        internal void W2P()
+        internal async void W2P()
         {
-            throw new NotImplementedException();
+            try
+            {
+                EntitySelection entitySelection = new();
+                List<uint> entitieId = await entitySelection.getEntities(1);
+                if (entitieId[0] != 0)
+                {
+                    Entity ent = DrawingManager.Instance.getEntityById(entitieId[0]);
+                    EntitySelection planeSelection = new();
+                    List<uint> planeId = await planeSelection.getEntities(1);
+                    MathPlane plane = (MathPlane)DrawingManager.Instance.getEntityById<MathPlane>(planeId[0]);
+                    ent.TransformBy(Matrix3d.WorldToPlane(plane.Origin, plane.Normal));
+
+                    //undoRedoManager.ExecuteCommand(new CommandAction(
+                    //    commandName: "P2W",
+                    //    parameters: parameters,
+                    //    undoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Scale3d oldScale = (Scale3d)parameters[1];
+                    //        Scale3d scale = new(1 / oldScale.XFactor, 1 / oldScale.YFactor, 1 / oldScale.ZFactor);
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.Scale = scale;
+                    //    },
+                    //    redoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Scale3d redoScale = (Scale3d)parameters[1];
+                    //        Scale3d scale = new(1 / redoScale.XFactor, 1 / redoScale.YFactor, 1 / redoScale.ZFactor);
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.Scale = scale;
+                    //    }
+                    //));
+                }
+                else
+                {
+                    HistoryWindow += "Invalid input\n";
+                }
+
+            }
+            catch
+            {
+                HistoryWindow += "Invalid input\n";
+            }
         }
 
         [CommandMethod("LANG")]

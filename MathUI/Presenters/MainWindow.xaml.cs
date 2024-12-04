@@ -33,6 +33,8 @@ namespace MathUI.Presenters
             vm = new MainWindowViewModel(this);
             CommandRegistry.DiscoverAndRegisterCommands(vm);
             DrawingManager.Instance.createSession("Untitled");
+            vm.FileStorage = [new FileModel(DrawingManager.Instance.CurrentSessionId, "Untitled")];
+            vm.FileSelectedIdx = 0;
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
             //CallbackBridge.RegisterMouseCallback(OnMouseClick);

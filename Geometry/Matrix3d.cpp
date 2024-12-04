@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Matrix3d.h"
+#include <OdGePlane.h>
 
 namespace Geometry
 {
@@ -160,6 +161,24 @@ namespace Geometry
     Matrix3d Matrix3d::Translate(Vector3d vect)
     {
         Matrix3d retVal = FromNative(OdGeMatrix3d::translation(vect.ToNative()));
+		return retVal;
+    }
+
+    Matrix3d Matrix3d::PlaneToWorld(Point3d org, Vector3d normal)
+    {
+		OdGePoint3d orgPnt(org.X, org.Y, org.Z);
+		OdGeVector3d normalVec(normal.X, normal.Y, normal.Z);
+		OdGePlane plane = OdGePlane(orgPnt, normalVec);
+		Matrix3d retVal = FromNative(OdGeMatrix3d::planeToWorld(plane));
+		return retVal;
+    }
+
+    Matrix3d Matrix3d::WorldToPlane(Point3d org, Vector3d normal)
+    {
+		OdGePoint3d orgPnt(org.X, org.Y, org.Z);
+		OdGeVector3d normalVec(normal.X, normal.Y, normal.Z);
+		OdGePlane plane = OdGePlane(orgPnt, normalVec);
+		Matrix3d retVal = FromNative(OdGeMatrix3d::worldToPlane(plane));
 		return retVal;
     }
 
