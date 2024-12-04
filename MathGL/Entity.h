@@ -540,6 +540,14 @@ namespace MathGL
         Entity(OdDbEntity* nativeEntity, bool autoDelete) : DisposableWrapper(IntPtr(nativeEntity), autoDelete)
         {
         }
+		property unsigned int Id
+		{
+			unsigned int get()
+			{
+				return GetImpObj()->id();
+			}
+		}
+
         property Scale3d Scale
         {
             Scale3d get();

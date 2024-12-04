@@ -543,7 +543,10 @@ namespace MathUI.ViewModels.MainWindow
                 Margin = new Thickness(5),
                 Tag = label
             };
-
+            //textBox.GotFocus += (sender, e) =>
+            //{
+            //    selectEntity = entities.FirstOrDefault(x => x.Key == selectEntity.Id);
+            //};
             textBox.KeyDown += (sender, e) =>
             {
                 if (e.Key == Key.Enter)
@@ -596,14 +599,43 @@ namespace MathUI.ViewModels.MainWindow
             if (labels.Count != values.Count)
                 throw new ArgumentException("Labels and values must have the same number of elements.");
 
-            Expander expander = new Expander
+            Expander expander = new()
             {
-                Header = "General",
                 Foreground = Brushes.White,
                 Background = new SolidColorBrush(Color.FromRgb(68, 68, 68)),
                 Margin = new Thickness(0, 0, 0, 10),
                 IsExpanded = true
             };
+
+            Grid headerGrid = new Grid();
+            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+            TextBlock headerLabel = new TextBlock
+            {
+                Text = selectEntity.Id.ToString(),
+                Foreground = Brushes.White,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetColumn(headerLabel, 0);
+            headerGrid.Children.Add(headerLabel);
+            Button deleteButton = new Button
+            {
+                Content = "X",
+                Foreground = Brushes.White,
+                Background = new SolidColorBrush(Color.FromRgb(200, 50, 50)),
+                Padding = new Thickness(5),
+                Margin = new Thickness(5, 0, 0, 0),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            Grid.SetColumn(deleteButton, 1);
+            headerGrid.Children.Add(deleteButton);
+
+            deleteButton.Click += (s, e) =>
+            {
+                parentPanel.Children.Remove(expander);
+            };
+            expander.Header = headerGrid;
 
             Grid grid = new Grid
             {
@@ -624,6 +656,7 @@ namespace MathUI.ViewModels.MainWindow
                     AddTextBoxToGrid(grid, labels[i], values[i], json, i, 1);
             }
             expander.Content = grid;
+            parentPanel.Children.Clear();
             parentPanel.Children.Add(expander);
         }
 
@@ -657,6 +690,7 @@ namespace MathUI.ViewModels.MainWindow
                 return;
             }
             selectEntity = DrawingManager.Instance.getEntityById(entitieId[0]);
+
             if (selectEntity == null)
             {
                 HistoryWindow += "Invalid entity id\n";
@@ -670,9 +704,10 @@ namespace MathUI.ViewModels.MainWindow
             {
                 case "OdMathLine":
                     {
-                        List<string> labels = ["type", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z"];
+                        List<string> labels = ["type", "startPnt.x", "startPnt.y", "startPnt.z", "endPnt.x", "endPnt.y", "endPnt.z"];
                         List<bool> isReadOnly = [true, false, false, false, false, false, false];
-                        List<string> values = ["OdMathLine", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString()];
+                        List<string> values = ["OdMathLine", jsonObject["startPnt"]["x"].ToString(), jsonObject["startPnt"]["y"].ToString(), jsonObject["startPnt"]["z"].ToString(),
+                            jsonObject["endPnt"]["x"].ToString(), jsonObject["endPnt"]["y"].ToString(), jsonObject["endPnt"]["z"].ToString()];
                         CreateUI(stack, labels, values, isReadOnly, jsonObject);
                         break;
                     }
@@ -686,9 +721,12 @@ namespace MathUI.ViewModels.MainWindow
                     }
                 case "OdMathArc":
                     {
-                        List<string> labels = ["type", "Start X", "Start Y", "Start Z", "End X", "End Y", "End Z", "Center X", "Center Y", "Center Z", "Radius"];
-                        List<bool> isReadOnly = [true, false, false, false, false, false, false];
-                        List<string> values = ["OdMathArc", jsonObject["start"]["x"].ToString(), jsonObject["start"]["y"].ToString(), jsonObject["start"]["z"].ToString(), jsonObject["end"]["x"].ToString(), jsonObject["end"]["y"].ToString(), jsonObject["end"]["z"].ToString(), jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                        List<string> labels = ["type", "startPnt.x", "startPnt.y", "startPnt.z", "bulge"];
+                        List<bool> isReadOnly = [true, false, false, false, false];
+                        List<string> values = ["OdMathArc", 
+                            jsonObject["startPnt"]["x"].ToString(), jsonObject["startPnt"]["y"].ToString(), jsonObject["startPnt"]["z"].ToString(), 
+                            jsonObject["bulge"].ToString(),
+                            ];
                         CreateUI(stack, labels, values, isReadOnly, jsonObject);
                         break;
                     }
