@@ -20,8 +20,8 @@ OdResult OdMathLine::draw()
 		glDisable(GL_LIGHTING);
 		getExtents().reset();
 		glBegin(GL_LINES);
-		glVertex2f(static_cast<GLfloat>(transformedStart.x), static_cast<GLfloat>(transformedStart.y));
-		glVertex2f(static_cast<GLfloat>(transformedEnd.x), static_cast<GLfloat>(transformedEnd.y));
+		glVertex3f(static_cast<GLfloat>(transformedStart.x), static_cast<GLfloat>(transformedStart.y), static_cast<GLfloat>(transformedStart.z));
+		glVertex3f(static_cast<GLfloat>(transformedEnd.x), static_cast<GLfloat>(transformedEnd.y), static_cast<GLfloat>(transformedEnd.z));
 		glEnd();
 		glEnable(GL_LIGHTING);
 		getExtents().appendPoint_s(transformedStart);

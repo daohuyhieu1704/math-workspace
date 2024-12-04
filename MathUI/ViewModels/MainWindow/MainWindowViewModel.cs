@@ -32,6 +32,7 @@ using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Windows.Media;
 using System.Reflection.Emit;
+using MathUI.Utils;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -44,6 +45,7 @@ namespace MathUI.ViewModels.MainWindow
 
     public class MainWindowViewModel : ViewModelBase
     {
+        private readonly UndoRedoManager undoRedoManager = new();
         private ResourceManager resManager;
         private DispatcherTimer _timer;
         public Presenters.MainWindow context;
@@ -293,6 +295,24 @@ namespace MathUI.ViewModels.MainWindow
             List<Point3d> pnt2 = await pointSelection.getPoints(1);
             using MathLine line = new(pnt1[0], pnt2[0]);
             line.Draw();
+            //uint lineId = line.Id;
+            //var parameters = new object[] { lineId, pnt1[0], pnt2[0] };
+            //undoRedoManager.ExecuteCommand(new CommandAction(
+            //    commandName: "LINE",
+            //    parameters: parameters,
+            //    undoAction: () =>
+            //    {
+            //        uint id = (uint)parameters[0];
+            //        DrawingManager.Instance.removeEntity(id);
+            //    },
+            //    redoAction: () =>
+            //    {
+            //        Point3d redoPnt1 = (Point3d)parameters[1];
+            //        Point3d redoPnt2 = (Point3d)parameters[2];
+            //        using MathLine redoLine = new(redoPnt1, redoPnt2);
+            //        redoLine.Draw();
+            //    }
+            //));
         }
 
         [CommandMethod("CIRCLE")]
@@ -304,7 +324,26 @@ namespace MathUI.ViewModels.MainWindow
             HistoryWindow += "Pick 2nd point on circle:" + "\n";
             List<Point3d> pnt2 = await pointSelection.getPoints(1);
             using MathCircle mathCircle = new(pnt1[0], pnt1[0].DistanceTo(pnt2[0]));
-            mathCircle.Draw();
+            uint circleId = mathCircle.Draw();
+
+            //var parameters = new object[] { circleId, pnt1[0], pnt2[0] };
+
+            //undoRedoManager.ExecuteCommand(new CommandAction(
+            //    commandName: "CIRCLE",
+            //    parameters: parameters,
+            //    undoAction: () =>
+            //    {
+            //        uint id = (uint)parameters[0];
+            //        DrawingManager.Instance.removeEntity(id);
+            //    },
+            //    redoAction: () =>
+            //    {
+            //        Point3d redoPnt1 = (Point3d)parameters[1];
+            //        Point3d redoPnt2 = (Point3d)parameters[2];
+            //        using MathCircle redoCircle = new(redoPnt1, redoPnt1.DistanceTo(redoPnt2));
+            //        redoCircle.Draw();
+            //    }
+            //));
         }
 
         [CommandMethod("ARC")]
@@ -318,7 +357,27 @@ namespace MathUI.ViewModels.MainWindow
             HistoryWindow += "Pick 3rd point on circle:" + "\n";
             List<Point3d> pnt3 = await pointSelection.getPoints(1);
             using MathArc arc = new(pnt[0], pnt2[0], pnt3[0]);
-            arc.Draw();
+            uint arcId = arc.Draw();
+
+            // var parameters = new object[] { arcId, pnt[0], pnt2[0], pnt3[0] };
+
+            //undoRedoManager.ExecuteCommand(new CommandAction(
+            //    commandName: "ARC",
+            //    parameters: parameters,
+            //    undoAction: () =>
+            //    {
+            //        uint id = (uint)parameters[0];
+            //        DrawingManager.Instance.removeEntity(id);
+            //    },
+            //    redoAction: () =>
+            //    {
+            //        Point3d redoPnt1 = (Point3d)parameters[1];
+            //        Point3d redoPnt2 = (Point3d)parameters[2];
+            //        Point3d redoPnt3 = (Point3d)parameters[3];
+            //        using MathArc redoArc = new(redoPnt1, redoPnt2, redoPnt3);
+            //        redoArc.Draw();
+            //    }
+            //));
         }
 
         [CommandMethod("POLYLINE")]
@@ -341,35 +400,34 @@ namespace MathUI.ViewModels.MainWindow
                 using MathPolyline mathPolyline = new();
                 mathPolyline.AddVertex(pnt1[0], n);
                 mathPolyline.AddVertex(pnt2[0]);
-                mathPolyline.Draw();
+                uint polylineId = mathPolyline.Draw();
+
+                // var parameters = new object[] { polylineId, pnt1[0], pnt2[0], n };
+
+                //undoRedoManager.ExecuteCommand(new CommandAction(
+                //    commandName: "POLYLINE",
+                //    parameters: parameters,
+                //    undoAction: () =>
+                //    {
+                //        uint id = (uint)parameters[0];
+                //        DrawingManager.Instance.removeEntity(id);
+                //    },
+                //    redoAction: () =>
+                //    {
+                //        Point3d redoPnt1 = (Point3d)parameters[1];
+                //        Point3d redoPnt2 = (Point3d)parameters[2];
+                //        double redoBulge = (double)parameters[3];
+                //        using MathPolyline redoPolyline = new();
+                //        redoPolyline.AddVertex(redoPnt1, redoBulge);
+                //        redoPolyline.AddVertex(redoPnt2);
+                //        redoPolyline.Draw();
+                //    }
+                //));
             }
             else
             {
                 HistoryWindow += "Invalid input\n";
             }
-            //bool isEscPressed = false;
-
-            //KeyEventHandler escapeHandler = (s, ke) =>
-            //{
-            //    if (ke.Key == Key.Escape)
-            //    {
-            //        isEscPressed = true;
-            //    }
-            //};
-
-            //try
-            //{
-            //    Application.Current.MainWindow.KeyDown += escapeHandler;
-
-            //    while (!isEscPressed)
-            //    {
-            //        await Task.Delay(100);
-            //    }
-            //}
-            //finally
-            //{
-            //    Application.Current.MainWindow.KeyDown -= escapeHandler;
-            //}
         }
 
         internal async void AppendCommand()
@@ -390,11 +448,13 @@ namespace MathUI.ViewModels.MainWindow
         [CommandMethod("UNDO")]
         internal void Undo()
         {
+            undoRedoManager.Undo();
         }
 
         [CommandMethod("REDO")]
         internal void Redo()
         {
+            undoRedoManager.Redo();
         }
 
         [CommandMethod("NEW")]
@@ -815,7 +875,26 @@ namespace MathUI.ViewModels.MainWindow
             }
 
             using MathPlane mathPlane = new(new Point3d(orgn[0], orgn[1], orgn[2]), new Vector3d(nrml[0], nrml[1], nrml[2]));
-            mathPlane.Draw();
+            uint planeId = mathPlane.Draw();
+
+            // var parameters = new object[] { planeId, orgn, nrml };
+
+            //undoRedoManager.ExecuteCommand(new CommandAction(
+            //    commandName: "PLANE",
+            //    parameters: parameters,
+            //    undoAction: () =>
+            //    {
+            //        uint id = (uint)parameters[0];
+            //        DrawingManager.Instance.removeEntity(id);
+            //    },
+            //    redoAction: () =>
+            //    {
+            //        Point3d redoOrgn = new Point3d(orgn[0], orgn[1], orgn[2]);
+            //        Vector3d redoNrml = new Vector3d(nrml[0], nrml[1], nrml[2]);
+            //        using MathPlane redoPlane = new(redoOrgn, redoNrml);
+            //        redoPlane.Draw();
+            //    }
+            //));
         }
 
         [CommandMethod("EXTRUDE")]
@@ -837,9 +916,30 @@ namespace MathUI.ViewModels.MainWindow
                 {
                     Math3dSolid math3DSolid = new();
                     math3DSolid.createExtrudeSolid(entitieId[0], n, Vector3d.ZAxis);
-                    math3DSolid.Draw();
+                    uint solidId = math3DSolid.Draw();
+
+                    var parameters = new object[] { solidId, entitieId[0], n };
+
                     CommandWindow = "";
                     HistoryWindow += text.ToString() + "\n";
+
+                    //undoRedoManager.ExecuteCommand(new CommandAction(
+                    //    commandName: "EXTRUDE",
+                    //    parameters: parameters,
+                    //    undoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        DrawingManager.Instance.removeEntity(id);
+                    //    },
+                    //    redoAction: () =>
+                    //    {
+                    //        uint id2d = (uint)parameters[1];
+                    //        double redoHeight = (double)parameters[2];
+                    //        using Math3dSolid redoSolid = new();
+                    //        redoSolid.createExtrudeSolid(id2d, redoHeight, Vector3d.ZAxis);
+                    //        redoSolid.Draw();
+                    //    }
+                    //));
                 }
                 else
                 {
@@ -875,7 +975,27 @@ namespace MathUI.ViewModels.MainWindow
                 }
                 Math3dSolid math3DSolid = new();
                 math3DSolid.createSweepSolid(entitieId[0], pathId[0]);
-                math3DSolid.Draw();
+                uint solidId = math3DSolid.Draw();
+
+                var parameters = new object[] { solidId, entitieId[0], pathId[0] };
+
+                //undoRedoManager.ExecuteCommand(new CommandAction(
+                //    commandName: "SWEEP",
+                //    parameters: parameters,
+                //    undoAction: () =>
+                //    {
+                //        uint id = (uint)parameters[0];
+                //        DrawingManager.Instance.removeEntity(id);
+                //    },
+                //    redoAction: () =>
+                //    {
+                //        uint id2d = (uint)parameters[1];
+                //        uint idPath = (uint)parameters[2];
+                //        using Math3dSolid redoSolid = new();
+                //        redoSolid.createSweepSolid(id2d, idPath);
+                //        redoSolid.Draw();
+                //    }
+                //));
             }
             catch
             {
@@ -898,6 +1018,30 @@ namespace MathUI.ViewModels.MainWindow
                     CommandWindow = "";
                     HistoryWindow += text.ToString() + "\n";
                     ent.Scale = new Scale3d(n, n, n);
+
+                    uint entityId = ent.Id;
+                    var parameters = new object[] { entityId, ent.Scale };
+
+                    //undoRedoManager.ExecuteCommand(new CommandAction(
+                    //    commandName: "SCALE",
+                    //    parameters: parameters,
+                    //    undoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Scale3d oldScale = (Scale3d)parameters[1];
+                    //        Scale3d scale = new(1 / oldScale.XFactor, 1 / oldScale.YFactor, 1 / oldScale.ZFactor);
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.Scale = scale;
+                    //    },
+                    //    redoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Scale3d redoScale = (Scale3d)parameters[1];
+                    //        Scale3d scale = new(1 / redoScale.XFactor, 1 / redoScale.YFactor, 1 / redoScale.ZFactor);
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.Scale = scale;
+                    //    }
+                    //));
                 }
                 else
                 {
@@ -911,9 +1055,66 @@ namespace MathUI.ViewModels.MainWindow
         }
 
         [CommandMethod("TRANS")]
-        internal void Trans()
+        internal async void Trans()
         {
-            throw new NotImplementedException();
+            try
+            {
+                EntitySelection entitySelection = new();
+                List<uint> entitieId = await entitySelection.getEntities(1);
+                Entity ent = DrawingManager.Instance.getEntityById(entitieId[0]);
+                if (ent == null)
+                {
+                    HistoryWindow += "Select fail\n";
+                    return;
+                }
+                PointSelection pointSelection = new PointSelection();
+                List<Point3d> pnts = await pointSelection.getPoints(1);
+
+                TextInputPrompt textInputPrompt = new(this);
+                string text = await textInputPrompt.GetText();
+                List<string> values = text.Split(' ').ToList();
+                List<double> orgn = [];
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (double.TryParse(values[i], out double n))
+                    {
+                        orgn.Add(n);
+                    }
+                    else
+                    {
+                        HistoryWindow += "Invalid input\n";
+                        return;
+                    }
+                }
+                Matrix3d matrix3D = Matrix3d.Translate(new Vector3d(orgn[0], orgn[1], orgn[2]));
+                ent.TransformBy(matrix3D);
+
+                uint entityId = ent.Id;
+                var parameters = new object[] { entityId, matrix3D };
+
+                //undoRedoManager.ExecuteCommand(new CommandAction(
+                //    commandName: "TRANS",
+                //    parameters: parameters,
+                //    undoAction: () =>
+                //    {
+                //        uint id = (uint)parameters[0];
+                //        Matrix3d oldMatrix = (Matrix3d)parameters[1];
+                //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                //        redoEntity.TransformBy(oldMatrix.Inverse());
+                //    },
+                //    redoAction: () =>
+                //    {
+                //        uint id = (uint)parameters[0];
+                //        Matrix3d redoMatrix = (Matrix3d)parameters[1];
+                //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                //        redoEntity.TransformBy(redoMatrix.Inverse());
+                //    }
+                //));
+            }
+            catch
+            {
+                HistoryWindow += "Invalid input\n";
+            }
         }
 
         [CommandMethod("ROTATE")]
@@ -926,19 +1127,59 @@ namespace MathUI.ViewModels.MainWindow
                 Entity ent = DrawingManager.Instance.getEntityById(entitieId[0]);
                 if (ent == null)
                 {
-                    HistoryWindow += "Entity Not found\n";
+                    HistoryWindow += "Select fail\n";
                     return;
                 }
-                PointSelection pointSelection = new PointSelection();
-                List<Point3d> pnts = await pointSelection.getPoints(1);
+                PointSelection pointSelection = new();
+                TextInputPrompt textPntPrompt = new(this);
+                Task<List<Point3d>> pointTask = pointSelection.getPoints(1);
+                Task<string> textTask = textPntPrompt.GetText();
 
-                TextInputPrompt textInputPrompt = new(this);
-                string text = await textInputPrompt.GetText();
-                if (double.TryParse(text, out double n))
+                Task completedTask = await Task.WhenAny(pointTask, textTask);
+
+                List<Point3d> pnts = [];
+                string text = string.Empty;
+
+                if (completedTask == pointTask)
                 {
-                    CommandWindow = "";
-                    HistoryWindow += text.ToString() + "\n";
-                    ent.TransformBy(Matrix3d.Rotation(45, Vector3d.XAxis, pnts[0]));
+                    pnts = await pointTask;
+ 
+                }
+                else if (completedTask == textTask)
+                {
+                    text = await textTask; // Đảm bảo lấy kết quả nếu đây là task hoàn thành
+                                           // Xử lý text nếu cần
+                }
+                TextInputPrompt textInputPrompt2 = new(this);
+                string text2 = await textInputPrompt2.GetText();
+                if (double.TryParse(text2, out double n))
+                {
+                    HistoryWindow += text2.ToString() + "\n";
+                    double rad = n * Math.PI / 180;
+                    Matrix3d rot = Matrix3d.Rotation(rad, Vector3d.XAxis, pnts[0]);
+                    ent.TransformBy(rot);
+
+                    uint entityId = ent.Id;
+                    var parameters = new object[] { entityId, rot };
+
+                    //undoRedoManager.ExecuteCommand(new CommandAction(
+                    //    commandName: "ROTATE",
+                    //    parameters: parameters,
+                    //    undoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Matrix3d rotMat = (Matrix3d)parameters[1];
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.TransformBy(rotMat.Inverse());
+                    //    },
+                    //    redoAction: () =>
+                    //    {
+                    //        uint id = (uint)parameters[0];
+                    //        Matrix3d rotMat = (Matrix3d)parameters[1];
+                    //        Entity redoEntity = DrawingManager.Instance.getEntityById(id);
+                    //        redoEntity.TransformBy(rotMat.Inverse());
+                    //    }
+                    //));
                 }
                 else
                 {

@@ -16,6 +16,18 @@ OdBaseObjectPtr OdMathSession::getEntityById(unsigned int id)
 	return OdBaseObjectPtr();
 }
 
+void OdMathSession::removeEntity(unsigned int id)
+{
+	m_entities.erase(
+		std::remove_if(m_entities.begin(), m_entities.end(),
+			[id](const OdBaseObjectPtr& objBase) {
+				OdDbEntity* entity = static_cast<OdDbEntity*>(objBase.get());
+				if (!entity) return false;
+				return entity->id() == id;
+			}),
+		m_entities.end());
+}
+
 OdBaseObjectPtr OdMathSession::Clone()
 {
 	return OdMathSessionPtr();
@@ -23,15 +35,4 @@ OdBaseObjectPtr OdMathSession::Clone()
 
 OdMathSession::OdMathSession()
 {
-    mathPrompt = CommandPrompt::createObject();
-}
-  
-void OdMathSession::undo()
-{
-	mathPrompt->undo();
-}
-
-void OdMathSession::redo()
-{
-	mathPrompt->redo();
 }

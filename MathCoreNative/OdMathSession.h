@@ -4,7 +4,8 @@
 #include <set>
 #include <any>
 #include <unordered_map>
-#include "CommandPrompt.h"
+#include <stack>
+#include "OdBaseObject.h"
 
 typedef OdSmartPtr<class OdMathSession> OdMathSessionPtr;
 class OdMathSession :
@@ -20,18 +21,13 @@ public:
 		return entity->getObjectId().GetObjectId();
 	}
 	OdBaseObjectPtr& getEntityAt(int index) { return m_entities[index]; }
-	void removeEntity(const OdBaseObjectPtr& entity) { m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end()); }
+	void removeEntity(const OdBaseObjectPtr& entity) { 
+		m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end()); 
+	}
+	void removeEntity(unsigned int id);
     OdBaseObjectPtr Clone() override;
 	std::string getFileName() { return fileName; }
 	void setFileName(std::string m_name) { fileName = m_name; }
-	void undo();
-	void redo();
-	CommandPromptPtr getPrompts() { return mathPrompt; }
-	void ExecuteAllPrompts()
-	{
-		mathPrompt->executeAllPrompts();
-	}
-	CommandPromptPtr mathPrompt;
 	OdMathSession();
 	virtual ~OdMathSession() = default;
 private:

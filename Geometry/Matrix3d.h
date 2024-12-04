@@ -48,6 +48,7 @@ namespace Geometry
         void SetToScaling(double scale, Point3d center);
         static Matrix3d Scaling(double scale, Point3d center);
         bool IsEqualTo(Matrix3d other, double tolerance);
+		static Matrix3d Translate(Vector3d vect);
         double Determinant();
         double Scale();
         double Norm();

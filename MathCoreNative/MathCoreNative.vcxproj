@@ -151,9 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AbstractSelectionPrompt.h" />
-    <ClInclude Include="CommandPrompt.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="IActionCmd.h" />
     <ClInclude Include="IEngine.h" />
     <ClInclude Include="MathLog.h" />
     <ClInclude Include="OdBaseObject.h" />
@@ -178,8 +176,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractSelectionPrompt.cpp" />
-    <ClCompile Include="CommandPrompt.cpp" />
-    <ClCompile Include="IActionCmd.cpp" />
     <ClCompile Include="IEngine.cpp" />
     <ClCompile Include="OdBaseObject.cpp" />
     <ClCompile Include="OdDb3dSolid.cpp" />

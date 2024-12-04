@@ -135,7 +135,6 @@
     <ClInclude Include="DisposableWrapper.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntitySelection.h" />
-    <ClInclude Include="LineCmd.h" />
     <ClInclude Include="Math3dSolid.h" />
     <ClInclude Include="MathArc.h" />
     <ClInclude Include="MathJig.h" />
@@ -167,7 +166,6 @@
     <ClCompile Include="CommandInvoker.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntitySelection.cpp" />
-    <ClCompile Include="LineCmd.cpp" />
     <ClCompile Include="Math3dSolid.cpp" />
     <ClCompile Include="MathArc.cpp" />
     <ClCompile Include="MathJig.cpp" />

@@ -157,6 +157,12 @@ namespace Geometry
         return ToNative().isEqualTo(other.ToNative(), tolerance);
     }
 
+    Matrix3d Matrix3d::Translate(Vector3d vect)
+    {
+        Matrix3d retVal = FromNative(OdGeMatrix3d::translation(vect.ToNative()));
+		return retVal;
+    }
+
     double Matrix3d::Determinant()
     {
         return ToNative().det();

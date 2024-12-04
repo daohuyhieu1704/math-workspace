@@ -89,6 +89,7 @@ namespace MathGL {
 
 		IntPtr InitializeWindow(IntPtr parentHandle);
 		Entity^ getEntityById(unsigned int id);
+		void removeEntity(unsigned int id);
 		int ProcessGLUTEvents();
 		int exitGLUT();
 		void TLViewport();
@@ -104,7 +105,6 @@ namespace MathGL {
 		List<String^>^ GetAllEntityJsons();
 		void createSession(String^ fileName);
 		void changeSession(unsigned int sessionId);
-		void appendPrompt(String^ prompt);
 	private:
 		OdDrawingManager* GetImpObj()
 		{

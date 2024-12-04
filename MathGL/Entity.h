@@ -604,7 +604,7 @@ namespace MathGL
         virtual String^ ToJson();
         static unsigned int FromJson(String^ json);
         void FromJson2(String^ json);
-		void Draw();
+		unsigned int Draw();
     };
 }
 
