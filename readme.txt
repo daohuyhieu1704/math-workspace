@@ -2,26 +2,6 @@
     MathWorkspace Project Overview
 ========================================================================
 
-This project demonstrates how to get started writing WinUI3 apps directly
-with standard C++, using the Windows App SDK and C++/WinRT packages and
-XAML compiler support to generate implementation headers from interface
-(IDL) files. These headers can then be used to implement the local
-Windows Runtime classes referenced in the app's XAML pages.
+"Math Workspace" aims to engineer an advanced system that facilitates the modeling and computation of 2D and 3D geometric structures. The project aspires to deliver a visually appealing, intuitive interface while offering a comprehensive open-source library. Against the backdrop of the burgeoning evolution of 3D modeling technologies and the escalating costs of associated services, this platform empowers users to effortlessly and freely create geometric models. By integrating cutting-edge technology with an ergonomically designed interface, the initiative seeks to establish a high-caliber platform that provides unparalleled utility and accessibility to its users.
 
-Steps:
-1. Create an interface (IDL) file to define any local Windows Runtime
-    classes referenced in the app's XAML pages.
-2. Build the project once to generate implementation templates under
-    the "Generated Files" folder, as well as skeleton class definitions
-    under "Generated Files\sources".
-3. Use the skeleton class definitions for reference to implement your
-    Windows Runtime classes.
-
-========================================================================
-Learn more about Windows App SDK here:
-https://docs.microsoft.com/windows/apps/windows-app-sdk/
-Learn more about WinUI3 here:
-https://docs.microsoft.com/windows/apps/winui/winui3/
-Learn more about C++/WinRT here:
-http://aka.ms/cppwinrt/
 ========================================================================
