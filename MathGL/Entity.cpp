@@ -114,10 +114,10 @@ namespace MathGL
 			MathLog::LogFunction("Error in Entity::FromJson2");
         }
     }
-    void Entity::Draw()
+    unsigned int Entity::Draw()
     {
-        if (!OdHostAppService::R()->getCurrentSession()) return;
-        OdHostAppService::R()->getCurrentSession()->appendEntity(GetImpObj()->Clone());
+        if (!OdHostAppService::R()->getCurrentSession()) return 0;
+        return OdHostAppService::R()->getCurrentSession()->appendEntity(GetImpObj()->Clone());
     }
 
     Matrix3d Entity::Transform::get()

@@ -19,6 +19,10 @@ namespace MathGL
 		Entity^ entity = gcnew Entity(entityRaw, false);
 		return entity;
 	}
+	void DrawingManager::removeEntity(unsigned int id)
+	{
+		OdHostAppService::R()->getCurrentSession()->removeEntity(id);
+	}
 	unsigned int DrawingManager::CurrentSessionId::get()
 	{
 		return OdHostAppService::R()->getCurrentSessionId();

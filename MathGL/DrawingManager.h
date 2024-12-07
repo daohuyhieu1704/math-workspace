@@ -89,6 +89,25 @@ namespace MathGL {
 
 		IntPtr InitializeWindow(IntPtr parentHandle);
 		Entity^ getEntityById(unsigned int id);
+
+		generic <typename T> where T : Entity
+		Entity^ getEntityById(unsigned int id)
+		{
+			OdBaseObjectPtr entities = GetImpObj()->getEntityById(id);
+			if (!entities)
+			{
+				return nullptr;
+			}
+
+			OdDbEntity* entityRaw = static_cast<OdDbEntity*>(entities.get());
+			Entity^ entity = (Entity^)Activator::CreateInstance(
+				T::typeid,
+				gcnew array<Object^> { IntPtr(entityRaw), true }
+			);
+			return entity;
+		}
+
+		void removeEntity(unsigned int id);
 		int ProcessGLUTEvents();
 		int exitGLUT();
 		void TLViewport();
@@ -104,7 +123,6 @@ namespace MathGL {
 		List<String^>^ GetAllEntityJsons();
 		void createSession(String^ fileName);
 		void changeSession(unsigned int sessionId);
-		void appendPrompt(String^ prompt);
 	private:
 		OdDrawingManager* GetImpObj()
 		{

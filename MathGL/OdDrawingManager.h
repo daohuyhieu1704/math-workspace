@@ -26,17 +26,10 @@ public:
 	virtual ~OdDrawingManager() = default;
 	void CreateSession(std::string fileName);
 	void ChangeSession(unsigned int sessionId);
-	void AppendCommand(const std::string command);
-	void AppendPrompt(const std::string prompt);
 	OdBaseObjectPtr getEntityById(unsigned int id)
 	{
 		if (!OdHostAppService::R()->getCurrentSession()) return OdBaseObjectPtr();
 		return OdHostAppService::R()->getCurrentSession()->getEntityById(id);
-	}
-	int getHistorySize()
-	{
-		if (!OdHostAppService::R()->getCurrentSession()) return 0;
-		return OdHostAppService::R()->getCurrentSession()->getPrompts()->historySize();
 	}
 	std::string GetCurrentFilePath()
 	{

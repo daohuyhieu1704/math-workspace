@@ -48,7 +48,6 @@ namespace GeometryNative
 		double kz = matrix[2][0] * x + matrix[2][1] * y + matrix[2][2] * z + matrix[2][3];
 		double kw = matrix[3][0] * x + matrix[3][1] * y + matrix[3][2] * z + matrix[3][3];
 
-		// homogeneous coordinates
 		if (kw != 1.0 && kw != 0.0)
 		{
 			kx /= kw;

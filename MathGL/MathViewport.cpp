@@ -36,7 +36,7 @@ void MathViewport::drawScene() {
     setCamera();
     drawAxis();
     glLightfv(GL_LIGHT0, GL_POSITION, lpos);
-	drawInfiniteGrid(1.0f, 50);
+	drawInfiniteGrid(10.0f, 50);
     OdDrawingManager::R()->renderAll();
     glutSwapBuffers();
     nframes++;

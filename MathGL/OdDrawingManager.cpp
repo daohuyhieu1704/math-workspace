@@ -142,13 +142,6 @@ void MathGL::DrawingManager::changeSession(unsigned int sessionId)
 	OdHostAppService::R()->ChangeCurrSession(sessionId);
 }
 
-void MathGL::DrawingManager::appendPrompt(String^ prompt)
-{
-	if (!OdHostAppService::R()->getCurrentSession()) return;
-	std::string promptStr = UtilCLI::convertToStdString(prompt);
-	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendPrompt(promptStr);
-}
-
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
@@ -214,23 +207,12 @@ void OdDrawingManager::ChangeSession(unsigned int sessionId)
 	OdHostAppService::R()->ChangeCurrSession(sessionId);
 }
 
-void OdDrawingManager::AppendCommand(const std::string command)
-{
-	if (!OdHostAppService::R()->getCurrentSession()) return;
-	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendCommand(command);
-}
-
-void OdDrawingManager::AppendPrompt(const std::string prompt)
-{
-	if (!OdHostAppService::R()->getCurrentSession()) return;
-	OdHostAppService::R()->getCurrentSession()->getPrompts()->appendPrompt(prompt);
-}
-
 void OdDrawingManager::renderAll()
 {
 	if (OdHostAppService::R()->getCurrentSession())
 	{
 		const auto& entities = OdHostAppService::R()->getCurrentSession()->getEntities();
+		std::vector<unsigned int> ids;
 		for (const auto& entity : entities)
 		{
 			glEnable(GL_DEPTH_TEST);
