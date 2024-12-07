@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:MathUI.Presenters"
              xmlns:converters="clr-namespace:MathUI.Converters"
              xmlns:mainwindow="clr-namespace:MathUI.ViewModels.MainWindow"
+             xmlns:lang="clr-namespace:MathUI.Resources"
              d:DataContext="{d:DesignInstance Type=mainwindow:MainWindowViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="800">
+             d:DesignHeight="130" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:FileItemToVis x:Key="FileItemToVis" />
         <Style x:Key="NeonTextStyle" TargetType="TextBlock">
@@ -107,11 +108,27 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="IconButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="10" />
+        </Style>
+        <ControlTemplate x:Key="IconButtonTemplate" TargetType="ContentControl">
+            <Grid Width="{TemplateBinding Width}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="33" />
+                    <RowDefinition Height="18" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Height="33" Source="{Binding Icon}" />
+                <Button Grid.Row="1" Content="{Binding Label}" Style="{StaticResource IconButtonStyle}" Click="{Binding ClickHandler}" />
+            </Grid>
+        </ControlTemplate>
     </UserControl.Resources>
     <Grid Background="#1e2023">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0" Margin="0" BorderThickness="0" Background="#333538">
             <TabItem Header="Home">
@@ -131,7 +148,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="New" FontSize="10" Click="New_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_NewFile}" FontSize="10" Click="New_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderBrush="Black">
@@ -141,7 +158,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/open.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Open" FontSize="10" Click="Open_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_OpenFile}" FontSize="10" Click="Open_Click" />
                                         </Grid>
                                     </Border>
                                     <Border BorderBrush="Black">
@@ -151,7 +168,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/save.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Save" FontSize="10" Click="Save_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_SaveFile}" FontSize="10" Click="Save_Click" />
                                         </Grid>
                                     </Border>
                                 </StackPanel>
@@ -174,7 +191,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/select.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Select" FontSize="10" Click="Select_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_Select}" FontSize="10" Command="{Binding SelectCmd}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                         </Grid>
                                     </Border>
                                     <Border  BorderBrush="Black">
@@ -199,7 +216,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <TextBlock Grid.Row="1" Foreground="White" Text="Progress" FontSize="10" TextAlignment="Center" />
+                            <TextBlock Grid.Row="1" Foreground="White" Text="{DynamicResource TopPanelRes_Progress}" FontSize="10" TextAlignment="Center" />
                         </Grid>
                     </Border>
                 </StackPanel>
@@ -241,17 +258,7 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/rect.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Rectangle" FontSize="10" Click="DrawRect_Click" />
-                                        </Grid>
-                                    </Border>
-                                    <Border BorderBrush="Black">
-                                        <Grid Width="40">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="33" />
-                                                <RowDefinition Height="18" />
-                                            </Grid.RowDefinitions>
-                                            <Image Grid.Row="0" Height="33" Source="../Icons/square.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Square" FontSize="10" Click="DrawSquare_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Arc" FontSize="10" Click="DrawArc_Click" />
                                         </Grid>
                                     </Border>
                                     <Grid Width="50">
@@ -264,7 +271,7 @@
                                     </Grid>
                                 </StackPanel>
                             </Border>
-                            <TextBlock Grid.Row="1" Foreground="White" Text="Drawing" FontSize="10" TextAlignment="Center" />
+                            <TextBlock Grid.Row="1" Foreground="White" Text="2D" FontSize="10" TextAlignment="Center" />
                         </Grid>
                     </Border>
                     <Border BorderThickness="0 0 1 0" BorderBrush="Black">
@@ -282,12 +289,119 @@
                                                 <RowDefinition Height="18" />
                                             </Grid.RowDefinitions>
                                             <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
-                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Distance" FontSize="10" Click="Dist_Click" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Plane" FontSize="10" Click="Plane_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Extrude" FontSize="10" Click="Extrude_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Sweep" FontSize="10" Click="Sweep_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Scale" FontSize="10" Click="Scale_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Translation" FontSize="10" Click="Trans_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="50">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="Rotate" FontSize="10" Click="Rotate_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="72">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="PlaneToWorld" FontSize="10" Click="P2W_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border BorderThickness="0 0 0 0" BorderBrush="Black">
+                                        <Grid Width="72">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/dist.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="WorldToPlane" FontSize="10" Click="W2P_Click" />
                                         </Grid>
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <TextBlock Grid.Row="1" Foreground="White" FontSize="10" Text="Utilities" TextAlignment="Center" />
+                            <TextBlock Grid.Row="1" Foreground="White" FontSize="10" Text="3D" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="{DynamicResource TopPanelRes_Settings}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Border BorderThickness="0 0 1 0" BorderBrush="Black">
+                        <Grid Width="auto">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="18" />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderThickness="0 0 0 1" BorderBrush="Black">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Border  BorderBrush="Black">
+                                        <Grid Width="48">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_Language}" FontSize="10" Click="Language_Click" />
+                                        </Grid>
+                                    </Border>
+                                    <Border  BorderBrush="Black">
+                                        <Grid Width="48">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="33" />
+                                                <RowDefinition Height="18" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Height="33" Source="../Icons/new.png" />
+                                            <Button Grid.Row="1" BorderThickness="0" Background="Transparent" Foreground="White" Content="{DynamicResource TopPanelRes_Netload}" FontSize="10" Click="Netload_Click" />
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Grid.Row="1" Foreground="White" Text="Display" FontSize="10" TextAlignment="Center" />
                         </Grid>
                     </Border>
                 </StackPanel>

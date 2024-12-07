@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathUI", "MathUI\MathUI.csproj", "{07E6A901-C310-49F4-A123-4AA856CA7CB8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Geometry", "Geometry\Geometry.vcxproj", "{91300D2F-50F4-415E-9130-43351D2F0087}"
+	ProjectSection(ProjectDependencies) = postProject
+		{856419B2-50FD-4FCA-870D-15C5148CAC7C} = {856419B2-50FD-4FCA-870D-15C5148CAC7C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeometryNative", "GeometryNative\GeometryNative.vcxproj", "{856419B2-50FD-4FCA-870D-15C5148CAC7C}"
 EndProject
@@ -25,9 +28,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathTest", "MathTest\MathTe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathCoreNative", "MathCoreNative\MathCoreNative.vcxproj", "{6504E9E5-702E-432D-9E3E-5F4497C23661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCommand", "CustomCommand\CustomCommand.csproj", "{64775D55-E713-4F4A-BC33-D05AB1FBB22D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathTestCSharp", "MathTestCSharp\MathTestCSharp.csproj", "{2DD3B503-4A03-4A95-A67B-4347F29DF440}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{711C498A-0AE2-4DEA-BE69-2F81DDD710A4}"
+	ProjectSection(SolutionItems) = preProject
+		Resources.Designer.t4 = Resources.Designer.t4
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCommand", "CustomCommand\CustomCommand.csproj", "{7CE07088-CBC4-4730-8A32-B57420ED3348}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,18 +125,6 @@ Global
 		{6504E9E5-702E-432D-9E3E-5F4497C23661}.Release|x64.Build.0 = Release|x64
 		{6504E9E5-702E-432D-9E3E-5F4497C23661}.Release|x86.ActiveCfg = Release|Win32
 		{6504E9E5-702E-432D-9E3E-5F4497C23661}.Release|x86.Build.0 = Release|Win32
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Debug|x64.Build.0 = Debug|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Debug|x86.Build.0 = Debug|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Release|x64.ActiveCfg = Release|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Release|x64.Build.0 = Release|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Release|x86.ActiveCfg = Release|Any CPU
-		{64775D55-E713-4F4A-BC33-D05AB1FBB22D}.Release|x86.Build.0 = Release|Any CPU
 		{2DD3B503-4A03-4A95-A67B-4347F29DF440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DD3B503-4A03-4A95-A67B-4347F29DF440}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DD3B503-4A03-4A95-A67B-4347F29DF440}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -141,6 +137,18 @@ Global
 		{2DD3B503-4A03-4A95-A67B-4347F29DF440}.Release|x64.Build.0 = Release|Any CPU
 		{2DD3B503-4A03-4A95-A67B-4347F29DF440}.Release|x86.ActiveCfg = Release|Any CPU
 		{2DD3B503-4A03-4A95-A67B-4347F29DF440}.Release|x86.Build.0 = Release|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Debug|x64.Build.0 = Debug|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Debug|x86.Build.0 = Debug|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Release|x64.ActiveCfg = Release|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Release|x64.Build.0 = Release|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Release|x86.ActiveCfg = Release|Any CPU
+		{7CE07088-CBC4-4730-8A32-B57420ED3348}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

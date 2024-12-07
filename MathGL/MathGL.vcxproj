@@ -26,7 +26,7 @@
     <RootNamespace>MathGL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFramework>net8.0</TargetFramework>
-    <WindowsTargetPlatformMinVersion>7.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22621.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -78,6 +78,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)vcpkg_installed\x64-windows\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)vcpkg_installed\x64-windows\debug\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -85,12 +86,13 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\math-workspace\Libraries\freeglut-3.6.0\src;D:\math-workspace\Libraries\freeglut-3.6.0\include;D:\math-workspace\Libraries\glut-lib;$(SolutionDir)GeometryNative;$(SolutionDir)MathCoreNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GeometryNative;$(SolutionDir)MathCoreNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;winmm.lib;gdi32.lib;glu32.lib;lib\Debug\freeglutd.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;GeometryNative.lib;MathCoreNative.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\math-workspace\Libraries\glut-lib;$(SolutionDir)Build\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenGL32.Lib;winmm.lib;gdi32.lib;GlU32.Lib;freeglutd.lib;kernel32.lib;user32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;GeometryNative.lib;MathCoreNative.lib;TKernel.lib;TKMath.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKTopAlgo.lib;TKPrim.lib;TKBO.lib;TKBRep.lib;TKG3d.lib;TKMesh.lib;TKShHealing.lib;TKOffset.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -128,26 +130,70 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CallbackBridge.h" />
+    <ClInclude Include="CommandInvoker.h" />
     <ClInclude Include="DisposableWrapper.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntitySelection.h" />
+    <ClInclude Include="Math3dSolid.h" />
+    <ClInclude Include="MathArc.h" />
+    <ClInclude Include="MathJig.h" />
+    <ClInclude Include="MathPlane.h" />
+    <ClInclude Include="MathPolyline.h" />
+    <ClInclude Include="OdMathArc.h" />
     <ClInclude Include="MathCircle.h" />
+    <ClInclude Include="MathLine.h" />
+    <ClInclude Include="OdMath3dSolid.h" />
+    <ClInclude Include="OdMathCircle.h" />
     <ClInclude Include="DrawingManager.h" />
+    <ClInclude Include="MathCircleJig.h" />
+    <ClInclude Include="OdMathLine.h" />
+    <ClInclude Include="OdMathPlane.h" />
+    <ClInclude Include="OdMathPolyline.h" />
     <ClInclude Include="MathViewport.h" />
     <ClInclude Include="OdDrawingManager.h" />
+    <ClInclude Include="OdPointPrompt.h" />
+    <ClInclude Include="OdSelectionManager.h" />
+    <ClInclude Include="OdSelectionPrompt.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PointSelection.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="UtilCLI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CallbackBridge.cpp" />
+    <ClCompile Include="CommandInvoker.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntitySelection.cpp" />
+    <ClCompile Include="Math3dSolid.cpp" />
+    <ClCompile Include="MathArc.cpp" />
+    <ClCompile Include="MathJig.cpp" />
+    <ClCompile Include="MathPlane.cpp" />
+    <ClCompile Include="MathPolyline.cpp" />
+    <ClCompile Include="OdMathArc.cpp" />
     <ClCompile Include="MathCircle.cpp" />
+    <ClCompile Include="MathLine.cpp" />
+    <ClCompile Include="OdMath3dSolid.cpp" />
+    <ClCompile Include="OdMathCircle.cpp" />
     <ClCompile Include="DrawingManager.cpp" />
+    <ClCompile Include="MathCircleJig.cpp" />
+    <ClCompile Include="OdMathLine.cpp" />
+    <ClCompile Include="OdMathPlane.cpp" />
+    <ClCompile Include="OdMathPolyline.cpp" />
     <ClCompile Include="MathViewport.cpp" />
     <ClCompile Include="OdDrawingManager.cpp" />
+    <ClCompile Include="OdPointPrompt.cpp" />
+    <ClCompile Include="OdSelectionManager.cpp" />
+    <ClCompile Include="OdSelectionPrompt.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PointSelection.cpp" />
+    <ClCompile Include="UtilCLI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -158,7 +204,13 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Text.Json, Version=8.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.vcxproj">
+      <Project>{91300d2f-50f4-415e-9130-43351d2f0087}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

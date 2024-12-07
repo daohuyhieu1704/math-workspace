@@ -47,6 +47,8 @@ namespace MathUI.Commons
 
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
+            DrawingManager.Instance.exitGLUT();
+            hwndHost = IntPtr.Zero;
         }
     }
 }

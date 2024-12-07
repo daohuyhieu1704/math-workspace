@@ -8,4 +8,23 @@ namespace MathGL
 		HWND m_hwnd = GetImpObj()->InitializeWindow(hInstance, SW_SHOW, static_cast<HWND>(parentHandle.ToPointer()));
 		return IntPtr(m_hwnd);
 	}
+	Entity^ DrawingManager::getEntityById(unsigned int id)
+	{
+		OdBaseObjectPtr entities = GetImpObj()->getEntityById(id);
+		if (!entities)
+		{
+			return nullptr;
+		}
+		OdDbEntity* entityRaw = static_cast<OdDbEntity*>(entities.get());
+		Entity^ entity = gcnew Entity(entityRaw, false);
+		return entity;
+	}
+	void DrawingManager::removeEntity(unsigned int id)
+	{
+		OdHostAppService::R()->getCurrentSession()->removeEntity(id);
+	}
+	unsigned int DrawingManager::CurrentSessionId::get()
+	{
+		return OdHostAppService::R()->getCurrentSessionId();
+	}
 }

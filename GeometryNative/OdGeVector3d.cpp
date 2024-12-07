@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "OdGeVector3d.h"
+#include <stdexcept>
 
 namespace GeometryNative
 {
@@ -28,6 +29,19 @@ namespace GeometryNative
 	double OdGeVector3d::Length() const
 	{
 		return sqrt(x * x + y * y + z * z);
+	}
+	OdGeVector3d OdGeVector3d::perpendicular() const
+	{
+		if (x == 0 && y == 0 && z == 0) {
+			throw std::runtime_error("Cannot compute a perpendicular to a zero vector");
+		}
+
+		if (x != 0 || z != 0) {
+			return crossProduct(OdGeVector3d(0, 1, 0));
+		}
+		else {
+			return crossProduct(OdGeVector3d(1, 0, 0));
+		}
 	}
 
 	OdGeVector3d OdGeVector3d::normalize() const
@@ -95,6 +109,10 @@ namespace GeometryNative
 	bool OdGeVector3d::isEqual(const OdGeVector3d& other) const
 	{
 		return (fabs(x - other.x) < FLT_EPSILON) && (fabs(y - other.y) < FLT_EPSILON) && (fabs(z - other.z) < FLT_EPSILON);
+	}
+	bool OdGeVector3d::isParallelTo(const OdGeVector3d& vector) const
+	{
+		return crossProduct(vector).Length() < FLT_EPSILON;
 	}
 	OdGeVector3d operator*(double scalar, const OdGeVector3d& vector)
 	{

@@ -1,7 +1,9 @@
-﻿using MathUI.ViewModels.MainWindow;
+﻿using MathUI.Resources;
+using MathUI.ViewModels.MainWindow;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,6 +23,7 @@ namespace MathUI.Presenters
     /// </summary>
     public partial class TopPanel : UserControl
     {
+        private ResourceManager resourceMan;
         public static readonly DependencyProperty ViewModelProperty =
         DependencyProperty.Register("ViewModel", typeof(MainWindowViewModel), typeof(TopPanel), new PropertyMetadata(null));
 
@@ -32,6 +35,15 @@ namespace MathUI.Presenters
         public TopPanel()
         {
             InitializeComponent();
+            switch (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName)
+            {
+                case "en":
+                    resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.TopPanelRes", typeof(TopPanelRes).Assembly);
+                    break;
+                case "vn":
+                    resourceMan = new global::System.Resources.ResourceManager("MathUI.Resources.TopPanelResvn", typeof(TopPanelRes).Assembly);
+                    break;
+            }
         }
         private void CommandAction(Action<MainWindowViewModel> callback)
         {
@@ -46,7 +58,6 @@ namespace MathUI.Presenters
             }
             catch (Exception)
             {
-
             }
         }
 
@@ -60,14 +71,9 @@ namespace MathUI.Presenters
             CommandAction((model) => ViewModel.DrawCircle());
         }
 
-        private void DrawRect_Click(object sender, RoutedEventArgs e)
+        private void DrawArc_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.DrawRect());
-        }
-
-        private void DrawSquare_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.DrawSquare());
+            CommandAction((model) => ViewModel.DrawArc());
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)
@@ -95,21 +101,6 @@ namespace MathUI.Presenters
             CommandAction((model) => ViewModel.SaveFile());
         }
 
-        private void Select_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.Select());
-        }
-
-        private void CloseApp_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.CloseApp());
-        }
-
-        private void Dist_Click(object sender, RoutedEventArgs e)
-        {
-            CommandAction((model) => ViewModel.Dist());
-        }
-
         private void FileTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ViewModel == null)
@@ -122,6 +113,56 @@ namespace MathUI.Presenters
         private void DrawPoly_Click(object sender, RoutedEventArgs e)
         {
             CommandAction((model) => ViewModel.DrawPoly());
+        }
+
+        private void Plane_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.DrawPlane());
+        }
+
+        private void Extrude_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Extrude());
+        }
+
+        private void Sweep_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Sweep());
+        }
+
+        private void Scale_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Scale());
+        }
+
+        private void Trans_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Trans());
+        }
+
+        private void Rotate_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.Rotate());
+        }
+
+        private void P2W_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.P2W());
+        }
+
+        private void W2P_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.W2P());
+        }
+
+        private void Language_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.ChangeLanguage());
+        }
+
+        private void Netload_Click(object sender, RoutedEventArgs e)
+        {
+            CommandAction((model) => ViewModel.NetLoad());
         }
     }
 }

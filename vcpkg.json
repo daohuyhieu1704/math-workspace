@@ -1,7 +1,5 @@
 {
   "name": "fumo-math",
   "version": "1.0.0",
-  "dependencies": [
-    "nlohmann-json"
-  ]
+  "dependencies": ["nlohmann-json", "glm", "freeglut", "opencascade"]
 }

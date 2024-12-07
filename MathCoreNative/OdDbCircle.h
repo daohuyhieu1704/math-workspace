@@ -7,6 +7,7 @@ class OdDbCircle :
 {
 	OD_RTTI_DECLARE(OdDbCircle, OdDbEntity)
 public:
+	virtual ~OdDbCircle() = default;
 	OdDbCircle();
 	OdGePoint3d getCenter() const { return m_center; }
 	void setCenter(OdGePoint3d center)
@@ -19,9 +20,7 @@ public:
 
 	// Inherited via OdDbEntity
 	OdBaseObjectPtr Clone() override;
-	virtual OdResult draw() const;
-	OdGeExtents3d boundingBox() const override;
-	OdResult worldDraw() const override;
+	virtual OdResult draw();
 
 	// Inherited via OdDbObject
 	virtual json toJson() const override;

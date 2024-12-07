@@ -1,6 +1,6 @@
 #include "pch.h"
+#include "OdMath3dSolid.h"
 #include "OdDrawingManager.h"
-#include "pch.h"
 #include <stdio.h>
 #include <math.h>
 #include <GL/freeglut.h>
@@ -8,8 +8,16 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include "MathCircle.h"
+#include "OdMathCircle.h"
+#include "OdMathLine.h"
 #include "MathViewport.h"
+#include "LineCmd.h"
+#include "MathArc.h"
+#include "OdMathPlane.h"
+#include "OdMathPolyline.h"
+#include <MathLog.h>
+
+OD_RTTI_SINGLETON_DEFINE(OdDrawingManager)
 
 std::map<int, std::string> objectMap;
 
@@ -22,34 +30,6 @@ int selectedObjectID = -1; // -1 means no object is selected
 #pragma warning (disable: 4305 4244)
 #endif
 
-static const char* helpprompt[] = { "Press F1 for help", 0 };
-static const char* helptext[] = {
-	"Rotate: left mouse drag",
-	" Scale: right mouse drag up/down",
-	"   Pan: middle mouse drag",
-	"",
-	"Toggle fullscreen: f",
-	"Toggle animation: space",
-	"Quit: escape",
-	0
-};
-
-void idle(void);
-void display(void);
-void drawScene(bool picking = false);
-void print_help(void);
-void reshape(int x, int y);
-void keypress(unsigned char key, int x, int y);
-void skeypress(int key, int x, int y);
-void mouse(int bn, int st, int x, int y);
-void motion(int x, int y);
-void pickObject(int x, int y);
-void setColorID(int id);
-
-int anim, help;
-long anim_start;
-long nframes;
-
 #ifndef GL_FRAMEBUFFER_SRGB
 #define GL_FRAMEBUFFER_SRGB	0x8db9
 #endif
@@ -58,17 +38,7 @@ long nframes;
 #define GL_MULTISAMPLE 0x809d
 #endif
 
-// Define object IDs
-#define OBJ_TORUS 1
-#define OBJ_SPHERE 2
-#define OBJ_CUBE 3
-#define OBJ_CONE 4
-#define OBJ_TEAPOT 5
-#define OBJ_PLANE 6
-#define OBJ_AXIS 7
-#define OBJ_GRID 8
-
-MathViewportPtr viewport;
+MathViewportPtr viewport = MathViewport::R();
 
 HWND GetGLUTWindowHandle()
 {
@@ -82,318 +52,100 @@ HWND GetGLUTWindowHandle()
 	return hwnd;
 }
 
-void drawGridXY(bool picking = false, float size = 10.0f, float step = 1.0f)
-{
-	if (picking)
-	{
-		setColorID(OBJ_GRID);
-	}
-	else
-	{
-		glDisable(GL_LIGHTING);
-	}
-
-	glBegin(GL_LINES);
-
-	if (!picking)
-		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-
-	glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-	for (float i = step; i <= size; i += step)
-	{
-		glVertex3f(-size, i, 0);
-		glVertex3f(size, i, 0);
-		glVertex3f(-size, -i, 0);
-		glVertex3f(size, -i, 0);
-
-		glVertex3f(i, -size, 0);
-		glVertex3f(i, size, 0);
-		glVertex3f(-i, -size, 0);
-		glVertex3f(-i, size, 0);
-	}
-	if (!picking)
-	{
-		glColor3f(1, 0, 0);
-		glVertex3f(-size, 0, 0);
-		glVertex3f(size, 0, 0);
-
-		glColor3f(0, 1, 0);
-		glVertex3f(0, -size, 0);
-		glVertex3f(0, size, 0);
-	}
-
-	glEnd();
-
-	if (!picking)
-		glEnable(GL_LIGHTING);
-}
-
-
-void drawAxis(bool picking = false, float size = 2.5f)
-{
-	glLineWidth(2.0f);
-
-	if (picking)
-	{
-		setColorID(OBJ_AXIS);
-		glBegin(GL_LINES);
-		// Draw X-axis
-		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
-		glVertex3f(10.0f, 0.0f, 0.0f); // Point on X-axis
-		// Draw Y-axis
-		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
-		glVertex3f(0.0f, 10.0f, 0.0f); // Point on Y-axis
-		glEnd();
-	}
-	else
-	{
-		// Draw X-axis in red
-		glBegin(GL_LINES);
-		glColor3f(1.0f, 0.0f, 0.0f); // Red
-		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
-		glVertex3f(10.0f, 0.0f, 0.0f); // Point on X-axis
-		glEnd();
-
-		// Draw Y-axis in green
-		glBegin(GL_LINES);
-		glColor3f(0.0f, 1.0f, 0.0f); // Green
-		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
-		glVertex3f(0.0f, 10.0f, 0.0f); // Point on Y-axis
-		glEnd();
-
-		// Draw the origin point
-		glPointSize(5.0f);
-		glBegin(GL_POINTS);
-		glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		glVertex3f(0.0f, 0.0f, 0.0f); // Origin
-		glEnd();
-	}
-}
-
 int MathGL::DrawingManager::ProcessGLUTEvents()
 {
 	glutMainLoop();
 	return 0;
 }
 
-void idle(void)
+int MathGL::DrawingManager::exitGLUT()
 {
-	glutPostRedisplay();
+	exit(0);
+	return 0;
 }
 
-void display(void)
+void MathGL::DrawingManager::TLViewport()
 {
-	drawScene(false); // Regular rendering
+	viewport->TLViewport();
 }
 
-void drawScene(bool picking)
+void MathGL::DrawingManager::TMViewport()
 {
-	long tm;
-	float lpos[] = { -1, 2, 3, 0 };
+	viewport->TMViewport();
+}
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+void MathGL::DrawingManager::TRViewport()
+{
+	viewport->TRViewport();
+}
 
-	viewport->draw();
+void MathGL::DrawingManager::MLViewport()
+{
+	viewport->MLViewport();
+}
 
-	if (!picking)
+void MathGL::DrawingManager::TMMViewport()
+{
+	viewport->TMMViewport();
+}
+
+void MathGL::DrawingManager::BMMViewport()
+{
+	viewport->BMMViewport();
+}
+
+void MathGL::DrawingManager::MRViewport()
+{
+	viewport->MRViewport();
+}
+
+void MathGL::DrawingManager::BLViewport()
+{
+	viewport->BLViewport();
+}
+
+void MathGL::DrawingManager::BMViewport()
+{
+	viewport->BMViewport();
+}
+
+void MathGL::DrawingManager::BRViewport()
+{
+	viewport->BRViewport();
+}
+
+List<String^>^ MathGL::DrawingManager::GetAllEntityJsons()
+{
+	if (!OdHostAppService::R()->getCurrentSession()) return nullptr;
+	const auto& ents = OdHostAppService::R()->getCurrentSession()->getEntities();
+	List<String^>^ retVal = gcnew List<String^>(ents.size());
+	for (const auto& ent : ents)
 	{
-		glLightfv(GL_LIGHT0, GL_POSITION, lpos);
-	}
-	else
-	{
-		glDisable(GL_LIGHTING);
-	}
-
-	MathCirclePtr circle = MathCircle::createObject();
-	circle->setCenter(OdGePoint3d(0, 0, 0));
-	circle->setRadius(50.0);
-	circle->draw();
-
-	// Draw Axis and Grid
-	drawAxis(picking);
-	drawGridXY(picking);
-
-	if (!picking)
-	{
-		print_help();
-		glutSwapBuffers();
-		nframes++;
-	}
-}
-
-void print_help(void)
-{
-	int i;
-	const char* s, ** text;
-
-	glPushAttrib(GL_ENABLE_BIT);
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glOrtho(0, viewport->getWidth(), 0, viewport->getHeight(), -1, 1);
-
-	text = help ? helptext : helpprompt;
-
-	for (i = 0; text[i]; i++) {
-		glColor3f(0, 0.1, 0);
-		glRasterPos2f(7, viewport->getHeight() - (i + 1) * 20 - 2);
-		s = text[i];
-		while (*s) {
-			glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *s++);
-		}
-		glColor3f(0, 0.9, 0);
-		glRasterPos2f(5, viewport->getHeight() - (i + 1) * 20);
-		s = text[i];
-		while (*s) {
-			glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *s++);
+		OdDbEntity* entity = static_cast<OdDbEntity*>(ent.get());
+		if (entity)
+		{
+			retVal->Add(gcnew String(static_cast<OdDbEntity*>(ent.get())->toJson().dump().c_str()));
 		}
 	}
-
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-
-	glPopAttrib();
+	return retVal;
 }
 
-#define ZNEAR	0.5f
-void reshape(int x, int y)
+void MathGL::DrawingManager::createSession(String^ fileName)
 {
-	float vsz, aspect = (float)x / (float)y;
-	viewport->setWidth(x);
-	viewport->setHeight(y);
-	glViewport(0, 0, x, y);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	vsz = 0.4663f * ZNEAR;
-	glFrustum(-aspect * vsz, aspect * vsz, -vsz, vsz, 0.5, 500.0);
+	OdHostAppService::R()->createSession();
+	std::string name = UtilCLI::convertToStdString(fileName);
+	OdHostAppService::R()->getCurrentSession()->setFileName(name);
 }
 
-void keypress(unsigned char key, int x, int y)
+void MathGL::DrawingManager::changeSession(unsigned int sessionId)
 {
-	static int fullscr;
-	static int prev_xsz, prev_ysz;
-
-	switch (key) {
-	case 27:
-	case 'q':
-		exit(0);
-		break;
-
-	case ' ':
-		anim ^= 1;
-		glutIdleFunc(anim ? idle : 0);
-		glutPostRedisplay();
-
-		if (anim) {
-			anim_start = glutGet(GLUT_ELAPSED_TIME);
-			nframes = 0;
-		}
-		else {
-			long tm = glutGet(GLUT_ELAPSED_TIME) - anim_start;
-			long fps = (nframes * 100000) / tm;
-			printf("framerate: %ld.%ld fps\n", fps / 100, fps % 100);
-		}
-		break;
-
-	case '\n':
-	case '\r':
-		if (!(glutGetModifiers() & GLUT_ACTIVE_ALT)) {
-			break;
-		}
-	case 'f':
-		fullscr ^= 1;
-		if (fullscr) {
-			prev_xsz = glutGet(GLUT_WINDOW_WIDTH);
-			prev_ysz = glutGet(GLUT_WINDOW_HEIGHT);
-			glutFullScreen();
-		}
-		else {
-			glutReshapeWindow(prev_xsz, prev_ysz);
-		}
-		break;
-	}
-}
-
-void skeypress(int key, int x, int y)
-{
-	switch (key) {
-	case GLUT_KEY_F1:
-		help ^= 1;
-		glutPostRedisplay();
-
-	default:
-		break;
-	}
-}
-
-void mouse(int bn, int st, int x, int y)
-{
-	int bidx = bn - GLUT_LEFT_BUTTON;
-	viewport->setButtonState(bidx, st == GLUT_DOWN);
-	viewport->setMouseX(x);
-	viewport->setMouseY(y);
-	if (bn == GLUT_LEFT_BUTTON && st == GLUT_DOWN)
-	{
-		pickObject(x, y);
-	}
-}
-
-void motion(int x, int y)
-{
-	viewport->motion(x, y);
-}
-
-// Function to set unique color ID
-void setColorID(int id)
-{
-	GLubyte r = id & 0xFF;
-	GLubyte g = (id >> 8) & 0xFF;
-	GLubyte b = (id >> 16) & 0xFF;
-	glColor3ub(r, g, b);
-}
-
-// Picking function
-void pickObject(int x, int y)
-{
-	GLint viewport[4];
-	glGetIntegerv(GL_VIEWPORT, viewport);
-
-	// Set up off-screen rendering for picking
-	glReadBuffer(GL_BACK);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	drawScene(true); // Render with unique colors for picking
-
-	// Read the color at the clicked position
-	GLubyte pixel[3];
-	glReadPixels(x, viewport[3] - y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, pixel);
-
-	int colorID = (pixel[0]) | (pixel[1] << 8) | (pixel[2] << 16);
-	auto it = objectMap.find(colorID);
-	if (it != objectMap.end())
-	{
-		selectedObjectID = colorID; // Set selected object ID
-		std::cout << "Selected object: " << it->second << std::endl;
-	}
-	else
-	{
-		selectedObjectID = -1; // No object selected
-		std::cout << "No object selected." << std::endl;
-	}
-
-	// Restore normal rendering
-	glutPostRedisplay();
+	OdHostAppService::R()->ChangeCurrSession(sessionId);
 }
 
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
 {
 	glutInit(&argc, argv);
+
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutCreateWindow("freeglut 3D view demo");
 
@@ -407,22 +159,169 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 
 	SetWindowPos(hwnd, nullptr, 0, 0, 800, 600, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 
-	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
-	glutKeyboardFunc(keypress);
-	glutSpecialFunc(skeypress);
-	glutMouseFunc(mouse);
-	glutMotionFunc(motion);
+	viewport->setParentHwnd(parentHwnd);
+	glutDisplayFunc([]() { viewport->display(); });
+	glutReshapeFunc([](int x, int y) { viewport->reshape(x, y); });
+	glutKeyboardFunc([](unsigned char key, int x, int y) { viewport->keypress(key, x, y); });
+	glutSpecialFunc([](int key, int x, int y) { viewport->skeypress(key, x, y); });
+	glutMouseFunc([](int bn, int st, int x, int y) { viewport->mouse(bn, st, x, y); });
+	glutMotionFunc([](int x, int y) { viewport->motion(x, y); });
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-
+	//OdMath3dSolidPtr solid = OdMath3dSolid::createObject();
+	//solid->setType(SolidType::Box);
+	//OdDrawingManager::R()->appendEntity(solid);
+	//OdMathPlanePtr plane = OdMathPlane::createObject();
+	//plane->setOrigin(OdGePoint3d(0, 0, 0));
+	//plane->setNormal(OdGeVector3d(0, 0, 1));
+	//OdDrawingManager::R()->appendEntity(plane);
 	return hwnd;
 }
 
 OdBaseObjectPtr OdDrawingManager::Clone()
 {
 	return OdDrawingManagerPtr();
+}
+
+void OdDrawingManager::InitFactory()
+{
+	OdMathLine::registerClass();
+	OdMathCircle::registerClass();
+	OdMathArc::registerClass();
+	OdMathPolyline::registerClass();
+	OdMathPlane::registerClass();
+	OdMath3dSolid::registerClass();
+}
+
+void OdDrawingManager::CreateSession(std::string fileName)
+{
+	OdHostAppService::R()->createSession();
+	OdHostAppService::R()->getCurrentSession()->setFileName(fileName);
+}
+
+void OdDrawingManager::ChangeSession(unsigned int sessionId)
+{
+	OdHostAppService::R()->ChangeCurrSession(sessionId);
+}
+
+void OdDrawingManager::renderAll()
+{
+	if (OdHostAppService::R()->getCurrentSession())
+	{
+		const auto& entities = OdHostAppService::R()->getCurrentSession()->getEntities();
+		std::vector<unsigned int> ids;
+		for (const auto& entity : entities)
+		{
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_CULL_FACE);
+			glEnable(GL_LIGHTING);
+			glEnable(GL_LIGHT0);
+			OdDbEntity* objRaw = static_cast<OdDbEntity*>(entity.get());
+			if (objRaw)
+			{
+				glLoadName(objRaw->id());
+				if (objRaw->isSelected())
+				{
+					glColor3f(1.0f, 0.0f, 0.0f);
+				}
+				else
+				{
+					float color[3] = { objRaw->getColor().r, objRaw->getColor().g, objRaw->getColor().b };
+					glColor3f(color[0], color[1], color[2]);
+				}
+				objRaw->draw();
+				// std::string jsonString = objRaw->toJson().dump();
+				// MathLog::LogFunction("Entity json: " + jsonString);
+				// drawBoundingBox(objRaw->getExtents());
+			}
+		}
+	}
+}
+
+void OdDrawingManager::SetPointPickedCallback(PointPickedCallback callback)
+{
+	pointPickedCallback = callback;
+}
+
+void OdDrawingManager::TriggerPointPicked(std::vector<OdGePoint3d> resPnt)
+{
+	if (pointPickedCallback) {
+		pointPickedCallback(resPnt);
+	}
+}
+
+void OdDrawingManager::SetEntityPickedCallback(EntityPickedCallback callback)
+{
+	entityPickedCallback = callback;
+}
+
+void OdDrawingManager::TriggerEntityPicked(const std::vector<OdDbObjectId>& resId) {
+	if (entityPickedCallback) {
+		entityPickedCallback(resId);
+	}
+}
+
+void OdDrawingManager::drawBoundingBox(const OdGeExtents3d& extents) {
+	// Extract min and max points
+	OdGePoint3d minPnt = extents.GetMinPnt();
+	OdGePoint3d maxPnt = extents.GetMaxPnt();
+
+	// Calculate all 8 corners of the box
+	OdGePoint3d corners[8] = {
+		{minPnt.x, minPnt.y, minPnt.z}, // Bottom-left-front
+		{maxPnt.x, minPnt.y, minPnt.z}, // Bottom-right-front
+		{maxPnt.x, maxPnt.y, minPnt.z}, // Bottom-right-back
+		{minPnt.x, maxPnt.y, minPnt.z}, // Bottom-left-back
+		{minPnt.x, minPnt.y, maxPnt.z}, // Top-left-front
+		{maxPnt.x, minPnt.y, maxPnt.z}, // Top-right-front
+		{maxPnt.x, maxPnt.y, maxPnt.z}, // Top-right-back
+		{minPnt.x, maxPnt.y, maxPnt.z}  // Top-left-back
+	};
+
+	// Set line color to green
+	glColor3f(0.0f, 1.0f, 0.0f);
+	// Draw edges of the bounding box
+	glBegin(GL_LINES);
+	// Bottom face
+	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
+	glVertex3f(corners[1].x, corners[1].y, corners[1].z);
+
+	glVertex3f(corners[1].x, corners[1].y, corners[1].z);
+	glVertex3f(corners[2].x, corners[2].y, corners[2].z);
+
+	glVertex3f(corners[2].x, corners[2].y, corners[2].z);
+	glVertex3f(corners[3].x, corners[3].y, corners[3].z);
+
+	glVertex3f(corners[3].x, corners[3].y, corners[3].z);
+	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
+
+	// Top face
+	glVertex3f(corners[4].x, corners[4].y, corners[4].z);
+	glVertex3f(corners[5].x, corners[5].y, corners[5].z);
+
+	glVertex3f(corners[5].x, corners[5].y, corners[5].z);
+	glVertex3f(corners[6].x, corners[6].y, corners[6].z);
+
+	glVertex3f(corners[6].x, corners[6].y, corners[6].z);
+	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
+
+	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
+	glVertex3f(corners[4].x, corners[4].y, corners[4].z);
+
+	// Vertical edges
+	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
+	glVertex3f(corners[4].x, corners[4].y, corners[4].z);
+
+	glVertex3f(corners[1].x, corners[1].y, corners[1].z);
+	glVertex3f(corners[5].x, corners[5].y, corners[5].z);
+
+	glVertex3f(corners[2].x, corners[2].y, corners[2].z);
+	glVertex3f(corners[6].x, corners[6].y, corners[6].z);
+
+	glVertex3f(corners[3].x, corners[3].y, corners[3].z);
+	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
+	glEnd();
 }

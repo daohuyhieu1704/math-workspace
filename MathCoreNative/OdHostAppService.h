@@ -7,47 +7,48 @@ class OdHostAppService :
 {
 	OD_RTTI_DECLARE(OdHostAppService, OdBaseObject)
 public:
-	static OdHostAppServicePtr getInstance();
-	OdMathSessionPtr createSession(const std::string& sessionId) {
+	OD_RTTI_SINGLETON_DECLARE(OdHostAppService)
+	OdMathSessionPtr createSession() {
+		OdMathSessionPtr session = OdMathSession::createObject();
+		unsigned int sessionId = session->getObjectId().GetObjectId();
 		if (m_sessions.find(sessionId) != m_sessions.end()) {
 			return m_sessions[sessionId];
 		}
-		auto session = OdMathSessionPtr();
-		m_sessions[sessionId] = session;
+		m_sessions[sessionId] = OdMathSessionPtr(session);
 		currentSessionId = sessionId;
 		return session;
 	}
 
-	OdMathSessionPtr getSession(const std::string& sessionId) {
+	OdMathSessionPtr getSession(unsigned int sessionId) {
 		if (m_sessions.find(sessionId) != m_sessions.end()) {
 			return m_sessions[sessionId];
 		}
 		return OdMathSessionPtr();
 	}
 
-	void ChangeCurrSession(const std::string filePath) {
-		if (m_sessions.find(filePath) != m_sessions.end()) {
-			currentSessionId = filePath;
+	void ChangeCurrSession(unsigned int sessionId) {
+		if (m_sessions.find(sessionId) != m_sessions.end()) {
+			currentSessionId = sessionId;
 		}
 	}
-	void removeSession(const std::string& sessionId) {
+	void removeSession(unsigned int sessionId) {
 		m_sessions.erase(sessionId);
 	}
 
 	OdMathSessionPtr getCurrentSession() {
+		if (currentSessionId == 0) return OdMathSessionPtr();
 		return getSession(currentSessionId);
 	}
-
-	void ExecuteAllPrompts() {
-		// getCurrentSession()->ExecuteAllPrompts();
+	unsigned int getCurrentSessionId() const {
+		return currentSessionId;
 	}
 	// Inherited via OdBaseObject
 	OdBaseObjectPtr Clone() override;
 	OdHostAppService();
 private:
-	~OdHostAppService() = default;
+	virtual ~OdHostAppService() = default;
 	OdHostAppService(const OdHostAppService&) = delete;
 	OdHostAppService& operator=(const OdHostAppService&) = delete;
-	std::unordered_map<std::string, OdMathSessionPtr> m_sessions;
-	std::string currentSessionId;
+	std::unordered_map<unsigned int, OdMathSessionPtr> m_sessions;
+	unsigned int currentSessionId;
 };

@@ -4,6 +4,7 @@
 #include "OdGeScale3d.h"
 #include "OdGePlane.h"
 
+
 namespace GeometryNative
 {
 	const OdGeMatrix3d OdGeMatrix3d::kIdentity = OdGeMatrix3d().setToIdentity();
@@ -308,45 +309,19 @@ namespace GeometryNative
     OdGeMatrix3d& OdGeMatrix3d::setToRotation(double angle,
         const OdGeVector3d& axis,
         const OdGePoint3d& center) {
-        OdGeVector3d u = axis;
-        u.normalize();
-
-        double cosA = cos(angle);
-        double sinA = sin(angle);
-        double oneMinusCosA = 1.0 - cosA;
-
-        double ux = u.x, uy = u.y, uz = u.z;
-
-        entry[0][0] = cosA + ux * ux * oneMinusCosA;
-        entry[0][1] = ux * uy * oneMinusCosA - uz * sinA;
-        entry[0][2] = ux * uz * oneMinusCosA + uy * sinA;
-        entry[0][3] = 0.0;
-
-        entry[1][0] = uy * ux * oneMinusCosA + uz * sinA;
-        entry[1][1] = cosA + uy * uy * oneMinusCosA;
-        entry[1][2] = uy * uz * oneMinusCosA - ux * sinA;
-        entry[1][3] = 0.0;
-
-        entry[2][0] = uz * ux * oneMinusCosA - uy * sinA;
-        entry[2][1] = uz * uy * oneMinusCosA + ux * sinA;
-        entry[2][2] = cosA + uz * uz * oneMinusCosA;
-        entry[2][3] = 0.0;
-
-        entry[3][0] = 0.0;
-        entry[3][1] = 0.0;
-        entry[3][2] = 0.0;
-        entry[3][3] = 1.0;
-
-        OdGeMatrix3d translationToOrigin;
-        translationToOrigin.setToTranslation(-OdGeVector3d(center.x, center.y, center.z));
-
-        OdGeMatrix3d translationBack;
-        translationBack.setToTranslation(OdGeVector3d(center.x, center.y, center.z));
-
-        *this = translationBack * (*this) * translationToOrigin;
+        glm::vec3 glmCenter(static_cast<float>(center.x), static_cast<float>(center.y), static_cast<float>(center.z));
+        glm::vec3 glmAxis = glm::normalize(glm::vec3(static_cast<float>(axis.x),
+            static_cast<float>(axis.y),
+            static_cast<float>(axis.z)));
+        glm::mat4 translationToOrigin = glm::translate(glm::mat4(1.0f), -glmCenter);
+        glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), static_cast<float>(angle), glmAxis);
+        glm::mat4 translationBack = glm::translate(glm::mat4(1.0f), glmCenter);
+        glm::mat4 transformation = translationToOrigin * rotation * translationBack;
+        setFromGLM(transformation);
 
         return *this;
     }
+
 
     // Set to scaling (uniform)
     OdGeMatrix3d& OdGeMatrix3d::setToScaling(double scale,
@@ -384,13 +359,13 @@ namespace GeometryNative
 
     // Set to mirroring about plane
     OdGeMatrix3d& OdGeMatrix3d::setToMirroring(const OdGePlane& mirrorPlane) {
-        OdGeVector3d n = mirrorPlane.normal;
+        OdGeVector3d n = mirrorPlane.m_normal;
         n.normalize();
 
         double a = n.x;
         double b = n.y;
         double c = n.z;
-        double d = -(a * mirrorPlane.origin.x + b * mirrorPlane.origin.y + c * mirrorPlane.origin.z);
+        double d = -(a * mirrorPlane.m_origin.x + b * mirrorPlane.m_origin.y + c * mirrorPlane.m_origin.z);
 
         entry[0][0] = 1 - 2 * a * a;
         entry[0][1] = -2 * a * b;
@@ -434,7 +409,7 @@ namespace GeometryNative
     // Set to projection onto plane
     OdGeMatrix3d& OdGeMatrix3d::setToProjection(const OdGePlane& projectionPlane,
         const OdGeVector3d& projectDir) {
-        OdGeVector3d n = projectionPlane.normal;
+        OdGeVector3d n = projectionPlane.m_normal;
         n.normalize();
         OdGeVector3d d = projectDir;
         d.normalize();
@@ -462,7 +437,7 @@ namespace GeometryNative
         entry[2][2] = 1 - dz * c / dot;
         entry[2][3] = 0.0;
 
-        OdGeVector3d trans = -projectDir * (projectionPlane.origin.x * a + projectionPlane.origin.y * b + projectionPlane.origin.z * c) / dot;
+        OdGeVector3d trans = -projectDir * (projectionPlane.m_origin.x * a + projectionPlane.m_origin.y * b + projectionPlane.m_origin.z * c) / dot;
         entry[0][3] = trans.x;
         entry[1][3] = trans.y;
         entry[2][3] = trans.z;
@@ -640,6 +615,15 @@ namespace GeometryNative
     OdGeMatrix2d OdGeMatrix3d::convertToLocal(OdGeVector3d& normal, double& elevation) const {
         // Placeholder implementation
 		return OdGeMatrix2d::kIdentity;
+    }
+    void OdGeMatrix3d::setFromGLM(const glm::mat4& glmMatrix)
+    {
+        const float* data = glm::value_ptr(glmMatrix);
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                entry[i][j] = static_cast<double>(data[j + i * 4]);
+            }
+        }
     }
 }
 

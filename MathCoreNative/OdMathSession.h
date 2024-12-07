@@ -1,10 +1,11 @@
 #pragma once
-#include "OdBaseObject.h"
 #include <chrono>
 #include <queue>
 #include <set>
 #include <any>
 #include <unordered_map>
+#include <stack>
+#include "OdBaseObject.h"
 
 typedef OdSmartPtr<class OdMathSession> OdMathSessionPtr;
 class OdMathSession :
@@ -12,20 +13,26 @@ class OdMathSession :
 {
     OD_RTTI_DECLARE(OdMathSession, OdBaseObject)
 public:
+	std::vector<OdBaseObjectPtr> getEntities() const { return m_entities; }
+	OdBaseObjectPtr getEntityById(unsigned int id);
+	void setEntities(std::vector<OdBaseObjectPtr>& entities) { m_entities = entities; }
+	unsigned int appendEntity(const OdBaseObjectPtr& entity) {
+		m_entities.push_back(entity);
+		return entity->getObjectId().GetObjectId();
+	}
+	OdBaseObjectPtr& getEntityAt(int index) { return m_entities[index]; }
+	void removeEntity(const OdBaseObjectPtr& entity) { 
+		m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end()); 
+	}
+	void removeEntity(unsigned int id);
     OdBaseObjectPtr Clone() override;
-    OdMathSession();
-    // Getters and setters for session attributes
-    void setLastAccessTime() { lastAccessTime = std::chrono::system_clock::now(); }
-    void addCommand(const std::string& command) { commands.push(command); }
-    bool getIsModified() const { return isModified; }
-    void setIsModified(bool modified) { isModified = modified; }
+	std::string getFileName() { return fileName; }
+	void setFileName(std::string m_name) { fileName = m_name; }
+	OdMathSession();
+	virtual ~OdMathSession() = default;
 private:
-    std::chrono::time_point<std::chrono::system_clock> creationTime;
-    std::chrono::time_point<std::chrono::system_clock> lastAccessTime;
-    enum class SessionState { ACTIVE, INACTIVE, CLOSED } sessionState;
-    std::queue<std::string> commands;
-    std::unordered_map<std::string, OdBaseObjectPtr> contextData;
-    std::set<std::string> permissions;
-    bool isModified;
-	std::string m_fileName = "Untitled";
+	std::vector<OdBaseObjectPtr> m_entities;
+	std::string fileName = "";
 };
+
+OD_RTTI_DEFINE(OdMathSession, OdBaseObject)

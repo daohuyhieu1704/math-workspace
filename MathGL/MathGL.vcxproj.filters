@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Base">
-      <UniqueIdentifier>{aae1df52-cbce-438f-a032-c7c450a208bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands">
-      <UniqueIdentifier>{d65545e8-829e-4b4b-9197-2400f8949171}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{5f4a38f3-095d-45c9-8c35-c81767d109b1}</UniqueIdentifier>
     </Filter>
@@ -37,15 +31,75 @@
     <Filter Include="Commons\DisposableWrapper">
       <UniqueIdentifier>{aa172782-99d9-4145-a549-c7b732548dba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Circle">
+      <UniqueIdentifier>{d3126ae0-66f9-444a-9d31-d634488c045a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Arc">
+      <UniqueIdentifier>{66b8c43a-67f2-44e0-b48a-94b5a927aba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Polyline">
+      <UniqueIdentifier>{d340f1f0-f961-41a7-8451-4dccded737a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Plane">
+      <UniqueIdentifier>{1449204a-cdd9-45ed-a81a-e10f4cfb1093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig">
+      <UniqueIdentifier>{87f79b65-1d9d-4a36-9acd-5dec1bc18858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Circle">
+      <UniqueIdentifier>{a7d9188f-66d7-4aad-94f9-f09151ee7596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prompts">
+      <UniqueIdentifier>{a53274d4-789b-4a1d-9bb6-cbb9773508c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\CommandInvoker">
+      <UniqueIdentifier>{277339c0-cfcf-46c8-998b-113da31a044d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prompts\Selection">
+      <UniqueIdentifier>{3a2966fe-cc11-4932-b0f4-2c8df164d4aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prompts\Point">
+      <UniqueIdentifier>{7158cef9-b9b4-4fbf-ae22-191aef1187f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3dSolid">
+      <UniqueIdentifier>{0e311fef-b690-4e9f-8837-da505f60eee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Line">
+      <UniqueIdentifier>{33262371-b7fb-437c-a577-908a1906df3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Arc">
+      <UniqueIdentifier>{669951e2-19d3-4d92-8024-917325b02384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Plane">
+      <UniqueIdentifier>{cac2610d-6da3-4df5-a23a-17397629bf88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\Polyline">
+      <UniqueIdentifier>{da9441dc-55a1-482e-8141-94408107beac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\3dSolid">
+      <UniqueIdentifier>{729a3f5f-c646-4c25-9428-a8a4ac033ea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jig\AbstractJig">
+      <UniqueIdentifier>{3ccbf966-ab5f-4552-af5d-6493d3f796fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\SelectionManager">
+      <UniqueIdentifier>{98f20205-219d-4e76-af8d-38000ef2fe87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\Entity">
+      <UniqueIdentifier>{9929530d-c7c2-48c0-9aa3-093e6409280d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commons\CallbackBridge">
+      <UniqueIdentifier>{6b639a41-5972-4546-a157-fe096e242457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{997ea4cd-8d83-488e-a889-d5685e8e0dd8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MathCircle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MathViewport.h">
@@ -60,15 +114,81 @@
     <ClInclude Include="DisposableWrapper.h">
       <Filter>Commons\DisposableWrapper</Filter>
     </ClInclude>
+    <ClInclude Include="OdMathCircle.h">
+      <Filter>Graphics\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="OdMathLine.h">
+      <Filter>Graphics\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="OdMathArc.h">
+      <Filter>Graphics\Arc</Filter>
+    </ClInclude>
+    <ClInclude Include="OdMathPolyline.h">
+      <Filter>Graphics\Polyline</Filter>
+    </ClInclude>
+    <ClInclude Include="OdMathPlane.h">
+      <Filter>Graphics\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCircleJig.h">
+      <Filter>Jig\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandInvoker.h">
+      <Filter>Commons\CommandInvoker</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCircle.h">
+      <Filter>Graphics\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="OdSelectionPrompt.h">
+      <Filter>Prompts\Selection</Filter>
+    </ClInclude>
+    <ClInclude Include="OdPointPrompt.h">
+      <Filter>Prompts\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="PointSelection.h">
+      <Filter>Prompts\Point</Filter>
+    </ClInclude>
+    <ClInclude Include="MathLine.h">
+      <Filter>Graphics\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="Math3dSolid.h">
+      <Filter>Graphics\3dSolid</Filter>
+    </ClInclude>
+    <ClInclude Include="OdMath3dSolid.h">
+      <Filter>Graphics\3dSolid</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySelection.h">
+      <Filter>Prompts\Selection</Filter>
+    </ClInclude>
+    <ClInclude Include="MathArc.h">
+      <Filter>Graphics\Arc</Filter>
+    </ClInclude>
+    <ClInclude Include="MathPolyline.h">
+      <Filter>Graphics\Polyline</Filter>
+    </ClInclude>
+    <ClInclude Include="MathPlane.h">
+      <Filter>Graphics\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="MathJig.h">
+      <Filter>Jig\AbstractJig</Filter>
+    </ClInclude>
+    <ClInclude Include="OdSelectionManager.h">
+      <Filter>Graphics\SelectionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Commons\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CallbackBridge.h">
+      <Filter>Commons\CallbackBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilCLI.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MathCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MathViewport.cpp">
@@ -79,6 +199,75 @@
     </ClCompile>
     <ClCompile Include="OdDrawingManager.cpp">
       <Filter>Commons\DrawingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMathCircle.cpp">
+      <Filter>Graphics\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMathLine.cpp">
+      <Filter>Graphics\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMathArc.cpp">
+      <Filter>Graphics\Arc</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMathPolyline.cpp">
+      <Filter>Graphics\Polyline</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMathPlane.cpp">
+      <Filter>Graphics\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCircleJig.cpp">
+      <Filter>Jig\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandInvoker.cpp">
+      <Filter>Commons\CommandInvoker</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCircle.cpp">
+      <Filter>Graphics\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="OdSelectionPrompt.cpp">
+      <Filter>Prompts\Selection</Filter>
+    </ClCompile>
+    <ClCompile Include="OdPointPrompt.cpp">
+      <Filter>Prompts\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="PointSelection.cpp">
+      <Filter>Prompts\Point</Filter>
+    </ClCompile>
+    <ClCompile Include="MathLine.cpp">
+      <Filter>Graphics\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="Math3dSolid.cpp">
+      <Filter>Graphics\3dSolid</Filter>
+    </ClCompile>
+    <ClCompile Include="OdMath3dSolid.cpp">
+      <Filter>Graphics\3dSolid</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySelection.cpp">
+      <Filter>Prompts\Selection</Filter>
+    </ClCompile>
+    <ClCompile Include="MathArc.cpp">
+      <Filter>Graphics\Arc</Filter>
+    </ClCompile>
+    <ClCompile Include="MathPolyline.cpp">
+      <Filter>Graphics\Polyline</Filter>
+    </ClCompile>
+    <ClCompile Include="MathPlane.cpp">
+      <Filter>Graphics\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="MathJig.cpp">
+      <Filter>Jig\AbstractJig</Filter>
+    </ClCompile>
+    <ClCompile Include="OdSelectionManager.cpp">
+      <Filter>Graphics\SelectionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Commons\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="CallbackBridge.cpp">
+      <Filter>Commons\CallbackBridge</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilCLI.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

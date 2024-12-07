@@ -25,7 +25,8 @@
     <Keyword>NetCoreCProj</Keyword>
     <RootNamespace>Geometry</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <WindowsTargetPlatformMinVersion>7.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -84,9 +85,12 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)GeometryNative;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>GeometryNative.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -123,19 +127,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Extents2d.h" />
+    <ClInclude Include="Extents3d.h" />
+    <ClInclude Include="Matrix2d.h" />
+    <ClInclude Include="Matrix3d.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Point2d.h" />
+    <ClInclude Include="Point3d.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scale2d.h" />
+    <ClInclude Include="Scale3d.h" />
+    <ClInclude Include="Vector2d.h" />
+    <ClInclude Include="Vector3d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="Extents2d.cpp" />
+    <ClCompile Include="Extents3d.cpp" />
+    <ClCompile Include="Matrix2d.cpp" />
+    <ClCompile Include="Matrix3d.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Plane.cpp" />
+    <ClCompile Include="Point2d.cpp" />
+    <ClCompile Include="Point3d.cpp" />
+    <ClCompile Include="Scale2d.cpp" />
+    <ClCompile Include="Scale3d.cpp" />
+    <ClCompile Include="Vector2d.cpp" />
+    <ClCompile Include="Vector3d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

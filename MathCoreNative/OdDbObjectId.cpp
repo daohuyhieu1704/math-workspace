@@ -7,44 +7,60 @@
 #include <ctime>
 #include <string>
 
+
+std::set<std::string> OdDbObjectId::allocatedIds;
+std::mutex OdDbObjectId::mutex;
+
 const OdDbObjectId OdDbObjectId::kNull = OdDbObjectId(0);
 
-std::string OdDbObjectId::GetObjectId() const
+unsigned int OdDbObjectId::GetObjectId() const
 {
 	return m_Id;
 }
-std::string OdDbObjectId::GenerateShortId()
+unsigned int OdDbObjectId::GenerateShortId()
 {
-    std::time_t t = std::time(nullptr);
-    std::mt19937 rng(static_cast<unsigned int>(t));
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0, 15);
+    static thread_local std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<unsigned int> dist(0, 0xFFFFFFFF);
 
-    std::stringstream ss;
-    ss << std::hex << std::setw(8) << std::setfill('0') << (t & 0xFFFFFFF);
-
-    for (int i = 0; i < 2; ++i) {
-        ss << std::hex << dist(rng);
-    }
-
-    return ss.str().substr(0, 8);
+    return dist(rng);
 }
+
+unsigned int OdDbObjectId::GenerateUniqueId()
+{
+    static thread_local std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<unsigned int> dist(0, 0xFFFFFFFF);
+
+    std::string result;
+    unsigned int uniqueId;
+
+    std::unique_lock<std::mutex> lock(mutex);
+
+    do {
+        uniqueId = dist(rng);
+        result = std::to_string(uniqueId);
+    } while (allocatedIds.find(result) != allocatedIds.end());
+
+    allocatedIds.insert(result);
+    return uniqueId;
+}
+
 
 bool OdDbObjectId::isNull() const
 {
-	return m_Id == "0";
+	return m_Id == 0;
 }
 
 void OdDbObjectId::setNull()
 {
-	m_Id = "0";
+	m_Id = 0;
 }
 
 bool OdDbObjectId::isValid() const
 {
-	return m_Id != "0";
+	return m_Id != 0;
 }
 
-OdDbObjectId& OdDbObjectId::operator=(std::string objectId)
+OdDbObjectId& OdDbObjectId::operator=(unsigned int objectId)
 {
 	m_Id = objectId;
 	return *this;
@@ -53,4 +69,14 @@ OdDbObjectId& OdDbObjectId::operator=(std::string objectId)
 bool OdDbObjectId::operator==(const OdDbObjectId& objectId) const
 {
 	return m_Id == objectId.m_Id;
+}
+
+bool OdDbObjectId::operator!=(const OdDbObjectId& objectId) const
+{
+	return m_Id != objectId.m_Id;
+}
+
+bool OdDbObjectId::operator<(const OdDbObjectId& other) const
+{
+	return m_Id < other.m_Id;
 }

@@ -44,52 +44,52 @@ namespace GeometryNative
 		/// <summary>
 		/// X scale factor.
 		/// </summary>
-		/// <param name="scaleVec"></param>
+		/// <param m_name="scaleVec"></param>
 		/// <returns></returns>
 		OdGeScale3d operator *(const OdGeScale3d& scaleVec) const;
 
 		/// <summary>
 		/// Multiply the scale vector by a factor.
 		/// </summary>
-		/// <param name="factor"></param>
+		/// <param m_name="factor"></param>
 		/// <returns></returns>
 		OdGeScale3d operator *(double factor) const;
 
 		/// <summary>
 		/// Multiply the scale vector by a factor.
 		/// </summary>
-		/// <param name="factor"></param>
-		/// <param name="scaleVec"></param>
+		/// <param m_name="factor"></param>
+		/// <param m_name="scaleVec"></param>
 		/// <returns></returns>
 		friend OdGeScale3d operator *(double factor, const OdGeScale3d& scaleVec);
 
 		/// <summary>
 		/// Multiply the scale vector by another scale vector.
 		/// </summary>
-		/// <param name="scaleVec"></param>
+		/// <param m_name="scaleVec"></param>
 		/// <returns></returns>
 		OdGeScale3d& operator *=(const OdGeScale3d& scaleVec);
 
 		/// <summary>
 		/// Multiply the scale vector by a factor.
 		/// </summary>
-		/// <param name="factor"></param>
+		/// <param m_name="factor"></param>
 		/// <returns></returns>
 		OdGeScale3d& operator *=(double factor);
 
 		/// <summary>
 		/// Set the scale vector to the product of two scale vectors.
 		/// </summary>
-		/// <param name="scaleVec1"></param>
-		/// <param name="scaleVec2"></param>
+		/// <param m_name="scaleVec1"></param>
+		/// <param m_name="scaleVec2"></param>
 		/// <returns></returns>
 		OdGeScale3d& setToProduct(const OdGeScale3d& scaleVec1, const OdGeScale3d& scaleVec2);
 
 		/// <summary>
 		/// Set the scale vector to the product of the scale vector and a factor.
 		/// </summary>
-		/// <param name="scaleVec"></param>
-		/// <param name="factor"></param>
+		/// <param m_name="scaleVec"></param>
+		/// <param m_name="factor"></param>
 		/// <returns></returns>
 		OdGeScale3d& setToProduct(const OdGeScale3d& scaleVec, double factor);
 
@@ -114,66 +114,66 @@ namespace GeometryNative
 		/// <summary>
 		/// Check if the scale vector is uniform.
 		/// </summary>
-		/// <param name="scaleVec"></param>
+		/// <param m_name="scaleVec"></param>
 		/// <returns></returns>
 		bool operator ==(const OdGeScale3d& scaleVec) const;
 
 		/// <summary>
 		/// Check if the scale vector is not uniform.
 		/// </summary>
-		/// <param name="scaleVec"></param>
+		/// <param m_name="scaleVec"></param>
 		/// <returns></returns>
 		bool operator !=(const OdGeScale3d& scaleVec) const;
 
 		/// <summary>
 		/// Check if the scale vector is equal to another scale vector.
 		/// </summary>
-		/// <param name="scaleVec"></param>
-		/// <param name="tol"></param>
+		/// <param m_name="scaleVec"></param>
+		/// <param m_name="tol"></param>
 		/// <returns></returns>
 		bool isEqualTo(const OdGeScale3d& scaleVec, double tol = 1e-9) const;
 
 		/// <summary>
 		/// Get the scale factor for the specified axis.
 		/// </summary>
-		/// <param name="i"></param>
+		/// <param m_name="i"></param>
 		/// <returns></returns>
 		double& operator [](unsigned int i);
 
 		/// <summary>
 		/// Get the scale factor for the specified axis.
 		/// </summary>
-		/// <param name="i"></param>
+		/// <param m_name="i"></param>
 		/// <returns></returns>
 		double operator [](unsigned int i) const;
 
 		/// <summary>
 		/// Set the scale factors for the X, Y, and Z axes.
 		/// </summary>
-		/// <param name="xFactor"></param>
-		/// <param name="yFactor"></param>
-		/// <param name="zFactor"></param>
+		/// <param m_name="xFactor"></param>
+		/// <param m_name="yFactor"></param>
+		/// <param m_name="zFactor"></param>
 		/// <returns></returns>
 		OdGeScale3d& set(double xFactor, double yFactor, double zFactor);
 
 		/// <summary>
 		/// Get the scale factors for the X, Y, and Z axes.
 		/// </summary>
-		/// <param name="xfm"></param>
+		/// <param m_name="xfm"></param>
 		void getMatrix(OdGeMatrix3d& xfm) const;
 
 		/// <summary>
 		/// Extract the scale factors from the matrix.
 		/// </summary>
-		/// <param name="xfm"></param>
+		/// <param m_name="xfm"></param>
 		/// <returns></returns>
 		OdGeScale3d& extractScale(const OdGeMatrix3d& xfm);
 
 		/// <summary>
 		/// Remove scaling from the matrix.
 		/// </summary>
-		/// <param name="xfm"></param>
-		/// <param name="negateX"></param>
+		/// <param m_name="xfm"></param>
+		/// <param m_name="negateX"></param>
 		/// <returns></returns>
 		OdGeScale3d& removeScale(OdGeMatrix3d& xfm, bool negateX = false);
 

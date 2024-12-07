@@ -10,7 +10,149 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\circle.png" />
+    <None Remove="Icons\dist.png" />
+    <None Remove="Icons\line.png" />
+    <None Remove="Icons\new.png" />
+    <None Remove="Icons\open.png" />
+    <None Remove="Icons\poly.png" />
+    <None Remove="Icons\rect.png" />
+    <None Remove="Icons\redo.png" />
+    <None Remove="Icons\save.png" />
+    <None Remove="Icons\select.png" />
+    <None Remove="Icons\square.png" />
+    <None Remove="Icons\undo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icons\dist.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\save.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icons\circle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\line.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\new.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\open.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\poly.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\rect.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\redo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\select.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\square.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\undo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Geometry\Geometry.vcxproj" />
     <ProjectReference Include="..\MathGL\MathGL.vcxproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\DialogLanguageRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DialogLanguageRes.Designer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\DialogLanguageResvn.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DialogLanguageResvn.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\MainWindowRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainWindowRes.Designer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\MainWindowResvn.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainWindowResvn.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\TopPanelRes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TopPanelRes.Designer.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\TopPanelResvn.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TopPanelResvn.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\DialogLanguageRes.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\DialogLanguageResvn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DialogLanguageResvn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\MainWindowRes.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\MainWindowResvn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainWindowResvn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\TopPanelRes.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\TopPanelResvn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TopPanelResvn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\DialogLanguageRes.Designer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DialogLanguageRes.resx</DependentUpon>
+      <LastGenOutput>DialogLanguageRes.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\MainWindowRes.Designer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MainWindowRes.resx</DependentUpon>
+      <LastGenOutput>MainWindowRes.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\TopPanelRes.Designer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TopPanelRes.resx</DependentUpon>
+      <LastGenOutput>TopPanelRes.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

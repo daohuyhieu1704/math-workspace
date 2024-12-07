@@ -5,6 +5,9 @@ OD_RTTI_DEFINE(OdDbCircle, OdDbEntity)
 OdDbCircle::OdDbCircle() : m_center(OdGePoint3d::kOrigin), m_radius(0)
 {
 	setPosition(OdGePoint3d::kOrigin);
+	setXDir(OdGeVector3d::kXAxis);
+	setYDir(OdGeVector3d::kYAxis);
+	setZDir(OdGeVector3d::kZAxis);
 }
 
 OdBaseObjectPtr OdDbCircle::Clone()
@@ -25,19 +28,9 @@ OdBaseObjectPtr OdDbCircle::Clone()
 	return clone;
 }
 
-OdResult OdDbCircle::draw() const
+OdResult OdDbCircle::draw() 
 {
-	return OdResult::eInvalidDrawing;
-}
-
-OdGeExtents3d OdDbCircle::boundingBox() const
-{
-	return getExtents();
-}
-
-OdResult OdDbCircle::worldDraw() const
-{
-	return OdResult::eInvalidDrawing;
+	return OdResult::eNotImplementedYet;
 }
 
 json OdDbCircle::toJson() const

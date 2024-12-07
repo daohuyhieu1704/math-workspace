@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "OdDbObject.h"
 
-OdDbObjectId OdDbObject::id() const
+unsigned int OdDbObject::id() const
 {
-	return getObjectId();
+	return getObjectId().GetObjectId();
 }
 
 json OdDbObject::toJson() const

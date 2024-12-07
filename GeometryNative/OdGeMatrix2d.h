@@ -228,5 +228,4 @@ namespace GeometryNative
 
         double entry[3][3];
     };
-	const OdGeMatrix2d OdGeMatrix2d::kIdentity = OdGeMatrix2d().setToIdentity();
 }

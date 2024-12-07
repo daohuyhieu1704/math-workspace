@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <set>
+#include <mutex>
 
 class OdDatabase;
 class OdDbObject;
@@ -39,14 +41,13 @@ namespace OdDb
 /// </summary>
 class OdDbObjectId
 {
-	OdDbObjectId(int i) : m_Id(std::to_string(i)) {}
+    static std::set<std::string> allocatedIds;
+    static std::mutex mutex;
+	OdDbObjectId(unsigned int i) : m_Id(i) {}
+    static unsigned int GenerateShortId();
+    static unsigned int GenerateUniqueId();
 public:
-    std::string GetObjectId() const;
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    static std::string GenerateShortId();
+    unsigned int GetObjectId() const;
 
     /// <summary>
     /// This function guarantees that isNull() will, return true if it is the first operation applied to this instance.
@@ -75,20 +76,21 @@ public:
     /// <summary>
     /// VS2015 requires to create copy constructor explicity
     /// </summary>
-    /// <param name="objectId"></param>
+    /// <param m_name="objectId"></param>
     OdDbObjectId(const OdDbObjectId& objectId) = default;
     OdDbObjectId& operator = (const OdDbObjectId& objectId) = default;
 
-    OdDbObjectId& operator=(std::string objectId);
+    OdDbObjectId& operator=(unsigned int  objectId);
     bool operator == (
         const OdDbObjectId& objectId) const;
-    bool operator<(const OdDbObjectId& other) const {
-        return std::stoll(this->GetObjectId()) < std::stoll(other.GetObjectId());
-    }
+	bool operator != (
+		const OdDbObjectId& objectId) const;
+
+    bool operator<(const OdDbObjectId& other) const;
 	std::string toString() const {
-		return m_Id;
+		return std::to_string(m_Id);
 	}
 protected:
-	std::string m_Id = "0";
+    unsigned int m_Id = 0;
 };
 

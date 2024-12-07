@@ -117,6 +117,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -145,7 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="OdGeExtend2d.h" />
+    <ClInclude Include="OdGeExtents2d.h" />
     <ClInclude Include="OdGeExtents3d.h" />
     <ClInclude Include="OdGeMatrix2d.h" />
     <ClInclude Include="OdGeMatrix3d.h" />
@@ -159,8 +160,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeometryNative.cpp" />
-    <ClCompile Include="OdGeExtend2d.cpp" />
+    <ClCompile Include="OdGeExtents2d.cpp" />
     <ClCompile Include="OdGeExtents3d.cpp" />
     <ClCompile Include="OdGeMatrix2d.cpp" />
     <ClCompile Include="OdGeMatrix3d.cpp" />

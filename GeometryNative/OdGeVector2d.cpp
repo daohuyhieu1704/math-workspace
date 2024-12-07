@@ -22,6 +22,10 @@ namespace GeometryNative
     {
         return x * other.x + y * other.y;
     }
+    OdGeVector2d OdGeVector2d::perpendicular() const
+    {
+		return OdGeVector2d(-y, x); 
+    }
 
     void OdGeVector2d::operator+=(const OdGeVector2d& other)
     {

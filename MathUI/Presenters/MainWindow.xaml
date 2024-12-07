@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MathUI.Presenters" xmlns:viewmodel="clr-namespace:MathUI.ViewModels.MainWindow"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
+        xmlns:lang="clr-namespace:MathUI.Resources"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown"
         Name="MainView"
         Title="MathUI" Height="960" Width="1400">
     <Window.Resources>
@@ -15,8 +17,8 @@
         </Style>
     </Window.Resources>
     <Border 
-        CornerRadius="2"
-        BorderThickness="1">
+        CornerRadius="0 0 2 2"
+        BorderThickness="0 0 1 1">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#1e2023" Offset="0"/>
@@ -32,7 +34,7 @@
         </Border.Background>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="122"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="28"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
@@ -77,7 +79,7 @@
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label BorderThickness="0 1 1 0" BorderBrush="#2c2d2f" Grid.Column="0" Content="Window Command:" Foreground="White" />
+                                <Label BorderThickness="0 1 1 0" BorderBrush="#2c2d2f" Grid.Column="0" Content="{DynamicResource MainWindowRes_window_command}" Foreground="White" />
                                 <TextBox 
                                     Grid.Column="1"
                                     BorderThickness="0 1 0 0" 

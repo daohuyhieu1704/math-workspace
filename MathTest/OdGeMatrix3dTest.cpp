@@ -3,6 +3,7 @@
 #include "OdGeVector3d.h"
 #include "OdGePoint3d.h"
 #include <cmath>
+#include <OdPlatformSettings.h>
 
 namespace GeometryNative
 {
@@ -120,18 +121,25 @@ namespace GeometryNative
         EXPECT_TRUE(matrix1 != matrix2);
     }
 
-    ///// <summary>
-    ///// SetTranslation test sets a translation in the matrix and verifies the translation vector.
-    ///// </summary>
-    //TEST_F(OdGeMatrix3dTest, SetTranslation)
-    //{
-    //    OdGeVector3d translationVector(1.0, 2.0, 3.0);
-    //    matrix1.setTranslation(translationVector);
-    //    OdGeVector3d resultTranslation = matrix1.translation();
-    //    EXPECT_NEAR(resultTranslation.x, 1.0, 1e-6);
-    //    EXPECT_NEAR(resultTranslation.y, 2.0, 1e-6);
-    //    EXPECT_NEAR(resultTranslation.z, 3.0, 1e-6);
-    //}
+    /// <summary>
+    /// SetTranslation test sets a translation in the matrix and verifies the translation vector.
+    /// </summary>
+    TEST_F(OdGeMatrix3dTest, SetTranslation)
+    {
+        OdGeVector3d translation(5.0, -3.0, 10.0);
+
+        OdGeMatrix3d translationMatrix = OdGeMatrix3d::translation(translation);
+
+        EXPECT_EQ(translationMatrix[0][3], 5.0) << "X translation mismatch";
+        EXPECT_EQ(translationMatrix[1][3], -3.0) << "Y translation mismatch";
+        EXPECT_EQ(translationMatrix[2][3], 10.0) << "Z translation mismatch";
+
+        EXPECT_EQ(translationMatrix[0][0], 1.0);
+        EXPECT_EQ(translationMatrix[1][1], 1.0);
+        EXPECT_EQ(translationMatrix[2][2], 1.0);
+        EXPECT_EQ(translationMatrix[3][3], 1.0);
+        EXPECT_EQ(translationMatrix[3][0], 0.0);
+    }
 
     /// <summary>
     /// SetScaling test applies scaling transformation and verifies matrix scaling.
@@ -150,16 +158,20 @@ namespace GeometryNative
     /// </summary>
     TEST_F(OdGeMatrix3dTest, SetRotation)
     {
-        OdGeVector3d axis(0.0, 0.0, 1.0);
-        matrix1.setToRotation(3.14 / 2, axis);
+        OdGeMatrix3d matrix;
         OdGeMatrix3d expectedRotation;
+
+        expectedRotation.setToIdentity();
         expectedRotation(0, 0) = 0.0;
         expectedRotation(0, 1) = -1.0;
         expectedRotation(1, 0) = 1.0;
         expectedRotation(1, 1) = 0.0;
         expectedRotation(2, 2) = 1.0;
         expectedRotation(3, 3) = 1.0;
-        EXPECT_TRUE(matrix1.isEqualTo(expectedRotation, 1e-6));
+
+        matrix.setToRotation(OdPI / 2, OdGeVector3d::kZAxis);
+
+        EXPECT_TRUE(matrix.isEqualTo(expectedRotation, 1e-6));
     }
 
     /// <summary>

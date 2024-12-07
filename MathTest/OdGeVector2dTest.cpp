@@ -33,7 +33,7 @@ namespace GeometryNative
     /// <summary>
     /// ParameterizedConstructor test verifies the parameterized constructor initializes the vector with specified x and y values.
     /// </summary>
-    /// <param name="vector">Initialized vector with specified x and y coordinates.</param>
+    /// <param m_name="vector">Initialized vector with specified x and y coordinates.</param>
     TEST_F(OdGeVector2dTest, ParameterizedConstructor)
     {
         OdGeVector2d vector(1.0f, 2.0f);
@@ -44,7 +44,7 @@ namespace GeometryNative
     /// <summary>
     /// Length test verifies that the Length method calculates the vector's magnitude.
     /// </summary>
-    /// <param name="vector1">Vector for length calculation.</param>
+    /// <param m_name="vector1">Vector for length calculation.</param>
     TEST_F(OdGeVector2dTest, Length)
     {
         double length = vector1.Length();
@@ -54,7 +54,7 @@ namespace GeometryNative
     /// <summary>
     /// normalize test checks if the normalize method returns a unit vector with a magnitude of 1.
     /// </summary>
-    /// <param name="vector1">Vector to normalize.</param>
+    /// <param m_name="vector1">Vector to normalize.</param>
     TEST_F(OdGeVector2dTest, normalize)
     {
         OdGeVector2d normalized = vector1.normalize();
@@ -66,8 +66,8 @@ namespace GeometryNative
     /// <summary>
     /// dotProduct test verifies the dot product calculation between two vectors.
     /// </summary>
-    /// <param name="vector1">First vector for dot product calculation.</param>
-    /// <param name="vector2">Second vector for dot product calculation.</param>
+    /// <param m_name="vector1">First vector for dot product calculation.</param>
+    /// <param m_name="vector2">Second vector for dot product calculation.</param>
     TEST_F(OdGeVector2dTest, dotProduct)
     {
         double dotProduct = vector1.dotProduct(vector2);
@@ -77,8 +77,8 @@ namespace GeometryNative
     /// <summary>
     /// OperatorPlusEquals test checks if the += operator correctly adds the coordinates of another vector.
     /// </summary>
-    /// <param name="vector1">First vector to be incremented by vector2.</param>
-    /// <param name="vector2">Vector to add to vector1.</param>
+    /// <param m_name="vector1">First vector to be incremented by vector2.</param>
+    /// <param m_name="vector2">Vector to add to vector1.</param>
     TEST_F(OdGeVector2dTest, OperatorPlusEquals)
     {
         vector1 += vector2;
@@ -89,8 +89,8 @@ namespace GeometryNative
     /// <summary>
     /// OperatorMinusEquals test verifies that the -= operator correctly subtracts the coordinates of another vector.
     /// </summary>
-    /// <param name="vector1">First vector to be decremented by vector2.</param>
-    /// <param name="vector2">Vector to subtract from vector1.</param>
+    /// <param m_name="vector1">First vector to be decremented by vector2.</param>
+    /// <param m_name="vector2">Vector to subtract from vector1.</param>
     TEST_F(OdGeVector2dTest, OperatorMinusEquals)
     {
         vector1 -= vector2;
@@ -101,8 +101,8 @@ namespace GeometryNative
     /// <summary>
     /// OperatorPlus test checks if the + operator correctly returns the sum of two vectors.
     /// </summary>
-    /// <param name="vector1">First vector to add.</param>
-    /// <param name="vector2">Second vector to add.</param>
+    /// <param m_name="vector1">First vector to add.</param>
+    /// <param m_name="vector2">Second vector to add.</param>
     TEST_F(OdGeVector2dTest, OperatorPlus)
     {
         OdGeVector2d result = vector1 + vector2;
@@ -113,8 +113,8 @@ namespace GeometryNative
     /// <summary>
     /// OperatorMinus test verifies that the - operator returns the difference between two vectors.
     /// </summary>
-    /// <param name="vector1">First vector to subtract from.</param>
-    /// <param name="vector2">Vector to subtract from vector1.</param>
+    /// <param m_name="vector1">First vector to subtract from.</param>
+    /// <param m_name="vector2">Vector to subtract from vector1.</param>
     TEST_F(OdGeVector2dTest, OperatorMinus)
     {
         OdGeVector2d result = vector1 - vector2;
@@ -125,8 +125,8 @@ namespace GeometryNative
     /// <summary>
     /// OperatorMultiplyScalar test verifies that the * operator correctly scales the vector by a scalar.
     /// </summary>
-    /// <param name="vector1">Vector to be scaled.</param>
-    /// <param name="scalar">Scalar multiplier value.</param>
+    /// <param m_name="vector1">Vector to be scaled.</param>
+    /// <param m_name="scalar">Scalar multiplier value.</param>
     TEST_F(OdGeVector2dTest, OperatorMultiplyScalar)
     {
         OdGeVector2d result = vector1 * 2.0f;

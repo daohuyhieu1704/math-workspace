@@ -13,33 +13,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <TextBlock Text="Properties" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" Foreground="White" HorizontalAlignment="Center"/>
-
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <Expander Header="General" Foreground="White" Background="#444444" Margin="0,0,0,10" IsExpanded="True" >
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Column1"/>
-                        <ColumnDefinition Width="*" SharedSizeGroup="Column2"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Shape:" Grid.Row="0" Grid.Column="0" Margin="5" Foreground="White"/>
-                    <TextBlock Text="{Binding Shape}" Grid.Row="0" Grid.Column="1" Margin="5" Foreground="White"/>
-                    <TextBlock Text="Position X:" Grid.Row="1" Grid.Column="0" Margin="5" Foreground="White"/>
-                    <TextBlock Text="{Binding PositionX}" Grid.Row="1" Grid.Column="1" Margin="5" Foreground="White"/>
-                    <TextBlock Text="Position Y:" Grid.Row="2" Grid.Column="0" Margin="5" Foreground="White"/>
-                    <TextBlock Text="{Binding PositionY}" Grid.Row="2" Grid.Column="1" Margin="5" Foreground="White"/>
-                    <TextBlock Text="Position Z:" Grid.Row="3" Grid.Column="0" Margin="5" Foreground="White"/>
-                    <TextBlock Text="{Binding PositionZ}" Grid.Row="3" Grid.Column="1" Margin="5" Foreground="White"/>
-                </Grid>
-            </Expander>
-
+        <StackPanel Grid.Row="1" Orientation="Vertical" x:Name="InputPanel">
         </StackPanel>
     </Grid>
 </UserControl>
