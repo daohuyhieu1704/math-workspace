@@ -9,13 +9,21 @@ namespace GeometryNative
 {
     class Quaternion3d
     {
-        double m_w, m_x, m_y, m_z;
     public:
+        double m_w, m_x, m_y, m_z;
+		OdGePoint3d m_origin = OdGePoint3d::kOrigin;
+		static const Quaternion3d kIdentity;
+        /// <summary>
+		/// Identity quaternion
+        /// </summary>
         Quaternion3d() : m_w(1), m_x(0), m_y(0), m_z(0) {}
 
-        Quaternion3d(double w, double x, double y, double z) : m_w(w), m_x(x), m_y(y), m_z(z) {}
+        Quaternion3d(double w, double x, double y, double z, OdGePoint3d origin = OdGePoint3d::kOrigin) 
+            : m_w(w), m_x(x), m_y(y), m_z(z),
+			m_origin(origin)
+        {}
 
-        static Quaternion3d fromAxisAngle(double angleRad, double axisX, double axisY, double axisZ);
+        static Quaternion3d fromAxisAngle(double angleRad, OdGeVector3d axis, OdGePoint3d origin = OdGePoint3d::kOrigin);
 
         /// <summary>
         /// Normalize the quaternion
@@ -75,5 +83,11 @@ namespace GeometryNative
         /// <param name="point"></param>
         /// <returns></returns>
         OdGePoint3d operator*(const OdGePoint3d& point) const;
+
+        /// <summary>
+		/// Convert the quaternion to a rotation matrix
+        /// </summary>
+        /// <returns></returns>
+        OdGeMatrix3d toMatrix3d() const;
     };
 }

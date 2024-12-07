@@ -2,6 +2,7 @@
 #include "OdDbObject.h"
 #include <OdGeScale3d.h>
 #include <OdGeExtents3d.h>
+#include <Quaternion3d.h>
 
 using namespace GeometryNative;
 using json = nlohmann::json;
@@ -16,6 +17,7 @@ class OdDbEntity : public OdDbObject
 	OdGeVector3d m_zDir = OdGeVector3d::kZAxis;
 	OdGeExtents3d m_extents = OdGeExtents3d();
 	OdGeMatrix3d m_transform = OdGeMatrix3d::kIdentity;
+	Quaternion3d m_rotation = Quaternion3d::kIdentity;
 	bool m_isVisible = true;
 	bool m_isSelected = false;
 public:
@@ -41,6 +43,8 @@ public:
 	void setVisible(bool isVisible) { m_isVisible = isVisible; }
 	bool isSelected() const { return m_isSelected; }
 	void setSelected(bool isSelected) { m_isSelected = isSelected; }
+	Quaternion3d getRotation() const { return m_rotation; }
+	void setRotation(const Quaternion3d& rotation) { m_rotation = rotation; }
 #pragma endregion
 	virtual ~OdDbEntity() = default;
 	virtual json toJson() const;

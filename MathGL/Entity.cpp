@@ -74,6 +74,14 @@ namespace MathGL
 		}
 		return MathResult(GetImpObj()->transformBy(nativeXform));
     }
+    MathResult Entity::RotateBy(Vector3d axis, double angle, Point3d origin)
+    {
+        OdGeVector3d nativeAxis(axis.X, axis.Y, axis.Z);
+		GeometryNative::OdGePoint3d nativeOrigin(origin.X, origin.Y, origin.Z);
+        GeometryNative::Quaternion3d quat = GeometryNative::Quaternion3d::fromAxisAngle(angle, nativeAxis, nativeOrigin);
+        GetImpObj()->setRotation(quat);
+        return MathResult::eOk;
+    }
     String^ Entity::ToJson()
     {
 		json j = GetImpObj()->toJson();

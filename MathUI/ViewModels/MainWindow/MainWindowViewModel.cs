@@ -1092,6 +1092,7 @@ namespace MathUI.ViewModels.MainWindow
         {
             try
             {
+                HistoryWindow += "Select entity:\n";
                 EntitySelection entitySelection = new EntitySelection();
                 List<uint> entitieId = await entitySelection.getEntities(1);
                 Entity ent = DrawingManager.Instance.getEntityById(entitieId[0]);
@@ -1100,6 +1101,9 @@ namespace MathUI.ViewModels.MainWindow
                     HistoryWindow += "Select fail\n";
                     return;
                 }
+
+
+                HistoryWindow += "Pick base point:\n";
                 PointSelection pointSelection = new();
                 TextInputPrompt textPntPrompt = new(this);
                 Task<List<Point3d>> pointTask = pointSelection.getPoints(1);
@@ -1113,24 +1117,58 @@ namespace MathUI.ViewModels.MainWindow
                 if (completedTask == pointTask)
                 {
                     pnts = await pointTask;
- 
                 }
                 else if (completedTask == textTask)
                 {
                     text = await textTask; // Đảm bảo lấy kết quả nếu đây là task hoàn thành
-                                           // Xử lý text nếu cần
+                    List<string> values = text.Split(' ').ToList();
+                    List<double> orgn = [];
+                    for (int i = 0; i < values.Count; i++)
+                    {
+                        if (double.TryParse(values[i], out double n))
+                        {
+                            orgn.Add(n);
+                        }
+                        else
+                        {
+                            HistoryWindow += "Invalid input\n";
+                            return;
+                        }
+                    }
+                    pnts.Add(new Point3d(orgn[0], orgn[1], orgn[2]));
                 }
+
+                HistoryWindow += "Pick rotate vector:\n";
+                TextInputPrompt textPntPrompt2 = new(this);
+                string textTask2 = await textPntPrompt2.GetText();
+                List<string> values2 = textTask2.Split(' ').ToList();
+                List<double> orgn2 = [];
+                for (int i = 0; i < values2.Count; i++)
+                {
+                    if (double.TryParse(values2[i], out double n2))
+                    {
+                        orgn2.Add(n2);
+                    }
+                    else
+                    {
+                        HistoryWindow += "Invalid input\n";
+                        return;
+                    }
+                }
+                Vector3d vector = new(orgn2[0], orgn2[1], orgn2[2]);
+
+                HistoryWindow += "Angle:\n";
                 TextInputPrompt textInputPrompt2 = new(this);
                 string text2 = await textInputPrompt2.GetText();
-                if (double.TryParse(text2, out double n))
+                if (double.TryParse(text2, out double n3))
                 {
                     HistoryWindow += text2.ToString() + "\n";
-                    double rad = n * Math.PI / 180;
-                    Matrix3d rot = Matrix3d.Rotation(rad, Vector3d.XAxis, pnts[0]);
-                    ent.TransformBy(rot);
+                    double rad = n3 * Math.PI / 180;
+                    //Matrix3d rot = Matrix3d.Rotation(rad, Vector3d.XAxis, pnts[0]);
+                    ent.RotateBy(vector, rad, pnts[0]);
 
                     uint entityId = ent.Id;
-                    var parameters = new object[] { entityId, rot };
+                    //var parameters = new object[] { entityId, rot };
 
                     //undoRedoManager.ExecuteCommand(new CommandAction(
                     //    commandName: "ROTATE",

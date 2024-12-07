@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OdGePoint3d.h"
 #include "OdGeScale3d.h"
+#include "Quaternion3d.h"
 
 namespace GeometryNative
 {
@@ -114,5 +115,18 @@ namespace GeometryNative
 	OdGeVector3d OdGePoint3d::toVector3d() const
 	{
 		return OdGeVector3d(x, y, z);
+	}
+	OdGePoint3d OdGePoint3d::rotateBy(Quaternion3d quat) const
+	{
+		OdGePoint3d origin = quat.m_origin;
+		OdGePoint3d translatedPoint(x - origin.x, y - origin.y, z - origin.z);
+		Quaternion3d pointQuat(0, translatedPoint.x, translatedPoint.y, translatedPoint.z);
+		Quaternion3d rotatedQuat = quat * pointQuat * quat.conjugate();
+		OdGePoint3d rotatedPoint(rotatedQuat.m_x, rotatedQuat.m_y, rotatedQuat.m_z);
+		rotatedPoint.x += origin.x;
+		rotatedPoint.y += origin.y;
+		rotatedPoint.z += origin.z;
+
+		return rotatedPoint;
 	}
 }

@@ -601,6 +601,7 @@ namespace MathGL
         }
 
         MathResult TransformBy(Matrix3d xform);
+		MathResult RotateBy(Vector3d axis, double angle, Point3d origin);
         virtual String^ ToJson();
         static unsigned int FromJson(String^ json);
         void FromJson2(String^ json);

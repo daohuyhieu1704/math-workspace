@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "Quaternion3d.h"
+#include "OdGeMatrix3d.h"
 
 namespace GeometryNative
 {
-    Quaternion3d Quaternion3d::fromAxisAngle(double angleRad, double axisX, double axisY, double axisZ)
+	const Quaternion3d Quaternion3d::kIdentity = Quaternion3d();
+
+    Quaternion3d Quaternion3d::fromAxisAngle(double angleRad, OdGeVector3d axis, OdGePoint3d origin)
     {
-        double norm = std::sqrt(axisX * axisX + axisY * axisY + axisZ * axisZ);
+        double norm = std::sqrt(axis.x * axis.x + axis.y * axis.y + axis.z * axis.z);
         if (norm == 0) throw std::invalid_argument("Axis vector must not be zero!");
 
         double halfAngle = angleRad / 2.0;
@@ -13,9 +16,10 @@ namespace GeometryNative
 
         return Quaternion3d(
             std::cos(halfAngle),
-            sinHalfAngle * axisX / norm,
-            sinHalfAngle * axisY / norm,
-            sinHalfAngle * axisZ / norm
+            sinHalfAngle * axis.x / norm,
+            sinHalfAngle * axis.y / norm,
+            sinHalfAngle * axis.z / norm,
+			origin
         );
     }
 
@@ -49,5 +53,41 @@ namespace GeometryNative
     OdGePoint3d Quaternion3d::operator*(const OdGePoint3d& point) const
     {
         return mult(point);
+    }
+
+    OdGeMatrix3d Quaternion3d::toMatrix3d() const
+    {
+		OdGeMatrix3d mat = OdGeMatrix3d::kIdentity;
+        double xx = m_x * m_x;
+        double yy = m_y * m_y;
+        double zz = m_z * m_z;
+        double xy = m_x * m_y;
+        double xz = m_x * m_z;
+        double yz = m_y * m_z;
+        double wx = m_w * m_x;
+        double wy = m_w * m_y;
+        double wz = m_w * m_z;
+
+        mat[0][0] = 1.0 - 2.0 * (yy + zz);
+        mat[0][1] = 2.0 * (xy - wz);
+        mat[0][2] = 2.0 * (xz + wy);
+        mat[0][3] = 0.0;
+
+        mat[1][0] = 2.0 * (xy + wz);
+        mat[1][1] = 1.0 - 2.0 * (xx + zz);
+        mat[1][2] = 2.0 * (yz - wx);
+        mat[1][3] = 0.0;
+
+        mat[2][0] = 2.0 * (xz - wy);
+        mat[2][1] = 2.0 * (yz + wx);
+        mat[2][2] = 1.0 - 2.0 * (xx + yy);
+        mat[2][3] = 0.0;
+
+        mat[3][0] = 0.0;
+        mat[3][1] = 0.0;
+        mat[3][2] = 0.0;
+        mat[3][3] = 1.0;
+
+        return mat;
     }
 }
