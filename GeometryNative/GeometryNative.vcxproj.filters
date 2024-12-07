@@ -64,6 +64,9 @@
     <Filter Include="Line">
       <UniqueIdentifier>{663a0fba-2371-444b-952c-db8178955a58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quaternion">
+      <UniqueIdentifier>{aca2c9e1-6820-4c54-b081-40a9c755a4b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -105,6 +108,9 @@
     <ClInclude Include="OdGePlane.h">
       <Filter>Plane</Filter>
     </ClInclude>
+    <ClInclude Include="Quaternion3d.h">
+      <Filter>Quaternion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -142,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="OdGePlane.cpp">
       <Filter>Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion3d.cpp">
+      <Filter>Quaternion</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
