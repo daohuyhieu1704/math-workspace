@@ -52,9 +52,6 @@
     <Filter Include="Prompts">
       <UniqueIdentifier>{a53274d4-789b-4a1d-9bb6-cbb9773508c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commons\CommandInvoker">
-      <UniqueIdentifier>{277339c0-cfcf-46c8-998b-113da31a044d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Prompts\Selection">
       <UniqueIdentifier>{3a2966fe-cc11-4932-b0f4-2c8df164d4aa}</UniqueIdentifier>
     </Filter>
@@ -131,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="MathCircleJig.h">
       <Filter>Jig\Circle</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandInvoker.h">
-      <Filter>Commons\CommandInvoker</Filter>
     </ClInclude>
     <ClInclude Include="MathCircle.h">
       <Filter>Graphics\Circle</Filter>
@@ -217,9 +211,6 @@
     </ClCompile>
     <ClCompile Include="MathCircleJig.cpp">
       <Filter>Jig\Circle</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandInvoker.cpp">
-      <Filter>Commons\CommandInvoker</Filter>
     </ClCompile>
     <ClCompile Include="MathCircle.cpp">
       <Filter>Graphics\Circle</Filter>

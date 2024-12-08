@@ -3,6 +3,7 @@
 
 OdMathCircle::OdMathCircle() : OdDbCircle()
 {
+	setSelectMode(EntitySelectMode::Point);
 }
 
 OdMathCircle::OdMathCircle(OdGePoint3d center, double radius) : OdDbCircle()

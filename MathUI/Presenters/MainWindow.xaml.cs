@@ -37,7 +37,7 @@ namespace MathUI.Presenters
             vm.FileSelectedIdx = 0;
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
-            //CallbackBridge.RegisterMouseCallback(OnMouseClick);
+            CallbackBridge.RegisterMouseCallback(OnMouseClick);
         }
         void OnMouseClick(int x, int y)
         {

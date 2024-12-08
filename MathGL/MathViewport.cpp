@@ -11,7 +11,7 @@
 OD_RTTI_DEFINE(MathViewport, OdGiDrawable)
 OD_RTTI_SINGLETON_DEFINE(MathViewport)
 
-//extern "C" __declspec(dllexport) void NotifyMouseClick(int x, int y);
+extern "C" __declspec(dllexport) void NotifyMouseClick(int x, int y);
 
 OdMathPolylinePtr polyline = OdMathPolyline::createObject();
 
@@ -450,6 +450,7 @@ void MathViewport::mouse(int bn, int st, int x, int y) {
     if (bn == GLUT_LEFT_BUTTON && st == GLUT_DOWN) {
         OdSelectionPrompt::pickObjects(x, y);
         OdSelectionPrompt::resetWorldMouse(x, y);
+		NotifyMouseClick(x, y);
     }
 
     glutPostRedisplay();

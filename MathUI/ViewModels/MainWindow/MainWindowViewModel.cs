@@ -1308,30 +1308,100 @@ namespace MathUI.ViewModels.MainWindow
         [CommandMethod("REGEN")]
         internal void RegenViewModel()
         {
-            string json = DrawingManager.Instance.EntityJson;
-            if (json != "")
-            {
-                RegenLeftPanel(json);
-            }
+            RegenLeftPanel();
         }
 
-        private void RegenLeftPanel(string json)
+        private void RegenLeftPanel()
         {
-            if (string.IsNullOrEmpty(json))
+            uint entitieId = DrawingManager.Instance.EntitySelectedId;
+            if (entitieId == 0)
             {
+                HistoryWindow += "Entity Not found\n";
                 return;
             }
 
-            dynamic? jsonObject = JsonConvert.DeserializeObject(json);
-            if (jsonObject != null)
+            Presenters.LeftSide? leftSide = context.FindName("leftSide") as Presenters.LeftSide;
+            StackPanel? stack = leftSide?.FindName("InputPanel") as StackPanel;
+            if (stack == null) return;
+            HistoryWindow += "Select entity:\n";
+            EntitySelection entitySelection = new();
+            if (entitieId == 0)
             {
-                EntityModel? model = EntityModel.FromJson(json);
-                Shape = model?.Type ?? "";
-                PositionX = model?.Position.X ?? 0;
-                PositionY = model?.Position.Y ?? 0;
-                PositionZ = model?.Position.Z ?? 0;
+                HistoryWindow += "Entity Not found\n";
+                return;
             }
 
+            selectEntity = DrawingManager.Instance.getEntityById(entitieId);
+
+            if (selectEntity == null)
+            {
+                HistoryWindow += "Invalid entity id\n";
+                return;
+            }
+            string jsonString = selectEntity.ToJson();
+            var jsonObject = JObject.Parse(jsonString);
+            string type = jsonObject["type"].ToString();
+
+            switch (type)
+            {
+                case "OdMathLine":
+                    {
+                        List<string> labels = ["type", "startPnt.x", "startPnt.y", "startPnt.z", "endPnt.x", "endPnt.y", "endPnt.z"];
+                        List<bool> isReadOnly = [true, false, false, false, false, false, false];
+                        List<string> values = ["OdMathLine", jsonObject["startPnt"]["x"].ToString(), jsonObject["startPnt"]["y"].ToString(), jsonObject["startPnt"]["z"].ToString(),
+                            jsonObject["endPnt"]["x"].ToString(), jsonObject["endPnt"]["y"].ToString(), jsonObject["endPnt"]["z"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathCircle":
+                    {
+                        List<string> labels = ["type", "center.x", "center.y", "center.z", "radius"];
+                        List<bool> isReadOnly = [true, false, false, false, false, false, false];
+                        List<string> values = ["OdMathCircle", jsonObject["center"]["x"].ToString(), jsonObject["center"]["y"].ToString(), jsonObject["center"]["z"].ToString(), jsonObject["radius"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathArc":
+                    {
+                        List<string> labels = ["type", "startPnt.x", "startPnt.y", "startPnt.z", "bulge"];
+                        List<bool> isReadOnly = [true, false, false, false, false];
+                        List<string> values = ["OdMathArc",
+                            jsonObject["startPnt"]["x"].ToString(), jsonObject["startPnt"]["y"].ToString(), jsonObject["startPnt"]["z"].ToString(),
+                            jsonObject["bulge"].ToString(),
+                            ];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathPolyline":
+                    {
+                        List<string> labels = ["type", "Vertexes"];
+                        List<bool> isReadOnly = [true, false];
+                        List<string> values = ["OdMathPolyline", jsonObject["vertexes"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathSolid":
+                    {
+                        List<string> labels = ["type", "Vertexes"];
+                        List<bool> isReadOnly = [true, false];
+                        List<string> values = ["OdMathSolid", jsonObject["vertexes"].ToString()];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                case "OdMathPlane":
+                    {
+                        List<string> labels = ["type", "origin.x", "origin.y", "origin.z", "normal.x", "normal.y", "normal.z"];
+                        List<bool> isReadOnly = [true, false, false, false, false, false, false];
+                        List<string> values = ["OdMathPlane",
+                        jsonObject["origin"]["x"].ToString(), jsonObject["origin"]["y"].ToString(), jsonObject["origin"]["z"].ToString(),
+                        jsonObject["normal"]["x"].ToString(), jsonObject["normal"]["y"].ToString(), jsonObject["normal"]["z"].ToString()
+                            ];
+                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         [STAThread]
@@ -1363,5 +1433,6 @@ namespace MathUI.ViewModels.MainWindow
         public static List<Assembly> ExternalAssembly = [];
         public ICommand CloseTabCommand { get; }
         public ICommand SelectCmd { get; }
+        public ICommand RegenCmd { get; }
     }
 }

@@ -67,11 +67,11 @@ namespace MathGL {
 				return m_instance;
 			}
 		}
-		property String^ EntityJson
+		property unsigned int EntitySelectedId
 		{
-			String^ get()
+			unsigned int  get()
 			{
-				return gcnew String(GetImpObj()->m_json.c_str());
+				return GetImpObj()->m_jsonId;
 			}
 		}
 		property String^ CurrentFilePath

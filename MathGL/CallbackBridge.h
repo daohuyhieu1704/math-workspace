@@ -12,8 +12,8 @@ namespace MathGL
 	};
 };
 
-//extern "C" __declspec(dllexport) void NotifyMouseClick(int x, int y) {
-//	if (MathGL::mouseCallback.operator->() != nullptr) {
-//		MathGL::mouseCallback->Invoke(x, y);
-//	}
-//}
+extern "C" __declspec(dllexport) void NotifyMouseClick(int x, int y) {
+	if (MathGL::mouseCallback.operator->() != nullptr) {
+		MathGL::mouseCallback->Invoke(x, y);
+	}
+}

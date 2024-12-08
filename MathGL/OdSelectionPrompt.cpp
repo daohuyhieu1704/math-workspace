@@ -73,78 +73,153 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
     // Perform intersection tests with each entity
     for (auto& entity : entities) {
         auto pEntity = static_cast<OdDbEntity*>(entity.get());
-        auto vertices = pEntity->getExtents().getPoints();
-        if (vertices.size() < 2) continue;
+        std::vector<OdGePoint3d> vertices = pEntity->getExtents().getPoints();
+        std::vector<std::vector<int>> faces = pEntity->getExtents().getFaces();
+        if (pEntity->getSelectMode() == EntitySelectMode::Face && faces.size() > 0)
+        {
+            GLdouble entityClosestT = std::numeric_limits<GLdouble>::max();
+            bool entityHit = false;
 
-        GLdouble entityClosestT = std::numeric_limits<GLdouble>::max();
-        bool entityHit = false;
+            for (size_t fi = 0; fi < faces.size(); ++fi) {
+                const auto& faceIndices = faces[fi];
+                if (faceIndices.size() < 3) continue;
 
-        for (size_t i = 0; i < vertices.size() - 1; ++i) {
-            OdGePoint3d A = vertices[i];
-            OdGePoint3d B = vertices[i + 1];
-            // Vector u = B - A (represents the direction and length of the segment)
-            double ux = B.x - A.x;
-            double uy = B.y - A.y;
-            double uz = B.z - A.z;
+                std::vector<OdGePoint3d> polygonVertices;
+                for (int idx : faceIndices) {
+                    polygonVertices.push_back(vertices[idx]);
+                }
 
-            // Vector v = R0 - A (represents the vector from the segment start to the ray origin)
-            double vx = rayStartX - A.x;
-            double vy = rayStartY - A.y;
-            double vz = rayStartZ - A.z;
+                OdGePoint3d A = polygonVertices[0];
+                for (size_t i = 1; i < polygonVertices.size() - 1; ++i) {
+                    OdGePoint3d B = polygonVertices[i];
+                    OdGePoint3d C = polygonVertices[i + 1];
 
-            // Compute dot products for the required calculations
-            double uDotU = ux * ux + uy * uy + uz * uz;               // Dot product of u with itself (length squared of the segment)
-            double uDotRd = ux * rayDirX + uy * rayDirY + uz * rayDirZ; // Dot product of u and ray direction
-            double vDotU = vx * ux + vy * uy + vz * uz;               // Dot product of v and u
-            double vDotRd = vx * rayDirX + vy * rayDirY + vz * rayDirZ; // Dot product of v and ray direction
+                    double Ax = A.x, Ay = A.y, Az = A.z;
+                    double Bx = B.x, By = B.y, Bz = B.z;
+                    double Cx = C.x, Cy = C.y, Cz = C.z;
 
-            // Calculate the denominator for solving s and t
-            double denom = uDotU - uDotRd * uDotRd;
-            if (fabs(denom) < 1e-14) {
-                // If the denominator is very small, the ray and segment are nearly parallel
-                // In such cases, skip further calculations for this segment
-                continue;
-            }
+                    // Ray-Triangle intersection (Moller-Trumbore)
+                    double edge1x = Bx - Ax;
+                    double edge1y = By - Ay;
+                    double edge1z = Bz - Az;
 
-            // Solve for s (closest point on the segment) and t (closest point on the ray)
-            double s = (vDotU - vDotRd * uDotRd) / denom;
-            double t = (s * uDotRd - vDotRd);
+                    double edge2x = Cx - Ax;
+                    double edge2y = Cy - Ay;
+                    double edge2z = Cz - Az;
 
-            // Clamp s to the range [0,1] to ensure the closest point lies on the segment
-            s = std::max(0.0, std::min(1.0, s));
+                    double hx = rayDirY * edge2z - rayDirZ * edge2y;
+                    double hy = rayDirZ * edge2x - rayDirX * edge2z;
+                    double hz = rayDirX * edge2y - rayDirY * edge2x;
 
-            // If t is negative, the closest point on the ray is behind the ray's start point, so skip
-            if (t < 0) continue;
+                    double a = edge1x * hx + edge1y * hy + edge1z * hz;
+                    if (fabs(a) < 1e-9) {
+                        continue;
+                    }
 
-            // Compute the closest point on the segment: C = A + s * u
-            double Cx = A.x + s * ux;
-            double Cy = A.y + s * uy;
-            double Cz = A.z + s * uz;
+                    double f = 1.0 / a;
+                    double sx = rayStartX - Ax;
+                    double sy = rayStartY - Ay;
+                    double sz = rayStartZ - Az;
 
-            // Compute the closest point on the ray: R = R0 + t * Rd
-            double Rx = rayStartX + t * rayDirX;
-            double Ry = rayStartY + t * rayDirY;
-            double Rz = rayStartZ + t * rayDirZ;
+                    double u = f * (sx * hx + sy * hy + sz * hz);
+                    if (u < 0.0 || u > 1.0) {
+                        continue;
+                    }
 
-            // Calculate the distance between the closest points on the segment and the ray
-            double dx = Cx - Rx;
-            double dy = Cy - Ry;
-            double dz = Cz - Rz;
-            double dist = std::sqrt(dx * dx + dy * dy + dz * dz);
+                    double qx = sy * edge1z - sz * edge1y;
+                    double qy = sz * edge1x - sx * edge1z;
+                    double qz = sx * edge1y - sy * edge1x;
 
-            // If the distance is within the specified tolerance, consider the ray intersecting the segment
-            if (dist < tolerance) {
-                entityHit = true; // Mark the entity as hit
-                if (t < entityClosestT) {
-                    entityClosestT = t; // Update the closest intersection along the ray
+                    double v = f * (rayDirX * qx + rayDirY * qy + rayDirZ * qz);
+                    if (v < 0.0 || u + v > 1.0) {
+                        continue;
+                    }
+
+                    double t = f * (edge2x * qx + edge2y * qy + edge2z * qz);
+                    if (t > 1e-9) {
+                        if (t < closestDistanceAlongRay) {
+                            closestDistanceAlongRay = t;
+                            entityHit = true;
+                            selectedEntityId = pEntity->getObjectId();
+                        }
+                    }
                 }
             }
         }
+        else
+        {
+            if (vertices.size() < 2) continue;
 
-        // Update the closest entity if this one is closer along the ray
-        if (entityHit && entityClosestT < closestDistanceAlongRay) {
-            closestDistanceAlongRay = entityClosestT;
-            selectedEntityId = pEntity->getObjectId();
+            GLdouble entityClosestT = std::numeric_limits<GLdouble>::max();
+            bool entityHit = false;
+
+            for (size_t i = 0; i < vertices.size() - 1; ++i) {
+                OdGePoint3d A = vertices[i];
+                OdGePoint3d B = vertices[i + 1];
+                // Vector u = B - A (represents the direction and length of the segment)
+                double ux = B.x - A.x;
+                double uy = B.y - A.y;
+                double uz = B.z - A.z;
+
+                // Vector v = R0 - A (represents the vector from the segment start to the ray origin)
+                double vx = rayStartX - A.x;
+                double vy = rayStartY - A.y;
+                double vz = rayStartZ - A.z;
+
+                // Compute dot products for the required calculations
+                double uDotU = ux * ux + uy * uy + uz * uz;               // Dot product of u with itself (length squared of the segment)
+                double uDotRd = ux * rayDirX + uy * rayDirY + uz * rayDirZ; // Dot product of u and ray direction
+                double vDotU = vx * ux + vy * uy + vz * uz;               // Dot product of v and u
+                double vDotRd = vx * rayDirX + vy * rayDirY + vz * rayDirZ; // Dot product of v and ray direction
+
+                // Calculate the denominator for solving s and t
+                double denom = uDotU - uDotRd * uDotRd;
+                if (fabs(denom) < 1e-14) {
+                    // If the denominator is very small, the ray and segment are nearly parallel
+                    // In such cases, skip further calculations for this segment
+                    continue;
+                }
+
+                // Solve for s (closest point on the segment) and t (closest point on the ray)
+                double s = (vDotU - vDotRd * uDotRd) / denom;
+                double t = (s * uDotRd - vDotRd);
+
+                // Clamp s to the range [0,1] to ensure the closest point lies on the segment
+                s = std::max(0.0, std::min(1.0, s));
+
+                // If t is negative, the closest point on the ray is behind the ray's start point, so skip
+                if (t < 0) continue;
+
+                // Compute the closest point on the segment: C = A + s * u
+                double Cx = A.x + s * ux;
+                double Cy = A.y + s * uy;
+                double Cz = A.z + s * uz;
+
+                // Compute the closest point on the ray: R = R0 + t * Rd
+                double Rx = rayStartX + t * rayDirX;
+                double Ry = rayStartY + t * rayDirY;
+                double Rz = rayStartZ + t * rayDirZ;
+
+                // Calculate the distance between the closest points on the segment and the ray
+                double dx = Cx - Rx;
+                double dy = Cy - Ry;
+                double dz = Cz - Rz;
+                double dist = std::sqrt(dx * dx + dy * dy + dz * dz);
+
+                // If the distance is within the specified tolerance, consider the ray intersecting the segment
+                if (dist < tolerance) {
+                    entityHit = true; // Mark the entity as hit
+                    if (t < entityClosestT) {
+                        entityClosestT = t; // Update the closest intersection along the ray
+                    }
+                }
+            }
+
+            // Update the closest entity if this one is closer along the ray
+            if (entityHit && entityClosestT < closestDistanceAlongRay) {
+                closestDistanceAlongRay = entityClosestT;
+                selectedEntityId = pEntity->getObjectId();
+            }
         }
     }
 
@@ -158,7 +233,7 @@ OdResult OdSelectionPrompt::pickObjects(int x, int y) {
         if (entity->getObjectId() == selectedEntityId) {
             static_cast<OdDbEntity*>(entity.get())->setSelected(true);
             std::string jsonString = static_cast<OdDbEntity*>(entity.get())->toJson().dump();
-            OdDrawingManager::R()->m_json = jsonString;
+            OdDrawingManager::R()->m_jsonId = selectedEntityId.GetObjectId();
         }
     }
 

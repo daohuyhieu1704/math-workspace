@@ -7,6 +7,12 @@
 using namespace GeometryNative;
 using json = nlohmann::json;
 
+enum class EntitySelectMode
+{
+	Face,
+	Point
+};
+
 class OdDbEntity : public OdDbObject
 {
 	OD_RTTI_DECLARE_ABSTRACT(OdDbEntity, OdDbObject);
@@ -17,9 +23,10 @@ class OdDbEntity : public OdDbObject
 	OdGeVector3d m_zDir = OdGeVector3d::kZAxis;
 	OdGeExtents3d m_extents = OdGeExtents3d();
 	OdGeMatrix3d m_transform = OdGeMatrix3d::kIdentity;
-	Quaternion3d m_rotation = Quaternion3d::kIdentity;
+	GeometryNative::Quaternion3d m_rotation = GeometryNative::Quaternion3d::kIdentity;
 	bool m_isVisible = true;
 	bool m_isSelected = false;
+	EntitySelectMode m_selectMode = EntitySelectMode::Face;
 public:
 #pragma region Properties
 	OdGeScale3d getScale() const { return m_scale; }
@@ -43,8 +50,10 @@ public:
 	void setVisible(bool isVisible) { m_isVisible = isVisible; }
 	bool isSelected() const { return m_isSelected; }
 	void setSelected(bool isSelected) { m_isSelected = isSelected; }
-	Quaternion3d getRotation() const { return m_rotation; }
-	void setRotation(const Quaternion3d& rotation) { m_rotation = rotation; }
+	GeometryNative::Quaternion3d getRotation() const { return m_rotation; }
+	void setRotation(const GeometryNative::Quaternion3d& rotation) { m_rotation = rotation; }
+	EntitySelectMode getSelectMode() const { return m_selectMode; }
+	void setSelectMode(EntitySelectMode selectMode) { m_selectMode = selectMode; }
 #pragma endregion
 	virtual ~OdDbEntity() = default;
 	virtual json toJson() const;

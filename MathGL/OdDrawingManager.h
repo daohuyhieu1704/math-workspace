@@ -37,7 +37,7 @@ public:
 		return OdHostAppService::R()->getCurrentSession()->getFileName();
 	}
 	void renderAll();
-	std::string m_json = "";
+	unsigned int m_jsonId = 0;
 
 	/// <summary>
 	/// Pick-point features

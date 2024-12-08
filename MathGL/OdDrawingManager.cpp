@@ -171,6 +171,8 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+
+	MathViewport::R()->applyCameraAndProjection();
 	//OdMath3dSolidPtr solid = OdMath3dSolid::createObject();
 	//solid->setType(SolidType::Box);
 	//OdDrawingManager::R()->appendEntity(solid);
