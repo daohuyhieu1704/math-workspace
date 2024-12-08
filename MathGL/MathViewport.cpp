@@ -18,6 +18,23 @@ OdMathPolylinePtr polyline = OdMathPolyline::createObject();
 MathViewport::MathViewport() {
 }
 
+void MathViewport::applyCameraAndProjection()
+{
+    glViewport(0, 0, win_width, win_height);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    float aspect = (float)win_width / (float)win_height;
+    gluPerspective(45.0, aspect, 0.5, 5000.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(cameraPos[0], cameraPos[1], cameraPos[2],
+        cameraTarget[0], cameraTarget[1], cameraTarget[2],
+        cameraUp[0], cameraUp[1], cameraUp[2]);
+}
+
 void MathViewport::idle() {
     glutPostRedisplay();
 }
@@ -27,16 +44,16 @@ void MathViewport::display() {
 }
 
 void MathViewport::drawScene() {
-    long tm;
     float lpos[] = { -1, 2, 3, 0 };
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    setCamera();
+
+    // Apply camera & projection here
+    applyCameraAndProjection();
+
     drawAxis();
     glLightfv(GL_LIGHT0, GL_POSITION, lpos);
-	drawInfiniteGrid(10.0f, 50);
+    drawInfiniteGrid(10.0f, 50);
     OdDrawingManager::R()->renderAll();
     glutSwapBuffers();
     nframes++;
@@ -44,56 +61,124 @@ void MathViewport::drawScene() {
 
 void MathViewport::motionHandler(int x, int y)
 {
-    int dx = x - mouse_x; // Calculate the horizontal movement
-    int dy = y - mouse_y; // Calculate the vertical movement
+    int dx = x - mouse_x; // horizontal mouse movement
+    int dy = y - mouse_y; // vertical mouse movement
 
-    // Update mouse position
+    // Update stored mouse position
     mouse_x = x;
     mouse_y = y;
 
     // If no movement, do nothing
-    if (!(dx | dy)) return;
+    if (!(dx || dy)) return;
 
-    if (bnstate[0]) { // Left button pressed: Rotate
-        cam_theta += dx * 0.5f; // Adjust horizontal rotation
-        cam_phi += dy * 0.5f;   // Adjust vertical rotation
+    // bnstate[0] = left mouse: rotate
+    // bnstate[1] = middle mouse: pan
+    // bnstate[2] = right mouse: zoom
 
-        // Clamp vertical rotation to avoid flipping
-        if (cam_phi < -90.0f) cam_phi = -90.0f;
-        if (cam_phi > 90.0f) cam_phi = 90.0f;
+    double cpx = cameraPos[0];
+    double cpy = cameraPos[1];
+    double cpz = cameraPos[2];
+    double tx = cameraTarget[0];
+    double ty = cameraTarget[1];
+    double tz = cameraTarget[2];
 
-        glutPostRedisplay(); // Trigger a redraw
+    // Vector from target to camera
+    double vx = cpx - tx;
+    double vy = cpy - ty;
+    double vz = cpz - tz;
+    double dist = std::sqrt(vx * vx + vy * vy + vz * vz);
+    if (dist < 1e-9) dist = 1e-9;
+
+    if (bnstate[0]) {
+        // Rotate camera around target
+        double rotateSpeed = 0.2;
+        double r = dist;
+        double yaw = std::atan2(vy, vx);
+        double pitch = std::acos(vz / r);
+
+        yaw -= dx * rotateSpeed * OdPI / 180.0;
+        pitch -= dy * rotateSpeed * OdPI / 180.0;
+
+        if (pitch < 0.1) pitch = 0.1;
+        if (pitch > OdPI - 0.1) pitch = OdPI - 0.1;
+
+        double sinPitch = std::sin(pitch);
+        vx = r * std::cos(yaw) * sinPitch;
+        vy = r * std::sin(yaw) * sinPitch;
+        vz = r * std::cos(pitch);
+
+        cameraPos[0] = tx + vx;
+        cameraPos[1] = ty + vy;
+        cameraPos[2] = tz + vz;
     }
 
-    if (bnstate[1]) { // Middle button pressed: Pan
-        float up[3], right[3];
-        float theta = cam_theta * static_cast<float>(OdPI) / 180.0f; // Convert to radians
-        float phi = cam_phi * static_cast<float>(OdPI) / 180.0f;
+    if (bnstate[1]) {
+        // Pan camera: shift camera and target
+        double panSpeed = 0.05;
+        double upVec[3] = { 0.0, 0.0, 1.0 };
 
-        // Calculate the up vector
-        up[0] = -sin(theta) * sin(phi);
-        up[1] = -cos(phi);
-        up[2] = cos(theta) * sin(phi);
+        double cx = tx - cpx;
+        double cy = ty - cpy;
+        double cz = tz - cpz;
+        double len = std::sqrt(cx * cx + cy * cy + cz * cz);
+        if (len < 1e-9) len = 1e-9;
+        cx /= len; cy /= len; cz /= len; // direction from camera to target
 
-        // Calculate the right vector
-        right[0] = cos(theta);
-        right[1] = 0.0f;
-        right[2] = sin(theta);
+        // right = direction ~ up
+        double rx = cy * upVec[2] - cz * upVec[1];
+        double ry = cz * upVec[0] - cx * upVec[2];
+        double rz = cx * upVec[1] - cy * upVec[0];
+        double rl = std::sqrt(rx * rx + ry * ry + rz * rz);
+        if (rl > 1e-9) {
+            rx /= rl; ry /= rl; rz /= rl;
+        }
+        else {
+            rx = 1; ry = 0; rz = 0;
+        }
 
-        // Adjust pan based on mouse movement
-        cam_pan[0] += (right[0] * dx + up[0] * dy) * 0.01f;
-        cam_pan[1] += up[1] * dy * 0.01f;
-        cam_pan[2] += (right[2] * dx + up[2] * dy) * 0.01f;
+        // newUp = right ~ direction
+        double ux = ry * cz - rz * cy;
+        double uy = rz * cx - rx * cz;
+        double uz = rx * cy - ry * cx;
+        double ul = std::sqrt(ux * ux + uy * uy + uz * uz);
+        if (ul > 1e-9) {
+            ux /= ul; uy /= ul; uz /= ul;
+        }
+        else {
+            ux = 0; uy = 1; uz = 0;
+        }
 
-        glutPostRedisplay(); // Trigger a redraw
+        double moveX = -dx * panSpeed;
+        double moveY = dy * panSpeed;
+
+        cameraPos[0] += rx * moveX + ux * moveY;
+        cameraPos[1] += ry * moveX + uy * moveY;
+        cameraPos[2] += rz * moveX + uz * moveY;
+
+        cameraTarget[0] += rx * moveX + ux * moveY;
+        cameraTarget[1] += ry * moveX + uy * moveY;
+        cameraTarget[2] += rz * moveX + uz * moveY;
     }
 
-    if (bnstate[2]) { // Right button pressed: Zoom
-        cam_dist += dy * 0.1f; // Adjust zoom based on vertical movement
-        if (cam_dist < 0.1f) cam_dist = 0.1f; // Clamp zoom to avoid negative distance
+    if (bnstate[2]) {
+        // Zoom camera: move closer/farther along view direction
+        double zoomSpeed = 0.1;
+        double zoomAmount = dy * zoomSpeed;
+        double cx = tx - cpx;
+        double cy = ty - cpy;
+        double cz = tz - cpz;
+        double length = std::sqrt(cx * cx + cy * cy + cz * cz);
+        if (length < 1e-9) length = 1e-9;
 
-        glutPostRedisplay(); // Trigger a redraw
+        cx /= length; cy /= length; cz /= length;
+        double newDist = length - zoomAmount;
+        if (newDist < 0.1) newDist = 0.1;
+        cameraPos[0] = tx - cx * newDist;
+        cameraPos[1] = ty - cy * newDist;
+        cameraPos[2] = tz - cz * newDist;
     }
+
+    glutPostRedisplay();
 }
 
 void MathViewport::drawGridXY(float size, float step) {
@@ -207,8 +292,8 @@ void MathViewport::print_help() {
 
     const char* helptext[] = {
         "Rotate: left mouse drag",
-        " Scale: right mouse drag up/down",
-        "   Pan: middle mouse drag",
+        "Scale: right mouse drag up/down",
+        "Pan: middle mouse drag",
         "",
         "Toggle fullscreen: f",
         "Toggle animation: space",
@@ -217,15 +302,12 @@ void MathViewport::print_help() {
         nullptr
     };
 
-    // Decide which text to show (brief or detailed)
     const char** text = help ? helptext : helpprompt;
 
-    // Disable lighting and depth testing to ensure text is drawn correctly
     glPushAttrib(GL_ENABLE_BIT);
     glDisable(GL_LIGHTING);
     glDisable(GL_DEPTH_TEST);
 
-    // Set up 2D orthographic projection for text rendering
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -235,25 +317,23 @@ void MathViewport::print_help() {
     glPushMatrix();
     glLoadIdentity();
 
-    // Render each line of text
     int line = 0;
     for (const char** lineText = text; *lineText != nullptr; ++lineText, ++line) {
-        // Shadow text (slightly offset and darker)
-        glColor3f(0.0f, 0.1f, 0.0f); // Dark green
+        // Shadow
+        glColor3f(0.0f, 0.1f, 0.0f);
         glRasterPos2f(7, win_height - (line + 1) * 20 - 2);
-        for (const char* c = *lineText; *c != '\0'; ++c) {
+        for (const char* c = *lineText; *c; ++c) {
             glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *c);
         }
 
-        // Foreground text
-        glColor3f(0.0f, 0.9f, 0.0f); // Bright green
+        // Foreground
+        glColor3f(0.0f, 0.9f, 0.0f);
         glRasterPos2f(5, win_height - (line + 1) * 20);
-        for (const char* c = *lineText; *c != '\0'; ++c) {
+        for (const char* c = *lineText; *c; ++c) {
             glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *c);
         }
     }
 
-    // Restore previous state
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
 
@@ -265,30 +345,25 @@ void MathViewport::print_help() {
 
 
 void MathViewport::reshape(int x, int y) {
-    float vsz, aspect = static_cast<float>(x) / static_cast<float>(y);
+    if (y == 0) y = 1;
     win_width = x;
     win_height = y;
-    glViewport(0, 0, x, y);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    vsz = 0.4663f * 0.5f;
-    glFrustum(-aspect * vsz, aspect * vsz, -vsz, vsz, 0.5, 500.0);
 }
 
 void MathViewport::keypress(unsigned char key, int x, int y) {
-    static int fullscreen = 0; // To track fullscreen toggle state
-    static int prev_width, prev_height; // To store previous window size
+    static int fullscreen = 0;
+    static int prev_width, prev_height;
 
     switch (key) {
-    case 27: // Escape key
-    case 'q': // Quit application
+    case 27: // Escape
+    case 'q':
         std::cout << "Quitting application..." << std::endl;
         exit(0);
         break;
 
-    case ' ': // Toggle animation
+    case ' ':
         anim ^= 1;
-        glutIdleFunc(anim ? [](void) { R()->idle(); } : nullptr); // Set idle callback for animation
+        glutIdleFunc(anim ? [](void) { R()->idle(); } : nullptr);
         glutPostRedisplay();
 
         if (anim) {
@@ -302,7 +377,7 @@ void MathViewport::keypress(unsigned char key, int x, int y) {
         }
         break;
 
-    case 'f': // Toggle fullscreen mode
+    case 'f':
         fullscreen ^= 1;
         if (fullscreen) {
             prev_width = glutGet(GLUT_WINDOW_WIDTH);
@@ -314,11 +389,11 @@ void MathViewport::keypress(unsigned char key, int x, int y) {
         }
         break;
 
-    case 'r': // Reset camera position
-        cam_theta = 0;
-        cam_phi = 25;
-        cam_dist = 8;
-        cam_pan[0] = cam_pan[1] = cam_pan[2] = 0;
+    case 'r':
+        // Reset camera to default
+        cameraPos[0] = 0.0; cameraPos[1] = 0.0; cameraPos[2] = 100.0;
+        cameraTarget[0] = 0.0; cameraTarget[1] = 0.0; cameraTarget[2] = 0.0;
+        cameraUp[0] = 0.0; cameraUp[1] = 0.0; cameraUp[2] = 1.0;
         std::cout << "Camera reset to default position." << std::endl;
         glutPostRedisplay();
         break;
@@ -372,13 +447,9 @@ void MathViewport::mouse(int bn, int st, int x, int y) {
     mouse_x = x;
     mouse_y = y;
 
-    if (bn == GLUT_LEFT_BUTTON)
-    {
-        if (st == GLUT_DOWN) {
-            OdSelectionPrompt::pickObjects(x, y);
-            OdSelectionPrompt::resetWorldMouse(x, y);    
-            //NotifyMouseClick(x, y);
-        }
+    if (bn == GLUT_LEFT_BUTTON && st == GLUT_DOWN) {
+        OdSelectionPrompt::pickObjects(x, y);
+        OdSelectionPrompt::resetWorldMouse(x, y);
     }
 
     glutPostRedisplay();
@@ -395,44 +466,6 @@ void MathViewport::setColorID(int id) {
     GLubyte b = (id >> 16) & 0xFF;
     glColor3ub(r, g, b);
 }
-
-//bool MathViewport::rayIntersectsSphere(
-//    const glm::vec3& rayOrigin,
-//    const glm::vec3& rayDirection,
-//    const glm::vec3& sphereCenter,
-//    float sphereRadius,
-//    float& t) {
-//    // Vector from ray origin to sphere center
-//    glm::vec3 L = sphereCenter - rayOrigin;
-//
-//    // Project L onto the ray direction
-//    float tca = glm::dot(L, rayDirection);
-//
-//    // Compute the squared distance from the sphere center to the ray
-//    float d2 = glm::dot(L, L) - tca * tca;
-//    float radius2 = sphereRadius * sphereRadius;
-//
-//    // If d^2 > r^2, the ray does not intersect the sphere
-//    if (d2 > radius2) return false;
-//
-//    // Compute distance from tca to the intersection points
-//    float thc = sqrt(radius2 - d2);
-//
-//    // Calculate the two intersection distances
-//    float t0 = tca - thc;
-//    float t1 = tca + thc;
-//
-//    // Ensure t0 is the closest intersection
-//    if (t0 > t1) std::swap(t0, t1);
-//
-//    // If both intersections are behind the ray origin, no intersection
-//    if (t1 < 0) return false;
-//
-//    // If t0 is negative, use t1 instead
-//    t = (t0 < 0) ? t1 : t0;
-//
-//    return true;
-//}
 
 
 void MathViewport::pickObject(int x, int y) {
@@ -495,24 +528,27 @@ void MathViewport::setCamera() {
     glutPostRedisplay();
 }
 
-void MathViewport::TLViewport()
-{
-    cam_phi = 45.0f;
-    cam_theta = -45.0f;
-    cam_pan[0] = -10.0f;
-    cam_pan[1] = 10.0f;
-    cam_pan[2] = 0.0f;
-    setCamera();
+// Viewport preset methods: set cameraPos and cameraTarget directly
+// Example: TLViewport places camera top-left. Adjust as needed.
+void MathViewport::TLViewport() {
+    // Example: place camera at top-left angle above the target
+    cameraTarget[0] = 0.0; cameraTarget[1] = 0.0; cameraTarget[2] = 0.0;
+    // Place camera at 45‹ above and -45‹ yaw, distance 100
+    double r = 100.0;
+    double yaw = -45.0 * OdPI / 180.0;
+    double pitch = 45.0 * OdPI / 180.0;
+    cameraPos[0] = cameraTarget[0] + r * std::cos(yaw) * std::cos(pitch);
+    cameraPos[1] = cameraTarget[1] + r * std::sin(yaw) * std::cos(pitch);
+    cameraPos[2] = cameraTarget[2] + r * std::sin(pitch);
+    glutPostRedisplay();
 }
 
-void MathViewport::TMViewport()
-{
-	cam_phi = 45.0f;
-	cam_theta = 0.0f;
-	cam_pan[0] = 0.0f;
-	cam_pan[1] = 10.0f;
-	cam_pan[2] = 0.0f;
-	setCamera();
+// Similarly implement other viewport preset methods...
+void MathViewport::TMViewport() {
+    // Just place camera directly above target (top-middle)
+    cameraTarget[0] = 0; cameraTarget[1] = 0; cameraTarget[2] = 0;
+    cameraPos[0] = 0; cameraPos[1] = 0; cameraPos[2] = 100;
+    glutPostRedisplay();
 }
 
 void MathViewport::TRViewport()
