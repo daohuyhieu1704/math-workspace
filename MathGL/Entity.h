@@ -540,6 +540,9 @@ namespace MathGL
         Entity(OdDbEntity* nativeEntity, bool autoDelete) : DisposableWrapper(IntPtr(nativeEntity), autoDelete)
         {
         }
+		Entity(IntPtr unmanagedPointer, bool autoDelete) : DisposableWrapper(unmanagedPointer, autoDelete)
+		{
+		}
 		property unsigned int Id
 		{
 			unsigned int get()

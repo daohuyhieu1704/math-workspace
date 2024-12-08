@@ -100,10 +100,11 @@ namespace MathGL {
 			}
 
 			OdDbEntity* entityRaw = static_cast<OdDbEntity*>(entities.get());
-			Entity^ entity = (Entity^)Activator::CreateInstance(
+			Object^ obj = Activator::CreateInstance(
 				T::typeid,
-				gcnew array<Object^> { IntPtr(entityRaw), true }
+				gcnew array<Object^> { IntPtr(entityRaw), false }
 			);
+			Entity^ entity = safe_cast<Entity^>(obj);
 			return entity;
 		}
 
