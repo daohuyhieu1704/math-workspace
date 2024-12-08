@@ -1262,7 +1262,8 @@ namespace MathUI.ViewModels.MainWindow
                     EntitySelection planeSelection = new();
                     List<uint> planeId = await planeSelection.getEntities(1);
                     MathPlane plane = (MathPlane)DrawingManager.Instance.getEntityById<MathPlane>(planeId[0]);
-                    ent.TransformBy(Matrix3d.WorldToPlane(plane.Origin, plane.Normal));
+                    Matrix3d matrix3 = Matrix3d.WorldToPlane(plane.Origin, plane.Normal);
+                    ent.TransformBy(matrix3);
 
                     //undoRedoManager.ExecuteCommand(new CommandAction(
                     //    commandName: "P2W",
@@ -1298,7 +1299,7 @@ namespace MathUI.ViewModels.MainWindow
         }
 
         [CommandMethod("LANG")]
-        internal void ChangeLanguage()
+        internal static void ChangeLanguage()
         {
             DialogLanguage dialogLanguage = new DialogLanguage();
             dialogLanguage.ShowDialog();

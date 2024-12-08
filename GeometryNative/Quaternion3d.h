@@ -89,5 +89,7 @@ namespace GeometryNative
         /// </summary>
         /// <returns></returns>
         OdGeMatrix3d toMatrix3d() const;
+
+        Quaternion3d& setToRotateVectorToVector(const OdGeVector3d& fromVec, const OdGeVector3d& toVec, OdGePoint3d origin);
     };
 }

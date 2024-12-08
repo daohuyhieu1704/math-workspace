@@ -90,4 +90,45 @@ namespace GeometryNative
 
         return mat;
     }
+
+    Quaternion3d& Quaternion3d::setToRotateVectorToVector(const OdGeVector3d& fromVec, const OdGeVector3d& toVec, OdGePoint3d origin)
+    {
+        OdGeVector3d f = fromVec;
+        OdGeVector3d t = toVec;
+
+        if (f.Length() < FLT_EPSILON || t.Length() < FLT_EPSILON) {
+            *this = Quaternion3d::kIdentity;
+            return *this;
+        }
+
+        f.normalize();
+        t.normalize();
+        double dot = f.dotProduct(t);
+
+        if (dot > 0.999999) {
+            *this = Quaternion3d::kIdentity;
+            return *this;
+        }
+        if (dot < -0.999999) {
+            OdGeVector3d orthogonal = OdGeVector3d::kXAxis;
+            if (fabs(f.dotProduct(orthogonal)) > 0.9) {
+                orthogonal = OdGeVector3d::kYAxis;
+            }
+            OdGeVector3d axis = f.crossProduct(orthogonal);
+            axis.normalize();
+            *this = Quaternion3d::fromAxisAngle(OdPI, axis, origin);
+            return *this;
+        }
+
+        double angle = std::acos(dot);
+        OdGeVector3d axis = f.crossProduct(t);
+        if (axis.Length() < FLT_EPSILON) {
+            *this = Quaternion3d::kIdentity;
+            return *this;
+        }
+
+        axis.normalize();
+        *this = Quaternion3d::fromAxisAngle(angle, axis, origin);
+        return *this;
+    }
 }

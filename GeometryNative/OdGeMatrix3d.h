@@ -102,6 +102,7 @@ namespace GeometryNative
 
         // Static methods for creating matrices
         static OdGeMatrix3d translation(const OdGeVector3d& vect);
+        static OdGeMatrix3d rotation(const Quaternion3d& quad);
         static OdGeMatrix3d rotation(double angle,
             const OdGeVector3d& axis,
             const OdGePoint3d& center = OdGePoint3d::kOrigin);

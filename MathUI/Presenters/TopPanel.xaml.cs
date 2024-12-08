@@ -157,7 +157,7 @@ namespace MathUI.Presenters
 
         private void Language_Click(object sender, RoutedEventArgs e)
         {
-            CommandAction((model) => ViewModel.ChangeLanguage());
+            CommandAction((model) => MainWindowViewModel.ChangeLanguage());
         }
 
         private void Netload_Click(object sender, RoutedEventArgs e)
