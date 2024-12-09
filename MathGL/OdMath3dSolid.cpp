@@ -175,25 +175,27 @@ OdResult OdMath3dSolid::createSweepSolid(unsigned int orgId, unsigned int pathId
         OdGeVector3d yAxis = globalUp.crossProduct(pathDir).normalize();
         OdGeVector3d zAxis = pathDir.crossProduct(yAxis).normalize();
 
-        OdGeVector3d oldNormal(0, 0, 1);
-        Quaternion3d rotQ;
-        rotQ.setToRotateVectorToVector(oldNormal, zAxis, OdGePoint3d::kOrigin);
 
         OdGePoint3d origin = pathPoints[0];
-        OdGeMatrix3d transformToPathPlane;
-        transformToPathPlane.setCoordSystem(origin, pathDir, yAxis, zAxis);
+        //OdGeMatrix3d transformToPathPlane;
+        //transformToPathPlane.setCoordSystem(origin, pathDir, yAxis, zAxis);
+        OdGeMatrix3d transformToPathPlane = OdGeMatrix3d::translation(pathPoints[0] - orgEntity->getExtents().getCenter());
 
+        OdGeVector3d oldNormal(0, 0, 1);
+        Quaternion3d rotQ;
+        rotQ.setToRotateVectorToVector(oldNormal, pathDir, pathPoints[0]);
         for (auto& pt : orgPoints) {
             OdGePoint3d p(pt.x, pt.y, pt.z);
-            p = rotQ * p;
-            p.transformBy(transformToPathPlane);
+            p = rotQ * p.transformBy(transformToPathPlane);
             pt.x = p.x;
             pt.y = p.y;
             pt.z = p.z;
         }
 
+        OdGeVector3d newDir = (orgPoints[0] - orgPoints[1]).crossProduct(orgPoints[0] - orgPoints[2]).normalize();
+
         // Ensure profile is planar
-        gp_Pln profilePlane(gp_Pnt(orgPoints[0].x, orgPoints[0].y, orgPoints[0].z), gp_Dir(0, 0, 1));
+        gp_Pln profilePlane(gp_Pnt(orgPoints[0].x, orgPoints[0].y, orgPoints[0].z), gp_Dir(newDir.x, newDir.y, newDir.z));
         for (const auto& pt : orgPoints) {
             if (!profilePlane.Contains(gp_Pnt(pt.x, pt.y, pt.z), 1e-6)) {
                 return OdResult::eInvalidInput;

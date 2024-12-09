@@ -33,7 +33,7 @@ OdResult OdMathCircle::draw()
 		float z = getCenter().z;
 		OdGePoint3d transformPnt = (OdGePoint3d(x, y, z) * m_scale) * m_transform;
 		OdGePoint3d transformPntRot = transformPnt.rotateBy(m_rotation);
-		getExtents().appendPoint_s(transformPntRot);
+		getExtents().appendPoint_s(OdGePoint3d(transformPntRot.x, transformPntRot.y, transformPntRot.z));
 		face.push_back(i);
         glVertex3f(transformPntRot.x, transformPntRot.y, transformPntRot.z);
     }
