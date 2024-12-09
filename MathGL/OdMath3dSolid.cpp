@@ -308,6 +308,8 @@ OdResult OdMath3dSolid::draw()
     for (const auto& face : getExtents().getFaces()) {
         for (int idx : face) {
             OdGePoint3d point = getExtents().getPoint(idx);
+            OdGePoint3d transformPnt = point * m_scale * m_transform;
+            OdGePoint3d transformPntRot = point.rotateBy(m_rotation);
             glVertex3d(point.x, point.y, point.z);
         }
     }

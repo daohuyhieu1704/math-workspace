@@ -11,11 +11,10 @@ OdResult OdMathPlane::draw()
     OdGeVector3d normal = getNormal().normalize();
     OdGeVector3d u = normal.perpendicular().normalize() * planeSize;
     OdGeVector3d v = normal.crossProduct(u).normalize() * planeSize;
-    OdGePoint3d origin = getOrigin() * m_transform;
-    OdGePoint3d p1 = (origin - u - v) * m_transform;
-    OdGePoint3d p2 = (origin + u - v) * m_transform;
-    OdGePoint3d p3 = (origin + u + v) * m_transform;
-    OdGePoint3d p4 = (origin - u + v) * m_transform;
+    OdGePoint3d p1 = ((getOrigin() - u - v) * m_scale * m_transform).rotateBy(m_rotation);
+    OdGePoint3d p2 = ((getOrigin() + u - v) * m_scale * m_transform).rotateBy(m_rotation);
+    OdGePoint3d p3 = ((getOrigin() + u + v) * m_scale * m_transform).rotateBy(m_rotation);
+    OdGePoint3d p4 = ((getOrigin() - u + v) * m_scale * m_transform).rotateBy(m_rotation);
     getExtents().reset();
     glBegin(GL_QUADS);
     glNormal3f(normal.x, normal.y, normal.z);
