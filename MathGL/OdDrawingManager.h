@@ -37,6 +37,7 @@ public:
 		return OdHostAppService::R()->getCurrentSession()->getFileName();
 	}
 	void renderAll();
+	void refresh();
 	unsigned int m_jsonId = 0;
 
 	/// <summary>

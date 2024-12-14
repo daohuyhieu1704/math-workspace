@@ -50,6 +50,20 @@ namespace MathUI.ViewModels.MainWindow
         private DispatcherTimer _timer;
         public Presenters.MainWindow context;
         string _MouseX;
+
+
+        static private int anonSessionIdx = 0;
+
+        private static string AnonToStr
+        {
+            get
+            {
+                string retVal = $"Untitled{(anonSessionIdx == 0 ? "" : $"({anonSessionIdx})")}.json";
+                anonSessionIdx++;
+                return retVal;
+            }
+        }
+
         public bool OnInput { get; set; } = false;
         public string MouseX
         {
@@ -162,14 +176,26 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
-        private int _fileSelectedIdx;
-        public int FileSelectedIdx
+        private ObservableCollection<string> _fileStorageName;
+
+        public ObservableCollection<string> FileStorageName
         {
-            get => _fileSelectedIdx;
+            get => _fileStorageName;
             set
             {
-                Set(ref _fileSelectedIdx, value);
-                OnPropertyChanged(nameof(FileSelectedIdx));
+                Set(ref _fileStorageName, value);
+                OnPropertyChanged(nameof(FileStorageName));
+            }
+        }
+
+        private string _fileSelected;
+        public string FileSelected
+        {
+            get => _fileSelected;
+            set
+            {
+                Set(ref _fileSelected, value);
+                OnPropertyChanged(nameof(FileSelected));
             }
         }
 
@@ -191,16 +217,22 @@ namespace MathUI.ViewModels.MainWindow
             IsNewFile = true;
             CloseTabCommand = new RelayCommand<string>((fileName) => true, CloseTab);
             SelectCmd = new RelayCommand<Window>((exp) => true, Select);
+            string anonStr = AnonToStr;
+            DrawingManager.Instance.createSession(anonStr);
+            FileStorage = [new FileModel(DrawingManager.Instance.CurrentSessionId, anonStr)];
+            FileStorageName = [anonStr];
+            FileSelected = anonStr;
         }
 
         private void CloseTab(string fileName)
         {
-            for (int i = 0; i < FileStorage.Count; i++)
+            for (int i = 0; i < FileStorageName.Count; i++)
             {
-                if (FileStorage[i].FilePath == fileName)
+                if (FileStorageName[i] == fileName)
                 {
+                    FileStorageName.RemoveAt(i);
                     FileStorage.RemoveAt(i);
-                    FileSelectedIdx = 0;
+                    FileSelected = FileStorageName[0];
                     break;
                 }
             }
@@ -434,9 +466,11 @@ namespace MathUI.ViewModels.MainWindow
         [CommandMethod("NEW")]
         internal void NewFile()
         {
-            DrawingManager.Instance.createSession("Untitled");
-            FileStorage.Add(new FileModel(DrawingManager.Instance.CurrentSessionId, "Untitled"));
-            FileSelectedIdx = FileStorage.Count - 1;
+            string anonStr = AnonToStr;
+            DrawingManager.Instance.createSession(anonStr);
+            FileStorage.Add(new FileModel(DrawingManager.Instance.CurrentSessionId, anonStr));
+            FileStorageName.Add(anonStr);
+            FileSelected = FileStorageName[^1];
             IsNewFile = true;
         }
 
@@ -459,41 +493,59 @@ namespace MathUI.ViewModels.MainWindow
                 //if (FileStorage.Find(???))
                 try
                 {
-                    string content = File.ReadAllText(filePath);
-
-                    // Deserialize JSON content using Newtonsoft.Json
-                    var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(content);
-                    if (jsonObject == null)
+                    // get file name
+                    string fileName = System.IO.Path.GetFileName(dialog.FileName);
+                    if (FileStorageName.Contains(fileName))
                     {
-                        HistoryWindow += "The JSON content is not valid.\n";
-                        return;
-                    }
-                    if (jsonObject.TryGetValue("entities", out var entities))
-                    {
-                        if (entities is JArray jsonArray)
+                        FileModel? fileModel = FileStorage.FirstOrDefault(x => x.FileName == fileName);
+                        if (fileModel != null)
                         {
-                            var alo = jsonArray.ToObject<List<string>>();
-                            if (alo == null)
+                            DrawingManager.Instance.changeSession(fileModel.FileId);
+                        }    
+                    }
+                    else
+                    {
+                        DrawingManager.Instance.createSession(fileName);
+                        FileStorage.Add(new FileModel(DrawingManager.Instance.CurrentSessionId, fileName));
+                        FileStorageName.Add(fileName);
+                        FileSelected = fileName;
+
+                        string content = File.ReadAllText(filePath);
+
+                        // Deserialize JSON content using Newtonsoft.Json
+                        var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(content);
+                        if (jsonObject == null)
+                        {
+                            HistoryWindow += "The JSON content is not valid.\n";
+                            return;
+                        }
+                        if (jsonObject.TryGetValue("entities", out var entities))
+                        {
+                            if (entities is JArray jsonArray)
+                            {
+                                var alo = jsonArray.ToObject<List<string>>();
+                                if (alo == null)
+                                {
+                                    HistoryWindow += "The 'entities' key is not a valid JSON array.\n";
+                                    return;
+                                }
+                                foreach (var item in alo)
+                                {
+                                    uint id = Entity.FromJson(item);
+                                    //Entity entity = DrawingManager.Instance.getEntityById(id);
+                                    //entity.Draw();
+                                    HistoryWindow += item + "\n";
+                                }
+                            }
+                            else
                             {
                                 HistoryWindow += "The 'entities' key is not a valid JSON array.\n";
-                                return;
-                            }
-                            foreach (var item in alo)
-                            {
-                                uint id = Entity.FromJson(item);
-                                //Entity entity = DrawingManager.Instance.getEntityById(id);
-                                //entity.Draw();
-                                HistoryWindow += item + "\n";
                             }
                         }
                         else
                         {
-                            HistoryWindow += "The 'entities' key is not a valid JSON array.\n";
+                            HistoryWindow += "The 'entities' key does not exist in the JSON content." + "\n";
                         }
-                    }
-                    else
-                    {
-                        HistoryWindow += "The 'entities' key does not exist in the JSON content." + "\n";
                     }
                 }
                 catch (Exception e)
@@ -797,7 +849,9 @@ namespace MathUI.ViewModels.MainWindow
         {
             if (FileStorage.Count != 0)
             {
-                DrawingManager.Instance.changeSession(FileStorage[FileSelectedIdx].FileId);
+                FileModel? model = FileStorage.FirstOrDefault(x => x.FileName == FileSelected);
+                uint id = model is null ? 0 : model.FileId;
+                DrawingManager.Instance.changeSession(id);
             }
         }
 
