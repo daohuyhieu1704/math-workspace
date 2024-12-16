@@ -29,7 +29,6 @@ namespace MathUI.ViewModels.MainWindow
             get => _fileName;
             set => Set(ref _fileName, value);
         }
-
         public FileModel(uint sessionId, string filePath)
         {
             FileId = sessionId;

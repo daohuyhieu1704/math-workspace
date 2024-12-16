@@ -16,6 +16,8 @@ using System.Text.Json.Nodes;
 using System.Resources;
 using MathUI.Resources;
 using MathUI.Commands;
+using System.Windows.Media.Media3D;
+using MathUI.Utils;
 
 namespace MathUI.Presenters
 {
@@ -26,10 +28,12 @@ namespace MathUI.Presenters
     {
         public delegate void MouseClickCallback(int x, int y);
         private readonly MainWindowViewModel vm;
+        private readonly UndoRedoManager undoRedoManager = new();
         public MainWindow()
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            this.KeyDown += Window_KeyDown;
             vm = new MainWindowViewModel(this);
             CommandRegistry.DiscoverAndRegisterCommands(vm);
             DrawingManager.Instance.createSession("Untitled");
@@ -38,6 +42,18 @@ namespace MathUI.Presenters
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
             CallbackBridge.RegisterMouseCallback(OnMouseClick);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                if (DataContext is MainWindowViewModel viewModel)
+                {
+                    viewModel.RemoveSelectedObject();
+                }
+            }
+
         }
         void OnMouseClick(int x, int y)
         {

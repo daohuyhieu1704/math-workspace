@@ -9,9 +9,9 @@ namespace MathUI.Utils
     public class CommandAction
     {
         public string CommandName { get; set; }
-        public object[] Parameters { get; set; } // Các tham số của lệnh
-        public Action UndoAction { get; set; }  // Hành động Undo
-        public Action RedoAction { get; set; }  // Hành động Redo
+        public object[] Parameters { get; set; } 
+        public Action UndoAction { get; set; }
+        public  Action RedoAction {get; set; }
 
         public CommandAction(string commandName, object[] parameters, Action undoAction, Action redoAction)
         {

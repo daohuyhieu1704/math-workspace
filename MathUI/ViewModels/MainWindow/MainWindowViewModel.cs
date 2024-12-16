@@ -33,6 +33,7 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Windows.Media;
 using System.Reflection.Emit;
 using MathUI.Utils;
+using static MathUI.ViewModels.ViewModelBase;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -162,6 +163,20 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
+       
+
+        private FileModel? _fileSelected;
+
+        public FileModel? FileSelected
+        {
+            get => _fileSelected;
+            set
+            {
+                _fileSelected = value;
+                OnPropertyChanged(nameof(FileSelected));
+            }
+        }
+
         private int _fileSelectedIdx;
         public int FileSelectedIdx
         {
@@ -173,6 +188,22 @@ namespace MathUI.ViewModels.MainWindow
             }
         }
 
+        internal void RemoveSelectedObject()
+        {
+            if (FileSelected != null)
+            {
+                // Xóa đối tượng đã chọn khỏi danh sách
+                FileStorage.Remove(FileSelected);
+
+                // Cập nhật FileSelected và FileSelectedIdx
+                FileSelected = FileStorage.FirstOrDefault(); // Nếu còn đối tượng, lấy đối tượng đầu tiên
+                FileSelectedIdx = FileStorage.IndexOf(FileSelected!); // Cập nhật chỉ mục của đối tượng đã chọn
+            }
+            else
+            {
+                MessageBox.Show("No object selected to delete.");
+            }
+        }
         private bool _isNewFile;
         public bool IsNewFile
         {
@@ -191,6 +222,14 @@ namespace MathUI.ViewModels.MainWindow
             IsNewFile = true;
             CloseTabCommand = new RelayCommand<string>((fileName) => true, CloseTab);
             SelectCmd = new RelayCommand<Window>((exp) => true, Select);
+
+        }
+
+        // Thêm một Command mới
+        public void AddCommand(string commandName, Action undoAction, Action redoAction)
+        {
+            var command = new CommandAction(commandName, null, undoAction, redoAction);
+            undoRedoManager.ExecuteCommand(command);
         }
 
         private void CloseTab(string fileName)
@@ -269,24 +308,24 @@ namespace MathUI.ViewModels.MainWindow
             List<Point3d> pnt2 = await pointSelection.getPoints(1);
             using MathLine line = new(pnt1[0], pnt2[0]);
             line.Draw();
-            //uint lineId = line.Id;
-            //var parameters = new object[] { lineId, pnt1[0], pnt2[0] };
-            //undoRedoManager.ExecuteCommand(new CommandAction(
-            //    commandName: "LINE",
-            //    parameters: parameters,
-            //    undoAction: () =>
-            //    {
-            //        uint id = (uint)parameters[0];
-            //        DrawingManager.Instance.removeEntity(id);
-            //    },
-            //    redoAction: () =>
-            //    {
-            //        Point3d redoPnt1 = (Point3d)parameters[1];
-            //        Point3d redoPnt2 = (Point3d)parameters[2];
-            //        using MathLine redoLine = new(redoPnt1, redoPnt2);
-            //        redoLine.Draw();
-            //    }
-            //));
+            uint lineId = line.Id;
+            var parameters = new object[] { lineId, pnt1[0], pnt2[0] };
+            undoRedoManager.ExecuteCommand(new CommandAction(
+                commandName: "LINE",
+                parameters: parameters,
+                undoAction: () =>
+                {
+                    uint id = (uint)parameters[0];
+                    DrawingManager.Instance.removeEntity(id);
+                },
+                redoAction: () =>
+                {
+                    Point3d redoPnt1 = (Point3d)parameters[1];
+                    Point3d redoPnt2 = (Point3d)parameters[2];
+                    using MathLine redoLine = new(redoPnt1, redoPnt2);
+                    redoLine.Draw();
+                }
+            ));
         }
 
         [CommandMethod("CIRCLE")]
@@ -423,12 +462,14 @@ namespace MathUI.ViewModels.MainWindow
         internal void Undo()
         {
             undoRedoManager.Undo();
+            HistoryWindow += "Undo executed.\n";
         }
 
         [CommandMethod("REDO")]
         internal void Redo()
         {
             undoRedoManager.Redo();
+            HistoryWindow += "Redo executed.\n";
         }
 
         [CommandMethod("NEW")]
@@ -1430,9 +1471,10 @@ namespace MathUI.ViewModels.MainWindow
                 }
             }
         }
+
         public static List<Assembly> ExternalAssembly = [];
         public ICommand CloseTabCommand { get; }
         public ICommand SelectCmd { get; }
-        public ICommand RegenCmd { get; }
+        public ICommand RegenCmd { get; }  
     }
 }
