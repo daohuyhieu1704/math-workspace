@@ -36,9 +36,6 @@ namespace MathUI.Presenters
             this.KeyDown += Window_KeyDown;
             vm = new MainWindowViewModel(this);
             CommandRegistry.DiscoverAndRegisterCommands(vm);
-            DrawingManager.Instance.createSession("Untitled");
-            vm.FileStorage = [new FileModel(DrawingManager.Instance.CurrentSessionId, "Untitled")];
-            vm.FileSelectedIdx = 0;
             DataContext = vm;
             vm.InputCommandWindow = InputCommandWindow;
             CallbackBridge.RegisterMouseCallback(OnMouseClick);
@@ -50,7 +47,7 @@ namespace MathUI.Presenters
             {
                 if (DataContext is MainWindowViewModel viewModel)
                 {
-                    viewModel.RemoveSelectedObject();
+                    //viewModel.RemoveSelectedObject();
                 }
             }
 

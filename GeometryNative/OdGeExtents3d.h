@@ -8,8 +8,8 @@ namespace GeometryNative
     class OdGeExtents3d
     {
     private:
-        OdGePoint3d m_min;
-        OdGePoint3d m_max;
+        OdGePoint3d m_min = OdGePoint3d(FLT_MAX, FLT_MAX, FLT_MAX);
+        OdGePoint3d m_max = OdGePoint3d(FLT_MIN, FLT_MIN, FLT_MIN);
 		std::vector<OdGePoint3d> m_points;
         std::vector<std::vector<int>> m_faces;
     public:
@@ -63,8 +63,7 @@ namespace GeometryNative
         void set(
             const OdGePoint3d& min,
             const OdGePoint3d& max);
-        OdGeExtents3d& appendPoint_s(
-            const OdGePoint3d& point);
+        OdGeExtents3d& appendPoint_s(OdGePoint3d point);
         inline bool isValidExtents() const
         {
             return ((m_max.x >= m_min.x) && (m_max.y >= m_min.y) && (m_max.z >= m_min.z));

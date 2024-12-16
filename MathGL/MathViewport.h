@@ -27,7 +27,7 @@ public:
     virtual ~MathViewport() = default;
 
     // Member variables
-    double cameraPos[3] = { 0.0, 0.0, 100.0 };
+    double cameraPos[3] = { 0.0, 0.0, 50.0 };
     double cameraTarget[3] = { 0.0, 0.0, 0.0 };
     double cameraUp[3] = { 0.0, 0.0, 1.0 };
     void applyCameraAndProjection();

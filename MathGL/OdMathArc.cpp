@@ -65,10 +65,10 @@ OdResult OdMathArc::draw()
         double y = center.y + radius * sin(currentAngle);
 
 		OdGePoint3d newPnt = OdGePoint3d(x, y, startPnt.z);
-		OdGePoint3d tranformedPnt = (newPnt * m_scale) * m_transform;
-		getExtents().appendPoint_s(tranformedPnt);
+        OdGePoint3d transformPntRot = (newPnt * m_scale * m_transform).rotateBy(m_rotation);
+		getExtents().appendPoint_s(transformPntRot);
         face.push_back(i);
-        glVertex3f(static_cast<GLfloat>(tranformedPnt.x), static_cast<GLfloat>(tranformedPnt.y), static_cast<GLfloat>(tranformedPnt.z));
+        glVertex3f(static_cast<GLfloat>(transformPntRot.x), static_cast<GLfloat>(transformPntRot.y), static_cast<GLfloat>(transformPntRot.z));
     }
 
     glEnd();

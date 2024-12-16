@@ -135,11 +135,18 @@ void MathGL::DrawingManager::createSession(String^ fileName)
 	OdHostAppService::R()->createSession();
 	std::string name = UtilCLI::convertToStdString(fileName);
 	OdHostAppService::R()->getCurrentSession()->setFileName(name);
+	OdDrawingManager::R()->renderAll();
 }
 
 void MathGL::DrawingManager::changeSession(unsigned int sessionId)
 {
 	OdHostAppService::R()->ChangeCurrSession(sessionId);
+	OdDrawingManager::R()->renderAll();
+}
+
+void MathGL::DrawingManager::Refresh()
+{
+	OdDrawingManager::R()->refresh();
 }
 
 HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND parentHwnd)
@@ -173,13 +180,7 @@ HWND OdDrawingManager::InitializeWindow(HINSTANCE hInstance, int nCmdShow, HWND 
 	glEnable(GL_LIGHT0);
 
 	MathViewport::R()->applyCameraAndProjection();
-	//OdMath3dSolidPtr solid = OdMath3dSolid::createObject();
-	//solid->setType(SolidType::Box);
-	//OdDrawingManager::R()->appendEntity(solid);
-	//OdMathPlanePtr plane = OdMathPlane::createObject();
-	//plane->setOrigin(OdGePoint3d(0, 0, 0));
-	//plane->setNormal(OdGeVector3d(0, 0, 1));
-	//OdDrawingManager::R()->appendEntity(plane);
+	glutPostRedisplay();
 	return hwnd;
 }
 
@@ -241,6 +242,11 @@ void OdDrawingManager::renderAll()
 			}
 		}
 	}
+}
+
+void OdDrawingManager::refresh()
+{
+	glutPostRedisplay();
 }
 
 void OdDrawingManager::SetPointPickedCallback(PointPickedCallback callback)

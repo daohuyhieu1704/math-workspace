@@ -11,6 +11,13 @@ OdHostAppService::OdHostAppService()
 	currentSessionId = 0;
 };
 
+void OdHostAppService::ChangeCurrSession(unsigned int sessionId)
+{
+	if (m_sessions.find(sessionId) != m_sessions.end()) {
+		currentSessionId = sessionId;
+	}
+}
+
 OdBaseObjectPtr OdHostAppService::Clone()
 {
 	return OdHostAppServicePtr();

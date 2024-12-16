@@ -413,11 +413,11 @@
             Width="auto"
             Grid.Row="1" Margin="0" BorderThickness="0"
             Background="#2c2d2f"
-            ItemsSource="{Binding FileItems}" 
+            ItemsSource="{Binding FileStorageName}" 
             SelectedItem="{Binding FileSelected}" 
-            Visibility="{Binding FileItems, Converter={StaticResource FileItemToVis}}"
             SelectionChanged="FileTabControl_SelectionChanged"
             >
         </TabControl>
     </Grid>
 </UserControl>
+<!--Visibility="{Binding FileStorageName, Converter={StaticResource FileItemToVis}}"-->

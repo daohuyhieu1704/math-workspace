@@ -124,6 +124,7 @@ namespace MathGL {
 		List<String^>^ GetAllEntityJsons();
 		void createSession(String^ fileName);
 		void changeSession(unsigned int sessionId);
+		void Refresh();
 	private:
 		OdDrawingManager* GetImpObj()
 		{

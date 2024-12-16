@@ -20,6 +20,8 @@ MathViewport::MathViewport() {
 
 void MathViewport::applyCameraAndProjection()
 {
+    win_width = glutGet(GLUT_WINDOW_WIDTH);
+    win_height = glutGet(GLUT_WINDOW_HEIGHT);
     glViewport(0, 0, win_width, win_height);
 
     glMatrixMode(GL_PROJECTION);
