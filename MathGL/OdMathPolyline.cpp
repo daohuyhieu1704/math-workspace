@@ -3,6 +3,7 @@
 
 OdMathPolyline::OdMathPolyline()
 {
+	setSelectMode(EntitySelectMode::Point);
 }
 
 void OdMathPolyline::drawArc(const OdGePoint3d& start, const OdGePoint3d& end, double bulge) const {
@@ -66,51 +67,43 @@ OdBaseObjectPtr OdMathPolyline::Clone()
 	return clone;
 }
 
-OdResult OdMathPolyline::draw()  {
+OdResult OdMathPolyline::draw() {
     if (numVertices() < 2) {
         return eInvalidInput;
     }
 
-	glDisable(GL_LIGHTING);
-	glLoadName(id());
-    if (isSelected())
-    {
+    glDisable(GL_LIGHTING);
+    glLoadName(id());
+    if (isSelected()) {
         glColor3f(1.0f, 0.0f, 0.0f);
     }
-    else
-    {
+    else {
         float color[3] = { getColor().r, getColor().g, getColor().b };
         glColor3f(color[0], color[1], color[2]);
     }
+
     glPushMatrix();
     glBegin(GL_LINE_STRIP);
+
     int numVert = numVertices();
     std::vector<int> face;
-    for (int i = 0; i < numVert - 1; ++i) {
-        OdGePoint3d current = getVertexAt(i);
-        OdGePoint3d next = getVertexAt(i + 1);
-        getExtents().appendPoint_s(current);
-		face.push_back(i);
-        double bulge = getBulgeAt(i);
-        drawArc(current, next, bulge);
-    }
-    getExtents().appendPoint_s(getVertexAt(numVert - 1));
-    face.push_back(numVert - 1);
 
-    if (isClosed() && numVert > 2) {
-        const OdGePoint3d& first = getVertexAt(0);
-        const OdGePoint3d& last = getVertexAt(numVert - 1);
-        double bulge = getBulgeAt(numVert - 1);
-        drawArc(last, first, bulge);
+    for (int i = 0; i < numVert; ++i) {
+        OdGePoint3d current = getVertexAt(i);
+        glVertex3d(current.x, current.y, current.z);
+        getExtents().appendPoint_s(current);
+        face.push_back(i);
+        glVertex3d(current.x, current.y, current.z);
     }
 
     glEnd();
 
-	getExtents().appendFace(face);
+    getExtents().appendFace(face);
 
     glPopMatrix();
-	glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHTING);
 
     return eOk;
 }
+
 
