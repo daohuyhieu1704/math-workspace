@@ -21,10 +21,10 @@ namespace MathTestCSharp
             Assert.Equal(new Point3d(0, 0, 0), mathLine1.StartPnt);
             Assert.Equal(new Point3d(10, 0, 0), mathLine1.EndPnt);
 
-            MathLine mathLine2 = new(new Point3d(1, 1, 0), new Point3d(4, 5, 0));
+            MathLine mathLine2 = new(new Point3d(0, 0, 0), new Point3d(5, 5, 0));
             mathLine2.Draw();
-            Assert.Equal(new Point3d(1, 1, 0), mathLine2.StartPnt);
-            Assert.Equal(new Point3d(4, 5, 0), mathLine2.EndPnt);
+            Assert.Equal(new Point3d(0, 0, 0), mathLine2.StartPnt);
+            Assert.Equal(new Point3d(5, 5, 0), mathLine2.EndPnt);
 
             MessageBox.Show("TEST_LINE passed");
         }
@@ -33,9 +33,9 @@ namespace MathTestCSharp
         [CommandMethod("TEST_CIRCLE")]
         public static void Test2()
         {
-            MathCircle mathCircle1 = new(Point3d.Origin, 5);
+            MathCircle mathCircle1 = new(Point3d.Origin, 10);
             mathCircle1.Draw();
-            Assert.Equal(5, mathCircle1.Radius);
+            Assert.Equal(10, mathCircle1.Radius);
 
             //// Test case 2: Vẽ đường tròn với bán kính bằng 0
             MathCircle mathCircle2 = new(Point3d.Origin, 0);
@@ -68,12 +68,12 @@ namespace MathTestCSharp
         {
             MathPolyline polyline = new();
             polyline.AddVertex(new Point3d(0, 0, 0));
-            polyline.AddVertex(new Point3d(5, 0, 0), 0.5);
+            polyline.AddVertex(new Point3d(5, 0, 0), 0.19891);
             polyline.AddVertex(new Point3d(5, 5, 0));
 
             Assert.Equal(3, polyline.NumVerts);
             Assert.Equal(new Point3d(5, 0, 0), polyline.GetVertexAt(1));
-            Assert.Equal(0.5, polyline.GetBulgeAt(1));
+            Assert.Equal(0.19891, polyline.GetBulgeAt(1), 5);
 
             polyline.IsClosed = true;
             Assert.True(polyline.IsClosed);

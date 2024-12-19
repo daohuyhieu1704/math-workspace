@@ -89,8 +89,8 @@
                                     Text="{Binding CommandWindow, UpdateSourceTrigger=PropertyChanged}"
                                     Background="Transparent" 
                                     Foreground="White"
-                                    KeyDown="CommandTextBox_KeyDown"
-                                />
+                                    KeyDown="CommandTextBox_KeyDown" TextChanged="InputCommandWindow_TextChanged"
+                                    />
 
                             </Grid>
                         </Grid>

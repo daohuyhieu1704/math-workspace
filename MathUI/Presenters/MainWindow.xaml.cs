@@ -18,6 +18,7 @@ using MathUI.Resources;
 using MathUI.Commands;
 using System.Windows.Media.Media3D;
 using MathUI.Utils;
+using System.Collections.ObjectModel;
 
 namespace MathUI.Presenters
 {
@@ -148,6 +149,11 @@ namespace MathUI.Presenters
             {
                 CommandAction((model) => model.AppendCommand());
             }
+        }
+
+        private void InputCommandWindow_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

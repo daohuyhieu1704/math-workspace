@@ -34,6 +34,7 @@ using System.Windows.Media;
 using System.Reflection.Emit;
 using MathUI.Utils;
 using static MathUI.ViewModels.ViewModelBase;
+using System.DirectoryServices;
 
 namespace MathUI.ViewModels.MainWindow
 {
@@ -42,6 +43,8 @@ namespace MathUI.ViewModels.MainWindow
         public string Icon { get; set; }
         public string Label { get; set; }
         public ICommand ClickHandler { get; set; }
+
+
     }
 
     public class MainWindowViewModel : ViewModelBase
@@ -100,6 +103,7 @@ namespace MathUI.ViewModels.MainWindow
 
         private string commandWindow;
 
+
         public string CommandWindow
         {
             get => commandWindow;
@@ -109,6 +113,7 @@ namespace MathUI.ViewModels.MainWindow
                 OnPropertyChanged("CommandWindow");
             }
         }
+
 
         private TextBox _InputCommandWindow;
         public TextBox InputCommandWindow
@@ -226,6 +231,7 @@ namespace MathUI.ViewModels.MainWindow
                 OnPropertyChanged(nameof(IsNewFile));
             }
         }
+
 
         public MainWindowViewModel(Presenters.MainWindow mainWindow)
         {
