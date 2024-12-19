@@ -487,9 +487,11 @@ namespace GeometryNative
 
     OdGeMatrix3d& OdGeMatrix3d::setToWorldToPlane(const OdGePlane& plane)
     {
+        // Get the plane's origin and normalized normal vector
         OdGePoint3d planeOrigin = plane.m_origin;
         OdGeVector3d planeNormal = plane.m_normal.normalize();
 
+        // Compute tangent and bitangent vectors
         OdGeVector3d tangent;
         if (fabs(planeNormal.x) > fabs(planeNormal.y)) {
             tangent = OdGeVector3d(-planeNormal.z, 0.0, planeNormal.x).normalize();
@@ -497,15 +499,18 @@ namespace GeometryNative
         else {
             tangent = OdGeVector3d(0.0, -planeNormal.z, planeNormal.y).normalize();
         }
-
         OdGeVector3d bitangent = planeNormal.crossProduct(tangent).normalize();
-        setToIdentity();
-        setCoordSystem(OdGePoint3d::kOrigin, tangent, bitangent, planeNormal);
 
-        OdGeMatrix3d rotationInverse = this->invert();
+        // Create a rotation matrix for aligning axes
+        OdGeMatrix3d rotation;
+        rotation.setCoordSystem(OdGePoint3d::kOrigin, tangent, bitangent, planeNormal);
 
+        // Create a translation matrix to move the origin
         OdGeMatrix3d translation = OdGeMatrix3d::translation(-planeOrigin.asVector());
-        *this = rotationInverse * translation;
+
+        // Combine translation and rotation
+        *this = rotation * translation; // Apply translation first, then rotation
+
         return *this;
     }
 
