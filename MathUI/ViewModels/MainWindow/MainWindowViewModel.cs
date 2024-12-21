@@ -1854,14 +1854,15 @@ namespace MathUI.ViewModels.MainWindow
                         CreateUI(stack, labels, values, isReadOnly, jsonObject);
                         break;
                     }
-                case "OdMathPolyline":
-                    {
-                        List<string> labels = ["type", "Vertexes"];
-                        List<bool> isReadOnly = [true, false];
-                        List<string> values = ["OdMathPolyline", jsonObject["vertexes"].ToString()];
-                        CreateUI(stack, labels, values, isReadOnly, jsonObject);
-                        break;
-                    }
+                //case "OdMathPolyline":
+                //    {
+                //        break;
+                //        List<string> labels = ["type", "Vertexes"];
+                //        List<bool> isReadOnly = [true, false];
+                //        List<string> values = ["OdMathPolyline", jsonObject["vertexes"].ToString()];
+                //        CreateUI(stack, labels, values, isReadOnly, jsonObject);
+                //        break;
+                //    }
                 case "OdMathSolid":
                     {
                         List<string> labels = ["type", "Vertexes"];

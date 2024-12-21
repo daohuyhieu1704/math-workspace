@@ -73,7 +73,7 @@ namespace MathTestCSharp
 
             Assert.Equal(3, polyline.NumVerts);
             Assert.Equal(new Point3d(5, 0, 0), polyline.GetVertexAt(1));
-            Assert.Equal(0.19891, polyline.GetBulgeAt(1), 5);
+            Assert.Equal(0.19891, polyline.GetBulgeAt(1));
 
             polyline.IsClosed = true;
             Assert.True(polyline.IsClosed);

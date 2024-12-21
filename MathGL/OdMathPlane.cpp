@@ -7,6 +7,7 @@ OdMathPlane::OdMathPlane()
 
 OdResult OdMathPlane::draw() 
 {
+    glDisable(GL_LIGHTING);
     const double planeSize = 5.0;
     OdGeVector3d normal = getNormal().normalize();
     OdGeVector3d u = normal.perpendicular().normalize() * planeSize;
@@ -28,6 +29,7 @@ OdResult OdMathPlane::draw()
 	getExtents().appendPoint_s(p4);
 	getExtents().appendFace({ 0, 1, 2, 3 });
     glEnd();
+    glEnable(GL_LIGHTING);
     // drawNormalVector(origin, normal, u, v, planeSize);
     return eOk;
 }
