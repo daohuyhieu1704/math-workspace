@@ -67,11 +67,11 @@ namespace MathGL {
 				return m_instance;
 			}
 		}
-		property String^ EntityJson
+		property unsigned int EntitySelectedId
 		{
-			String^ get()
+			unsigned int  get()
 			{
-				return gcnew String(GetImpObj()->m_json.c_str());
+				return GetImpObj()->m_jsonId;
 			}
 		}
 		property String^ CurrentFilePath
@@ -100,10 +100,11 @@ namespace MathGL {
 			}
 
 			OdDbEntity* entityRaw = static_cast<OdDbEntity*>(entities.get());
-			Entity^ entity = (Entity^)Activator::CreateInstance(
+			Object^ obj = Activator::CreateInstance(
 				T::typeid,
-				gcnew array<Object^> { IntPtr(entityRaw), true }
+				gcnew array<Object^> { IntPtr(entityRaw), false }
 			);
+			Entity^ entity = safe_cast<Entity^>(obj);
 			return entity;
 		}
 
@@ -123,6 +124,7 @@ namespace MathGL {
 		List<String^>^ GetAllEntityJsons();
 		void createSession(String^ fileName);
 		void changeSession(unsigned int sessionId);
+		void Refresh();
 	private:
 		OdDrawingManager* GetImpObj()
 		{

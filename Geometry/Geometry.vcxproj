@@ -135,6 +135,7 @@
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Point2d.h" />
     <ClInclude Include="Point3d.h" />
+    <ClInclude Include="Quaternion3d.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scale2d.h" />
     <ClInclude Include="Scale3d.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Point2d.cpp" />
     <ClCompile Include="Point3d.cpp" />
+    <ClCompile Include="Quaternion3d.cpp" />
     <ClCompile Include="Scale2d.cpp" />
     <ClCompile Include="Scale3d.cpp" />
     <ClCompile Include="Vector2d.cpp" />

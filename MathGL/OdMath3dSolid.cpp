@@ -9,12 +9,15 @@
 #include <opencascade/Poly_Triangulation.hxx>
 #include <opencascade/BRep_Tool.hxx>
 #include <opencascade/TopoDS.hxx>
+#include <opencascade/gp_Pln.hxx>
 #include <opencascade/BRepBuilderAPI_MakeWire.hxx>
 #include <opencascade/BRepBuilderAPI_MakeEdge.hxx>
 #include <opencascade/BRepBuilderAPI_MakeFace.hxx>
 #include <opencascade/BRepPrimAPI_MakePrism.hxx>
 #include <opencascade/BRepOffsetAPI_MakePipeShell.hxx>
+#include <opencascade/BRepOffsetAPI_MakePipe.hxx>
 #include <opencascade/BRepBuilderAPI_MakeShape.hxx>
+#include <opencascade/BRepCheck_Analyzer.hxx>
 #include "OdDrawingManager.h"
 #include <MathLog.h>
 
@@ -136,14 +139,67 @@ OdResult OdMath3dSolid::createExtrudeSolid(unsigned int entityId, double height,
 OdResult OdMath3dSolid::createSweepSolid(unsigned int orgId, unsigned int pathId)
 {
     try {
-        // Step 1: Retrieve the 2D profile (original entity)
+        // Step 1: Retrieve and validate the profile
         OdDbEntity* orgEntity = static_cast<OdDbEntity*>(OdDrawingManager::R()->getEntityById(orgId).get());
         if (!orgEntity) {
-            return OdResult::eInvalidInput; // Invalid profile ID
+            return OdResult::eInvalidInput;
         }
+
         std::vector<OdGePoint3d> orgPoints = orgEntity->getExtents().getPoints();
         if (orgPoints.size() < 3) {
-            return OdResult::eInvalidInput; // Not enough points to form a closed profile
+            return OdResult::eInvalidInput;
+        }
+
+        // Step 2: Retrieve and validate the path
+        OdDbEntity* pathEntity = static_cast<OdDbEntity*>(OdDrawingManager::R()->getEntityById(pathId).get());
+        if (!pathEntity) {
+            return OdResult::eInvalidInput;
+        }
+
+        std::vector<OdGePoint3d> pathPoints = pathEntity->getExtents().getPoints();
+        if (pathPoints.size() < 2) {
+            return OdResult::eInvalidInput;
+        }
+
+        OdGeVector3d pathDir = pathPoints[1] - pathPoints[0];
+        if (pathDir.Length() < 1e-9) {
+            return OdResult::eInvalidInput;
+        }
+        pathDir = pathDir.normalize();
+		OdGeVector3d globalUp = OdGeVector3d::kZAxis;
+
+        if (fabs(pathDir.dotProduct(globalUp)) > 0.9999) {
+            globalUp = OdGeVector3d::kXAxis;
+        }
+
+        OdGeVector3d yAxis = globalUp.crossProduct(pathDir).normalize();
+        OdGeVector3d zAxis = pathDir.crossProduct(yAxis).normalize();
+
+
+        OdGePoint3d origin = pathPoints[0];
+        //OdGeMatrix3d transformToPathPlane;
+        //transformToPathPlane.setCoordSystem(origin, pathDir, yAxis, zAxis);
+        OdGeMatrix3d transformToPathPlane = OdGeMatrix3d::translation(pathPoints[0] - orgEntity->getExtents().getCenter());
+
+        OdGeVector3d oldNormal(0, 0, 1);
+        Quaternion3d rotQ;
+        rotQ.setToRotateVectorToVector(oldNormal, pathDir, pathPoints[0]);
+        for (auto& pt : orgPoints) {
+            OdGePoint3d p(pt.x, pt.y, pt.z);
+            p = rotQ * p.transformBy(transformToPathPlane);
+            pt.x = p.x;
+            pt.y = p.y;
+            pt.z = p.z;
+        }
+
+        OdGeVector3d newDir = (orgPoints[0] - orgPoints[1]).crossProduct(orgPoints[0] - orgPoints[2]).normalize();
+
+        // Ensure profile is planar
+        gp_Pln profilePlane(gp_Pnt(orgPoints[0].x, orgPoints[0].y, orgPoints[0].z), gp_Dir(newDir.x, newDir.y, newDir.z));
+        for (const auto& pt : orgPoints) {
+            if (!profilePlane.Contains(gp_Pnt(pt.x, pt.y, pt.z), 1e-6)) {
+                return OdResult::eInvalidInput;
+            }
         }
 
         // Ensure the profile is closed
@@ -151,55 +207,58 @@ OdResult OdMath3dSolid::createSweepSolid(unsigned int orgId, unsigned int pathId
             orgPoints.push_back(orgPoints.front());
         }
 
-        // Create a wire from the profile points
+        // Create a profile wire
         BRepBuilderAPI_MakeWire profileWireBuilder;
         for (size_t i = 0; i < orgPoints.size() - 1; ++i) {
-            TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(
+            profileWireBuilder.Add(BRepBuilderAPI_MakeEdge(
                 gp_Pnt(orgPoints[i].x, orgPoints[i].y, orgPoints[i].z),
                 gp_Pnt(orgPoints[i + 1].x, orgPoints[i + 1].y, orgPoints[i + 1].z)
-            );
-            profileWireBuilder.Add(edge);
+            ));
         }
+
         if (!profileWireBuilder.IsDone()) {
-            return OdResult::eInvalidInput; // Failed to create a valid profile wire
+            return OdResult::eInvalidInput;
         }
+
         TopoDS_Wire profileWire = profileWireBuilder.Wire();
-        TopoDS_Face profileFace = BRepBuilderAPI_MakeFace(profileWire);
-
-        // Step 2: Retrieve the sweep path (path entity)
-        OdDbEntity* pathEntity = static_cast<OdDbEntity*>(OdDrawingManager::R()->getEntityById(pathId).get());
-        if (!pathEntity) {
-            return OdResult::eInvalidInput; // Invalid path ID
-        }
-        std::vector<OdGePoint3d> pathPoints = pathEntity->getExtents().getPoints();
-        if (pathPoints.size() < 2) {
-            return OdResult::eInvalidInput; // Not enough points to define a path
+        if (!BRepCheck_Analyzer(profileWire).IsValid()) {
+            return OdResult::eInvalidInput;
         }
 
-        // Create a wire for the path
+        // Create a path wire
         BRepBuilderAPI_MakeWire pathWireBuilder;
         for (size_t i = 0; i < pathPoints.size() - 1; ++i) {
-            TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(
+            pathWireBuilder.Add(BRepBuilderAPI_MakeEdge(
                 gp_Pnt(pathPoints[i].x, pathPoints[i].y, pathPoints[i].z),
                 gp_Pnt(pathPoints[i + 1].x, pathPoints[i + 1].y, pathPoints[i + 1].z)
-            );
-            pathWireBuilder.Add(edge);
+            ));
         }
-        if (!pathWireBuilder.IsDone()) {
-            return OdResult::eInvalidInput; // Failed to create a valid path wire
-        }
-        TopoDS_Wire pathWire = pathWireBuilder.Wire();
 
-        // Step 3: Sweep the profile along the path
+        if (!pathWireBuilder.IsDone()) {
+            return OdResult::eInvalidInput;
+        }
+
+        TopoDS_Wire pathWire = pathWireBuilder.Wire();
+        if (!BRepCheck_Analyzer(pathWire).IsValid()) {
+            return OdResult::eInvalidInput;
+        }
+
+        // Step 3: Sweep the profile along the path using Frenet trihedron (SetMode(true))
         BRepOffsetAPI_MakePipeShell pipeShell(pathWire);
-        pipeShell.SetMode(profileFace);
+        pipeShell.Add(profileWire, true);
+		pipeShell.SetMode(true);
         pipeShell.Build();
+
+        if (!pipeShell.IsDone()) {
+            return OdResult::eInvalidDrawing;
+        }
+
+        pipeShell.MakeSolid();
         TopoDS_Shape sweptSolid = pipeShell.Shape();
-        // Step 4: Store and extract the geometry
         this->m_shape = sweptSolid;
         extractGeometry(sweptSolid);
 
-        return OdResult::eOk; // Successfully created the swept solid
+        return OdResult::eOk;
     }
     catch (const Standard_Failure& e) {
         std::cerr << "Exception: " << e.GetMessageString() << std::endl;
@@ -249,6 +308,8 @@ OdResult OdMath3dSolid::draw()
     for (const auto& face : getExtents().getFaces()) {
         for (int idx : face) {
             OdGePoint3d point = getExtents().getPoint(idx);
+            OdGePoint3d transformPnt = point * m_scale * m_transform;
+            OdGePoint3d transformPntRot = point.rotateBy(m_rotation);
             glVertex3d(point.x, point.y, point.z);
         }
     }

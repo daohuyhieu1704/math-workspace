@@ -19,6 +19,10 @@ namespace MathGL {
 			: Entity(new OdMathPlane(), true)
 		{
 		}
+		MathPlane(IntPtr unmanagedPointer, bool autoDelete)
+			: Entity(unmanagedPointer, autoDelete)
+		{
+		}
 		MathPlane(Point3d origin, Vector3d normal)
 			: Entity(new OdMathPlane(), true)
 		{

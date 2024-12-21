@@ -19,27 +19,15 @@ namespace GeometryNative
 		m_min = min;
 		m_max = max;
 	}
-	OdGeExtents3d& OdGeExtents3d::appendPoint_s(const OdGePoint3d& point)
+	OdGeExtents3d& OdGeExtents3d::appendPoint_s(OdGePoint3d point)
 	{
-		if (m_min.isEqual(m_max))
-		{
-			m_min = OdGePoint3d(FLT_MIN, FLT_MIN, FLT_MIN);
-			m_max = OdGePoint3d(FLT_MAX, FLT_MAX, FLT_MAX);
-		}
+		m_min.x = std::min(m_min.x, point.x);
+		m_max.x = std::max(m_max.x, point.x);
+		m_min.y = std::min(m_min.y, point.y);
+		m_max.y = std::max(m_max.y, point.y);
+		m_min.z = std::min(m_min.z, point.z);
+		m_max.z = std::max(m_max.z, point.z);
 
-		if ((m_max.x < m_min.x) || (m_max.y < m_min.y) || (m_max.z < m_min.z))
-		{
-			m_max = m_min = point;
-		}
-		else
-		{
-			m_min.x = std::min(m_min.x, point.x);
-			m_max.x = std::max(m_max.x, point.x);
-			m_min.y = std::min(m_min.y, point.y);
-			m_max.y = std::max(m_max.y, point.y);
-			m_min.z = std::min(m_min.z, point.z);
-			m_max.z = std::max(m_max.z, point.z);
-		}
 		m_points.push_back(point);
 		return *this;
 	}

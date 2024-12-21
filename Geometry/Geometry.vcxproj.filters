@@ -61,6 +61,9 @@
     <Filter Include="Matrix\Matrix3d">
       <UniqueIdentifier>{7ffc13a2-75a0-47d8-beca-d3e367cad035}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quaternion">
+      <UniqueIdentifier>{15393bd2-9136-495f-97f2-739055c29674}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -102,6 +105,9 @@
     <ClInclude Include="Plane.h">
       <Filter>Plane</Filter>
     </ClInclude>
+    <ClInclude Include="Quaternion3d.h">
+      <Filter>Quaternion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -142,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Plane.cpp">
       <Filter>Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion3d.cpp">
+      <Filter>Quaternion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

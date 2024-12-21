@@ -31,5 +31,6 @@ namespace MathUI.Converters
         {
             return false;
         }
+
     }
 }

@@ -540,6 +540,9 @@ namespace MathGL
         Entity(OdDbEntity* nativeEntity, bool autoDelete) : DisposableWrapper(IntPtr(nativeEntity), autoDelete)
         {
         }
+		Entity(IntPtr unmanagedPointer, bool autoDelete) : DisposableWrapper(unmanagedPointer, autoDelete)
+		{
+		}
 		property unsigned int Id
 		{
 			unsigned int get()
@@ -601,6 +604,7 @@ namespace MathGL
         }
 
         MathResult TransformBy(Matrix3d xform);
+		MathResult RotateBy(Vector3d axis, double angle, Point3d origin);
         virtual String^ ToJson();
         static unsigned int FromJson(String^ json);
         void FromJson2(String^ json);

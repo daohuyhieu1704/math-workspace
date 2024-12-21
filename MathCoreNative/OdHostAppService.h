@@ -26,11 +26,7 @@ public:
 		return OdMathSessionPtr();
 	}
 
-	void ChangeCurrSession(unsigned int sessionId) {
-		if (m_sessions.find(sessionId) != m_sessions.end()) {
-			currentSessionId = sessionId;
-		}
-	}
+	void ChangeCurrSession(unsigned int sessionId);
 	void removeSession(unsigned int sessionId) {
 		m_sessions.erase(sessionId);
 	}

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OdGePoint3d.h"
 #include "OdGeScale3d.h"
+#include "Quaternion3d.h"
 
 namespace GeometryNative
 {
@@ -113,6 +114,36 @@ namespace GeometryNative
 	}
 	OdGeVector3d OdGePoint3d::toVector3d() const
 	{
+		return asVector();
+	}
+	OdGeVector3d OdGePoint3d::asVector() const
+	{
 		return OdGeVector3d(x, y, z);
+	}
+	OdGePoint3d OdGePoint3d::rotateBy(Quaternion3d quat) const
+	{
+		OdGePoint3d origin = quat.m_origin;
+		OdGePoint3d translatedPoint(x - origin.x, y - origin.y, z - origin.z);
+		Quaternion3d pointQuat(0, translatedPoint.x, translatedPoint.y, translatedPoint.z);
+		Quaternion3d rotatedQuat = quat * pointQuat * quat.conjugate();
+		OdGePoint3d rotatedPoint(rotatedQuat.m_x, rotatedQuat.m_y, rotatedQuat.m_z);
+		rotatedPoint.x += origin.x;
+		rotatedPoint.y += origin.y;
+		rotatedPoint.z += origin.z;
+
+		return rotatedPoint;
+	}
+
+	OdGePoint3d OdGePoint3d::transformBy(const OdGeMatrix3d& xfm)
+	{
+		double newX = xfm[0][0] * x + xfm[0][1] * y + xfm[0][2] * z + xfm[0][3];
+		double newY = xfm[1][0] * x + xfm[1][1] * y + xfm[1][2] * z + xfm[1][3];
+		double newZ = xfm[2][0] * x + xfm[2][1] * y + xfm[2][2] * z + xfm[2][3];
+
+		x = newX;
+		y = newY;
+		z = newZ;
+
+		return OdGePoint3d(x, y, z);
 	}
 }

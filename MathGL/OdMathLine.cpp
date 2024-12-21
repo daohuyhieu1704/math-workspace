@@ -3,6 +3,7 @@
 
 OdMathLine::OdMathLine()
 {
+	setSelectMode(EntitySelectMode::Point);
 }
 
 OdMathLine::OdMathLine(OdGePoint3d startPnt, OdGePoint3d endPnt)
@@ -26,7 +27,6 @@ OdResult OdMathLine::draw()
 		glEnable(GL_LIGHTING);
 		getExtents().appendPoint_s(transformedStart);
 		getExtents().appendPoint_s(transformedEnd);
-		getExtents().appendFace({ 0, 1 });
 		return OdResult::eOk;
 	}
 	catch (const std::exception&)

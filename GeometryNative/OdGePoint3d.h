@@ -7,6 +7,7 @@ namespace GeometryNative
 {
 	class OdGeScale3d;
 	class OdGeMatrix3d;
+	class Quaternion3d;
 	class OdGePoint3d
 	{
 	public:
@@ -30,6 +31,9 @@ namespace GeometryNative
 		OdGePoint3d operator-(const OdGeVector3d& vec) const;
 		bool isEqual(const OdGePoint3d& other) const;
 		OdGeVector3d toVector3d() const;
+		OdGeVector3d asVector() const;
+		OdGePoint3d rotateBy(Quaternion3d quat) const;
+		OdGePoint3d transformBy(const OdGeMatrix3d& xfm);
 		static const OdGePoint3d kOrigin;
 		double x;
 		double y;

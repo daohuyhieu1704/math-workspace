@@ -25,9 +25,24 @@ public:
     // Constructor
     MathViewport();
     virtual ~MathViewport() = default;
+
     // Member variables
+    double cameraPos[3] = { 0.0, 0.0, 50.0 };
+    double cameraTarget[3] = { 0.0, 0.0, 0.0 };
+    double cameraUp[3] = { 0.0, 0.0, 1.0 };
+    void applyCameraAndProjection();
+    void setCameraPosition(double x, double y, double z) {
+        cameraPos[0] = x; cameraPos[1] = y; cameraPos[2] = z;
+    }
+    void setCameraTarget(double x, double y, double z) {
+        cameraTarget[0] = x; cameraTarget[1] = y; cameraTarget[2] = z;
+    }
+    void setCameraUp(double x, double y, double z) {
+        cameraUp[0] = x; cameraUp[1] = y; cameraUp[2] = z;
+    }
+
     int win_width = 800, win_height = 600;
-    float cam_theta = 0, cam_phi = 0, cam_dist = 2;
+    float cam_theta = 0, cam_phi = 0, cam_dist = 100;
     float cam_pan[3] = { 0.0f, 0.0f, 0.0f };
     int mouse_x = 0, mouse_y = 0;
     int bnstate[8] = { 0 };

@@ -3,6 +3,7 @@
 
 OdMathCircle::OdMathCircle() : OdDbCircle()
 {
+	setSelectMode(EntitySelectMode::Point);
 }
 
 OdMathCircle::OdMathCircle(OdGePoint3d center, double radius) : OdDbCircle()
@@ -31,9 +32,10 @@ OdResult OdMathCircle::draw()
         float y = getCenter().y + getRadius() * sin(angle);
 		float z = getCenter().z;
 		OdGePoint3d transformPnt = (OdGePoint3d(x, y, z) * m_scale) * m_transform;
-		getExtents().appendPoint_s(transformPnt);
+		OdGePoint3d transformPntRot = transformPnt.rotateBy(m_rotation);
+		getExtents().appendPoint_s(OdGePoint3d(transformPntRot.x, transformPntRot.y, transformPntRot.z));
 		face.push_back(i);
-        glVertex3f(transformPnt.x, transformPnt.y, transformPnt.z);
+        glVertex3f(transformPntRot.x, transformPntRot.y, transformPntRot.z);
     }
 	getExtents().appendFace(face);
     glEnd();
